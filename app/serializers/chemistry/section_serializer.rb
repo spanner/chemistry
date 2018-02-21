@@ -4,7 +4,7 @@ class Chemistry::SectionSerializer < ActiveModel::Serializer
              :position,
              :section_type_id,
              :title,
-             :content,
+             :main,
              :aside,
              :image_id,
              :video_id,

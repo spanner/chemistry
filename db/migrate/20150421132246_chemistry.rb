@@ -9,7 +9,7 @@ class Chemistry < ActiveRecord::Migration
       t.boolean :nav, default: false
       t.string :nav_name
       t.integer :nav_position
-      t.text :published_html, limit: 16.megabytes - 1
+      t.text :rendered_html, limit: 16.megabytes - 1
       t.datetime :published_at
       t.datetime :deleted_at
       t.timestamps
@@ -33,7 +33,7 @@ class Chemistry < ActiveRecord::Migration
       t.integer :position
       t.integer :section_type_id
       t.string :title
-      t.text :content, limit: 16.megabytes - 1
+      t.text :main, limit: 16.megabytes - 1
       t.text :aside, limit: 16.megabytes - 1
       t.integer :image_id
       t.integer :video_id
