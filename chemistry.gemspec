@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'paranoia'
   s.add_dependency 'acts_as_list'
   s.add_dependency 'video_info'
-  s.add_dependency 'cancancan'
 
   s.add_development_dependency "sqlite3"
 end

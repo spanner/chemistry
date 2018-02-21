@@ -1,5 +1,5 @@
 # Chemistry
-A simple, lightweight single-site CMS that you can bolt onto any Rails applicaiton to give it a home page, some other pages and a nice toolkit for editing and linking them. It is meant to be just complicated enough: `pages` are built out of a stack of pre-styled `sections` according to a `template`. Your designer prepares the templates and CSS. Your authors populate the sections, adding images and video as required.
+A simple, lightweight single-site CMS that you can bolt onto any Rails applicaiton to give it a home page, some other pages and a nice toolkit for editing and linking them. It is meant to be just complicated enough: `pages` are built out of a stack of pre-styled `sections` ordered by a `template`. Your designer prepares the templates and CSS. Your authors populate the sections, adding images and video as required.
 
 Chemistry provides an API and comes with a nice editing SPA, but of course you can add any interface you like.
 
