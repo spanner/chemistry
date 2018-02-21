@@ -2,6 +2,10 @@ module Chemistry
   class PagesController < ApplicationController
     load_and_authorize_resource
 
+    def editor
+      render
+    end
+
     def index
       render json: @pages
     end

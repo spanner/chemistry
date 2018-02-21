@@ -1,8 +1,21 @@
 # Chemistry
-Short description and motivation.
+A simple, lightweight single-site CMS that you can bolt onto any Rails applicaiton to give it a home page, some other pages and a nice toolkit for editing and linking them. It is meant to be just complicated enough: `pages` are built out of a stack of pre-styled `sections` according to a `template`. Your designer prepares the templates and CSS. Your authors populate the sections, adding images and video as required.
+
+Chemistry provides an API and comes with a nice editing SPA, but of course you can add any interface you like.
+
+## Requirements
+We make some assumptions about your application:
+
+* It has users
+* It uses cancan(can) for authorization
+
+Chemistry requires Rails 5.1 and uses Paperclip for asset-attachment, which your application will need to configure.
 
 ## Usage
-How to use my plugin.
+
+...
+
+
 
 ## Installation
 Add this line to your application's Gemfile:

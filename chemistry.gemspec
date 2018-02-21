@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "rails", "~> 5.1"
+  s.add_dependency 'cancancan'
   s.add_dependency 'paperclip'
   s.add_dependency "paperclip-av-transcoder"
   s.add_dependency 'active_model_serializers'
