@@ -2,7 +2,9 @@ class InitChemistry < ActiveRecord::Migration[5.1]
   def change
     create_table :chemistry_pages do |t|
       t.integer :template_id
+      t.integer :parent_id
       t.string :path
+      t.string :slug
       t.string :title
       t.text :summary
       t.boolean :home, default: false
@@ -16,6 +18,7 @@ class InitChemistry < ActiveRecord::Migration[5.1]
     end
     add_index :chemistry_pages, [:published_at, :path]
     add_index :chemistry_pages, :template_id
+    add_index :chemistry_pages, :parent_id
     add_index :chemistry_pages, :nav
     add_index :chemistry_pages, :home
     add_index :chemistry_pages, :deleted_at

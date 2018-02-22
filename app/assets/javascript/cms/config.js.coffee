@@ -4,6 +4,8 @@
 # basically a list of default settings that can be overridden for each environment,
 # and some regexes for detecting the environment in which we are running.
 
+# TODO make this configurable at the rails application level
+
 class Cms.Config
   defaults: 
     auth_url: "https://stemnet.hk/users"
@@ -40,7 +42,6 @@ class Cms.Config
     @_environment = options.environment ? @guessEnvironment()
     @_settings = _.defaults options, @[@_environment], @defaults
 
-  # TODO make this configurable at the rails application level
   guessEnvironment: () ->
     stag = new RegExp(/staging/)
     dev = new RegExp(/\.dev/)

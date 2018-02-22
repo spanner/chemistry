@@ -1,6 +1,8 @@
 class Chemistry::PageSerializer < ActiveModel::Serializer
   attributes :id,
              :path,
+             :slug,
+             :parent_id,
              :template_id,
              :title,
              :summary,

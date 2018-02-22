@@ -95,6 +95,7 @@ class Cms.Application extends Backbone.Marionette.Application
   sync: (method, model, opts) =>
     unless method is "read"
       original_success = opts.success
+      opts.attrs = model.toJSONWithRootAndAssociations()
       model.startProgress()
       opts.beforeSend = (xhr, settings) ->
         settings.xhr = () ->

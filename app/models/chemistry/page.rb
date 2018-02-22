@@ -6,11 +6,11 @@ module Chemistry
     has_many :documents, -> {order(:position)}, dependent: :nullify
     acts_as_list column: :nav_position
 
-    before_validation :sanitize_path
-    before_validation :derive_title
+    before_validation :derive_slug
+    before_validation :derive_path
 
-    validates :path, uniqueness: {conditions: -> { where(deleted_at: nil) }}
     validates :title, presence: true
+    validates :path, uniqueness: {conditions: -> { where(deleted_at: nil) }}
   
     scope :published, -> {
       where("published_at IS NOT NULL")
@@ -69,16 +69,15 @@ module Chemistry
 
     protected
 
-    def sanitize_path
-      unless path == "/"
-        self.path = self.path.split(/\/+/).map(&:parameterize).join('/')
-      end
+    def derive_slug
+      self.slug = (self.slug.presence || self.title).parameterize
     end
-  
-    def derive_title
-      unless title?
-        self.title = path.split('/').last.titlecase
-      end
+
+    def derive_path
+      path_parts = []
+      path_parts += parent.path.split(/\/+/).map(&:parameterize) if parent
+      path_parts.push slug
+      self.path = path_parts.compact.join('/')
     end
 
   end
