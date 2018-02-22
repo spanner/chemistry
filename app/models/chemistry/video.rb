@@ -1,3 +1,5 @@
+require 'video_info'
+
 module Chemistry
   class Video < ApplicationRecord
     acts_as_paranoid
