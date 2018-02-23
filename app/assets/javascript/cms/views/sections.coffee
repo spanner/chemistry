@@ -1,4 +1,4 @@
-class Cms.Views.Section extends Cms.Views.ItemView
+class Cms.Views.Section extends Cms.View
   tagName: "section"
 
   bindings:
@@ -22,10 +22,10 @@ class Cms.Views.Section extends Cms.Views.ItemView
     "section_#{id}"
 
 
-class Cms.Views.NoSection extends Cms.Views.ItemView
+class Cms.Views.NoSection extends Cms.View
   template: "cms/no_section"
 
 
-class CMS.Views.Sections extends Cms.CollectionView
+class Cms.Views.Sections extends Cms.CollectionView
   childView: Cms.Views.Section
   emptyView: Cms.Views.NoSection

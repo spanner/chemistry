@@ -149,7 +149,7 @@ class Cms.Model extends Backbone.Model
     # For the unusual case where a whole nested object is sent down.
     else if object_data = @get(object_attribute)
       object = new model_class(object_data)
-      @setobject_attribute, object , silent: true
+      @set object_attribute, object, silent: true
       @set id_attribute, object.get('id'), silent: true
 
     # In the UI we always assign the object
@@ -266,6 +266,9 @@ class Cms.Model extends Backbone.Model
   className: =>
     @_class_name#.replace("Base", "")
 
+  label: =>
+    @_class_name.toLowerCase()
+
   singularName: =>
     _.str.underscored @className()
 
@@ -286,3 +289,6 @@ class Cms.Model extends Backbone.Model
     unless @get('deleted_at')
       @set('deleted_at', moment())
       @markAsChanged()
+
+  log: ->
+    _cms.log "[#{@constructor.name}]", arguments...

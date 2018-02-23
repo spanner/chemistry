@@ -2,7 +2,9 @@
 #= require hamlcoffee
 
 # Node module JS
+#= require jquery/dist/jquery
 #= require underscore/underscore
+#= require underscore.string/dist/underscore.string
 #= require backbone/backbone
 #= require backbone.marionette/lib/backbone.marionette
 #= require backbone.stickit/backbone.stickit
@@ -11,7 +13,9 @@
 #= require balance-text/balancetext
 #= require medium-editor/dist/js/medium-editor
 
-# Local JS
+# Chemistry JS
+#= require './cms/application'
+#= require './cms/config'
 #= require_tree ./templates
 #= require_tree ./cms/models
 #= require_tree ./cms/collections
@@ -19,10 +23,12 @@
 #= require_self
 
 $ ->
-  _.mixin(_.str.exports())
+  _.mixin(s.exports())
 
   $.fn.chemistry = (options={}) ->
     @each ->
       args = _.extend options,
         el: @
       new Cms.Application(args).start()
+
+  $('#chemistry').chemistry()

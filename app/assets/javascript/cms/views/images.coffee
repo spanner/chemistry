@@ -1,5 +1,4 @@
-class Cms.Views.Image extends Cms.Views.ItemView
-  tagName: "image"
+class Cms.Views.Image extends Cms.View
 
   bindings:
     ":el":
@@ -11,10 +10,10 @@ class Cms.Views.Image extends Cms.Views.ItemView
 # attached image
 
 
-class Cms.Views.NoImage extends Cms.Views.ItemView
+class Cms.Views.NoImage extends Cms.View
   template: "cms/no_image"
 
 
-class CMS.Views.Images extends Cms.CollectionView
+class Cms.Views.Images extends Cms.CollectionView
   childView: Cms.Views.Image
   emptyView: Cms.Views.NoImage

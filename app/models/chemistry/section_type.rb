@@ -5,10 +5,10 @@ module Chemistry
     has_many :placeholders
 
     # usually an svg file for selection-UI display
-    has_attachment :icon
+    has_attached_file :icon
 
     # default image for placeholder display
-    has_attachment :image,
+    has_attached_file :image,
       styles: {
         thumb: "48x48#",
         half: "540x",

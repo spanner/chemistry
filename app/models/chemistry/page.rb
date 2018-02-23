@@ -12,9 +12,11 @@ module Chemistry
     validates :title, presence: true
     validates :path, uniqueness: {conditions: -> { where(deleted_at: nil) }}
   
-    scope :published, -> {
-      where("published_at IS NOT NULL")
-    }
+    scope :undeleted, -> { where(deleted_at: nil) }
+    scope :published, -> { undeleted.where.not(published_at: nil) }
+    scope :home, -> { published.where(home: true).limit(1) }
+    scope :nav, -> { published.where(nav: true) }
+
   
     # It's not pretty, but it's a lot nicer than accepts_nested_attributes_for.
     #

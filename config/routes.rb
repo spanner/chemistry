@@ -12,5 +12,6 @@ Chemistry::Engine.routes.draw do
   resources :images
   resources :videos
   resources :documents
+  resources :section_types
 
 end

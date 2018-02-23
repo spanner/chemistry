@@ -2,6 +2,11 @@ module Chemistry
   class PagesController < ApplicationController
     load_and_authorize_resource
 
+    def home
+      @page = Page.home.first
+      render
+    end
+
     def editor
       render
     end
@@ -44,9 +49,9 @@ module Chemistry
       head :no_content
     end
 
-    def return_page {
+    def return_page
       render json: @page
-    }
+    end
 
     def return_errors
       render json: { errors: @page.errors.to_a }, status: :unprocessable_entity

@@ -6,7 +6,7 @@ Cms.Models = {}
 Cms.Collections = {}
 Cms.Views = {}
 
-root = exports ? this
+root = window
 root.Cms = Cms
 
 
@@ -15,10 +15,10 @@ root.Cms = Cms
 #
 class Cms.AppRouter extends Backbone.Marionette.AppRouter
   appRoutes:
-    "": "dashboardView"
-    ":base": "contentView"
-    ":base/:id": "contentView"
-    ":base/:id(?:qs)": "contentView"
+    "": "defaultView"
+    ":collection_name": "collectionView"
+    ":collection_name(?:qs)": "collectionView"
+    ":model_name/:action/:id": "modelView"
 
 
 # The Application is a supporting framework wrapped around the UI view.
@@ -48,7 +48,7 @@ class Cms.Application extends Backbone.Marionette.Application
     @_ui = new Cms.Views.UI
       el: @el
     @_ui.render()
-    @_section_types.loadAnd =>
+    @section_types.loadAnd =>
       @_router = new Cms.AppRouter
         controller: @_ui
       Backbone.history.start
@@ -153,7 +153,7 @@ class Cms.Application extends Backbone.Marionette.Application
         notice_type: notice_type
     else
       failure_notice = $('<div class="complete_failure" />').appendTo($("#notices"))
-      failure_notice.html("<h2>System failure</h2>" + html_or_text)
+      failure_notice.html("<h2>Chemistry error</h2>" + html_or_text)
       $('.wait').hide()
 
 
@@ -162,7 +162,7 @@ class Cms.Application extends Backbone.Marionette.Application
   #
   log: =>
     if console?.log? and @logging()
-      console.log "[amp]", arguments...
+      console.log "🔥", arguments...
 
   logging: (level) =>
     !!@_log_level

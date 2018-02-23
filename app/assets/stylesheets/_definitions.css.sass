@@ -1,0 +1,198 @@
+$coolgrey00: #f7f5f3
+$coolgrey0: #f2f0ed
+$coolgrey1: #e2e1dd
+$coolgrey2: #d6d6d4
+$coolgrey3: #cacac8
+$coolgrey4: #bdbdbd
+$coolgrey5: #b3b3b3
+$coolgrey6: #afafaf
+$coolgrey7: #9a9b9d
+$coolgrey8: #8c8d8e
+$coolgrey9: #747679
+$coolgrey10: #616265
+$coolgrey11: #4d4e53
+$black6: #101820
+
+$rubine: #d1005d
+$green: #74b87a
+$blue: #256ab4
+$orange: #FF8400
+$red: #ed1c24
+$bluegreen: #009999
+$warm: #ff4539
+$yellow: #ffd700
+$purple: #cf39d4
+
+$dark: $black6
+$mid: $coolgrey10
+$pale: $coolgrey4
+$verypale: $coolgrey1
+$palest: $coolgrey00
+$highlight: $orange
+$bg: #46594b
+
+$link: $orange
+$hover: $rubine
+$invert: #ff8400
+$error: $red
+
+$warningbg: #fff0f0
+$finishedbg: #e2efdb
+
+$translucent: rgba(255,255,255,0.6)
+$shadow: rgba(0,0,0,0.6)
+$warmish: rgba(255,69,57,0.5)
+$greenish: rgba(116,184,122,0.75)
+$blueish: rgba(37,106,180,0.5)
+$greyish: rgba(189,189,189,0.5)
+$darkish: rgba(16,24,32,0.5)
+$reddish: rgba(237,28,36,0.75)
+$purpleish: rgba(207,57,212,0.75)
+$yellowish: rgba(255,215,0,0.9)
+
+$editable_bg: rgba(255,255,255,0.1)
+$editable_over: rgba(255,255,255,0.2)
+
+$control_bg: rgba(242,240,237,0.9)
+$control_over: white
+$control_selected: rgba(214,213,212,0.9)
+$control_fg: $dark
+
+$menu_bg: $coolgrey1
+$menu_text: $dark
+$menu_up_bg: $coolgrey00
+$menu_up_text: $dark
+$menu_hover_bg: $greyish
+$menu_hover_text: white
+$menu_new_bg: $warmish
+$menu_new_text: white
+$menu_selected_bg: $greenish
+$menu_selected_text: white
+
+$shelf_bg: $coolgrey00
+$shelf_head_bg: $coolgrey1
+$shelf_text: $coolgrey10
+
+=clearfix
+  &:after
+    content: ""
+    display: table
+    clear: both
+
+=central
+  width: 90%
+  max-width: 1120px
+  margin: 0 auto
+
+=hover
+  &:hover
+    color: $hover
+
+=inverted
+  color: $dark
+  &:hover
+    color: $hover
+
+=glow
+  color: white
+  opacity: 1.0
+  text-shadow: 0 0 3px white
+
+=spaced
+  letter-spacing: 0.04em
+
+=bigtext
+  font-size: 1.5rem
+  line-height: 1.5
+
+=small
+  font-size: 75%
+
+=pale
+  color: $pale
+
+=shadow
+  +box-shadow(0 3px 12px rgba(16,24,32,0.4))
+
+=pill($color: $pale, $textcolor: white)
+  display: inline-block
+  position: relative
+  outline: none
+  font-size: 12px
+  padding: 8px 10px 6px 10px
+  margin: 0 6px 0 0
+  +border-radius(20px)
+  background-color: $color
+  color: $textcolor
+  a
+    color: $textcolor
+    opacity: 0.8
+    &:hover
+      +glow
+      opacity: 1
+  a.detach
+    margin-left: 5px
+  &:hover
+    background-color: $sislight
+
+=management
+  box-sizing: border-box
+  display: inline-block
+  float: left
+  vertical-align: top
+  height: $control_height
+
+=buttony
+  display: inline-block
+  pointer-events: auto
+  margin: 0 0.5em 8px 0
+  padding: 16px
+  background-color: $control_bg
+  color: $control_fg
+  cursor: pointer
+  box-sizing: border-box
+  border-radius: 2px
+  box-shadow: 1px 0 5px $shadow
+  &:hover
+    background-color: $control_over
+  &.save
+    background-color: $greenish
+    color: white
+    &:hover
+      background-color: $green
+  &.publish
+    background-color: $purpleish
+    color: white
+    &:hover
+      background-color: $purple
+  &.delete
+    background-color: $reddish
+    &:hover
+      background-color: $red
+  &.waiting
+    pointer-events: none
+    padding-left: 30px
+    color: white
+    background:
+      color: $mid !important
+      position: 8px 16px
+      repeat: no-repeat
+      image: image-url('spinner_on_grey.gif')
+
+=quoted
+  color: $pale
+  &:before
+    content: '“'
+    font-size: 180%
+    position: absolute
+    width: 12px
+    text-align: right
+    margin-left: -0.5em
+    margin-top: -0.1em
+  &:after
+    content: '”'
+    font-size: 180%
+    position: absolute
+    margin-left: 0.1em
+    margin-top: -0.1em
+

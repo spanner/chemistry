@@ -185,6 +185,7 @@ class Cms.Collection extends Backbone.Collection
     @load()
 
   loaded: (data, status, xhr) =>
+    @log "🛠 LOADED", data
     if xhr
       if @_paginated
         @_page_size = parseInt(xhr.getResponseHeader("X-Per-Page"), 10)
@@ -245,3 +246,6 @@ class Cms.Collection extends Backbone.Collection
   toJSONWithAssociations: (options) =>
     @map (model) -> 
       model.toJSONWithAssociations(options)
+
+  log: ->
+    _cms.log "[#{@constructor.name}]", arguments...

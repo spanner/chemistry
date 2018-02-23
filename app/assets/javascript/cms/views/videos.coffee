@@ -1,5 +1,4 @@
-class Cms.Views.Video extends Cms.Views.ItemView
-  tagName: "video"
+class Cms.Views.Video extends Cms.View
 
   bindings:
     ":el":
@@ -11,10 +10,10 @@ class Cms.Views.Video extends Cms.Views.ItemView
 # attached video
 
 
-class Cms.Views.NoVideo extends Cms.Views.ItemView
+class Cms.Views.NoVideo extends Cms.View
   template: "cms/no_video"
 
 
-class CMS.Views.Videos extends Cms.CollectionView
+class Cms.Views.Videos extends Cms.CollectionView
   childView: Cms.Views.Video
   emptyView: Cms.Views.NoVideo

@@ -29,9 +29,8 @@ class Cms.Config
     log_level: 'info'
 
   development:
-    auth_url: "https://stemnet.dev/users"
-    api_url: "https://stemnet.dev/api"
-    cookie_domain: ".stemnet.dev"
+    api_url: "https://api.vwl.dev/chemistry"
+    cookie_domain: ".vwl.dev"
     logging: true
     log_level: 'debug'
     display_errors: true

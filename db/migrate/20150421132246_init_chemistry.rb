@@ -30,6 +30,7 @@ class InitChemistry < ActiveRecord::Migration[5.1]
       t.text :template
       t.attachment :icon
       t.attachment :image
+      t.datetime :deleted_at
       t.timestamps
     end
 

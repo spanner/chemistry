@@ -8,8 +8,8 @@
 #
 # Collection views receive query string parameters to support searching, pagination and sorting.
 #
-class Cms.Views.Ui extends Amp.View  
-  template: "amp/ui"
+class Cms.Views.UI extends Cms.View  
+  template: "cms/ui"
 
   regions:
     nav: "#nav"
@@ -19,27 +19,35 @@ class Cms.Views.Ui extends Amp.View
   onRender: =>
     @_view = null
     @_collection = null
-    @_nav ?= new Cms.Views.Navigation
-      el: @ui.nav
-    @getRegion('nav').show(@_nav)
-    @_notices ?= new Cms.Views.Notices
+    @getRegion('nav').show new Cms.Views.Nav
+    @getRegion('notices').show new Cms.Views.Notices
       collection: _cms.notices
-      el: @ui.notices
-    @getRegion('notices').show(@_notices)
 
-  dashboardView: =>
-    @showView new Cms.Views.Dashboard
+  defaultView: =>
+    # we might want to redirect this instead.
+    @collectionView 'pages'
 
-  contentView: (base, id, params) =>
-    if id
-      @modelView base, id, params
-    else
-      @collectionView base, params
+  collectionView: (base, params) =>
+    collection_name = base.charAt(0).toUpperCase() + base.slice(1)
+    collection_class = Cms.Collections[collection_name]
+    view_class = Cms.Views["#{collection_name}Index"] or Cms.Views[collection_name]
+    collection_params = @collectionParams(params)
+    if view_class and collection_class
+      if @_collection and @_collection instanceof collection_class
+        @_collection.setParams collection_params
+      else
+        @_collection = new collection_class null,
+          params: collection_params
+      @showView new view_class
+        collection: @_collection
 
-  modelView: (base, id, params) =>
+  modelView: (base, action, id) =>
     model_name = base.charAt(0).toUpperCase() + base.slice(1)
+    action_name = action.charAt(0).toUpperCase() + action.slice(1)
     model_class = Cms.Models[model_name]
-    view_class = Cms.Views[model_name]
+    view_class = Cms.Views[action_name + model_name] or Cms.Views[model_name]
+    # stored collection is used to avoid fetch work if we can:
+    # useful economy when navigating from list to item.
     collection_name = _.str.pluralize(model_name)
     collection_class = Cms.Collections[collection_name]
     if view_class and model_class
@@ -51,21 +59,6 @@ class Cms.Views.Ui extends Amp.View
       model.fetchIfBare()
       @showView new view_class
         model: model
-
-  collectionView: (base, params) =>
-    model_name = base.charAt(0).toUpperCase() + base.slice(1)
-    collection_name = _.str.pluralize(model_name)
-    collection_class = Cms.Collections[collection_name]
-    view_class = Cms.Views[collection_name]
-    collection_params = @collectionParams(params)
-    if view_class and collection_class
-      if @_collection and @_collection instanceof collection_class
-        @_collection.setParams collection_params
-      else
-        @_collection = new collection_class null,
-          params: collection_params
-      @showView new view_class
-        collection: @_collection
 
   collectionParams: (params={}) =>
     _.pick params, ['p', 'pp', 'q', 's', 'o']

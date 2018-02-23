@@ -19,6 +19,19 @@ class Cms.View extends Backbone.Marionette.View
     subview.destroy() for subview in @subviews
 
 
+  ## link helpers
+  #
+  editMeHref: (id) =>
+    id ?= @model.get('id')
+    type = @model.label()
+    "/#{type}/edit/#{id}"
+
+  showMeHref: (id) =>
+    id ?= @model.get('id')
+    type = @model.label()
+    "/#{type}/show/#{id}"
+
+
   ## onGet helpers
   #
   untrue: (value) =>
