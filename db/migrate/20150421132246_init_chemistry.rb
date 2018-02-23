@@ -25,7 +25,9 @@ class InitChemistry < ActiveRecord::Migration[5.1]
 
     create_table :chemistry_section_types do |t|
       t.string :title
+      t.string :slug
       t.text :description
+      t.text :template
       t.attachment :icon
       t.attachment :image
       t.timestamps

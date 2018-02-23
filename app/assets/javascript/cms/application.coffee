@@ -23,8 +23,8 @@ class Cms.AppRouter extends Backbone.Marionette.AppRouter
 
 # The Application is a supporting framework wrapped around the UI view.
 # It provides navigation, rendering and API-interfacing services, and
-# watches the window history stack. On every change of state it uses the
-# AppRouter to select a UI function and pass arguments to it.
+# watches the window history stack. On every change of state it consults
+# the AppRouter to select a UI function and pass arguments to it.
 #
 class Cms.Application extends Backbone.Marionette.Application
   defaults: {}
@@ -37,10 +37,8 @@ class Cms.Application extends Backbone.Marionette.Application
     @_config = new Cms.Config
     @_log_level = @_config.logLevel()
     @env = @_config.environment()
-    @images = new Cms.Collections.Images
-    @videos = new Cms.Collections.Videos
-    @documents = new Cms.Collections.Documents
     @notices = new Cms.Collections.Notices
+    @section_types = new Cms.Collections.SectionTypes
     Backbone.sync = @sync
     Backbone.Marionette.Renderer.render = @render
     root.onerror = @reportError
@@ -50,11 +48,12 @@ class Cms.Application extends Backbone.Marionette.Application
     @_ui = new Cms.Views.UI
       el: @el
     @_ui.render()
-    @_router = new Cms.AppRouter
-      controller: @_ui
-    Backbone.history.start
-      pushState: true
-    $(document).on "click", "a:not([data-bypass])", @handleLinkClick
+    @_section_types.loadAnd =>
+      @_router = new Cms.AppRouter
+        controller: @_ui
+      Backbone.history.start
+        pushState: true
+      $(document).on "click", "a:not([data-bypass])", @handleLinkClick
 
   config: (key) =>
     @_config.get(key)

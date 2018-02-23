@@ -4,6 +4,13 @@ class Cms.Models.Section extends Cms.Model
   build: =>
     @belongsTo 'image'
     @belongsTo 'video'
+    @belongsTo 'section_type', collection: _cms.section_types
 
   getPage: =>
     @collection?.page
+
+  getTemplate: =>
+    if section_type = @get('section_type')
+      section.type.get("template")
+    else
+      '<p class="warning">Section has no type</p>'

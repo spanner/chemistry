@@ -135,22 +135,40 @@ class Cms.Model extends Backbone.Model
   # The id_attribute is only for use upwards, to and from the API.
   #
   belongsTo: (object_attribute, id_attribute, collection) =>
-    # turn received object_id into associated object
-    if object_id = @get(id_attribute)
-      @set object_attribute, collection.get(object_id), silent: true
-    else if object = @get(object_attribute)
-      @set id_attribute, object.get('id'), silent: true
-    @on "change:#{object_attribute}", @assign
+    id_attribute ?= "#{object_attribute}_id"
+    model_class = Cms.Models[_.str.camelize(object_attribute)]
 
-  assignObject: (me, you, options) =>
-    if you
-      if id = you.get('id')
+    # For the usual situation when an associate is sent down just as eg. section_type_id
+    if object_id = @get(id_attribute)
+      if collection
+        @set object_attribute, collection.findOrAdd(object_id), silent: true
+      else
+        object = new model_class({id: object_id})
+        @set object_attribute, object
+
+    # For the unusual case where a whole nested object is sent down.
+    else if object_data = @get(object_attribute)
+      object = new model_class(object_data)
+      @setobject_attribute, object , silent: true
+      @set id_attribute, object.get('id'), silent: true
+
+    # In the UI we always assign the object
+    @on "change:#{object_attribute}", @assignObject
+
+  assignObject: (me, it, options) =>
+    if it
+      # something has been assigned
+      if id = it.get('id')
+        # ...that already exists and has an ID.
         @set id_attribute, id, stickitChange: true
       else
-        you.once "change:id", (you_again, new_id) =>
+        # ...that is new and ought to get an ID soon.
+        it.once "change:id", (it_again, new_id) =>
           @set id_attribute, new_id, stickitChange: true
     else
+      # `nothing` has been assigned
       @set id_attribute, null, stickitChange: true
+
 
   # hasMany sets up the listeners involved in maintaining a one to many association
   # and provides all the logic of receiving and saving nested collection data.

@@ -2,6 +2,7 @@ class Chemistry::SectionTypeSerializer < ActiveModel::Serializer
   attributes :id,
              :title,
              :description,
+             :template,
              :icon_url,
              :image_urls
 

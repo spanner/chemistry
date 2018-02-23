@@ -1,8 +1,8 @@
 class Chemistry::SectionSerializer < ActiveModel::Serializer
   attributes :id,
              :page_id
-             :position,
              :section_type_id,
+             :position,
              :title,
              :main,
              :aside,
