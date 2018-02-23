@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Text",
+    "slug": "text",
+    "description": "Just some text",
+    "template": "<h2 data-role='title'></h2><article data-role='main'></article>"
+  },
+  {
+    "title": "Two column",
+    "slug": "twocol",
+    "description": "Main text and aside",
+    "template": "<h2 data-role='title'></h2><article data-role='main'></article><aside data-role='aside'></aside>"
+  },
+  {
+    "title": "Hero",
+    "slug": "hero",
+    "description": "Big picture in the backgound, title and optional caption in the foreground. Usually the top of a landing page.",
+    "template": "<figure data-role='image'><h1 data-role='title'></h1><figcaption data-role='image_caption'></figcaption></figure>"
+  },
+  {
+    "title": "Big quote",
+    "slug": "quote",
+    "description": "Big quote by itself.",
+    "template": "<figure><p class='statement' data-role-'main'></p><figcaption class='speaker' data-role='aside'></figcaption></figure>"
+  },
+  {
+    "title": "Big picture",
+    "slug": "picture",
+    "description": "Full width image block with caption.",
+    "template": "<figure><div data-role='background-image'></div><figcaption data-role='image_caption'></figcaption></figure>"
+  },
+  {
+    "title": "Big video",
+    "slug": "video",
+    "description": "Full width video block with caption.",
+    "template": "<figure><video><source><img data-role='image'></video><div class='embed'></div><figcaption data-role='video_caption'></figcaption></figure>"
+  }
+]
