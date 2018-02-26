@@ -28,6 +28,7 @@ class Cms.Views.UI extends Cms.View
     @collectionView 'pages'
 
   collectionView: (base, params) =>
+    @log "collectionView", base, params
     collection_name = base.charAt(0).toUpperCase() + base.slice(1)
     collection_class = Cms.Collections[collection_name]
     view_class = Cms.Views["#{collection_name}Index"] or Cms.Views[collection_name]
@@ -42,6 +43,7 @@ class Cms.Views.UI extends Cms.View
         collection: @_collection
 
   modelView: (base, action, id) =>
+    @log "collectionView", base, action
     model_name = base.charAt(0).toUpperCase() + base.slice(1)
     action_name = action.charAt(0).toUpperCase() + action.slice(1)
     model_class = Cms.Models[model_name]

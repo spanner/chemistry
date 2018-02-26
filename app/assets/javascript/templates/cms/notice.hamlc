@@ -1,0 +1,4 @@
+%a.close
+  %svg
+    %use{'xlink:href' =>"#close_symbol"}
+%span.message

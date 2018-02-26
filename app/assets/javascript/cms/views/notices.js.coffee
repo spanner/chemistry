@@ -3,7 +3,7 @@ class Cms.Views.Notice extends Cms.View
   tagName: "li"
 
   events:
-    "click a.close": "fadeOut"
+    "click": "fadeOut"
 
   bindings:
     ".message":
@@ -35,3 +35,5 @@ class Cms.Views.Notice extends Cms.View
 
 class Cms.Views.Notices extends Cms.CollectionView
   childView: Cms.Views.Notice
+  tagName: "ul"
+  className: "notices"

@@ -1,8 +1,27 @@
-%h1.pagetitle
-  Pages
+#chemistry-management
+  #chemistry-main
+    %h1.pagetitle
+      Pages
 
-.header
+    %header
+    #chemistry-list
+    %footer
 
-#pages
-
-.footer
+  #chemistry-notes
+    %p
+      Chemistry helps you to build and manage a tree of pages.
+      %span.no_pages
+        To get started, click the link on the left to create a page.
+        It will automatically become your home page, but you can move everything around later.
+      Nothing is visible to the public until you publish the page.
+    %p
+      When you create a new page, Chemistry will ask you to choose a template.
+      The template is really just a readymade stack of page sections and the
+      default set will give you some good starting points, but you can also
+      start by reviewing and adding
+      %a{href: "/templates"}
+        templates
+      and
+      %a{href: "/section_types"}
+        section types.
+  

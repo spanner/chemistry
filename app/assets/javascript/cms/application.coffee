@@ -53,6 +53,7 @@ class Cms.Application extends Backbone.Marionette.Application
         controller: @_ui
       Backbone.history.start
         pushState: true
+        root: @config('mount_point')
       $(document).on "click", "a:not([data-bypass])", @handleLinkClick
 
   config: (key) =>
@@ -146,7 +147,7 @@ class Cms.Application extends Backbone.Marionette.Application
     @notify message, duration, 'error'
 
   notify: (html_or_text, duration=4000, notice_type='information') =>
-    if @_notice_list
+    if @_ui
       @notices.add
         message: html_or_text
         duration: duration

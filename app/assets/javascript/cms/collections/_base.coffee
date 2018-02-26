@@ -173,7 +173,6 @@ class Cms.Collection extends Backbone.Collection
     $.param(params)
 
   load: =>
-    @log "🛠 LOAD", @_loading, @isLoaded()
     unless @_loading or @isLoaded()
       @_loading = true
       @fetch(error: @notLoaded).done(@loaded)
@@ -185,7 +184,6 @@ class Cms.Collection extends Backbone.Collection
     @load()
 
   loaded: (data, status, xhr) =>
-    @log "🛠 LOADED", data
     if xhr
       if @_paginated
         @_page_size = parseInt(xhr.getResponseHeader("X-Per-Page"), 10)

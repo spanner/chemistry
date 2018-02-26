@@ -1,0 +1,33 @@
+ul.pages
+  list-style: none
+  padding: 0
+  li.page
+    position: relative
+    min-height: 64px
+    margin-bottom: 1em
+    a
+      color: $dark
+      +hover
+    &.new
+      a
+        color: $pale
+        +hover
+    svg.page
+      position: absolute
+      top: 6px
+      left: 2px
+      width: 36px
+      height: 48px
+    span.detail
+      display: block
+      padding-left: 52px
+      span.title, span.description
+        display: block
+        line-height: 1.4
+      span.title
+        +cms-font-light
+        font-size: 1.75em
+      span.description
+      font-size: 0.9rem
+        
+        

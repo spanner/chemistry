@@ -1,24 +1,33 @@
-#chemistry
-  #nav
-    position: absolute
-    top: 0
-    left: 0
-
-  #main
-    position: relative
-    margin: 0
-    width: 100%
-
-  #notices
-    position: absolute
-    bottom: 4%
-    right: 4%
-
-footer.chemistry_version
+#nav
   position: absolute
-  bottom: 2px
-  right: 2px
-  font-size: 0.75rem
-  color: $pale
-  p
-    margin: 0
+  top: 0
+  left: 0
+
+#main
+  position: relative
+  margin: 0
+  width: 100%
+  min-height: 100%
+  #chemistry-management
+    width: 80%
+    max-width: 920px
+    margin: 80px auto
+    display: flex
+    flex-flow: row nowrap
+    align-items: flex-start
+    justify-content: space-between
+    h1:first-child, h2:first-child, p:first-child
+      margin-top: 0
+    #chemistry-main
+      width: 68%
+      min-height: 500px
+    #chemistry-notes
+      width: 28%
+      min-height: 200px
+      margin-top: 6em
+      color: $pale
+
+#notices
+  position: absolute
+  bottom: 4%
+  right: 4%

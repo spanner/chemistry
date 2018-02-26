@@ -1,3 +1,8 @@
-%p
-  %a{href: "/pages/edit/new"}
-    Add the first page.
+%a{href: "/pages/edit/new"}
+  %svg.page
+    %use{"xlink:href" => "#new_page_symbol"}
+  %span.detail
+    %span.title
+      Create home page
+    %span.description
+      You can rearrange and reassign pages later.

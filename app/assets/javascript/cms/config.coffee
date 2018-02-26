@@ -10,7 +10,7 @@ class Cms.Config
   defaults: 
     auth_url: "https://stemnet.hk/users"
     api_url: "https://stemnet.hk/api"
-    mount_point: "/browse"
+    mount_point: "/chemistry"
     cookie_name: "_stemnet_auth"
     cookie_domain: ".stemnet.hk"
     logging: false

@@ -9,7 +9,8 @@ class Cms.View extends Backbone.Marionette.View
     @render()
 
   onRender: =>
-    @stickit()
+    @log "render"
+    @stickit() if @model
 
   addView: (view) =>
     @subviews.push view
@@ -124,6 +125,12 @@ class Cms.View extends Backbone.Marionette.View
 
   log: ->
     _cms.log "[#{@constructor.name}]", arguments...
+
+
+class Cms.IndexView extends Cms.View
+  regions:
+    list: "#chemistry-list"
+    notes: "#chemistry-notes"
 
 
 class Cms.EditView extends Cms.View
