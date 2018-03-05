@@ -1,4 +1,4 @@
-%a{href: "/pages/edit/new"}
+%a{href: "/page/edit/new"}
   %svg.page
     %use{"xlink:href" => "#new_page_symbol"}
   %span.detail

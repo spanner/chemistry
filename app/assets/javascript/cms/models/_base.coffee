@@ -89,6 +89,9 @@ class Cms.Model extends Backbone.Model
     @prepareLoader()
     @load()
 
+  loadIfBare: =>
+    @load() if @isBare()
+
   # true if we have only an id, which would mean we are meant to be fetched.
   isBare: =>
     bare_attributes = {}
@@ -136,7 +139,7 @@ class Cms.Model extends Backbone.Model
   #
   belongsTo: (object_attribute, id_attribute, collection) =>
     id_attribute ?= "#{object_attribute}_id"
-    model_class = Cms.Models[_.str.camelize(object_attribute)]
+    model_class = Cms.Models[_.camelize(object_attribute)]
 
     # For the usual situation when an associate is sent down just as eg. section_type_id
     if object_id = @get(id_attribute)
@@ -177,7 +180,7 @@ class Cms.Model extends Backbone.Model
   # On load and save it is a nested list of attribute hashes.
   #
   hasMany: (association_name, options={}) =>
-    class_name = options.collection_class ? _.str.capitalize(s.camelize(association_name))
+    class_name = options.collection_class ? _.capitalize(s.camelize(association_name))
     collection_class = Cms.Collections[class_name]
     default_options = paginated: false
 
@@ -270,10 +273,10 @@ class Cms.Model extends Backbone.Model
     @_class_name.toLowerCase()
 
   singularName: =>
-    _.str.underscored @className()
+    _.underscored @className()
 
   pluralName: =>
-    _.pluralize @singularName()
+    @singularName() + 's'      # well, it works.
 
 
   ## Housekeeping

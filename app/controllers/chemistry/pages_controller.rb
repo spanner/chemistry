@@ -2,6 +2,10 @@ module Chemistry
   class PagesController < ApplicationController
     load_and_authorize_resource
 
+    # HTML routes
+    #
+    # Only two: public front page and editing front page.
+    #
     def home
       @page = Page.home.first
       render
@@ -9,6 +13,21 @@ module Chemistry
 
     def editor
       render
+    end
+
+
+    # API routes
+    #
+    # Support the editing UI and a few public functions like list pagination.
+    #
+    # `site` is an init package for the editing UI.
+    #
+    def site
+      render json: {
+        pages: Page.all,
+        templates: Template.all,
+        section_types: SectionType.all
+      }
     end
 
     def index

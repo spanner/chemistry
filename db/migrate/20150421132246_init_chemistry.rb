@@ -54,6 +54,8 @@ class InitChemistry < ActiveRecord::Migration[5.1]
     create_table :chemistry_templates do |t|
       t.string :title
       t.text :description
+      t.attachment :icon
+      t.datetime :deleted_at
       t.timestamps
     end
 
@@ -64,6 +66,7 @@ class InitChemistry < ActiveRecord::Migration[5.1]
       t.string :title
       t.text :content, limit: 16.megabytes - 1
       t.text :aside, limit: 16.megabytes - 1
+      t.datetime :deleted_at
       t.timestamps
     end
     add_index :chemistry_placeholders, [:template_id, :position]

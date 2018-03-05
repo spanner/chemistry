@@ -43,22 +43,21 @@ class Cms.Views.UI extends Cms.View
         collection: @_collection
 
   modelView: (base, action, id) =>
-    @log "collectionView", base, action
+    @log "modelView", base, action
     model_name = base.charAt(0).toUpperCase() + base.slice(1)
     action_name = action.charAt(0).toUpperCase() + action.slice(1)
     model_class = Cms.Models[model_name]
     view_class = Cms.Views[action_name + model_name] or Cms.Views[model_name]
-    # stored collection is used to avoid fetch work if we can:
-    # useful economy when navigating from list to item.
-    collection_name = _.str.pluralize(model_name)
-    collection_class = Cms.Collections[collection_name]
+    @log "->", model_name, action_name, model_class, view_class
     if view_class and model_class
+      collection_name = model_name + 's'    # take that, ActiveSupport
+      collection_class = Cms.Collections[collection_name]
       if id is 'new'
         model = new model_class()
       else if @_collection and @_collection instanceof collection_class
         model = @_collection.get(id)
       model ||= new model_class({id: id})
-      model.fetchIfBare()
+      model.loadIfBare()
       @showView new view_class
         model: model
 

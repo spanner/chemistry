@@ -66,3 +66,9 @@ class Cms.Config
 
   logLevel: =>
     @_settings['log_level'] ? 'info'
+
+  apiUrl: =>
+    @get('api_url')
+
+  initUrl: =>
+    [@get('api_url'), 'pages/site'].join('/')

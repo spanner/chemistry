@@ -3,9 +3,18 @@
     %h1.pagetitle
       Pages
 
-    %header
-    #chemistry-list
-    %footer
+    %ul.pages
+      %li.page.new
+        %a.new.page{href: "/page/edit/new"}
+          %svg.page
+            %use{"xlink:href" => "#new_page_symbol"}
+          %span.detail
+            %span.title
+              Create home page
+            %span.description
+              You can rearrange and reassign pages later.
+
+    #pages
 
   #chemistry-notes
     %p
@@ -24,4 +33,5 @@
       and
       %a{href: "/section_types"}
         section types.
-  
+
+#new_page.modal

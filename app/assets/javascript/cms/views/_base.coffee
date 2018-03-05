@@ -127,6 +127,7 @@ class Cms.View extends Backbone.Marionette.View
     _cms.log "[#{@constructor.name}]", arguments...
 
 
+
 class Cms.IndexView extends Cms.View
   regions:
     list: "#chemistry-list"

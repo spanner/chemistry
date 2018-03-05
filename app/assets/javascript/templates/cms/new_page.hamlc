@@ -1,0 +1,16 @@
+#new_page.floater
+  %ul.pages
+    %li.page.new
+      %svg.page
+        %use{"xlink:href" => "#new_page_symbol"}
+      %span.detail
+        %span.title
+          Create home page
+        %span.description
+          Please choose a starting template.
+
+  .title
+    %input.title{type: "texty"}
+
+  .parent_picker
+  .template_picker

@@ -20,6 +20,9 @@ class Cms.AppRouter extends Backbone.Marionette.AppRouter
     ":collection_name(?:qs)": "collectionView"
     ":model_name/:action/:id": "modelView"
 
+  onRoute: (name, path, args) =>
+    _cms.log "onRoute", name, path
+
 
 # The Application is a supporting framework wrapped around the UI view.
 # It provides navigation, rendering and API-interfacing services, and
@@ -33,28 +36,33 @@ class Cms.Application extends Backbone.Marionette.Application
     @_original_backbone_sync = Backbone.sync
     @options = _.extend @defaults, opts
     @el = @options.el
-    @_loaded = $.Deferred()
+    @_ready = $.Deferred()
     @_config = new Cms.Config
     @_log_level = @_config.logLevel()
     @env = @_config.environment()
-    @notices = new Cms.Collections.Notices
-    @section_types = new Cms.Collections.SectionTypes
     Backbone.sync = @sync
     Backbone.Marionette.Renderer.render = @render
     root.onerror = @reportError
     root._cms = @
 
   onStart: =>
-    @_ui = new Cms.Views.UI
-      el: @el
+    @_ui = new Cms.Views.UI el: @el
     @_ui.render()
-    @section_types.loadAnd =>
+    @_ready.done (data) =>
+      @pages = new Cms.Collections.Pages data.pages
+      @section_types = new Cms.Collections.SectionTypes data.section_types
+      @templates = new Cms.Collections.Templates data.templates
+      @notices = new Cms.Collections.Notices
       @_router = new Cms.AppRouter
         controller: @_ui
       Backbone.history.start
         pushState: true
         root: @config('mount_point')
       $(document).on "click", "a:not([data-bypass])", @handleLinkClick
+
+    # We avoid too many simultaneous json calls by preloading a package of everything the UI will need.
+    $.getJSON @_config.initUrl(), (data) => 
+      @_ready.resolve(data)
 
   config: (key) =>
     @_config.get(key)
@@ -72,15 +80,17 @@ class Cms.Application extends Backbone.Marionette.Application
   # Link clicks are caught at the outer $el and the href passed to `navigate`.
   # We can also call `navigate` directly with a path, but that's very rare.
   #
-  handleLinkClick: (e) =>
-    $a = $(e.originalEvent.target)
+  handleLinkClick: (e) ->
+    $a = $(@)
     href = $a.attr("href")
+    _cms.log "handleLinkClick", href, @
     if href and href isnt "#" and href.slice(0, 4) isnt 'http'
       e.preventDefault()
-      has_target = _.str.contains(href, "#")
-      @navigate href, trigger: !has_target
+      has_target = _.includes(href, "#")
+      _cms.navigate href, trigger: !has_target
 
   navigate: (route, {trigger:trigger,replace:replace}={}) =>
+    @log "navigate", route
     trigger ?= true
     replace ?= false
     Backbone.history.navigate route,

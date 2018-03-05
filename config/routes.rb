@@ -5,6 +5,7 @@ Chemistry::Engine.routes.draw do
   root to: "pages#editor"
 
   resources :pages do
+    get :site, on: :collection
     put :publish, on: :member
   end
 
@@ -13,5 +14,7 @@ Chemistry::Engine.routes.draw do
   resources :videos
   resources :documents
   resources :section_types
+
+  get "*path" => "pages#editor"
 
 end

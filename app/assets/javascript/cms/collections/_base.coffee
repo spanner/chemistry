@@ -23,6 +23,10 @@ class Cms.Collection extends Backbone.Collection
       @_sorted = true
       @initSorting opts.params
 
+  setParams: (params) =>
+    @setPaginationState(params) if @_paginated
+    @setSortState(params) if @_sorted
+
 
   ## Sorting
   #
@@ -163,7 +167,6 @@ class Cms.Collection extends Backbone.Collection
     @baseUrl() + "?" + @urlParams()
 
   baseUrl: () =>
-    "/#{@_class_name}"
     [_cms.config('api_url'), @pluralName()].join('/')
 
   urlParams: =>
@@ -235,7 +238,7 @@ class Cms.Collection extends Backbone.Collection
   findOrAdd: (attributes) =>
     unless model = @findWhere(attributes)
       model = @add(attributes)
-      model.fetch() if model.isBare()
+      model.loadIfBare()
     model
 
   setAll: (k, v) =>

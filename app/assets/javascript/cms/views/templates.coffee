@@ -13,3 +13,19 @@ class Cms.Views.Template extends Cms.View
     @addView new Cms.Views.Placeholders
       collection: @model.placeholders
       el: @ui.placeholders
+
+
+class Cms.Views.ListedTemplate extends Cms.View
+  template: "cms/listed_template"
+  bindings:
+    ".title": "title"
+    ".description": "description"
+
+
+class Cms.Views.TemplateChoice extends Cms.Views.ListedTemplate
+  template: "cms/template_choice"
+
+
+class Cms.Views.TemplatePicker extends Cms.CollectionView
+  childView: Cms.Views.TemplateChoice
+  emptyView: Cms.Views.NoTemplateChoice

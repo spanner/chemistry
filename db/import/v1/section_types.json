@@ -2,13 +2,13 @@
   {
     "title": "Text",
     "slug": "text",
-    "description": "Just some text",
+    "description": "Just a column of html. Can include images, video, quotes.",
     "template": "<h2 data-role='title'></h2><article data-role='main'></article>"
   },
   {
     "title": "Two column",
     "slug": "twocol",
-    "description": "Main text and aside",
+    "description": "Main text and aside. Either can include images, video, quotes.",
     "template": "<h2 data-role='title'></h2><article data-role='main'></article><aside data-role='aside'></aside>"
   },
   {
@@ -16,6 +16,12 @@
     "slug": "hero",
     "description": "Big picture in the backgound, title and optional caption in the foreground. Usually the top of a landing page.",
     "template": "<figure data-role='image'><h1 data-role='title'></h1><figcaption data-role='image_caption'></figcaption></figure>"
+  },
+  {
+    "title": "Standfirst",
+    "slug": "standfirst",
+    "description": "A useful page opener.",
+    "template": "<h1 data-role='title'></h1><div class='standfirst' data-role='main'></div><aside class='comments' data-role='aside'></aside>"
   },
   {
     "title": "Big quote",
