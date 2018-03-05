@@ -44,8 +44,11 @@ class Cms.View extends Backbone.Marionette.View
   present: (value) =>
     not not value
 
-  thisButNotThat: ([thing, other]=[]) =>
-    thing and not other
+  thisAndThat: ([thing, other_thing]=[]) =>
+    thing and other_thing
+
+  thisButNotThat: ([thing, other_thing]=[]) =>
+    thing and not other_thing
 
   inBytes: (value) =>
     if value
@@ -178,6 +181,9 @@ class Cms.CollectionView extends Backbone.Marionette.CollectionView
   initialize: =>
     @render()
 
+  log: ->
+    _cms.log "[#{@constructor.name}]", arguments...
+
 
 ## Composite View
 #
@@ -191,6 +197,33 @@ class Cms.CompositeView extends Backbone.Marionette.CompositeView
 
   onRender: =>
     @stickit() if @model
+
+  log: ->
+    _cms.log "[#{@constructor.name}]", arguments...
+
+
+## Chooser views
+#
+# These are simple collection views with some triggers for selecting an associate.
+
+class Cms.Views.ChoiceView extends Cms.View
+  triggers:
+    "click a.choose": "choose"
+
+
+class Cms.Views.NoChoiceView extends Cms.View
+  triggers:
+    "click a.choose": "clear"
+
+
+class Cms.Views.ChooserView extends Cms.CollectionView
+  onChildviewChoose: (view, e) =>
+    @log "CHOOSE!", view
+    @choose view.model
+    view.model.markAsChosen()
+
+  choose: (model) =>
+    #noop here
 
 
 ## Floating overlays
@@ -210,10 +243,17 @@ class Cms.FloatingRegion extends Backbone.Marionette.Region
         top: offset.top + offset_offset.top
         left: offset.left + offset_offset.left
     @$el.addClass 'up'
-
-  onBeforeEmpty: =>
-    @$el.removeClass 'up'
+    view.on "close", =>
+      @log "FloatingRegion close trigger"
+      @$el.on 'transitionend', @reset
+      @$el.removeClass 'up'
 
   log: ->
     _cms.log "[#{@constructor.name}]", arguments...
 
+
+class Cms.Views.FloatingView extends Cms.View
+
+  triggers:
+    "click a.close": "close"
+    "click a.cancel": "close"

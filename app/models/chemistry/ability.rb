@@ -4,6 +4,8 @@ module Chemistry
 
     def initialize(user)
 
+      can :manage, :all
+
       if user && user.persisted?
 
         # todo: perhaps be a little bit more fine-grained here.

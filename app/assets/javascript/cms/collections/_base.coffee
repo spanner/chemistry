@@ -221,6 +221,13 @@ class Cms.Collection extends Backbone.Collection
     @_loaded.reject(error)
 
 
+  ## Selection
+
+  resetChoices: =>
+    @each (model) ->
+      model.set 'chosen', false
+
+
   # Structural
 
   className: =>

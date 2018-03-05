@@ -98,11 +98,30 @@ class Cms.Model extends Backbone.Model
     bare_attributes[@idAttribute] = @get(@idAttribute)
     _.isEqual @attributes, bare_attributes
 
+  save: =>
+    unless @_saving
+      @_saved = $.Deferred()
+      @_saving = true
+      saver = super
+      saver.fail(@notSaved).done(@saved)
+    @_saved.promise()
+
+  saved: (data) =>
+    @_loading = false
+    @_saved.resolve(data)
+
+  notSaved: (error) =>
+    @_saving = false
+    @_saved.reject(error)
+
+  urlRoot: () =>
+    [_cms.config('api_url'), @pluralName()].join('/')
+
 
   ## Construction
   #
   build: =>
-    # usually this is all about associates:
+    # usually this is where we set up associates:
     # @hasMany 'sections'
     # @belongsTo 'image'
     # etc
@@ -139,7 +158,8 @@ class Cms.Model extends Backbone.Model
   #
   belongsTo: (object_attribute, id_attribute, collection) =>
     id_attribute ?= "#{object_attribute}_id"
-    model_class = Cms.Models[_.camelize(object_attribute)]
+    model_class_name = _.titleize(_.camelize(object_attribute))
+    model_class = Cms.Models[model_class_name]
 
     # For the usual situation when an associate is sent down just as eg. section_type_id
     if object_id = @get(id_attribute)
@@ -156,21 +176,19 @@ class Cms.Model extends Backbone.Model
       @set id_attribute, object.get('id'), silent: true
 
     # In the UI we always assign the object
-    @on "change:#{object_attribute}", @assignObject
-
-  assignObject: (me, it, options) =>
-    if it
-      # something has been assigned
-      if id = it.get('id')
-        # ...that already exists and has an ID.
-        @set id_attribute, id, stickitChange: true
+    @on "change:#{object_attribute}", (me, it, options) =>
+      if it
+        # something has been assigned
+        if id = it.get('id')
+          # ...that already exists and has an ID.
+          @set id_attribute, id, stickitChange: true
+        else
+          # ...that is new and ought to get an ID soon.
+          it.once "change:id", (it_again, new_id) =>
+            @set id_attribute, new_id, stickitChange: true
       else
-        # ...that is new and ought to get an ID soon.
-        it.once "change:id", (it_again, new_id) =>
-          @set id_attribute, new_id, stickitChange: true
-    else
-      # `nothing` has been assigned
-      @set id_attribute, null, stickitChange: true
+        # `nothing` has been assigned
+        @set id_attribute, null, stickitChange: true
 
 
   # hasMany sets up the listeners involved in maintaining a one to many association
@@ -262,6 +280,13 @@ class Cms.Model extends Backbone.Model
     actually_changed_keys = _.filter _.keys(significantly_changed), (k) =>
       significantly_changed[k] isnt @_original_attributes[k]
     _.pick significantly_changed, actually_changed_keys
+
+
+  ## Selection
+
+  markAsChosen: =>
+    @collection?.resetChoices()
+    @set 'chosen', true
 
 
   ## Structural

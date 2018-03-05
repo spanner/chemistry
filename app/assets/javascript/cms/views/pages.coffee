@@ -21,16 +21,28 @@ class Cms.Views.Page extends Cms.View
 # Main page list
 #
 class Cms.Views.ListedPage extends Cms.View
-  template: "cms/listed_page"
+  template: "cms/page_listed"
   tagName: "li"
   className: "page"
 
   bindings:
     ".title":
       observe: "title"
+    "img.page_icon":
+      attributes: [
+        name: "src"
+        observe: "template"
+        onGet: "templateIconOrDefault"
+      ]
     "a.page":
-      observe: "id"
-      onGet: "editMeHref"
+      attributes: [
+        name: "href"
+        observe: "id"
+        onGet: "editMeHref"
+      ]
+
+  templateIconOrDefault: (template) =>
+    template?.get('icon_url')
 
 
 class Cms.Views.NoPage extends Cms.View
@@ -76,13 +88,12 @@ class Cms.Views.PagesIndex extends Cms.IndexView
     e.stopPropagation()
     $link = $(e.currentTarget)
     new_page_view = if @collection.size() then new Cms.Views.NewPage else new Cms.Views.NewHomePage
-    @getRegion('new_page').show new_page_view,
-      over: $link
+    @getRegion('new_page').show new_page_view, over: $link
 
 
 # Page-chooser
 #
-class Cms.Views.PageChoice extends Cms.View
+class Cms.Views.PageChoice extends Cms.Views.ChoiceView
   template: "cms/page_choice"
   tagName: "li"
   className: "page choose"
@@ -94,48 +105,77 @@ class Cms.Views.PageChoice extends Cms.View
       observe: "path"
 
 
-class Cms.Views.NoPageChoice extends Cms.View
+class Cms.Views.NoPageChoice extends Cms.Views.NoChoiceView
   template: "cms/no_page_choice"
   tagName: "li"
   className: "page choose none"
 
 
-class Cms.Views.PagePicker extends Cms.CollectionView
+class Cms.Views.PagePicker extends Cms.Views.ChooserView
   childView: Cms.Views.PageChoice
   emptyView: Cms.Views.NoPageChoice
   tagName: "ul"
   className: "pages chooser"
 
+  initialize: ->
+    @collection = _cms.pages.clone()
+    @render()
+
+  choose: (page) =>
+    @model.set 'page', page
+
+
+class Cms.Views.ParentPagePicker extends Cms.Views.PagePicker
+
+  choose: (page) =>
+    @model.set 'parent', page
+
 
 # The transient view used to inject a new page into the tree and prepare it for editing.
 #
-class Cms.Views.NewPage extends Cms.View
+class Cms.Views.NewPage extends Cms.Views.FloatingView
   template: "cms/new_page"
 
-  ui:
+  regions:
     parent: ".parent_picker"
-    templates: ".template_picker"
-    title: "span.title"
-    introduction: "span.description"
+    template: ".template_picker"
+
+  events:
+    "click a.save": "saveAndEdit"
 
   bindings:
-    ".title": "title"
+    "span.title": "title"
+    "a.save":
+      classes:
+        available:
+          observe: ['template_id', 'title']
+          onGet: "thisAndThat"
 
   initialize: ->
     @model = new Cms.Models.Page
     super
 
   onRender: =>
-    @log "render"
     @stickit()
-    @addView new Cms.Views.TemplatePicker
-      collection: _cms.templates
-      el: @ui.templates
-    @addView new Cms.Views.PagePicker
-      collection: _cms.pages
-      el: @ui.parent
-    @$el.addClass 'up'
+    if @regions.template
+      @getRegion('template').show new Cms.Views.TemplatePicker
+        model: @model
+    if @regions.parent
+      @getRegion('parent').show new Cms.Views.ParentPagePicker
+        model: @model
+
+  saveAndEdit: (e) =>
+    e?.preventDefault()
+    e?.stopPropagation()
+    @model.save().done =>
+      _.defer =>
+        if id = @model.get('id')
+          type = @model.pluralName()
+          @remove()
+          _cms.navigate "/#{type}/edit/#{id}"
 
 
-class Cms.Views.NewHomePage extends Cms.View
+class Cms.Views.NewHomePage extends Cms.Views.NewPage
   template: "cms/new_home_page"
+  regions:
+    template: ".template_picker"

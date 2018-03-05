@@ -1,0 +1,57 @@
+=buttonbg($color: $green)
+  background: linear-gradient(to bottom, lighten($color, 5) 5%, $color 60%, darken($color, 5) 90%)
+
+=button($color: $green, $textcolor: white)
+  display: inline-block
+  pointer-events: auto
+  margin: 0 0.5em 8px 0
+  padding: 8px 16px
+  +buttonbg($color)
+  color: $textcolor
+  cursor: pointer
+  box-sizing: border-box
+  +cms_font_light
+  &:hover
+    background-color: $control_over
+  &.save
+    background-color: $greenish
+    color: white
+    &:hover
+      background-color: $green
+  &.publish
+    background-color: $purpleish
+    color: white
+    &:hover
+      background-color: $purple
+  &.delete
+    background: $reddish
+    &:hover
+      background-color: $red
+  &.cancel
+    background: white
+    color: $pale
+    &:hover
+      background: $red
+      color: white
+  &.waiting
+    pointer-events: none
+    padding-left: 30px
+    color: white
+    background:
+      color: $mid !important
+      position: 8px 16px
+      repeat: no-repeat
+      image: image-url('spinner_on_grey.gif')
+
+a.button
+  +button
+
+  & + span.conjunction
+    padding: 8px 4px
+
+  & + a.cancel
+    padding: 8px 4px
+
+a.cancel
+  color: $pale
+  +hover

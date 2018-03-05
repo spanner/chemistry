@@ -39,7 +39,7 @@ $error: $red
 $warningbg: #fff0f0
 $finishedbg: #e2efdb
 
-$translucent: rgba(255,255,255,0.6)
+$translucent: rgba(255,255,255,0.8)
 $shadow: rgba(0,0,0,0.6)
 $warmish: rgba(255,69,57,0.5)
 $greenish: rgba(116,184,122,0.75)
@@ -69,9 +69,8 @@ $menu_new_text: white
 $menu_selected_bg: $greenish
 $menu_selected_text: white
 
-$shelf_bg: $coolgrey00
-$shelf_head_bg: $coolgrey1
-$shelf_text: $coolgrey10
+$editfg: $dark
+$editbg: white
 
 =clearfix
   &:after
@@ -141,43 +140,6 @@ $shelf_text: $coolgrey10
   float: left
   vertical-align: top
   height: $control_height
-
-=buttony
-  display: inline-block
-  pointer-events: auto
-  margin: 0 0.5em 8px 0
-  padding: 16px
-  background-color: $control_bg
-  color: $control_fg
-  cursor: pointer
-  box-sizing: border-box
-  border-radius: 2px
-  box-shadow: 1px 0 5px $shadow
-  &:hover
-    background-color: $control_over
-  &.save
-    background-color: $greenish
-    color: white
-    &:hover
-      background-color: $green
-  &.publish
-    background-color: $purpleish
-    color: white
-    &:hover
-      background-color: $purple
-  &.delete
-    background-color: $reddish
-    &:hover
-      background-color: $red
-  &.waiting
-    pointer-events: none
-    padding-left: 30px
-    color: white
-    background:
-      color: $mid !important
-      position: 8px 16px
-      repeat: no-repeat
-      image: image-url('spinner_on_grey.gif')
 
 =quoted
   color: $pale

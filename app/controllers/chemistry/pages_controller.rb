@@ -80,18 +80,18 @@ module Chemistry
     protected
   
     def create_page_params
-      params.permit(
+      params.require(:page).permit(
         :template_id,
-        :path,
+        :parent_id,
         :title
       )
     end
   
     def update_page_params
-      params.permit(
+      params.require(:page).permit(
         :id,
         :template_id,
-        :path,
+        :parent_id,
         :title,
         :nav,               # takes part in navigation?
         :nav_name,          # with this name

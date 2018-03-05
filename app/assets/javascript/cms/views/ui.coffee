@@ -29,18 +29,19 @@ class Cms.Views.UI extends Cms.View
 
   collectionView: (base, params) =>
     @log "collectionView", base, params
-    collection_name = base.charAt(0).toUpperCase() + base.slice(1)
-    collection_class = Cms.Collections[collection_name]
-    view_class = Cms.Views["#{collection_name}Index"] or Cms.Views[collection_name]
-    collection_params = @collectionParams(params)
-    if view_class and collection_class
-      if @_collection and @_collection instanceof collection_class
+    if ['pages', 'templates', 'section_types', 'images', 'videos', 'documents'].indexOf(base) is -1
+      
+    else
+      @_collection = _cms[base]
+      @_collection.setParams collection_params
+      view_class_name = base.charAt(0).toUpperCase() + base.slice(1)
+      view_class = Cms.Views["#{view_class_name}Index"] or Cms.Views[view_class_name]
+      collection_params = @collectionParams(params)
+      if @_collection and view_class
         @_collection.setParams collection_params
-      else
-        @_collection = new collection_class null,
-          params: collection_params
-      @showView new view_class
-        collection: @_collection
+        # always rebuild?
+        @showView new view_class
+          collection: @_collection
 
   modelView: (base, action, id) =>
     @log "modelView", base, action

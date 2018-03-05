@@ -1,15 +1,25 @@
-%ul.pages
-  %li.page.new
-    %svg.page
-      %use{"xlink:href" => "#new_page_symbol"}
-    %span.detail
-      %span.title
-        Create new page
-      %span.description
-        Please choose a template and optional parent page.
+%a.close
+  %svg
+    %use{"xlink:href" => "#close_symbol"}
 
-.title
-  %input.title{type: "text"}
+%h2.new_page
+  %svg.page
+    %use{"xlink:href" => "#new_page_symbol"}
+  %span.detail
+    %span.heading
+      Create new page
+    %span.description
+      Please choose a template and parent page.
+
+%p
+  %span.title.large{contenteditable: "true", data: {placeholder: "Page title"}}
 
 .parent_picker
+
 .template_picker
+
+.buttons
+  %a.save.button
+    Create and edit page
+  %a.cancel.button
+    Cancel

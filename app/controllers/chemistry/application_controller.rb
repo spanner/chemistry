@@ -1,7 +1,13 @@
 module Chemistry
-  class ApplicationController < ActionController::Base
+  class ApplicationController < ::ApplicationController
     layout :chemistry_layout
     before_action :set_access_control_headers
+    skip_before_action :verify_authenticity_token
+
+    def cors_check
+      set_access_control_headers
+      head :ok
+    end
 
     def chemistry_layout
       Chemistry.layout

@@ -1,6 +1,7 @@
 module Chemistry
   class Page < ApplicationRecord
     acts_as_paranoid
+    belongs_to :parent, class_name: Chemistry::Page, optional: true
 
     has_many :sections, -> {order(:position)}, dependent: :destroy
     has_many :documents, -> {order(:position)}, dependent: :nullify
@@ -8,16 +9,16 @@ module Chemistry
 
     before_validation :derive_slug
     before_validation :derive_path
+    before_validation :set_home_if_first
 
     validates :title, presence: true
     validates :path, uniqueness: {conditions: -> { where(deleted_at: nil) }}
-  
+
     scope :undeleted, -> { where(deleted_at: nil) }
     scope :published, -> { undeleted.where.not(published_at: nil) }
     scope :home, -> { published.where(home: true).limit(1) }
     scope :nav, -> { published.where(nav: true) }
 
-  
     # It's not pretty, but it's a lot nicer than accepts_nested_attributes_for.
     #
     def sections=(section_data=nil)
@@ -71,15 +72,25 @@ module Chemistry
 
     protected
 
+    def set_home_if_first
+      if Page.all.empty?
+        self.home = true
+      end
+    end
+
     def derive_slug
       self.slug = (self.slug.presence || self.title).parameterize
     end
 
     def derive_path
-      path_parts = []
-      path_parts += parent.path.split(/\/+/).map(&:parameterize) if parent
-      path_parts.push slug
-      self.path = path_parts.compact.join('/')
+      if home?
+        self.path = ""
+      elsif parent
+        path_parts = []
+        path_parts += parent.path.split(/\/+/).map(&:parameterize)
+        path_parts.push slug
+        self.path = path_parts.compact.join('/')
+      end
     end
 
   end

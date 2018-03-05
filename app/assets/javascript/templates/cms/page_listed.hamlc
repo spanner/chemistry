@@ -1,3 +1,8 @@
 %a.page
-  %h2.title
-  %p.notes
+  %img.page_icon
+  %span.detail
+    %span.title
+    %span.notes
+      %span.description
+      %span.published_at
+
