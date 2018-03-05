@@ -40,6 +40,7 @@ class Cms.Application extends Backbone.Marionette.Application
     @_config = new Cms.Config
     @_log_level = @_config.logLevel()
     @env = @_config.environment()
+    @notices = new Cms.Collections.Notices
     Backbone.sync = @sync
     Backbone.Marionette.Renderer.render = @render
     root.onerror = @reportError
@@ -52,7 +53,6 @@ class Cms.Application extends Backbone.Marionette.Application
       @pages = new Cms.Collections.Pages data.pages
       @section_types = new Cms.Collections.SectionTypes data.section_types
       @templates = new Cms.Collections.Templates data.templates
-      @notices = new Cms.Collections.Notices
       @_router = new Cms.AppRouter
         controller: @_ui
       Backbone.history.start

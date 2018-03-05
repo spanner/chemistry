@@ -4,12 +4,11 @@
       %use{"xlink:href" => "#new_page_symbol"}
     %span.detail
       %span.title
-        Create new page
+        Create home page
       %span.description
-        Please choose a template and optional parent page.
+        Please choose a template to start your first page.
 
 .title
   %input.title{type: "text"}
 
-.parent_picker
 .template_picker

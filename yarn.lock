@@ -51,6 +51,10 @@ moment@^2.18.1:
   version "2.20.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
 
+polyglot@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/polyglot/-/polyglot-0.5.0.tgz#1f734cd4263b86c1a12046a6267ada3235228692"
+
 smartquotes@^2.1.2:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/smartquotes/-/smartquotes-2.3.1.tgz#01ebb595d6c7a9e24d90e8cb95c17d0e1af49407"

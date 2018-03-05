@@ -127,7 +127,6 @@ class Cms.View extends Backbone.Marionette.View
     _cms.log "[#{@constructor.name}]", arguments...
 
 
-
 class Cms.IndexView extends Cms.View
   regions:
     list: "#chemistry-list"
@@ -192,4 +191,29 @@ class Cms.CompositeView extends Backbone.Marionette.CompositeView
 
   onRender: =>
     @stickit() if @model
+
+
+## Floating overlays
+#  are handled by a custom region class that does the floating part.
+#
+class Cms.FloatingRegion extends Backbone.Marionette.Region
+
+  onShow: (region, view, options={}) =>
+    @log "FloatingRegion onShow", options
+    if $over = options.over
+      offset = $over.offset()
+      default_adjustment =
+        top: -20
+        left: -20
+      offset_offset = options.offset or default_adjustment
+      @$el.css
+        top: offset.top + offset_offset.top
+        left: offset.left + offset_offset.left
+    @$el.addClass 'up'
+
+  onBeforeEmpty: =>
+    @$el.removeClass 'up'
+
+  log: ->
+    _cms.log "[#{@constructor.name}]", arguments...
 

@@ -34,4 +34,4 @@
       %a{href: "/section_types"}
         section types.
 
-#new_page.modal
+#new_page.floater

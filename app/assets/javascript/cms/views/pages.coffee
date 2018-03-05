@@ -1,3 +1,5 @@
+# Page-editing view
+#
 class Cms.Views.Page extends Cms.View
   template: "cms/page"
 
@@ -16,6 +18,8 @@ class Cms.Views.Page extends Cms.View
       el: @ui.sections
 
 
+# Main page list
+#
 class Cms.Views.ListedPage extends Cms.View
   template: "cms/listed_page"
   tagName: "li"
@@ -45,8 +49,11 @@ class Cms.Views.PagesIndex extends Cms.IndexView
   template: "cms/pages"
 
   regions:
-    pages: "#pages"
-    new_page: "#new_page"
+    pages:
+      el: "#pages"
+    new_page:
+      el: "#new_page"
+      regionClass: Cms.FloatingRegion
 
   ui:
     new_page_title: "span.title"
@@ -58,9 +65,9 @@ class Cms.Views.PagesIndex extends Cms.IndexView
   onRender: =>
     super
     if @collection.size()
-      @ui.new_page_title = "Create new page"
+      @ui.new_page_title.text("Create new page")
     else 
-      @ui.new_page_title = "Create home page"
+      @ui.new_page_title.text("Create home page")
     @getRegion('pages').show new Cms.Views.Pages
       collection: @collection
 
@@ -68,8 +75,36 @@ class Cms.Views.PagesIndex extends Cms.IndexView
     e.preventDefault()
     e.stopPropagation()
     $link = $(e.currentTarget)
-    @getRegion('new_page').show new Cms.Views.NewPage
-    # place modal form over triggering link
+    new_page_view = if @collection.size() then new Cms.Views.NewPage else new Cms.Views.NewHomePage
+    @getRegion('new_page').show new_page_view,
+      over: $link
+
+
+# Page-chooser
+#
+class Cms.Views.PageChoice extends Cms.View
+  template: "cms/page_choice"
+  tagName: "li"
+  className: "page choose"
+
+  bindings:
+    ".title":
+      observe: "title"
+    ".path":
+      observe: "path"
+
+
+class Cms.Views.NoPageChoice extends Cms.View
+  template: "cms/no_page_choice"
+  tagName: "li"
+  className: "page choose none"
+
+
+class Cms.Views.PagePicker extends Cms.CollectionView
+  childView: Cms.Views.PageChoice
+  emptyView: Cms.Views.NoPageChoice
+  tagName: "ul"
+  className: "pages chooser"
 
 
 # The transient view used to inject a new page into the tree and prepare it for editing.
@@ -80,18 +115,27 @@ class Cms.Views.NewPage extends Cms.View
   ui:
     parent: ".parent_picker"
     templates: ".template_picker"
+    title: "span.title"
+    introduction: "span.description"
 
   bindings:
     ".title": "title"
 
+  initialize: ->
+    @model = new Cms.Models.Page
+    super
+
   onRender: =>
-    @log "NewPage render"
+    @log "render"
     @stickit()
     @addView new Cms.Views.TemplatePicker
       collection: _cms.templates
       el: @ui.templates
-    @addView new Cms.Views.ParentPagePicker
+    @addView new Cms.Views.PagePicker
       collection: _cms.pages
       el: @ui.parent
+    @$el.addClass 'up'
 
 
+class Cms.Views.NewHomePage extends Cms.View
+  template: "cms/new_home_page"

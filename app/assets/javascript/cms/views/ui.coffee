@@ -48,7 +48,6 @@ class Cms.Views.UI extends Cms.View
     action_name = action.charAt(0).toUpperCase() + action.slice(1)
     model_class = Cms.Models[model_name]
     view_class = Cms.Views[action_name + model_name] or Cms.Views[model_name]
-    @log "->", model_name, action_name, model_class, view_class
     if view_class and model_class
       collection_name = model_name + 's'    # take that, ActiveSupport
       collection_class = Cms.Collections[collection_name]

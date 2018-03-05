@@ -6,7 +6,7 @@
   color: white
   font-size: 0.9rem
   .complete_failure
-    background-color: rgba(237,28,36,0.9)
+    background-color: rgba(237,28,36,0.8)
     padding: 0.5em 0.5em 0.5em 0.75em
     color: white
     border-radius: 4px
@@ -17,30 +17,36 @@
     width: 480px
   ul.notices
     list-style: none
-    font-size: 1rem
+    font-size: 0.8rem
     margin: 0
     padding: 0
     li
       padding: 0.5em 0.5em 0.5em 0.75em
       margin: 0.5em 0
+      border-radius: 5px
       background-color: $green
       color: white
       border-radius: 4px
       box-shadow: 0 1px 6px $shadow
       border: 2px solid white
       width: 320px
+      overflow: auto
+      span.message
+        display: block
+        margin-top: 6px
       a.close
-        float: right
+        position: absolute
+        top: 14px
+        right: 8px
         width: 24px
         height: 24px
-        padding: 1px 0 6px 6px
         color: white
         cursor: pointer
         svg
           width: 24px
           height: 24px
       &.error
-        background-color: rgba(237,28,36,0.9)
+        background-color: rgba(237,28,36,0.75)
       &.confirmation
         background-color: rgba(116,184,122,0.9)
       &.information
