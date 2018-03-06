@@ -8,6 +8,7 @@ class Cms.Models.Page extends Cms.Model
 
   build: =>
     @belongsTo 'template'
+    @belongsTo 'parent'
     @hasMany 'sections'
 
   published: () =>

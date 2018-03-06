@@ -40,5 +40,11 @@
     "slug": "video",
     "description": "Full width video block with caption.",
     "template": "<figure><video><source><img data-role='image'></video><div class='embed'></div><figcaption data-role='video_caption'></figcaption></figure>"
+  },
+  {
+    "title": "Contents",
+    "slug": "contents",
+    "description": "A list of the pages beneath this or another page.",
+    "template": "<h2 data-role='title'></h2><article data-role='contents'></article><aside data-role='aside'></aside>"
   }
 ]

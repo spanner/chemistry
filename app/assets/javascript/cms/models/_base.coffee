@@ -158,7 +158,11 @@ class Cms.Model extends Backbone.Model
   #
   belongsTo: (object_attribute, id_attribute, collection) =>
     id_attribute ?= "#{object_attribute}_id"
-    model_class_name = _.titleize(_.camelize(object_attribute))
+    if object_attribute is 'parent'
+      @log "parent:", @className()
+      model_class_name = @className()
+    else
+      model_class_name = _.titleize(_.camelize(object_attribute))
     model_class = Cms.Models[model_class_name]
 
     # For the usual situation when an associate is sent down just as eg. section_type_id
@@ -292,7 +296,7 @@ class Cms.Model extends Backbone.Model
   ## Structural
   #
   className: =>
-    @_class_name#.replace("Base", "")
+    @_class_name
 
   label: =>
     @_class_name.toLowerCase()

@@ -38,10 +38,10 @@ class Cms.View extends Backbone.Marionette.View
   untrue: (value) =>
     not value
 
-  blank: (value) =>
-    not value?.trim()
+  ifAbsent: (value) =>
+    not value
 
-  present: (value) =>
+  ifPresent: (value) =>
     not not value
 
   thisAndThat: ([thing, other_thing]=[]) =>
@@ -242,11 +242,15 @@ class Cms.FloatingRegion extends Backbone.Marionette.Region
       @$el.css
         top: offset.top + offset_offset.top
         left: offset.left + offset_offset.left
+    view.on 'close', => @reset()
     @$el.addClass 'up'
-    view.on "close", =>
-      @log "FloatingRegion close trigger"
-      @$el.on 'transitionend', @reset
-      @$el.removeClass 'up'
+
+  removeView: (view) =>
+    @log "FloatingRegion removeView"
+    @$el.removeClass 'up'
+    _.delay =>
+      @destroyView view
+    , 500
 
   log: ->
     _cms.log "[#{@constructor.name}]", arguments...
@@ -257,3 +261,83 @@ class Cms.Views.FloatingView extends Cms.View
   triggers:
     "click a.close": "close"
     "click a.cancel": "close"
+
+
+
+## Collection select
+#
+# Is a general purpose way of populating a select box with a collection,
+# usually in order to select an associate.
+#
+class Cms.Views.ModelOption extends Cms.View
+  template: false
+  tagName: "option"
+
+  bindings:
+    ":el":
+      observe: "title"
+      onGet: "titleOrDefault"
+      attributes: [
+        name: "value"
+        observe: "id"
+      ,
+        name: "disabled"
+        observe: "title"
+        onGet: "isBlank"
+      ]
+
+  initialize: (options={}) ->
+    @_attribute = @getOption 'attribute'
+    @_selecting_model = @getOption 'selecting'
+    if @_attribute and @_selecting_model
+      @addBinding @_selecting_model, ":el",
+        attributes: [
+          observe: @_attribute
+          name: "selected"
+          onGet: "isSelected"
+        ]
+
+  titleOrDefault: (title) =>
+    title or "Please select"
+
+  isSelected: (value) =>
+    'selected' if value?.id is @model.id
+
+  isBlank: (name) =>
+    !name
+
+
+class Cms.Views.CollectionSelect extends Cms.CollectionView
+  template: false
+  tagName: "select"
+  childView: Cms.Views.ModelOption
+
+  events:
+    "change": "setSelection"
+
+  initialize: () ->
+    @_attribute = @getOption 'attribute'
+    @_allow_blank = @getOption 'allowBlank'
+    @log "init", @_attribute, @collection
+    @collection = @collection.clone()
+    @collection.add({}, {at: 0}) if @_allow_blank
+    super
+
+  onReady: =>
+    @collection.whenLoaded =>
+      @setSelection() unless @model.get(@_attribute)
+
+  childViewOptions: (other_model) =>
+    selecting: @model
+    attribute: @_attribute
+
+  setSelection: (e) =>
+    @log "setSelection", @$el.val()
+    if selection_id = @$el.val()
+      @log "setSelection", @_attribute, ' ->', selection_id, @collection.get(selection_id)
+      @model.set @_attribute, @collection.get(selection_id)
+    else if @_allow_blank
+      @log "unsetSelection", @_attribute
+      @model.set @_attribute, null
+
+

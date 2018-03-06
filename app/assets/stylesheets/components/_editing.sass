@@ -1,3 +1,27 @@
+=validated
+  &.required
+    font-weight: bold
+    &:after
+      display: block
+      position: absolute
+      width: 24px
+      height: 24px
+      bottom: 5px
+      right: 2px
+      z-index: 50
+      content: image-url('chemistry/required.svg')
+  &.valid
+    &:after
+      display: block
+      position: absolute
+      width: 32px
+      height: 32px
+      bottom: 0
+      right: 0
+      z-index: 50
+      content: image-url('chemistry/valid.svg')
+
+
 input[type="text"], input[type="email"], input[type="password"], [contenteditable]:not([contenteditable=false])
   display: block
   position: relative
@@ -9,6 +33,7 @@ input[type="text"], input[type="email"], input[type="password"], [contenteditabl
   border: 1px solid $verypale
   outline: none
   +cms-font-light
+  font-size: 1.5rem
   width: 100%
   &[disabled]
     pointer-events: none
@@ -20,9 +45,6 @@ input[type="text"], input[type="email"], input[type="password"], [contenteditabl
     max-height: 100px
     overflow: auto
     margin: 3px 0
-  &.large
-    font-size: 1.75rem
-    font-weight: bold
   &.oneline
     display: inline-block
     white-space: nowrap
@@ -42,24 +64,7 @@ input[type="text"], input[type="email"], input[type="password"], [contenteditabl
     overflow: hidden
   &.number
     width: 2.4em
-  &.required
-    &:after
-      display: block
-      position: absolute
-      width: 24px
-      height: 24px
-      bottom: 0
-      right: 0
-      content: image-url('chemistry/required.svg')
-  &.valid
-    &:after
-      display: block
-      position: absolute
-      width: 24px
-      height: 24px
-      bottom: 0
-      right: 0
-      content: image-url('chemistry/valid.svg')
+  +validated
 
 [data-placeholder]:before
   content: attr(data-placeholder)
@@ -74,3 +79,50 @@ input[type="text"], input[type="email"], input[type="password"], [contenteditabl
 [data-placeholder]:empty:before
   color: $mid
   font-weight: bold
+
+.inputlike
+  display: block
+  position: relative
+  box-sizing: border-box
+  border: 1px solid $verypale
+  outline: none
+  +cms-font-light
+  font-size: 1.5rem
+  width: 100%
+  +validated
+  span.label
+    position: absolute
+    font-size: 0.9rem
+    top: 3px
+    left: 10px
+    font-weight: normal
+    color: $verypale
+    transition: color 0.5s ease-out, font-weight 0.5s ease-out
+  span.value
+    color: $editfg
+  &.absent
+    span.label
+      color: $mid
+      font-weight: bold
+      z-index: 20
+      pointer-events: none
+  &.selecting
+    height: 64px
+    select
+      -webkit-appearance: none
+      position: absolute
+      padding: 20px 10px 3px
+      box-sizing: border-box
+      background-color: transparent
+      border: none
+      +cms-font-light
+      width: 100%
+      height: 100%
+      z-index: 10
+      opacity: 1
+      font-size: 1.5rem
+      &:required:invalid
+        color: $pale
+
+
+

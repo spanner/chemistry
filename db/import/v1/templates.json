@@ -5,8 +5,13 @@
     "section_types": "hero,text,quote,text"
   },
   {
-    "title": "Long page",
+    "title": "Article page",
     "description": "One long thing.",
     "section_types": "standfirst,text"
+  },
+  {
+    "title": "Contents page",
+    "description": "A list of child pages with some preamble.",
+    "section_types": "standfirst,contents"
   }
 ]

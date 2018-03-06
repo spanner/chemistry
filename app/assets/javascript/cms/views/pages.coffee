@@ -91,44 +91,49 @@ class Cms.Views.PagesIndex extends Cms.IndexView
     @getRegion('new_page').show new_page_view, over: $link
 
 
-# Page-chooser
+# Page choosers
 #
-class Cms.Views.PageChoice extends Cms.Views.ChoiceView
-  template: "cms/page_choice"
-  tagName: "li"
-  className: "page choose"
-
-  bindings:
-    ".title":
-      observe: "title"
-    ".path":
-      observe: "path"
-
-
-class Cms.Views.NoPageChoice extends Cms.Views.NoChoiceView
-  template: "cms/no_page_choice"
-  tagName: "li"
-  className: "page choose none"
-
-
-class Cms.Views.PagePicker extends Cms.Views.ChooserView
-  childView: Cms.Views.PageChoice
-  emptyView: Cms.Views.NoPageChoice
-  tagName: "ul"
+class Cms.Views.PageSelect extends Cms.Views.CollectionSelect
   className: "pages chooser"
+  attribute: "page_id"
 
   initialize: ->
     @collection = _cms.pages.clone()
-    @render()
-
-  choose: (page) =>
-    @model.set 'page', page
+    super
 
 
-class Cms.Views.ParentPagePicker extends Cms.Views.PagePicker
+class Cms.Views.ParentPageSelect extends Cms.Views.PageSelect
+  attribute: "parent"
+  allowBlank: true
 
-  choose: (page) =>
-    @model.set 'parent', page
+
+class Cms.Views.ParentPagePicker extends Cms.View
+  template: "cms/parent_picker"
+
+  ui:
+    select: "select"
+
+  bindings:
+    "p":
+      classes:
+        absent:
+          observe: "parent"
+          onGet: "ifAbsent"
+        valid:
+          observe: "parent"
+          onGet: "ifPresent"
+
+  onRender: =>
+    @stickit()
+    new Cms.Views.ParentPageSelect
+      model: @model
+      el: @ui.select
+
+  parentTitle: (parent) =>
+    if parent
+      parent.get('title')
+    else
+      ""
 
 
 # The transient view used to inject a new page into the tree and prepare it for editing.
@@ -144,7 +149,12 @@ class Cms.Views.NewPage extends Cms.Views.FloatingView
     "click a.save": "saveAndEdit"
 
   bindings:
-    "span.title": "title"
+    "span.title":
+      observe: "title"
+      classes:
+        valid:
+          observe: "title"
+          onGet: "ifPresent"
     "a.save":
       classes:
         available:
@@ -153,6 +163,7 @@ class Cms.Views.NewPage extends Cms.Views.FloatingView
 
   initialize: ->
     @model = new Cms.Models.Page
+    window.np = @model
     super
 
   onRender: =>
@@ -168,11 +179,10 @@ class Cms.Views.NewPage extends Cms.Views.FloatingView
     e?.preventDefault()
     e?.stopPropagation()
     @model.save().done =>
-      _.defer =>
-        if id = @model.get('id')
-          type = @model.pluralName()
-          @remove()
-          _cms.navigate "/#{type}/edit/#{id}"
+      if id = @model.get('id')
+        @trigger 'close'
+        _cms.pages.add @model
+        _cms.navigate "/#{@model.pluralName()}/edit/#{id}"
 
 
 class Cms.Views.NewHomePage extends Cms.Views.NewPage

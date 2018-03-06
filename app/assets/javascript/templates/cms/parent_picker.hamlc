@@ -1,0 +1,4 @@
+%p.inputlike.selecting.required
+  %span.label.parent_title
+    Parent page
+  %select.page{required: true}

@@ -1,6 +1,7 @@
 module Chemistry
   class Template < ApplicationRecord
     acts_as_paranoid
+    acts_as_list
 
     has_many :placeholders, -> {order(:position)}, dependent: :destroy
     validates :title, presence: true
