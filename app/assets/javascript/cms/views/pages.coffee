@@ -20,14 +20,22 @@ class Cms.Views.Page extends Cms.View
 
 # Main page list
 #
-class Cms.Views.ListedPage extends Cms.View
+class Cms.Views.ListedPage extends Cms.Views.ListedView
   template: "cms/page_listed"
-  tagName: "li"
   className: "page"
+
+  events:
+    "click a.delete": "deleteModelWithConfirmation"
 
   bindings:
     ".title":
       observe: "title"
+    ".indent":
+      attributes: [
+        name: "style"
+        observe: "depth"
+        onGet: "indentStyle"
+      ]
     "img.page_icon":
       attributes: [
         name: "src"
@@ -44,6 +52,13 @@ class Cms.Views.ListedPage extends Cms.View
   templateIconOrDefault: (template) =>
     template?.get('icon_url')
 
+  indentStyle: (depth) =>
+    "width: #{depth * 48}px"
+
+
+class Cms.Views.TreePage extends Cms.Views.ListedPage
+  template: "cms/page_in_tree"
+
 
 class Cms.Views.NoPage extends Cms.View
   template: "cms/no_page"
@@ -57,7 +72,13 @@ class Cms.Views.Pages extends Cms.CollectionView
   className: "pages"
 
 
-class Cms.Views.PagesIndex extends Cms.IndexView
+class Cms.Views.PageTree extends Cms.CollectionView
+  childView: Cms.Views.TreePage
+  tagName: "ul"
+  className: "pages tree"
+
+
+class Cms.Views.PagesIndex extends Cms.Views.IndexView
   template: "cms/pages"
 
   regions:
@@ -80,7 +101,7 @@ class Cms.Views.PagesIndex extends Cms.IndexView
       @ui.new_page_title.text("Create new page")
     else 
       @ui.new_page_title.text("Create home page")
-    @getRegion('pages').show new Cms.Views.Pages
+    @getRegion('pages').show new Cms.Views.PageTree
       collection: @collection
 
   startNewPage: (e) =>
@@ -93,9 +114,20 @@ class Cms.Views.PagesIndex extends Cms.IndexView
 
 # Page choosers
 #
+class Cms.Views.PageOption extends Cms.Views.ModelOption
+  template: false
+  tagName: "option"
+
+  titleOrDefault: (title) =>
+    depth = @model.get('depth')
+    prefix = "&nbsp;&nbsp;&nbsp;&nbsp;".repeat depth
+    prefix + super
+
+
 class Cms.Views.PageSelect extends Cms.Views.CollectionSelect
   className: "pages chooser"
   attribute: "page_id"
+  childView: Cms.Views.PageOption
 
   initialize: ->
     @collection = _cms.pages.clone()

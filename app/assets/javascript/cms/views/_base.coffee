@@ -130,10 +130,21 @@ class Cms.View extends Backbone.Marionette.View
     _cms.log "[#{@constructor.name}]", arguments...
 
 
-class Cms.IndexView extends Cms.View
+class Cms.Views.IndexView extends Cms.View
   regions:
     list: "#chemistry-list"
     notes: "#chemistry-notes"
+
+
+class Cms.Views.ListedView extends Cms.View
+  tagName: "li"
+
+  deleteModelWithConfirmation: (e) =>
+    $a = $(e.target)
+    confirmation= $a.data('confirmation')
+    if !confirmation or confirm(confirmation)
+      @log "DESTROY"
+      # @model.destroy()
 
 
 class Cms.EditView extends Cms.View
@@ -277,6 +288,7 @@ class Cms.Views.ModelOption extends Cms.View
     ":el":
       observe: "title"
       onGet: "titleOrDefault"
+      updateMethod: "html"
       attributes: [
         name: "value"
         observe: "id"

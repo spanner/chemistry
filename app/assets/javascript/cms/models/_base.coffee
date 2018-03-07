@@ -159,7 +159,6 @@ class Cms.Model extends Backbone.Model
   belongsTo: (object_attribute, id_attribute, collection) =>
     id_attribute ?= "#{object_attribute}_id"
     if object_attribute is 'parent'
-      @log "parent:", @className()
       model_class_name = @className()
     else
       model_class_name = _.titleize(_.camelize(object_attribute))

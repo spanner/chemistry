@@ -3,25 +3,28 @@ class Cms.Collection extends Backbone.Collection
   default_sort: 'date'
   date_attribute: 'created_at'
   name_attribute: 'title'
-  name_localised: true
 
-  initialize: (collection, opts={}) ->
+  getOption: (optionName) =>
+    if optionName
+      @options?[optionName] ? @[optionName]
+
+  initialize: (models, @options={}) ->
     @_class_name = @constructor.name
-    @prepareLoader()
     @_original_ids = @pluck('id')
+    @prepareLoader()
     @debouncedReload = _.debounce @reload, 250
 
-    if opts.paginated is false
-      @_paginated = false
-    else
+    if @getOption('paginated')
       @_paginated = true
       @initPagination opts.params
-
-    if opts.sorted is false
-      @_sorted = false
     else
+      @_paginated = false
+
+    if @getOption('sorted')
       @_sorted = true
       @initSorting opts.params
+    else
+      @_sorted = false
 
   setParams: (params) =>
     @setPaginationState(params) if @_paginated
@@ -45,10 +48,10 @@ class Cms.Collection extends Backbone.Collection
     @_default_sort = _.result(@, 'default_sort')
     @_date_attribute = _.result(@, 'date_attribute')
     @_name_attribute = _.result(@, 'name_attribute')
-    @_name_localised = _.result(@, 'name_localised')
-    @_sorter = new Cms.Models.Sorter
-    @setSortState(params)
-    @_sorter.on 'change', @debouncedReload
+    if @_sorted
+      @_sorter = new Cms.Models.Sorter
+      @setSortState(params)
+      @_sorter.on 'change', @debouncedReload
 
   getSorter: =>
     @_sorter
@@ -72,24 +75,19 @@ class Cms.Collection extends Backbone.Collection
   # eg. if all data is already present or if sorting is not required.
   #
   comparator: (this_model, that_model) ->
-    if @_sorter.get('sort_by') is 'date'
+    if @_sorter?.get('sort_by') is 'date'
       this_date = moment(this_model.get(@_date_attribute)) || moment()
       that_date = moment(that_model.get(@_date_attribute)) || moment()
       difference = Math.round(this_date.diff(that_date))
       direction = Math.sign(difference)
     else
-      if @_name_localised
-        this_name = this_model.getInLocale(this_model.get("#{@_name_attribute}_translations")) || ""
-        that_name = that_model.getInLocale(that_model.get("#{@_name_attribute}_translations")) || ""
-        direction = this_name.localeCompare(that_name, @getLocale())
-      else
-        this_name = this_model.get(@_name_attribute) || ""
-        that_name = that_model.get(@_name_attribute) || ""
-        direction = this_name.localeCompare(that_name, @getDefaultLocale())
-    if @_sorter.get('sort_order') is 'asc'
-      direction
-    else
+      this_name = this_model.get(@_name_attribute) || ""
+      that_name = that_model.get(@_name_attribute) || ""
+      direction = this_name.localeCompare(that_name, 'en')  #TODO: come back when localising
+    if @_sorter?.get('sort_order') is 'desc'
       -direction
+    else
+      direction
 
 
   ## Pagination
