@@ -53,6 +53,7 @@ class InitChemistry < ActiveRecord::Migration[5.1]
 
     create_table :chemistry_templates do |t|
       t.string :title
+      t.string :slug
       t.text :description
       t.attachment :icon
       t.datetime :deleted_at

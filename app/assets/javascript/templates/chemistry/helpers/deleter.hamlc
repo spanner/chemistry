@@ -1,0 +1,4 @@
+%svg.prefix
+  %use{"xlink:href" => "#cross_button_symbol"}
+%span.label
+  = t("buttons.delete")

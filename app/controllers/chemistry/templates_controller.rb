@@ -50,6 +50,7 @@ module Chemistry
           :id,
           :position,
           :title,
+          :slug,
           :main,
           :aside,
           :section_type_id

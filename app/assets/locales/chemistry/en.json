@@ -1,0 +1,956 @@
+{
+  "agreement": {
+    "must_accept_terms": "Before making use of the SIS Web Interface you must agree to the terms and conditions presented below. Please click \"I accept\" to indicate your acceptance.",
+    "must_accept_updated_terms": "Terms and conditions for the SIS Web Interface have changed since you accepted them. Please review the version below and click \"I accept\" to indicate your acceptance."
+  },
+  "at": "at",
+  "attached_to": "attached to",
+  "based_on_teams": " (based on current team assignments)",
+  "buttons": {
+    "accept": "I accept",
+    "add_category": "Add a category",
+    "add_channel": "Add a channel",
+    "add_ical": "Restrict to a schedule?",
+    "add_image": "Add an image",
+    "add_locale": "Add a locale",
+    "add_person": "Add an asset",
+    "add_person_type": "Add an asset category",
+    "add_registration_token": "Create a QuickLink",
+    "add_team": "Add team",
+    "add_user": "Add user",
+    "add_zone": "Draw zone",
+    "attach_cert": "Attach certificate",
+    "attach_image": "Attach an image",
+    "attach_schedule": "Attach a schedule",
+    "back_to_sign_in": "back to sign in",
+    "cancel": "cancel",
+    "choose_apns_certificate": "Click to choose p12 file",
+    "choose_teams": "Choose teams",
+    "clear_exclusion": "Clear exclusions",
+    "clear_schedule": "Remove schedule",
+    "click_to_attach_file": "Click to attach file",
+    "click_to_edit_name": "Click to edit name",
+    "create_account": "create account",
+    "create_app": "create app",
+    "create_schedule": "Create schedule",
+    "delete_account": "Delete account",
+    "delete": "Delete",
+    "delete_app": "Delete app",
+    "delete_line": "Delete line",
+    "delete_locale": "Delete locale",
+    "delete_message": "delete message",
+    "detach_image": "Detach image",
+    "delete_zone": "Delete zone",
+    "download": "download",
+    "download_as_pdf": "Download as PDF",
+    "download_instructions": "download instructions",
+    "download_roster": "Download roster",
+    "draw_exclusion": "Draw exclusion",
+    "edit_line": "Edit this line",
+    "edit_zone": "Edit this zone",
+    "edit_full_message": "Edit full message",
+    "evo_connect": "Connect",
+    "evo_disconnect": "Disconnect",
+    "hide": "Hide",
+    "hide_trail": "hide trail",
+    "invite": "Invite",
+    "issues": "Issues",
+    "jump_to_my_location": "Jump to my location",
+    "new_account": "New account",
+    "new_command_session": "New command session",
+    "new_crowdsensing_session": "New crowd-sensing session",
+    "new_map_area": "New map area",
+    "new_map_point": "New map point",
+    "new_map_route": "New map route",
+    "new_message": "New message",
+    "new_team_message": "New message",
+    "new_user": "New user",
+    "no_not_really": "no, not really",
+    "pick_image": "pick image",
+    "pick_image_file": "Pick image file",
+    "place": "Place",
+    "publish": "publish",
+    "publish_app": "distribute configuration update",
+    "quick_message": "quick message",
+    "reload": "reload",
+    "remove_image": "remove image",
+    "resend": "Resend",
+    "reset": "Reset",
+    "reset_authentication_device": "Reset authentication device",
+    "reset_map": "Reset map",
+    "reset_password": "reset password",
+    "revert": "revert",
+    "revert_to_the_default": "Reverts to the default map view.",
+    "save": "save",
+    "save_account": "save account",
+    "save_agreement": "save agreement",
+    "save_category": "save category",
+    "save_channel": "save channel",
+    "save_config": "save configuration",
+    "save_image": "save image",
+    "save_invoice": "save invoice",
+    "save_message": "save",
+    "save_person": "save",
+    "save_person_type": "save person type",
+    "save_poi": "save poi",
+    "save_route": "save route",
+    "save_team": "save team",
+    "save_team_period": "save team period",
+    "save_user": "save user",
+    "select_people": "select app users",
+    "select": "Select",
+    "send_instructions": "Send instructions by email",
+    "send_instructions_to_all": "Send instructions to all by email",
+    "send_message": "Send message",
+    "send_message_short": "send",
+    "send_to_all": "really send to everyone",
+    "send_to_person_type": "Send to asset category",
+    "send_to_team": "Send to team",
+    "set_default_map_view": "Set default map view",
+    "show": "show",
+    "show_trail": "show trail",
+    "suspend_account": "suspend account",
+    "unplace": "Unplace",
+    "upload": "Upload",
+    "zoom": "Zoom"
+  },
+  "cancel_drawing": "Cancel drawing",
+  "categories": {
+    "for_pois": "POIs",
+    "for_routes": "Map Routes",
+    "for_areas": "Map Areas",
+    "suitable_for": "Suitable for:"
+  },
+  "charts": {
+    "android": "Android",
+    "hover_or_tap_on": "Hover or tap on charts to see caption.",
+    "installations": "Installations",
+    "ios": "iOS",
+    "total": "Total",
+    "traffic_unavailable": "Traffic data unavailable",
+    "installs_unavailable": "Installation data unavailable",
+    "ios_unavailable": "iOS data unavailable",
+    "android_unavailable": "Android data unavailable"
+  },
+  "clickto": {
+    "add_to_library": "Click to add to library",
+    "detach": "Click to detach",
+    "delete": "Click to delete",
+    "hide": "Click to hide on map",
+    "remove_from_library": "Click to remove from library",
+    "show": "Click to show on map"
+  },
+  "components": {
+    "command": "Command",
+    "crowdSensing": "Crowd sensing",
+    "mapping": "Mapping",
+    "messaging": "Messaging"
+  },
+  "confirmation": {
+    "app_intervals": "App reporting intervals updated",
+    "app_locales": "App content-locale settings updated",
+    "app_settings": "App configuration updated",
+    "greeting": "Hello",
+    "instructions_sent": "Instructions sent",
+    "link_incorrect": "Sorry: this confirmation link doesn't seem to be correct. Have you already confirmed your account? In that case you only need to <a href=\"/\">sign in</a>. If not, you can <a href=\"/reconfirm\">request another confirmation message</a>.",
+    "app_intervals": "Update interval settings saved",
+    "app_messaging": "Messaging settings saved",
+    "really_send_to_all": "Send this message to all app users"
+  },
+  "confirmations": {
+    "delete_account": "Delete this account and all its apps and users?",
+    "delete_app": "Delete this app and all its contents?",
+    "really": "Yes really",
+    "really_delete": "Really delete",
+    "really_delete_this": "Really delete this?",
+    "really_delete_account": "You really want to delete this account and everything in it? There is no way to get it back.",
+    "really_delete_app": "You really want to delete this app and everything in it? There is no way to get it back.",
+    "really_disconnect_evo": "Really disconnect from Evocount?"
+  },
+  "content": "content",
+  "count": {
+    "recipients": "%{smart_count} recipient |||| %{smart_count} recipients"
+  },
+  "crowdmap": {
+    "buffering": "buffering",
+    "config": "settings",
+    "crowd_density": "Crowd density",
+    "density": "Smax",
+    "fetch": "fetch",
+    "fps": "FPS",
+    "fullness": "zone fullness",
+    "future": "future",
+    "heatmap": "heatmap",
+    "hexmap": "hexmaps",
+    "map_options": "Map options",
+    "max": "Dmax",
+    "partition": "partition",
+    "past": "past",
+    "render": "render",
+    "selection": "selection",
+    "saturation": "zone saturation",
+    "save_config": "this configuration",
+    "select": "select",
+    "step": "step",
+    "population": "Popn",
+    "total": "Data points",
+    "visible": "Currently visible"
+  },
+  "dashboard": {
+    "set_up_categories": "Set up categories",
+    "set_up_channels": "Set up channels",
+    "set_up_groups": "Set up teams",
+    "set_up_person_types": "Set up asset categories"
+  },
+  "defaults": {
+    "area": {
+      "name": "Untitled Area"
+    },
+    "category": {
+      "name": "Unnamed Category",
+      "text": "No text given"
+    },
+    "channel": {
+      "name": "Unnamed Channel",
+      "text": "No text given"
+    },
+    "line": {
+      "name": "Untitled Map Line",
+      "text": "No text given"
+    },
+    "message": {
+      "name": "Untitled Message",
+      "text": "No text given"
+    },
+    "period": {
+      "name": "Active period",
+      "description": "No description given"
+    },
+    "person_type": {
+      "name": "Untitled asset category"
+    },
+    "poi": {
+      "name": "Unnamed POI",
+      "text": "No text given"
+    },
+    "registration_token": {
+      "name": "QuickLink"
+    },
+    "team": {
+      "name": "Nameless Team"
+    },
+    "team_period": {
+      "name": "Team period"
+    },
+    "user": {
+      "name": "Nameless Person"
+    }
+  },
+  "dev": {
+    "mock_account_roles": "Mock Account Roles",
+    "mock_app_access": "Mock App Access",
+    "rerender_everything": "Re-render everything",
+    "use_mock_roles": "Use mock roles"
+  },
+  "developer": {
+    "keystore": "Keystore",
+    "truststore": "Truststore"
+  },
+  "draw": {
+    "draw": "Draw",
+    "show": "Show"
+  },
+  "drawing": {
+    "cancel": "Cancel drawing"
+  },
+  "errors": {
+    "team_period": "Could not save team period",
+    "login_fail": "Not recognised. Please check and try again"
+  },
+  "evo_alarms": {
+    "disable": "Disable alarm"
+  },
+  "evo_warnings": {
+    "close_warning": "Cancel alarm",
+    "closed": "past",
+    "open": "active",
+    "reopen_warning": "Reopen"
+  },
+  "evo_zones": {
+    "population_above": "load exceeds",
+    "population_below": "load falls below"
+  },
+  "for_more_than": "for more than",
+  "from": "from",
+  "gotno": {
+    "evo_alarms": "No Evocount alarms defined.",
+    "evo_gates": "No Evocount passages defined.",
+    "evo_warnings": "No alarms raised.",
+    "evo_zones": "No Evocount zones defined.",
+    "images": "No images are attached here.",
+    "invoices": "No invoices have been presented",
+    "locales": "No locales specified.",
+    "people": "No command assets defined.",
+    "periods": "No active periods have been defined.",
+    "person_types": "No asset categories have been defined.",
+    "pois": "No points of interest have been defined.",
+    "positions": "No recent positions",
+    "teams": "No teams have been defined.",
+    "team_periods": "No command schedule has been defined."
+  },
+  "headings": {
+    "about_sis": "About SIS",
+    "account": "Account",
+    "account_administration": "Account Administration",
+    "account_settings": "Account Settings",
+    "account_status": "Account status",
+    "account_users": "Account users",
+    "admin": "Administration",
+    "android": "Android",
+    "agreement": "Agreement",
+    "agreements": "Agreements",
+    "apps": "Apps",
+    "app_evo_event": "Evocount integration",
+    "app_roles": "App roles",
+    "app_settings": "App settings",
+    "background_updates": "Background updates",
+    "billing_setup": "Billing Setup",
+    "categories": "Mapping categories",
+    "cdn": "Content delivery",
+    "changes": "Changes",
+    "command_configuration": "Command configuration",
+    "command_teams": "Command teams",
+    "components": "Components",
+    "components_and_environment_settings": "Components and environment settings",
+    "configuration": "Configuration",
+    "content": "Content",
+    "content_locale": "Content locale",
+    "create_an_invoice": "Create an invoice",
+    "dashboard": "App dashboard",
+    "developer_tools": "Developer resources",
+    "dispatch_log": "Request log",
+    "dispatch_response": "Dispatch response",
+    "dispatch_status": "Dispatch state",
+    "downloads": "Downloads",
+    "edit_asset": "Edit Asset",
+    "edit_invoice": "Edit Invoice",
+    "edit_registration_token": "Edit QuickLink",
+    "images": "Images",
+    "init_package": "Init package",
+    "init": "Content initialization",
+    "intervals": "Update Intervals",
+    "invoices": "Invoices",
+    "ios": "iOS",
+    "layer_visibility": "Layer visibility",
+    "locales": "Locales",
+    "lost_device": "lost device",
+    "manage_assets": "Manage assets",
+    "mapping_configuration": "Mapping configuration",
+    "map_settings": "Map settings",
+    "messages_for": "Messages for",
+    "message_channels": "Message Channels",
+    "message_configuration": "Messaging configuration",
+    "modules": "Modules",
+    "module_configuration": "Module configuration",
+    "new_channel_name": "New channel name",
+    "nothing_to_see": "Nothing to see",
+    "people": "Assets",
+    "person_types": "Asset categories",
+    "please_sign_in": "Please sign in",
+    "profile": "Profile",
+    "push_notification": "Push notification",
+    "reason": "Reason for suspension",
+    "reconfirmation": "Resend confirmation",
+    "reconfirmation_sent": "Confirmation sent",
+    "reset_sent": "Reset message sent",
+    "reset_your_password": "Reset your password",
+    "roles_overview": "Roles overview",
+    "schedule": "Schedule",
+    "second_factor": "Second factor",
+    "second_factor_required": "Second factor required",
+    "security": "Security",
+    "security_settings": "Security settings",
+    "sensing_configuration": "Sensing configuration",
+    "set_up_account": "Set up a new account",
+    "sis_account_admin": "SIS Account Administration",
+    "terms_and_conditions": "Terms and Conditions",
+    "terms_of_agreement": "Terms of agreement",
+    "thank_you": "Thank you",
+    "users": "User management",
+    "user_apps": "User can see",
+    "user_map_preferences": "Your preferences"
+  },
+  "introductions": {
+    "about_sis": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "account_dashboard": "Welcome to the SIS Web Interface. This is your account dashboard and home page. To reach one of your apps, please click the relevant icon below.",
+    "account_roles": "Account roles are global: a permission granted here applies to all the apps in this account. You also can grant permissions at the app level for users who are only allowed to work in some apps.",
+    "account_settings": "Here you can control the presentation of this account to its users.",
+    "account_status": "You can use this view to disable or delete an account.",
+    "app_roles": "Assign app roles to raise the level of access granted to a user in this app. This adds to the permissions already granted to that user. Changes take immediate effect but the user may need to sign in again.",
+    "app_settings": "Here you control basic app presentation.",
+    "command_configuration": "These settings control the behaviour of the Command library in your app.",
+    "developer_tools": "A collection of downloads and settings useful in the development and release of your app.",
+    "dispatch_response": "This is the package of information currently sent to the phones. If an etag and last-modified date are given then it will include only changes to the state that would have been dispatched at that time. Without them it includes every current object and deletion.",
+    "dispatch_status": "The dispatcher renders content for delivery to your apps. For development and testing purposes you can monitor its output below.",
+    "evo_event": "The SIS Control toolkit can bring in and display information about your Evocount zones and passages. To begin, please give your evocount event id.",
+    "images": "This will be a master media list",
+    "init_package": "This the initialisation state file for the app, taken directly from the dispatcher. It's a snapshot of the current dispatch state, omitting deletions that would not be relevant to a newly built app and including initial values for etag and last-modified. It should always include an admin block for app configuration.",
+    "intervals": "These settings control the content-retrieval behaviour of the app.",
+    "issues": "Here we would like to add a simple ticketer that can be used for bug reports, account support, all other enquiries.",
+    "locales": "Here you can set the content locales of the app: that is, the languages in which messages and other material can be delivered.",
+    "mapping_configuration": "These settings control the reporting behaviour of the Mapping library in your app.",
+    "message_configuration": "These settings control the behaviour of the Messaging library and can be used to create a push notification connection between the SIS back end and your app.",
+    "nothing_to_see": "Sorry: we cannot find anything that you are allowed to see. Please contact your account administrator to have your permissions checked.",
+    "password": "Please use this form to choose a new password.",
+    "people": "Assets are usually people but they can vehicles and other fixed and mobile resources.",
+    "person_types": "Asset categories can include user roles as well as (for example) vehicle types and static assets.",
+    "security": "These settings determine the security regime of SIS Web Interface users. They will expand to include password policy and permitted IP addresses.",
+    "sensing_configuration": "These settings determine the behaviour of your app during a crowd-sensing session.",
+    "setup": "Thank you for accepting our invitation. Before we go any further, please use this form to secure your account. Your password must be at least six characters long. Spaces are allowed and we recommend using several words.",
+    "welcome": "Welcome to the SIS Control toolkit.",
+    "profile": "This space will become more useful as we gather information about the user: frequently-visited paths, etc."
+  },
+  "labels": {
+    "account": {
+      "owner": "Account owner",
+      "reason": "Reason for suspension",
+      "reason_nonpayment": "Non-payment of invoice…",
+      "reason_other": "Some other reason…",
+      "require_mfa": "Require two-factor authentication",
+      "status_active": "active",
+      "status_suspended": "suspended"
+    },
+    "agreement": {
+      "version": "Version",
+      "name": "Name (optional)"
+    },
+    "app": {
+      "apns_production": "Production Certificate",
+      "apns_production_password": "and password",
+      "apns_production_certificate": "Production:",
+      "apns_sandbox": "Sandbox Certificate",
+      "apns_sandbox_password": "and password",
+      "apns_sandbox_certificate": "Sandbox:",
+      "apns_environment": "APNS Environment",
+      "background_sensing": "Background Sensing",
+      "background_sensing_off": "Off",
+      "background_sensing_on": "On",
+      "background_sensing_on_push": "On push",
+      "background_sensing_modality": "Modality",
+      "background_sensing_modality_gps": "GPS",
+      "background_sensing_modality_wifi": "WiFi",
+      "background_sensing_modality_cell": "Cell",
+      "background_sensing_activity_time": "Active period (seconds)",
+      "background_sensing_distance_threshold": "Distance threshold (km)",
+      "background_updates": "Background updates",
+      "background_update_interval": "Background interval",
+      "battery_threshold": "Battery threshold",
+      "cdn_active": "Dedicated CDN",
+      "evo_active": "Enable Evocount integration",
+      "demo": "Demo App",
+      "environment": "Environment",
+      "environment_production": "Production",
+      "environment_sandbox": "Sandbox",
+      "evo_event_id": "Evocount event id",
+      "gcm_auth_key": "GCM Auth Key",
+      "license_key": "License key",
+      "loc_messages": "Location-based messages",
+      "map_statistics": "Report map statistics",
+      "max_failed_updates": "Failure threshold",
+      "max_statistics_upload_interval": "Maximum upload interval",
+      "max_team_upload_interval": "Maximum reporting interval",
+      "max_update_interval": "Maximum update interval",
+      "max_upload_interval": "Maximum upload interval",
+      "max_failed_team_uploads": "Failure threshold",
+      "max_failed_updates": "Maximum failed updates",
+      "max_failed_uploads": "Failure threshold",
+      "max_statistics_failed_uploads": "Failure threshold",
+      "name": "App name",
+      "protect_broadcast": "Broadcast protection",
+      "pushy": "Push notification",
+      "require_pin": "Require PIN",
+      "sensing_cell": "Cell triangulation",
+      "sensing_gps": "GPS",
+      "sensing_mandatory": "Sensing enabled without opt-in",
+      "sensing_modality": "Sensing modality",
+      "sensing_wifi": "WiFi",
+      "statistics_upload_interval": "Usual upload interval",
+      "team_upload_interval": "Usual reporting interval",
+      "time_zone": "App time zone",
+      "update_interval": "Usual update interval",
+      "upload_interval": "Usual upload interval"
+    },
+    "billing": {
+      "address": "At address",
+      "invoices_addressed_to": "Invoices addressed to"
+    },
+    "developer": {
+      "certificate_passphrase": "Certificate passphrase"
+    },
+    "evo_alarm": {
+      "upper_limit": "Alarm triggered when zone load exceeds...",
+      "lower_limit": "and (optionally) stops when zone load falls below..."
+    },
+    "ical": {
+      "name": "Name in library",
+      "description": "Notes (optional)",
+      "starred": "Save in library"
+    },
+    "image": {
+      "caption": "Caption",
+      "file": "Replace image file",
+      "name": "Name in library",
+      "description": "Notes (optional)",
+      "starred": "Save in library"
+    },
+    "invoice": {
+      "date": "Invoice date",
+      "due_at": "Due",
+      "invoiced_at": "Presented",
+      "number": "Number",
+      "paid": "PAID",
+      "value": "Total value"
+    },
+    "line": {
+      "name": "Name in library",
+      "description": "Notes (optional)",
+      "starred": "Save in library"
+    },
+    "map": {
+      "map_zoomy": "Zoom on selection",
+      "map_historical": "Back button map control",
+      "map_persistent": "Remember my last map view"
+    },
+    "message": {
+      "title": "Message title"
+    },
+    "period": {
+      "app_usage": "users / 100",
+      "blob_size": "Map density",
+      "blob_size_large": "Large",
+      "blob_size_med": "Medium",
+      "blob_size_small": "Small",
+      "distance_filter": "Distance filter",
+      "hexmapping": "Evocount area hex maps",
+      "max_density": "max / 100m²",
+      "exaggeration": "intensity",
+      "maxquality": "Maximum heatmap quality",
+      "license_key": "License key",
+      "sampling_interval": "Sampling interval",
+      "sensing_modality_cell_triangulation": "Cell triangulation",
+      "sensing_modality_GPS": "GPS",
+      "sensing_modality_WIFI": "WIFI",
+      "showlegend": "Heatmap legend",
+      "smoothing": "Smoothing factor",
+      "smoothing_high": "High",
+      "smoothing_low": "Low",
+      "smoothing_none": "None",
+      "user_participation": "Request user permission"
+    },
+    "person": {
+      "current_location": "Current location",
+      "email": "Email",
+      "notes": "Notes",
+      "phone": "Phone",
+      "user_key": "User key"
+    },
+    "person_type": {
+      "name": "Asset category name"
+    },
+    "poi": {
+      "coordinates": "Coordinates"
+    },
+    "route": {
+      "name": "Route name",
+      "text": "Route text"
+    },
+    "team": {
+      "name": "Team name"
+    },
+    "user": {
+      "change_password": "change password",
+      "confirmed": "Account is confirmed",
+      "email_address": "Email address",
+      "password": "Password",
+      "name": "Full name"
+    },
+    "zone": {
+      "name": "Name in library",
+      "description": "Notes (optional)",
+      "starred": "Save in library"
+    }
+  },
+  "locales": {
+    "currently_active": "Currently active",
+    "default": "Default"
+  },
+  "menu": {
+    "app_dashboard": "App Dashboard",
+    "app_setup": "App setup",
+    "areas": "Areas",
+    "asset_types": "Asset categories",
+    "billing": "Billing",
+    "categories": "Mapping Categories",
+    "channels": "Message Channels",
+    "choose_app": "Choose app",
+    "command_assets": "Command assets",
+    "crowdmap": "Crowdmap",
+    "crowd_sensing": "Crowd sensing",
+    "dashboard": "Dashboard",
+    "developers": "Developers",
+    "dispatcher": "Dispatch state",
+    "dispatch_init": "Init package",
+    "evo_event": "Evocount Integration",
+    "evo_alarms": "Evocount Alarms",
+    "evo_gates": "Evocount Passages",
+    "evo_zones": "Evocount Areas",
+    "evo_warnings": "Evocount Alerts",
+    "history": "History",
+    "home": "Home",
+    "icals": "Schedule library",
+    "images": "Image library",
+    "intervals": "Intervals",
+    "legal_agreements": "Legal agreements",
+    "lines": "Line library",
+    "locales": "Languages",
+    "map": "Map",
+    "map_areas": "Map areas",
+    "map_config": "Map config",
+    "map_points": "Map Points",
+    "map_routes": "Map Routes",
+    "map_view": "Map view",
+    "messages": "Messages",
+    "people": "Assets",
+    "periods": "Sensing periods",
+    "person_types": "Asset categories",
+    "pois": "Map points",
+    "preferences": "Preferences",
+    "reports": "Command reports",
+    "open_reports": "Open command reports",
+    "closed_reports": "Closed command reports",
+    "registration_tokens": "QuickLinks",
+    "roles": "Roles",
+    "routes": "Routes",
+    "teams": "Teams",
+    "team_messages": "Command messages",
+    "team_periods": "Command sessions",
+    "timetable": "Timetable",
+    "users": "Users",
+    "users_and_roles": "Users & roles",
+    "user_roles": "User roles",
+    "evo_warnings": "Evocount alerts",
+    "zones": "Zone library"
+  },
+  "mfa": {
+    "mfa_device_is_connected": "MFA device is connected",
+    "mfa_device_not_set": "MFA device not set up",
+    "on_signing_in": "Each time you sign in you will be asked for your password and the current authenticator code.",
+    "this_account_requires_twofactor": "This account requires two-factor authentication but we notice that you have not yet set up an auth-gadget. Please install <a href=\"http//m.google.com/authenticator\">Google Authenticator</a> or a similar app on your mobile device and then use the app to scan this barcode. Enter the resulting code in the box below to confirm the link."
+  },
+  "no_name": "No name",
+  "notes": {
+    "account": {
+      "suspension_notice": "This text will be displayed at the top of the account dashboard page exactly as you enter it here."
+    },
+    "agreement": {
+      "agreements_global": "Please bear in mind that these agreements apply to every team here. Changing an agreement or adding a new one will affect all our users."
+    },
+    "app": {
+      "any_component_or_environment_change": "Beware! Any component or environment change will immediately change the license key.",
+      "apns_certificate_must_match": "APNS Certificate must match environment",
+      "battery_threshold": "percentage battery level below which sensing is deactivated.",
+      "cdn_active": "Allows detailed traffic monitoring, requires configuration of CDN service",
+      "chart_legend": "Requests per day",
+      "demo": "Some demonstration content will be generated for each visitor",
+      "evo_active": "Evocount gates and zones are displayed on our map and alarms can be attached to them.",
+      "evo_event_attach": "Press the 'connect' button to test your connection to Evocount and retrieve zone and passage definitions.",
+      "evo_event_not_found": "Evocount event could not be found. Please check event id and try again.",
+      "key_management_changing": "License key management is about to change so that component and and environment are not re-editable.",
+      "last_updated_on": "Configuration last distributed on"
+    },
+    "user": {
+      "password": "Your password must be at least six characters long. Spaces are allowed and we recommend using several words."
+    },
+    "command": {
+      "max_failed_team_uploads": "failures before the asset stops trying to report.",
+      "max_team_upload_interval": "seconds max between command status uploads.",
+      "team_upload_interval": "seconds between location reports.",
+      "require_pin": "command users must authenticate with a PIN number."
+    },
+    "published": "Published",
+    "published_at": "Published at",
+    "published_on": "Published on",
+    "starred": "Library items are presented when you click 'select', and are protected from deletion when not in use.",
+    "unpublished": "Not yet published",
+    "crowdsensing": {
+      "max_upload_interval": "seconds max between location uploads.",
+      "max_failed_uploads": "requests before we stop reporting locations.",
+      "sensing_mandatory": "If this box is checked then users will not be prompted to opt into crowd-sensing.",
+      "upload_interval": "seconds between location uploads."
+    },
+    "invoice": {
+      "overdue": "This invoice is overdue"
+    },
+    "latest_release_update_notes": "Latest release update notes will appear here with links to older announcements.",
+    "mapping": {
+      "map_statistics": "If this box is checked then POI taps and other map actions in the app will be reported.",
+      "max_statistics_failed_uploads": "failed requests before we stop trying to upload map statistics.",
+      "max_statistics_upload_interval": "seconds between map statistic uploads.",
+      "statistics_upload_interval": "seconds between map statistic uploads."
+    },
+    "map": {
+      "location_permission": "Your browser may prompt for permission",
+      "map_historical": "Each change of map state is added to the browser history.",
+      "map_persistent": "When you come back your most recent view of this app will be restored.",
+      "map_zoomy": "Selecting an object or collection causes the map to zoom to it.",
+      "set_default_map_view": "Sets the default center and zoom level for the app."
+    },
+    "message": {
+      "deletion": "Deleting this message will cause it to disappear from the control system and stop going out to new app users. It will remain on all the phones to which it has already been dispatched.",
+      "with_push_notification": "with push notification",
+      "send_to_all": "This message has no location; if you press \"send to all app users\", it will be sent to all app users everywhere."
+    },
+    "period": {
+      "smoothing": "Smoothing makes sparse data more coherent but increases live playback lag.",
+      "blob_size": "Larger blob size smooths the map but reduces detail, and also helps to reduce data size."
+    },
+    "poi": {
+      "no_coordinates": "not set."
+    },
+    "user": {
+      "keep_password": "Leave both fields blank to preserve an existing password."
+    }
+  },
+  "nothing_to_display": "Nothing to display",
+  "or": "or",
+  "or_please": "or please",
+  "placeholders": {
+    "agreement": {
+      "notes": "Changes in this version. This is optional: if present it is displayed in the updated terms dialog."
+    },
+    "apns_certificate": {
+      "password": "If required"
+    },
+    "app": {
+      "apns_cert_pem": "The password you used when generating the APNS certificate",
+      "background_sensing_activity_time": "300",
+      "background_sensing_distance_threshold": "2.5",
+      "max_statistics_failed_uploads": "10",
+      "statistics_upload_interval": "60",
+      "max_statistics_upload_interval": "900"
+    },
+    "area": {
+      "name": "Map area name",
+      "text": "Map area text"
+    },
+    "category": {
+      "name": "Category name",
+      "description": "Description or notes for UI use"
+    },
+    "channel": {
+      "name": "Channel name",
+      "description": "Description or notes for UI use"
+    },
+    "evo_alarm": {
+      "name": "Label (optional)",
+      "text": "Optional custom message. If none is given then the threshold and duration will be used."
+    },
+    "invoice": {
+      "description": "Invoice description, if any",
+      "invoiced_at": "Invoice date",
+      "paid_at": "Paid on date",
+      "due_at": "Due date",
+      "value": "Value"
+    },
+    "link_text": "Link text",
+    "link_url": "Link url",
+    "message": {
+      "name": "Message title",
+      "text": "Message text"
+    },
+    "period": {
+      "name": "Name (optional)",
+      "description": "Description or notes"
+    },
+    "person": {
+      "name": "Full name",
+      "email": "Email",
+      "text": "Notes"
+    },
+    "poi": {
+      "name": "POI name",
+      "text": "POI text"
+    },
+    "registration_token": {
+      "name": "Descriptive name",
+      "instructions": "Optional instructions for registering user"
+    },
+    "route": {
+      "name": "Route name",
+      "text": "Route text"
+    },
+    "session": {
+      "email": "Email",
+      "password": "Password",
+      "otp_attempt": "Authentication code"
+    },
+    "user": {
+      "email": "Email",
+      "password": "New password",
+      "password_confirmation": "And please confirm"
+    }
+  },
+  "population_now": "Present population is",
+  "population_was": "population was",
+  "published_on": "Published on",
+  "reassurances": {
+    "invitation_sent": "Invitation sent",
+    "password_updated": "Password updated",
+    "saved": "saved"
+  },
+  "reconfirmation": {
+    "check_email": "Thank you. If we recognise this address then a new confirmation message will be sent. Please allow a few minutes for it to arrive, and keep an eye on your spam folder. The message will appear to come from robot@siss.io."
+  },
+  "reports": {
+    "close_report": "Close incident",
+    "closed": "closed",
+    "dispatch_assets": "Dispatch assets",
+    "open": "open",
+    "reopen_report": "Reopen",
+    "send_message": "Send message"
+  },
+  "requirements": {
+    "period": "An active period requires a schedule and at least one map zone before it can be published.",
+    "team_period": "Period requires a schedule and at least one map zone."
+  },
+  "reset": {
+    "check_email": "Thank you. If we recognise this address then reset instructions will be sent. Please allow a few minutes for them to arrive, and keep an eye on your spam folder. The message will appear to come from robot@siss.io.",
+    "greeting": "Hello",
+    "link_incorrect": "Sorry: this reset link does not seem to be correct. Have you already used this token? You can always <a href=\"/session/reset\">request another one</a>. Otherwise, please check your email and make sure you're getting the whole link.",
+    "still_sign_in": "",
+    "failure": "Sorry: we don't recognise that email address."
+  },
+  "roles": {
+    "descriptions": {
+      "admin": "can perform all actions in this app, including configuration through the app dashboard.",
+      "command_communicator": "can observe and send messages to command users.",
+      "command_manager": "can observe, instruct and create command users.",
+      "command_observer": "can observe the locations of command users.",
+      "crowdmap_manager": "can configure recording sessions and also play them in the map.",
+      "crowdmap_observer": "can play past or present crowdmap sessions.",
+      "developer": "can see all account content except finance, and is able to set advanced app properties and review dispatch status.",
+      "finance": "can set account billing properties and review invoices from the dashboard, but cannot affect other settings or app content.",
+      "mapping_editor": "can create but not publish POIs, routes and areas on the map.",
+      "mapping_publisher": "can create and publish POIs, routes and areas on the map.",
+      "message_composer": "can create but not send messages, with or without locations.",
+      "message_publisher": "can create and send messages, with optional push notification if enabled.",
+      "sis_admin": "can see everything",
+      "sis_finance": "can see financial information in all accounts but cannot affect other content."
+    },
+    "titles": {
+      "admin": "Admin",
+      "command_communicator": "Command communicator",
+      "command_manager": "Command manager",
+      "command_observer": "Command observer",
+      "crowdmap_manager": "Crowdmap manager",
+      "crowdmap_observer": "Crowdmap observer",
+      "developer": "Developer",
+      "finance": "Finance",
+      "mapping_editor": "Map content editor",
+      "mapping_publisher": "Map content publisher",
+      "message_composer": "Message composer",
+      "message_publisher": "Message publisher",
+      "sis_admin": "SIS Admin",
+      "sis_finance": "SIS Finance"
+    }
+  },
+  "scheduler": {
+    "and_every": "And every",
+    "days": {
+      "fri": "Fri",
+      "mon": "Mon",
+      "sat": "Sat",
+      "sun": "Sun",
+      "thur": "Thur",
+      "tue": "Tue",
+      "wed": "Wed",
+      "weekdays": "Weekdays",
+      "weekends": "Weekends"
+    },
+    "for": "for",
+    "from": "From",
+    "leave_blank_to_repeat": "Leave blank to repeat every day",
+    "more_occasions": "more occasions",
+    "no_schedule": "No schedule is defined, so this is always available.",
+    "only_on": "Only on",
+    "repeating": "Repeating",
+    "to": "To",
+    "until": "until"
+  },
+  "session": {
+    "sign_in": "Sign in",
+    "sign_out": "Sign out"
+  },
+  "sorts": {
+    "by_date": "Date",
+    "by_name": "Name"
+  },
+  "status": {
+    "account_suspended": "This account has been suspended due to",
+    "active": "active",
+    "no_problems": "No problems to report",
+    "suspended": "suspended"
+  },
+  "tool": {
+    "app": "Create App",
+    "intervals": "Update intervals",
+    "dispatch": "App Dispatch",
+    "area": "Map Area",
+    "areas": "Map Areas",
+    "locales": "Languages",
+    "map": "Map",
+    "person": "Command Asset",
+    "people": "Command Assets",
+    "admin_people": "Command Assets",
+    "period": "Crowdsensing",
+    "poi": "Map Point",
+    "pois": "Map Points",
+    "message": "Message",
+    "messages": "Messages",
+    "preferences": "Preferences",
+    "route": "Map Route",
+    "routes": "Map Routes",
+    "settings": "App settings",
+    "team_message": "Command Message",
+    "team_messages": "Command Messages",
+    "team_period": "Command Session",
+    "team_periods": "Command Timetable"
+  },
+  "units": {
+    "meters": "meters",
+    "failures": "failures",
+    "percent": "percent",
+    "requests": "requests",
+    "seconds": "seconds",
+    "ms": "ms"
+  },
+  "users": {
+    "uninvited": "Not yet invited"
+  },
+  "user_status": {
+    "active": "User is confirmed",
+    "unconfirmed": "User has not responded to invitation",
+    "uninvited": "Invitation email not yet sent"
+  },
+  "waiters": {
+    "account_data_loading": "Account data loading",
+    "app_data": "App data loading",
+    "checking_credentials": "Please wait: checking credentials.",
+    "checking_token": "Please wait while we check your confirmation token.",
+    "creating_account": "Please wait: creating account.",
+    "downloading_period": "Please wait: downloading crowdmap data",
+    "generating_certificates": "Generating certificates and keys for the new app. Please wait.",
+    "loading_ui": "Control interface loading."
+  },
+  "with_password": "with password"
+}

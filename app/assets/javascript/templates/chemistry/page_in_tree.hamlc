@@ -1,0 +1,12 @@
+%span.indent
+%a.delete{data: {confirmation: "Really delete this page?"}}
+  %svg.icon
+    %use{"xlink:href" => "#cross_button_symbol"}
+%a.page
+  %img.page_icon
+%span.detail
+  %a.page
+    %span.title
+  %span.notes
+    %span.description
+    %span.published_at

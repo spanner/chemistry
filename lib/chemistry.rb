@@ -1,17 +1,37 @@
 require "chemistry/engine"
+require "json"
 
 module Chemistry
-  # Your code goes here...
 
   class << self
-    mattr_accessor :layout
-                   :something
+    mattr_accessor :layout,
+                   :host,
+                   :protocol,
+                   :api_url,
+                   :cookie_domain,
+                   :production_host,       #
+                   :staging_host,          # for feature detection in UI
+                   :dev_host,              #
+                   :ui_locales
 
     self.layout = "application"
+    self.api_url = "/chemistry"
+    self.ui_locales = ['en']
   end
 
   def self.configure
     yield self
+  end
+
+  def self.add_locale (name)
+    self.ui_locales.push name
+  end
+
+  def self.locale_urls
+    urls = self.ui_locales.each_with_object({}) do |locale, hash|
+      hash[locale] = ActionController::Base.helpers.asset_url("chemistry/#{locale}.json")
+    end
+    urls.to_json
   end
 
 end

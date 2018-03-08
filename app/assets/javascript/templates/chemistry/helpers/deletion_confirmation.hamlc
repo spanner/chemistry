@@ -1,0 +1,6 @@
+%span.message
+%span.decision
+  %a.confirm.warning
+    Really delete?
+  %a.cancel
+    No, not really
