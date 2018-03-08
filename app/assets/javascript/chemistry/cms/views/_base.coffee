@@ -16,7 +16,8 @@ class Cms.View extends Backbone.Marionette.View
     view.render()
 
   onDestroy: =>
-    subview.destroy() for subview in @subviews
+    if @subviews?.length
+      subview.destroy() for subview in @subviews
 
 
   ## link helpers

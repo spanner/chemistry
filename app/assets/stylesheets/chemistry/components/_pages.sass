@@ -6,8 +6,9 @@ ul.pages
     min-height: 48px
     margin-bottom: 0.5em
     a
-      color: $dark
-      +hover
+      color: $mid
+      &:hover
+        color: $dark
     &.new
       a
         color: $pale
@@ -52,15 +53,15 @@ h2.new_page
   padding: 0
   position: relative
   min-height: 64px
+  color: $pale
   svg.page
-    position: absolute
-    top: 6px
-    left: 2px
-    width: 36px
-    height: 48px
+    display: inline-block
+    float: left
+    width: 30px
+    height: 40px
+    margin-right: 10px
   span.detail
     display: block
-    padding-left: 52px
     span.heading, span.description
       display: block
       line-height: 1.3
