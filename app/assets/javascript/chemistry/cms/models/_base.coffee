@@ -156,15 +156,18 @@ class Cms.Model extends Backbone.Model
   # (eg set or bind to 'video', not 'video_id').
   # The id_attribute is only for use upwards, to and from the API.
   #
-  belongsTo: (object_attribute, id_attribute, collection) =>
-    id_attribute ?= "#{object_attribute}_id"
+  belongsTo: (object_attribute, collection) =>
     if object_attribute is 'parent'
       model_class_name = @className()
     else
       model_class_name = _.titleize(_.camelize(object_attribute))
     model_class = Cms.Models[model_class_name]
+    collection ?= _cms[model_class_name.toLowerCase() + 's']
+
+    @log "belongsTo collection", model_class_name.toLowerCase() + 's', collection
 
     # For the usual situation when an associate is sent down just as eg. section_type_id
+    id_attribute = "#{object_attribute}_id"
     if object_id = @get(id_attribute)
       if collection
         @set object_attribute, collection.findOrAdd(object_id), silent: true

@@ -1,6 +1,6 @@
 %span.message
 %span.decision
   %a.confirm.warning
-    Really delete?
+    =t('confirmations.delete')
   %a.cancel
-    No, not really
+    =t('buttons.no_not_really')

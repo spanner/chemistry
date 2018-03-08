@@ -23,15 +23,12 @@ module Chemistry
     yield self
   end
 
-  def self.add_locale (name)
-    self.ui_locales.push name
-  end
-
+  # Never call this method from an asset, unless you like stacking.
   def self.locale_urls
     urls = self.ui_locales.each_with_object({}) do |locale, hash|
       hash[locale] = ActionController::Base.helpers.asset_url("chemistry/#{locale}.json")
     end
-    urls.to_json
+    urls
   end
 
 end

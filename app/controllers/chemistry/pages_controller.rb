@@ -1,3 +1,5 @@
+require 'json'
+
 module Chemistry
   class PagesController < ApplicationController
     load_and_authorize_resource
@@ -26,7 +28,8 @@ module Chemistry
       render json: {
         pages: Page.all,
         templates: Template.all,
-        section_types: SectionType.all
+        section_types: SectionType.all,
+        locales: Chemistry.locale_urls
       }
     end
 

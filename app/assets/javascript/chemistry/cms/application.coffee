@@ -37,36 +37,32 @@ class Cms.Application extends Backbone.Marionette.Application
     @options = _.extend @defaults, opts
     @el = @options.el
     @_locale_ready = $.Deferred()
-    @_ready = $.Deferred()
+    @_data_ready = $.Deferred()
     @_config = new Cms.Config
     @_log_level = @_config.logLevel()
     @env = @_config.environment()
     @notices = new Cms.Collections.Notices
+    @pages = new Cms.Collections.Pages
+    @section_types = new Cms.Collections.SectionTypes
+    @templates = new Cms.Collections.Templates
+    @_available_locales = {}
+
     Backbone.sync = @sync
     Backbone.Marionette.Renderer.render = @render
     root.onerror = @reportError
     root._cms = @
 
   onStart: =>
-    @_ready.done (data) =>
-      @_ui = new Cms.Views.UI el: @el
-      @_ui.render()
-      @pages = new Cms.Collections.Pages data.pages
-      @section_types = new Cms.Collections.SectionTypes data.section_types
-      @templates = new Cms.Collections.Templates data.templates
-      @_router = new Cms.AppRouter
-        controller: @_ui
-      Backbone.history.start
-        pushState: true
-        root: @config('mount_point')
-      $(document).on "click", "a:not([data-bypass])", @handleLinkClick
-
-    locale_loader = @setUILocale @chooseUILocale()
-    content_loader = $.getJSON @_config.initUrl()
-    $.when locale_loader, content_loader, (strings, content) =>
-      @log "READY!", strings, content
-      @_ready.resolve(content)
-
+    @preloadSite().done =>
+      @setUILocale().done =>
+        @_ui = new Cms.Views.UI el: @el
+        @_ui.render()
+        @_router = new Cms.AppRouter
+          controller: @_ui
+        Backbone.history.start
+          pushState: true
+          root: @config('mount_point')
+        $(document).on "click", "a:not([data-bypass])", @handleLinkClick
 
   config: (key) =>
     @_config.get(key)
@@ -74,6 +70,15 @@ class Cms.Application extends Backbone.Marionette.Application
   apiUrl: =>
     @config('api_url')
 
+  preloadSite: =>
+    loader = $.getJSON @_config.initUrl()
+    loader.done (data) =>
+      @templates.reset data.templates
+      @section_types.reset data.section_types
+      @pages.reset data.pages
+      @_available_locales = data.locales
+      @_data_ready.resolve(data)
+    @_data_ready.promise()
 
   ## State changes
   #
@@ -87,7 +92,7 @@ class Cms.Application extends Backbone.Marionette.Application
   handleLinkClick: (e) ->
     $a = $(@)
     href = $a.attr("href")
-    _cms.log "handleLinkClick", href, @
+    _cms.log "link click", href, @
     if href and href isnt "#" and href.slice(0, 4) isnt 'http'
       e.preventDefault()
       has_target = _.includes(href, "#")
@@ -181,19 +186,18 @@ class Cms.Application extends Backbone.Marionette.Application
     @_ui_locale
 
   chooseUILocale: =>
-    permitted_locales = @_config.locales()
     if locale = @getQsParam('loc') or localStorage.getItem('chemistry_locale') or window.navigator.userLanguage or window.navigator.language or 'en'
       loc = locale.substr(0, 2)
-    if permitted_locales[loc]
+    if @_available_locales[loc]
       loc
     else
       'en'
 
   setUILocale: (locale) =>
+    locale ?= @chooseUILocale()
     @log "setUILocale", locale, 'was', @_ui_locale
     unless @_ui_locale is locale
-      permitted_locales = @_config.locales()
-      if locale_url = permitted_locales[locale]
+      if locale_url = @_available_locales[locale]
         @log "loading locale from", locale_url
         localStorage.setItem('chemistry_locale', locale)
         locale_loader = $.getJSON(locale_url)

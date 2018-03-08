@@ -22,7 +22,7 @@ class Cms.Views.Confirmation extends Cms.View
   onRender: () =>
     @log "render", @el, @link
     position = @link.offset()
-    @$el.appendTo($('body'))
+    @$el.appendTo(_cms.el)
     @$el.css
       left: position.left + @link.width()
       top: position.top - @$el.height()
@@ -33,9 +33,8 @@ class Cms.Views.Confirmation extends Cms.View
   cancel: (e) =>
     e.preventDefault() if e
     @$el.fadeOut () =>
-      @link.show()
       @remove()
-  
+
   confirm: (e) =>
     e.preventDefault() if e
     if !@final_confirmation or window.confirm(@final_confirmation)
@@ -61,7 +60,7 @@ class Cms.Views.DeletionConfirmation extends Cms.Views.Confirmation
 
 
 class Cms.Views.Deleter extends Cms.View
-  template: "helpers/deleter"
+  template: false
   tagName: "a"
 
   events:

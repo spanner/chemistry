@@ -9,7 +9,6 @@ class Cms.View extends Backbone.Marionette.View
     @render()
 
   onRender: =>
-    @log "render"
     @stickit() if @model
 
   addView: (view) =>

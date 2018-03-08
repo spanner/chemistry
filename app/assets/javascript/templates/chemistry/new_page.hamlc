@@ -4,7 +4,7 @@
 
 %h2.new_page
   %svg.page
-    %use{"xlink:href" => "#new_page_symbol"}
+    %use{"xlink:href" => "#new_page_button_symbol"}
   %span.detail
     %span.heading
       Create new page

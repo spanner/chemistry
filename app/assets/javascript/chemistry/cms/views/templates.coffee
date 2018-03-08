@@ -33,7 +33,7 @@ class Cms.Views.TemplateChoice extends Cms.Views.ChoiceView
   bindings:
     ".title":
       observe: "title"
-    "use":
+    "use.template":
       attributes: [
         name: "xlink:href"
         observe: "slug"

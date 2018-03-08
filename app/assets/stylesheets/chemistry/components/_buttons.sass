@@ -55,3 +55,33 @@ a.button
 a.cancel
   color: $pale
   +hover
+
+
+div.confirm
+  position: absolute
+  display: block
+  z-index: 1000
+  border: 1px solid $pale
+  padding: 10px
+  margin: -10px 0 0 -10px
+  max-width: 200px
+  background-color: $menubg
+  box-shadow: 1px 3px 5px $shadow
+  border-radius: 3px
+  text-align: center
+  span.message
+    display: block
+    &:empty
+      display: none
+  span.decision
+    a.confirm
+      +button($red)
+      display: inline-block
+      margin: 5px 0
+      cursor: pointer
+    a.cancel
+      display: block
+      color: $pale
+      cursor: pointer
+      +small
+      +hover

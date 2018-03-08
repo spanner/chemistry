@@ -9,7 +9,7 @@
 class Cms.Config
   defaults: 
     mount_point: "/chemistry"
-    api_url: "<%= Chemistry.api_url %>/chemistry"
+    api_url: "<%= Chemistry.api_url %>"
     cookie_domain: "<%= Chemistry.cookie_domain %>"
     logging: false
     log_level: 'debug'
@@ -58,9 +58,6 @@ class Cms.Config
 
   environment: =>
     @_environment ?= @guessEnvironment()
-
-  locales: =>
-    <%= Chemistry.locale_urls %>
 
   logLevel: =>
     @_settings['log_level'] ? 'info'

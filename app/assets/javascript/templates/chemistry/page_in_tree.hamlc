@@ -3,10 +3,10 @@
   %svg.icon
     %use{"xlink:href" => "#cross_button_symbol"}
 %a.page
-  %img.page_icon
-%span.detail
-  %a.page
+  %svg.page
+    %use.template{"xlink:href" => "#empty_page_symbol"}
+  %span.detail
     %span.title
-  %span.notes
-    %span.description
-    %span.published_at
+    %span.notes
+      %span.description
+      %span.published_at

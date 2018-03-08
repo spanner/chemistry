@@ -5,8 +5,7 @@ module Chemistry
     belongs_to :page
 
     has_attached_file :file, preserve_files: true                   # TODO extract text, image of front page
-
-    does_not_validate_attachment_content_type :file
+    do_not_validate_attachment_file_type :file
 
     before_validation :read_remote_url
   

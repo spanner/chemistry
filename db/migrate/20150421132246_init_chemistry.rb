@@ -112,6 +112,7 @@ class InitChemistry < ActiveRecord::Migration[5.1]
       t.string :title
       t.text :caption
       t.text :file_meta
+      t.datetime :deleted_at
       t.timestamps
     end
 

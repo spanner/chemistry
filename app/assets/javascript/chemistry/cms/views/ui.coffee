@@ -23,6 +23,9 @@ class Cms.Views.UI extends Cms.View
     @getRegion('notices').show new Cms.Views.Notices
       collection: _cms.notices
 
+  reset: =>
+    Backbone.history.loadUrl(Backbone.history.fragment)
+
   defaultView: =>
     # we might want to redirect this instead.
     @collectionView 'pages'

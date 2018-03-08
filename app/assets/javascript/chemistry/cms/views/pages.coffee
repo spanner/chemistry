@@ -36,11 +36,11 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
         observe: "depth"
         onGet: "indentStyle"
       ]
-    "img.page_icon":
+    "use.template":
       attributes: [
-        name: "src"
+        name: "xlink:href"
         observe: "template"
-        onGet: "templateIconOrDefault"
+        onGet: "templateSymbol"
       ]
     "a.page":
       attributes: [
@@ -57,11 +57,11 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
     if @ui.deleter.length
       new Cms.Views.Deleter
         model: @model
-        el: @el
+        el: @ui.deleter
 
-
-  templateIconOrDefault: (template) =>
-    template?.get('icon_url')
+  templateSymbol: (template) =>
+    slug = template?.get('slug') or 'empty'
+    "##{slug}_page_symbol"
 
   indentStyle: (depth) =>
     "width: #{depth * 48}px"

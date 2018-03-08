@@ -158,6 +158,7 @@
     "really_send_to_all": "Send this message to all app users"
   },
   "confirmations": {
+    "delete": "Delete",
     "delete_account": "Delete this account and all its apps and users?",
     "delete_app": "Delete this app and all its contents?",
     "really": "Yes really",
