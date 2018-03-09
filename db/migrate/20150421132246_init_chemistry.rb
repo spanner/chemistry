@@ -5,7 +5,7 @@ class InitChemistry < ActiveRecord::Migration[5.1]
       t.integer :parent_id
       t.string :path
       t.string :slug
-      t.string :type, default: "page"
+      t.string :content, default: "page"
       t.string :title
       t.text :summary
       t.text :excerpt

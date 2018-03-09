@@ -34,9 +34,9 @@ module Chemistry
 
     ## Standard responses
 
-    def return_section_types {
+    def return_section_types
       render json: SectionTypeSerializer.new(@section_types)
-    }
+    end
 
     def return_section_type
       render json: @section_type

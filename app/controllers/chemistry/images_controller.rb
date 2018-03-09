@@ -34,9 +34,9 @@ module Chemistry
 
     ## Standard responses
 
-    def return_images {
+    def return_images
       render json: ImageSerializer.new(@images)
-    }
+    end
 
     def return_image
       render json: ImageSerializer.new(@image)

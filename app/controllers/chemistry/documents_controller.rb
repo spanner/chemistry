@@ -34,9 +34,9 @@ module Chemistry
 
     ## Standard responses
 
-    def return_documents {
+    def return_documents
       render json: DocumentSerializer.new(@documents)
-    }
+    end
 
     def return_document
       render json: DocumentSerializer.new(@document)

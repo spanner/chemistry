@@ -1,3 +1,5 @@
+require "fast_jsonapi"
+
 class Chemistry::PageSerializer
   include FastJsonapi::ObjectSerializer
 
@@ -7,7 +9,7 @@ class Chemistry::PageSerializer
              :path,
              :slug,
              :parent_id,
-             :type,
+             :content,
              :external_url,
              :template_id,
              :title,

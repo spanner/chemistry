@@ -22,16 +22,6 @@ module Chemistry
     scope :nav, -> { published.where(nav: true) }
 
 
-    def page_type
-      if external_url?
-        'link'
-      elsif document
-        'document'
-      else
-        'page'
-      end
-    end
-
     # It's not pretty, but it's a lot nicer than accepts_nested_attributes_for.
     #
     def section_data=(section_data=nil)
@@ -66,22 +56,22 @@ module Chemistry
       end
       self.touch
     end
-
-    ## Publication
     #
-    # Pages are published to the filesystem as static html for direct delivery by the web server.
-    #
-    # The are first composed by placing page html elements into the site html wrapper.
-    #
-    def publish!
-      path_and_filename = path.sub(/^\//, '')
-      path_and_filename = "index" if path_and_filename.blank?
-      file = Pathname.new(Settings.pub.root).join(site.slug, path_and_filename + ".html").cleanpath
-      html = self.compose
-      FileUtils.mkdir_p(file.dirname)
-      File.open(file, 'w') { |f| f.write html }
-      self.update_column(:published_at, Time.now)
-    end
+    # ## Publication
+    # #
+    # # Pages are published to the filesystem as static html for direct delivery by the web server.
+    # #
+    # # The are first composed by placing page html elements into the site html wrapper.
+    # #
+    # def publish!
+    #   path_and_filename = path.sub(/^\//, '')
+    #   path_and_filename = "index" if path_and_filename.blank?
+    #   file = Pathname.new(Settings.pub.root).join(site.slug, path_and_filename + ".html").cleanpath
+    #   html = self.compose
+    #   FileUtils.mkdir_p(file.dirname)
+    #   File.open(file, 'w') { |f| f.write html }
+    #   self.update_column(:published_at, Time.now)
+    # end
 
     protected
 
@@ -119,7 +109,6 @@ module Chemistry
           revised_sections << sections.other_than(revised_sections).first_or_create(section_type_id: placeholder.section_type_id)
         end
         # note leftovers
-        Rails.logger.debug "⚠️ finding sections not in #{revised_sections.map(&:id).inspect}"
         leftover_sections = sections.other_than(revised_sections)
         # assign sequence
         revised_sections.each.with_index do |section, i|
@@ -128,7 +117,6 @@ module Chemistry
         # detach (but keep) leftovers
         leftover_sections.update_all(position: nil, detached: true)
       end
-      Rails.logger.debug "⚠️ #{revised_sections.inspect}"
       self.sections = revised_sections + leftover_sections
     end
 

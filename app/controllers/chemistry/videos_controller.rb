@@ -34,9 +34,9 @@ module Chemistry
 
     ## Standard responses
 
-    def return_videos {
+    def return_videos
       render json: VideoSerializer.new(@videos)
-    }
+    end
 
     def return_video
       render json: VideoSerializer.new(@video)

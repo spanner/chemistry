@@ -34,13 +34,13 @@ module Chemistry
 
     ## Standard responses
 
-    def return_templates {
+    def return_templates
       render json: TemplateSerializer.new(@templates)
-    }
+    end
 
-    def return_template {
+    def return_template
       render json: TemplateSerializer.new(@template, include: [:placeholders])
-    }
+    end
 
     def return_errors
       render json: { errors: @template.errors.to_a }, status: :unprocessable_entity

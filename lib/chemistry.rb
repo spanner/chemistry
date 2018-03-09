@@ -1,8 +1,12 @@
 require "chemistry/engine"
 require "json"
+require "paperclip"
+require "paperclip/av/transcoder"
+require "acts_as_list"
+require "paranoia"
+require 'haml_coffee_assets'
 
 module Chemistry
-
   class << self
     mattr_accessor :layout,
                    :host,

@@ -77,9 +77,9 @@ module Chemistry
 
     ## Standard responses
 
-    def return_pages {
+    def return_pages
       render json: PageSerializer.new(@pages)
-    }
+    end
 
     def return_page
       render json: PageSerializer.new(@page, include: [:sections, :documents])
@@ -96,7 +96,7 @@ module Chemistry
       params.require(:page).permit(
         :template_id,
         :parent_id,
-        :type,
+        :content,
         :external_url,
         :title
       )
@@ -107,7 +107,7 @@ module Chemistry
         :id,
         :template_id,
         :parent_id,
-        :type,
+        :content,
         :external_url,
         :title,
         :nav,               # takes part in navigation?
