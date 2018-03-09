@@ -7,6 +7,6 @@ class Cms.Views.NoPlaceholder extends Cms.View
   template: "no_placeholder"
 
 
-class Cms.Views.Placeholders extends Cms.CollectionView
+class Cms.Views.Placeholders extends Cms.Views.AttachedCollectionView
   childView: Cms.Views.Placeholder
   emptyView: Cms.Views.NoPlaceholder

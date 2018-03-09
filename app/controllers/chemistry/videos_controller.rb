@@ -35,11 +35,11 @@ module Chemistry
     ## Standard responses
 
     def return_videos
-      render json: VideoSerializer.new(@videos)
+      render json: VideoSerializer.new(@videos).serialized_json
     end
 
     def return_video
-      render json: VideoSerializer.new(@video)
+      render json: VideoSerializer.new(@video).serialized_json
     end
 
     def return_errors

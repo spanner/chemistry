@@ -73,9 +73,11 @@ class Cms.Application extends Backbone.Marionette.Application
   preloadSite: =>
     loader = $.getJSON @_config.initUrl()
     loader.done (data) =>
-      @templates.reset data.templates
-      @section_types.reset data.section_types
-      @pages.reset data.pages
+      # collections as nested jsonapi
+      @templates.set data.templates, parse: true
+      @section_types.set data.section_types, parse: true
+      @pages.set data.pages, parse: true
+      # locale urls as simple hash: should move to metadata?
       @_available_locales = data.locales
       @_data_ready.resolve(data)
     @_data_ready.promise()

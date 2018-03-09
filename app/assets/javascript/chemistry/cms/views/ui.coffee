@@ -63,9 +63,8 @@ class Cms.Views.UI extends Cms.View
         else if @_collection and @_collection instanceof collection_class
           model = @_collection.get(id)
         model ||= new model_class({id: id})
-        model.loadAnd =>
-          @showView new view_class
-            model: model
+        @showView new view_class
+          model: model
 
   collectionParams: (params={}) =>
     _.pick params, ['p', 'pp', 'q', 's', 'o']

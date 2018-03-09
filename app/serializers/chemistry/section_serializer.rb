@@ -1,19 +1,18 @@
-class Chemistry::SectionSerializer < ActiveModel::Serializer
+require "fast_jsonapi"
+
+class Chemistry::SectionSerializer
   include FastJsonapi::ObjectSerializer
 
-  set_type :section_type
+  set_type :section
 
   attributes :id,
-             :page_id
+             :page_id,
              :position,
              :section_type_id,
              :section_type_slug,
              :title,
              :main,
              :aside,
-             :image_id,
-             :video_id,
-             :document_id,
              :deleted_at
 
 end

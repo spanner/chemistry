@@ -1,3 +1,5 @@
+require "fast_jsonapi"
+
 class Chemistry::ImageSerializer
   include FastJsonapi::ObjectSerializer
 

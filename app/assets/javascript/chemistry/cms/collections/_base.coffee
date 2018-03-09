@@ -11,6 +11,7 @@ class Cms.Collection extends Backbone.Collection
   initialize: (models, @options={}) ->
     @_class_name = @constructor.name
     @_original_ids = @pluck('id')
+    @_nested = @options.nested    # normally only set by hasMany
     @prepareLoader()
     @debouncedReload = _.debounce @reload, 250
 
@@ -59,10 +60,13 @@ class Cms.Collection extends Backbone.Collection
   # Prepare sort parameters for the API
   #
   sortParams: =>
-    params =
-      order: @_sorter.get('sort_order')
-      sort: if @_sorter.get('sort_by') is 'date' then @_date_attribute else @_name_attribute
-    params
+    if @_sorted
+      params =
+        order: @_sorter.get('sort_order')
+        sort: if @_sorter.get('sort_by') is 'date' then @_date_attribute else @_name_attribute
+      params
+    else
+      {}
 
   setSortState: (params={}) =>
     attributes = {}
@@ -165,7 +169,10 @@ class Cms.Collection extends Backbone.Collection
     @baseUrl() + "?" + @urlParams()
 
   baseUrl: () =>
-    [_cms.config('api_url'), @pluralName()].join('/')
+    if @_nested
+      [_cms.config('api_url'), @_nested.pluralName(), @_nested.id, @pluralName()].join('/')
+    else
+      [_cms.config('api_url'), @pluralName()].join('/')
 
   urlParams: =>
     params = _.result(@, 'criteria') or {}
@@ -184,15 +191,23 @@ class Cms.Collection extends Backbone.Collection
     @prepareLoader()
     @load()
 
+  parse: (response) =>
+    @log "parse", response
+    if @prepareData(response)
+      response.data
+
+  prepareData: (response) =>
+    # noop here. Return false to stop parsing.
+    true
+
   loaded: (data, status, xhr) =>
     if xhr
       if @_paginated
+        # TODO look at jsonapi metadata instead
         @_page_size = parseInt(xhr.getResponseHeader("X-Per-Page"), 10)
         @_page = parseInt(xhr.getResponseHeader("X-Page"), 10)
         @_total_records = parseInt(xhr.getResponseHeader("X-Total"), 10)
         @_total_pages = Math.ceil(@_total_records / @_page_size)
-      if facets_header = xhr.getResponseHeader("X-Facets")
-        @_facets = JSON.parse(facets_header)
     @_loading = false
     @sort()
     @_loaded?.resolve(data)
@@ -213,7 +228,8 @@ class Cms.Collection extends Backbone.Collection
     @reload()
 
   isLoaded: =>
-    @_loaded.state() is 'resolved'
+    debugger unless @_loaded
+    @_loaded?.state() is 'resolved'
 
   notLoaded: (error) =>
     @_loaded.reject(error)

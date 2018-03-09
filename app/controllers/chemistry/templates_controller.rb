@@ -35,11 +35,11 @@ module Chemistry
     ## Standard responses
 
     def return_templates
-      render json: TemplateSerializer.new(@templates)
+      render json: TemplateSerializer.new(@templates).serialized_json
     end
 
     def return_template
-      render json: TemplateSerializer.new(@template, include: [:placeholders])
+      render json: TemplateSerializer.new(@template).serialized_json
     end
 
     def return_errors

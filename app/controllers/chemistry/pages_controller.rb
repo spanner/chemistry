@@ -29,9 +29,9 @@ module Chemistry
     #
     def site
       render json: {
-        pages: PageSerializer.new(Page.all),
-        templates: TemplateSerializer.new(Template.all),
-        section_types: SectionTypeSerializer.new(SectionType.all),
+        pages: PageSerializer.new(Page.all).serializable_hash,
+        templates: TemplateSerializer.new(Template.all).serializable_hash,
+        section_types: SectionTypeSerializer.new(SectionType.all).serializable_hash,
         locales: Chemistry.locale_urls
       }
     end
@@ -78,11 +78,11 @@ module Chemistry
     ## Standard responses
 
     def return_pages
-      render json: PageSerializer.new(@pages)
+      render json: PageSerializer.new(@pages).serialized_json
     end
 
     def return_page
-      render json: PageSerializer.new(@page, include: [:sections, :documents])
+      render json: PageSerializer.new(@page).serialized_json
     end
 
     def return_errors

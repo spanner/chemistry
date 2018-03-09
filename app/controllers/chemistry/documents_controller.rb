@@ -35,11 +35,11 @@ module Chemistry
     ## Standard responses
 
     def return_documents
-      render json: DocumentSerializer.new(@documents)
+      render json: DocumentSerializer.new(@documents).serialized_json
     end
 
     def return_document
-      render json: DocumentSerializer.new(@document)
+      render json: DocumentSerializer.new(@document).serialized_json
     end
 
     def return_errors

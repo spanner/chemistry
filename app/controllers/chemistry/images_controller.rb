@@ -35,11 +35,11 @@ module Chemistry
     ## Standard responses
 
     def return_images
-      render json: ImageSerializer.new(@images)
+      render json: ImageSerializer.new(@images).serialized_json
     end
 
     def return_image
-      render json: ImageSerializer.new(@image)
+      render json: ImageSerializer.new(@image).serialized_json
     end
 
     def return_errors

@@ -6,14 +6,12 @@ class Cms.View extends Backbone.Marionette.View
 
   initialize: =>
     @subviews = []
-    @render()
 
   onRender: =>
     @stickit() if @model
 
   addView: (view) =>
     @subviews.push view
-    view.render()
 
   onDestroy: =>
     if @subviews?.length
@@ -194,6 +192,13 @@ class Cms.CollectionView extends Backbone.Marionette.CollectionView
 
   log: ->
     _cms.log "[#{@constructor.name}]", arguments...
+
+
+class Cms.Views.AttachedCollectionView extends Cms.CollectionView
+
+  initialize: =>
+    @collection.loadAnd =>
+      @render()
 
 
 ## Composite View

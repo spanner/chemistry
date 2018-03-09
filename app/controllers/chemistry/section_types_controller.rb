@@ -3,7 +3,7 @@ module Chemistry
     load_and_authorize_resource
 
     def index
-      render json: @section_types
+      return_section_types
     end
   
     def show
@@ -35,11 +35,11 @@ module Chemistry
     ## Standard responses
 
     def return_section_types
-      render json: SectionTypeSerializer.new(@section_types)
+      render json: SectionTypeSerializer.new(@section_types).serialized_json
     end
 
     def return_section_type
-      render json: @section_type
+      render json: SectionTypeSerializer.new(@section_type).serialized_json
     end
 
     def return_errors
@@ -54,11 +54,7 @@ module Chemistry
         :title,
         :slug,
         :description,
-        :template,
-        :image,
-        :image_name,
-        :icon,
-        :icon_name
+        :template
       )
     end
 

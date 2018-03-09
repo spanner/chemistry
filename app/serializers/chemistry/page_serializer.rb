@@ -24,6 +24,4 @@ class Chemistry::PageSerializer
              :published_at,
              :deleted_at
 
-  has_many :sections
-  has_many :documents
 end

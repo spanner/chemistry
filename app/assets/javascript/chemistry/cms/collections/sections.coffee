@@ -8,6 +8,3 @@ class Cms.Collections.Sections extends Cms.Collection
   comparator: "position"
   paginated: false
   sorted: false
-
-  initialize: (array, opts) ->
-    @page = opts.page

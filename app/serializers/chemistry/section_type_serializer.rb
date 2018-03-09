@@ -1,3 +1,5 @@
+require "fast_jsonapi"
+
 class Chemistry::SectionTypeSerializer
   include FastJsonapi::ObjectSerializer
 
@@ -6,8 +8,6 @@ class Chemistry::SectionTypeSerializer
   attributes :id,
              :title,
              :description,
-             :template,
-             :icon_url,
-             :image_urls
+             :template
 
 end

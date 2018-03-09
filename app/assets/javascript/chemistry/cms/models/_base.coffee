@@ -127,17 +127,14 @@ class Cms.Model extends Backbone.Model
     # @belongsTo 'image'
     # etc
 
-  parse: (data) =>
-    # you can modify `data` in populate,
-    # or return false to prevent the usual parse from being called at all.
-    # but you don't really want to override `parse`
-    if @populate(data)
-      @_original_attributes = _.pick @attributes, @savedAttributes
-      data
+  parse: (response) =>
+    attributes = response.attributes
+    if @populate(attributes)
+      attributes
 
-  populate: (data) =>
+  populate: (attributes) =>
     # @things.reset(data.things)
-    @momentify(data)
+    @momentify(attributes)
     true
 
   momentify: (data) =>
@@ -207,10 +204,12 @@ class Cms.Model extends Backbone.Model
   hasMany: (association_name, options={}) =>
     class_name = options.collection_class ? _.capitalize(s.camelize(association_name))
     collection_class = Cms.Collections[class_name]
-    default_options = paginated: false
 
     # create collection from the initial association data
-    @[association_name] = new collection_class null, _.extend(default_options, options)
+    default_collection_options =
+      paginated: false
+      nested: this
+    @[association_name] = new collection_class null, _.extend(default_collection_options, options)
 
     # Listen for changes to the association data and repopulate the attached collection
     @on "change:#{association_name}", (model, data) =>
@@ -221,7 +220,6 @@ class Cms.Model extends Backbone.Model
         merge: true
         reset: true
       @set association_name, null, silent: true
-      @[association_name].loaded()
 
     # Trigger the change mechanism to initialize the attached collection with the initial association data
     @trigger "change:#{association_name}"
@@ -277,16 +275,28 @@ class Cms.Model extends Backbone.Model
   
   resetOriginalAttributes: =>
     @_original_attributes = _.pick @attributes, @savedAttributes
+    @_changed_associations = []
 
-  changedIfSignificant: (model, options) =>
-    if options.stickitChange?
-      @set "changed", not _.isEmpty @significantChangedAttributes()
+  changedIfSignificant: =>
+    changed = @hasSignificantChangedAttributes() or @hasSignificantChangedAssociations()
+    @set "changed", changed
+    
+  hasSignificantChangedAttributes: () =>
+    not _.isEmpty @significantChangedAttributes()
 
   significantChangedAttributes: () =>
     significantly_changed = _.pick @changedAttributes(), @savedAttributes
     actually_changed_keys = _.filter _.keys(significantly_changed), (k) =>
       significantly_changed[k] isnt @_original_attributes[k]
     _.pick significantly_changed, actually_changed_keys
+
+  hasSignificantChangedAssociations: () =>
+    not _.isEmpty @significantChangedAssociations()
+
+  significantChangedAssociations: () =>
+    changed_keys = _.filter @savedAssociations, (k) =>
+      k in @_changed_associations
+    changed_keys
 
 
   ## Selection

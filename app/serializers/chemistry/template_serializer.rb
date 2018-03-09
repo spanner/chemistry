@@ -1,3 +1,5 @@
+require "fast_jsonapi"
+
 class Chemistry::TemplateSerializer
   include FastJsonapi::ObjectSerializer
 
@@ -10,7 +12,5 @@ class Chemistry::TemplateSerializer
              :description,
              :created_at,
              :updated_at
-
-  has_many :placeholders
 
 end
