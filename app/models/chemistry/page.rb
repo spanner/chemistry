@@ -2,14 +2,15 @@ module Chemistry
   class Page < ApplicationRecord
     acts_as_paranoid
     belongs_to :parent, class_name: 'Chemistry::Page', optional: true
-    belongs_to :template
+    belongs_to :template, optional: true
 
     has_many :sections, -> {order(position: :asc)}, dependent: :destroy
-    has_many :documents, -> {order(position: :asc)}, dependent: :nullify
+    has_many :documents, -> {order(position: :asc)}, dependent: :destroy
     acts_as_list column: :nav_position
 
     before_validation :derive_slug
     before_validation :derive_path
+    before_validation :get_excerpt
     before_validation :set_home_if_first
 
     validates :title, presence: true
@@ -19,6 +20,17 @@ module Chemistry
     scope :published, -> { undeleted.where.not(published_at: nil) }
     scope :home, -> { published.where(home: true).limit(1) }
     scope :nav, -> { published.where(nav: true) }
+
+
+    def page_type
+      if external_url?
+        'link'
+      elsif document
+        'document'
+      else
+        'page'
+      end
+    end
 
     # It's not pretty, but it's a lot nicer than accepts_nested_attributes_for.
     #
@@ -92,6 +104,10 @@ module Chemistry
         path_parts.push slug
         self.path = path_parts.compact.join('/')
       end
+    end
+
+    def get_excerpt
+      #todo: truncated body of first section that has one
     end
 
     def init_sections

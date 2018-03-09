@@ -5,13 +5,17 @@ class InitChemistry < ActiveRecord::Migration[5.1]
       t.integer :parent_id
       t.string :path
       t.string :slug
+      t.string :type, default: "page"
       t.string :title
       t.text :summary
+      t.text :excerpt
       t.boolean :home, default: false
       t.boolean :nav, default: false
       t.string :nav_name
       t.integer :nav_position
       t.text :rendered_html, limit: 16.megabytes - 1
+      t.string :external_url
+      t.integer :document_id
       t.datetime :published_at
       t.datetime :deleted_at
       t.timestamps
@@ -104,9 +108,7 @@ class InitChemistry < ActiveRecord::Migration[5.1]
     create_table :chemistry_documents do |t|
       t.attachment :file
       t.string :remote_url
-      t.integer :page_id
       t.integer :position
-      t.string :remote_url
       t.string :title
       t.text :caption
       t.text :file_meta

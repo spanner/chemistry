@@ -1,4 +1,8 @@
 class Chemistry::SectionSerializer < ActiveModel::Serializer
+  include FastJsonapi::ObjectSerializer
+
+  set_type :section_type
+
   attributes :id,
              :page_id
              :position,
@@ -12,7 +16,4 @@ class Chemistry::SectionSerializer < ActiveModel::Serializer
              :document_id,
              :deleted_at
 
-  def section_type_slug
-    object.section_type.slug if object.section_type
-  end
 end

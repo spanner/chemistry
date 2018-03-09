@@ -1,4 +1,5 @@
 require "open-uri"
+
 module Chemistry
   class Document < ApplicationRecord
     acts_as_paranoid
@@ -21,9 +22,27 @@ module Chemistry
     def file_name=(name)
       self.file_file_name = name
     end
-  
+
+    ## serialization
+
+    def file_name
+      object.file_name
+    end
+
+    def file_type
+      file_content_type
+    end
+
+    def file_size
+      file_file_size
+    end
+ 
+    def url
+      file_url(:original)
+    end
+
     protected
-    
+
     def read_remote_url
       if remote_url? && !file?
         self.file = open(remote_url)

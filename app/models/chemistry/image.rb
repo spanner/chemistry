@@ -36,6 +36,34 @@ module Chemistry
       self.file_file_name = name
     end
   
+    ## serialization
+
+    def title
+      title.presence || file_file_name
+    end
+
+    def file_name
+      file_file_name
+    end
+
+    def file_type
+      file_content_type
+    end
+
+    def file_size
+      file_file_size
+    end
+ 
+    def urls
+      {
+        original: file_url(:original),
+        hero: file_url(:hero),
+        full: file_url(:full),
+        half: file_url(:half),
+        thumb: file_url(:thumb)
+      }
+    end
+
     protected
     
     # *read_dimensions* is called after post processing to record in the database the original width, height

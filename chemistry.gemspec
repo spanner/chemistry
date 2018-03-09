@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'cancancan'
   s.add_dependency 'paperclip'
   s.add_dependency "paperclip-av-transcoder"
-  s.add_dependency 'active_model_serializers'
+  s.add_dependency 'fast_jsonapi'
   s.add_dependency 'paranoia'
   s.add_dependency 'acts_as_list'
   s.add_dependency 'video_info'

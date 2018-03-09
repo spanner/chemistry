@@ -31,6 +31,13 @@ module Chemistry
       head :no_content
     end
 
+
+    ## Standard responses
+
+    def return_section_types {
+      render json: SectionTypeSerializer.new(@section_types)
+    }
+
     def return_section_type
       render json: @section_type
     end
@@ -38,6 +45,7 @@ module Chemistry
     def return_errors
       render json: { errors: @section_type.errors.to_a }, status: :unprocessable_entity
     end
+
 
     protected
 

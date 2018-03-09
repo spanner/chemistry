@@ -9,5 +9,12 @@ module Chemistry
 
     validates :template, presence: true
     validates :section_type, presence: true
+
+    # for serialization
+
+    def section_type_slug
+      section_type.slug if section_type
+    end
+
   end
 end

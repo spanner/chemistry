@@ -1,4 +1,8 @@
-class Chemistry::VideoSerializer < ActiveModel::Serializer
+class Chemistry::VideoSerializer
+  include FastJsonapi::ObjectSerializer
+
+  set_type :video
+
   attributes :id,
              :title,
              :caption,
@@ -14,28 +18,4 @@ class Chemistry::VideoSerializer < ActiveModel::Serializer
              :embed_code,
              :urls
 
-  def urls
-    {
-      original: object.file_url(:original),
-      full: object.file_url(:full),
-      half: object.file_url(:half),
-      thumb: object.file_url(:thumb)
-    }
-  end
-  
-  def title
-    [object.provider, object.title.presence || object.file_file_name].compact.join(': ')
-  end
-
-  def file_name
-    object.file_file_name
-  end
-
-  def file_type
-    object.file_content_type
-  end
-
-  def file_size
-    object.file_file_size
-  end
 end

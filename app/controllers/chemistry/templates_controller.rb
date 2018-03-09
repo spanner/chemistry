@@ -3,7 +3,7 @@ module Chemistry
     load_and_authorize_resource
 
     def index
-      render json: @templates
+      return_templates
     end
 
     def show
@@ -31,8 +31,15 @@ module Chemistry
       head :no_content
     end
 
+
+    ## Standard responses
+
+    def return_templates {
+      render json: TemplateSerializer.new(@templates)
+    }
+
     def return_template {
-      render json: @template
+      render json: TemplateSerializer.new(@template, include: [:placeholders])
     }
 
     def return_errors
@@ -41,7 +48,7 @@ module Chemistry
 
 
     protected
-  
+
     def template_params
       params.permit(
         :id,

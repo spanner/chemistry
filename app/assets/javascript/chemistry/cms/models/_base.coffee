@@ -59,7 +59,7 @@ class Cms.Model extends Backbone.Model
 
   loadAnd: (fn) =>
     @_loaded.done fn
-    @load() unless @_loading or @isLoaded()
+    @load()
 
   whenLoaded: (fn) =>
     @_loaded.done fn
@@ -68,14 +68,15 @@ class Cms.Model extends Backbone.Model
     @_loaded.fail fn
 
   isLoaded: =>
-    @_loaded.isResolved()
+    @_loaded.state() is 'resolved'
 
   load: =>
+    @log "load", @_loading, @_loaded
     unless @_loading or @isLoaded()
       @_loading = true
       @fetch(error: @notLoaded).done(@loaded)
     @_loaded.promise()
-  
+
   loaded: (data) =>
     @_loading = false
     @_saved.resolve()

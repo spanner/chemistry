@@ -1,19 +1,13 @@
-class Chemistry::SectionTypeSerializer < ActiveModel::Serializer
+class Chemistry::SectionTypeSerializer
+  include FastJsonapi::ObjectSerializer
+
+  set_type :section_type
+
   attributes :id,
              :title,
              :description,
              :template,
              :icon_url,
              :image_urls
-
-  def image_urls
-    {
-      original: object.image_url(:original),
-      hero: object.image_url(:hero),
-      full: object.image_url(:full),
-      half: object.image_url(:half),
-      thumb: object.image_url(:thumb)
-    }
-  end
 
 end

@@ -3,7 +3,7 @@ module Chemistry
     load_and_authorize_resource
 
     def index
-      render json: @images
+      return_images
     end
   
     def show
@@ -31,16 +31,24 @@ module Chemistry
       head :no_content
     end
 
+
+    ## Standard responses
+
+    def return_images {
+      render json: ImageSerializer.new(@images)
+    }
+
     def return_image
-      render json: @image
+      render json: ImageSerializer.new(@image)
     end
 
     def return_errors
       render json: { errors: @image.errors.to_a }, status: :unprocessable_entity
     end
 
+
     protected
-  
+
     def image_params
       params.permit(
         :file,

@@ -1,11 +1,18 @@
-class Chemistry::PageSerializer < ActiveModel::Serializer
+class Chemistry::PageSerializer
+  include FastJsonapi::ObjectSerializer
+
+  set_type :page
+
   attributes :id,
              :path,
              :slug,
              :parent_id,
+             :type,
+             :external_url,
              :template_id,
              :title,
              :summary,
+             :excerpt,
              :home,
              :nav,
              :nav_name,
@@ -15,6 +22,6 @@ class Chemistry::PageSerializer < ActiveModel::Serializer
              :published_at,
              :deleted_at
 
-  has_many :sections, serializer: Chemistry::SectionSerializer
-  has_many :documents, serializer: Chemistry::DocumentSerializer
+  has_many :sections
+  has_many :documents
 end

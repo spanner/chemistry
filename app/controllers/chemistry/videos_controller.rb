@@ -3,7 +3,7 @@ module Chemistry
     load_and_authorize_resource
 
     def index
-      render json: @videos
+      return_videos
     end
   
     def show
@@ -31,13 +31,21 @@ module Chemistry
       head :no_content
     end
 
+
+    ## Standard responses
+
+    def return_videos {
+      render json: VideoSerializer.new(@videos)
+    }
+
     def return_video
-      render json: @video
+      render json: VideoSerializer.new(@video)
     end
 
     def return_errors
       render json: { errors: @video.errors.to_a }, status: :unprocessable_entity
     end
+
 
     protected
 

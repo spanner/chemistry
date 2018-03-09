@@ -13,5 +13,12 @@ module Chemistry
       where.not(id: sections.map(&:id))
     }
 
+
+    # for serialization
+
+    def section_type_slug
+      section_type.slug if section_type
+    end
+
   end
 end

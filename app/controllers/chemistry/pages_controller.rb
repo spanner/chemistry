@@ -24,17 +24,20 @@ module Chemistry
     #
     # `site` is an init package for the editing UI.
     #
+    # Serialized collections do not include associates: the object must be fetched singly
+    # to get eg. page sections or template placeholders.
+    #
     def site
       render json: {
-        pages: Page.all,
-        templates: Template.all,
-        section_types: SectionType.all,
+        pages: PageSerializer.new(Page.all),
+        templates: TemplateSerializer.new(Template.all),
+        section_types: SectionTypeSerializer.new(SectionType.all),
         locales: Chemistry.locale_urls
       }
     end
 
     def index
-      render json: @pages
+      return_pages
     end
 
     def show
@@ -71,8 +74,15 @@ module Chemistry
       head :no_content
     end
 
+
+    ## Standard responses
+
+    def return_pages {
+      render json: PageSerializer.new(@pages)
+    }
+
     def return_page
-      render json: @page
+      render json: PageSerializer.new(@page, include: [:sections, :documents])
     end
 
     def return_errors
@@ -86,15 +96,19 @@ module Chemistry
       params.require(:page).permit(
         :template_id,
         :parent_id,
+        :type,
+        :external_url,
         :title
       )
     end
-  
+
     def update_page_params
       params.require(:page).permit(
         :id,
         :template_id,
         :parent_id,
+        :type,
+        :external_url,
         :title,
         :nav,               # takes part in navigation?
         :nav_name,          # with this name

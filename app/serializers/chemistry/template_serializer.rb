@@ -1,4 +1,8 @@
-class Chemistry::TemplateSerializer < ActiveModel::Serializer
+class Chemistry::TemplateSerializer
+  include FastJsonapi::ObjectSerializer
+
+  set_type :template
+
   attributes :id,
              :title,
              :slug,
@@ -7,5 +11,6 @@ class Chemistry::TemplateSerializer < ActiveModel::Serializer
              :created_at,
              :updated_at
 
-  has_many :placeholders, serializer: Chemistry::PlaceholderSerializer
+  has_many :placeholders
+
 end

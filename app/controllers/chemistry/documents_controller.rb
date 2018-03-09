@@ -3,7 +3,7 @@ module Chemistry
     load_and_authorize_resource
 
     def index
-      render json: @documents
+      return_documents
     end
   
     def show
@@ -31,13 +31,21 @@ module Chemistry
       head :no_content
     end
 
+
+    ## Standard responses
+
+    def return_documents {
+      render json: DocumentSerializer.new(@documents)
+    }
+
     def return_document
-      render json: @document
+      render json: DocumentSerializer.new(@document)
     end
 
     def return_errors
       render json: { errors: @document.errors.to_a }, status: :unprocessable_entity
     end
+
 
     protected
 
