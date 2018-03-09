@@ -37,13 +37,11 @@ class InitChemistry < ActiveRecord::Migration[5.1]
     create_table :chemistry_sections do |t|
       t.integer :page_id
       t.integer :position
+      t.boolean :detached, default: false
       t.integer :section_type_id
       t.string :title
       t.text :main, limit: 16.megabytes - 1
       t.text :aside, limit: 16.megabytes - 1
-      t.integer :image_id
-      t.integer :video_id
-      t.integer :document_id
       t.datetime :deleted_at
       t.timestamps
     end

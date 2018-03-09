@@ -33,7 +33,7 @@ class Cms.Views.UI extends Cms.View
   collectionView: (base, params) =>
     @log "collectionView", base, params
     if ['pages', 'templates', 'section_types', 'images', 'videos', 'documents'].indexOf(base) is -1
-      
+      _cms.complain "Unknown object type: #{base}"
     else
       @_collection = _cms[base]
       @_collection.setParams collection_params
@@ -48,21 +48,24 @@ class Cms.Views.UI extends Cms.View
 
   modelView: (base, action, id) =>
     @log "modelView", base, action
-    model_name = base.charAt(0).toUpperCase() + base.slice(1)
-    action_name = action.charAt(0).toUpperCase() + action.slice(1)
-    model_class = Cms.Models[model_name]
-    view_class = Cms.Views[action_name + model_name] or Cms.Views[model_name]
-    if view_class and model_class
-      collection_name = model_name + 's'    # take that, ActiveSupport
-      collection_class = Cms.Collections[collection_name]
-      if id is 'new'
-        model = new model_class()
-      else if @_collection and @_collection instanceof collection_class
-        model = @_collection.get(id)
-      model ||= new model_class({id: id})
-      model.loadIfBare()
-      @showView new view_class
-        model: model
+    if ['page', 'template', 'section_type', 'image', 'video', 'document'].indexOf(base) is -1
+      _cms.complain "Unknown object type: #{base}"
+    else
+      model_name = base.charAt(0).toUpperCase() + base.slice(1)
+      action_name = action.charAt(0).toUpperCase() + action.slice(1)
+      model_class = Cms.Models[model_name]
+      view_class = Cms.Views[action_name + model_name] or Cms.Views[model_name]
+      if view_class and model_class
+        collection_name = model_name + 's'    # take that, ActiveSupport
+        collection_class = Cms.Collections[collection_name]
+        if id is 'new'
+          model = new model_class()
+        else if @_collection and @_collection instanceof collection_class
+          model = @_collection.get(id)
+        model ||= new model_class({id: id})
+        model.loadIfBare()
+        @showView new view_class
+          model: model
 
   collectionParams: (params={}) =>
     _.pick params, ['p', 'pp', 'q', 's', 'o']

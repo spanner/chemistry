@@ -11,7 +11,6 @@ class Cms.Views.Page extends Cms.View
       observe: "title"
 
   onRender: =>
-    @log "Pages render"
     @stickit()
     @addView new Cms.Views.Sections
       collection: @model.sections

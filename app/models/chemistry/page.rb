@@ -1,10 +1,11 @@
 module Chemistry
   class Page < ApplicationRecord
     acts_as_paranoid
-    belongs_to :parent, class_name: Chemistry::Page, optional: true
+    belongs_to :parent, class_name: 'Chemistry::Page', optional: true
+    belongs_to :template
 
-    has_many :sections, -> {order(:position)}, dependent: :destroy
-    has_many :documents, -> {order(:position)}, dependent: :nullify
+    has_many :sections, -> {order(position: :asc)}, dependent: :destroy
+    has_many :documents, -> {order(position: :asc)}, dependent: :nullify
     acts_as_list column: :nav_position
 
     before_validation :derive_slug
@@ -21,7 +22,7 @@ module Chemistry
 
     # It's not pretty, but it's a lot nicer than accepts_nested_attributes_for.
     #
-    def sections=(section_data=nil)
+    def section_data=(section_data=nil)
       if section_data
         old_section_ids = sections.map(&:id)
         new_section_ids = []
@@ -49,7 +50,7 @@ module Chemistry
         end
         sections.reload
       else
-        # so we delete them all?
+        # so, delete them all?
       end
       self.touch
     end
@@ -91,6 +92,28 @@ module Chemistry
         path_parts.push slug
         self.path = path_parts.compact.join('/')
       end
+    end
+
+    def init_sections
+      if template
+        revised_sections = []
+
+        # populate in order dictated by template, reusing any existing sections
+        template.placeholders.each do |placeholder|
+          revised_sections << sections.other_than(revised_sections).first_or_create(section_type_id: placeholder.section_type_id)
+        end
+        # note leftovers
+        Rails.logger.debug "⚠️ finding sections not in #{revised_sections.map(&:id).inspect}"
+        leftover_sections = sections.other_than(revised_sections)
+        # assign sequence
+        revised_sections.each.with_index do |section, i|
+          section.update_column(:position, i)
+        end
+        # detach (but keep) leftovers
+        leftover_sections.update_all(position: nil, detached: true)
+      end
+      Rails.logger.debug "⚠️ #{revised_sections.inspect}"
+      self.sections = revised_sections + leftover_sections
     end
 
   end
