@@ -1,4 +1,4 @@
 %p.inputlike.selecting.required
   %span.label.parent_title
-    Parent page
+    = t('placeholders.page.parent')
   %select.page{required: true}

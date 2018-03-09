@@ -2,22 +2,22 @@
   %svg
     %use{"xlink:href" => "#close_symbol"}
 
-%h2.new_page
+%h2.page
   %svg.page
     %use{"xlink:href" => "#new_page_symbol"}
   %span.detail
     %span.heading
-      Create home page
+      = t('new_page.home_title')
     %span.description
-      Please choose a title and template for your first page
+      = t('new_page.home_description')
 
 %p
-  %span.title.large{contenteditable: "true", data: {placeholder: "Site title"}}
+  %span.title.large{contenteditable: "true", data: {placeholder: t('placeholders.home_page.title')}}
 
 .template_picker
 
 .buttons
   %a.save.button
-    Create and edit page
+    = t('buttons.create_page')
   %a.cancel.button
-    Cancel
+    = t('buttons.cancel')

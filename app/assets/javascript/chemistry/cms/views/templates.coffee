@@ -22,10 +22,6 @@ class Cms.Views.ListedTemplate extends Cms.View
     ".description": "description"
 
 
-
-
-
-
 class Cms.Views.TemplateChoice extends Cms.Views.ChoiceView
   template: "template_choice"
   tagName: "li"
@@ -64,7 +60,11 @@ class Cms.Views.TemplatePicker extends Cms.Views.ChooserView
   className: "template picker"
 
   initialize: ->
-    @collection = _cms.templates.clone()
+    @collection = _cms.templates
+    if current_template = @collection.get(@model.get('template_id'))
+      current_template.markAsChosen()
+    else
+      @collection.resetChoices()
     @render()
 
   choose: (template) =>

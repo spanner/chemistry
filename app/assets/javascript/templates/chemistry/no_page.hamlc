@@ -2,7 +2,7 @@
   %svg.page
     %use{"xlink:href" => "#new_page_symbol"}
   %span.detail
-    %span.title
-      Create home page
+    %span.heading
+      = t('new_page.home_title')
     %span.description
-      You can rearrange and reassign pages later.
+      = t('new_page.home_description')

@@ -228,8 +228,8 @@ class Cms.Views.NoChoiceView extends Cms.View
 
 
 class Cms.Views.ChooserView extends Cms.CollectionView
+
   onChildviewChoose: (view, e) =>
-    @log "CHOOSE!", view
     @choose view.model
     view.model.markAsChosen()
 

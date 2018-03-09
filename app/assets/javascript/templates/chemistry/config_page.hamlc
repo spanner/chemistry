@@ -4,15 +4,15 @@
 
 %h2.page
   %svg.page
-    %use{"xlink:href" => "#new_page_symbol"}
+    %use{"xlink:href" => "#config_page_symbol"}
   %span.detail
     %span.heading
-      = t('new_page.title')
+      = t('pages.config_title')
     %span.description
-      = t('new_page.description')
+      = t('pages.config_description')
 
 %p
-  %span.title.required{contenteditable: "true", data: {placeholder: t("placeholders.page.title")}}
+  %span.title.large{contenteditable: "true", data: {placeholder: t('placeholders.page.title')}}
 
 .parent_picker
 
@@ -20,6 +20,6 @@
 
 .buttons
   %a.save.button
-    = t('buttons.create_page')
+    = t('buttons.save_page')
   %a.cancel.button
     = t('buttons.cancel')

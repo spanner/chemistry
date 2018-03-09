@@ -163,6 +163,7 @@ class Cms.Application extends Backbone.Marionette.Application
     @notify message, duration, 'confirmation'
 
   complain: (message, duration=10000) =>
+    @log "compain", message
     @notify message, duration, 'error'
 
   notify: (html_or_text, duration=4000, notice_type='information') =>
