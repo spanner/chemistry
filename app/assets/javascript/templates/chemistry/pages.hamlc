@@ -9,10 +9,8 @@
           %svg.page
             %use{"xlink:href" => "#new_page_symbol"}
           %span.detail
-          %span.heading
-            = t('new_page.home_title')
-          %span.description
-            = t('new_page.home_description')
+            %span.title
+              = t('pages.new_title')
 
     #pages
 
@@ -27,7 +25,7 @@
       %a{href: "/templates"}
         = t('links.templates')
       = t('and')
-      %a.fullstop{href: "/section_types"}
+      %a.fullstop{href: "/section_types"}<
         = t('links.section_types')
 
 #new_page.floater

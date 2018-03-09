@@ -122,9 +122,10 @@ class Cms.Views.PagesIndex extends Cms.Views.IndexView
   onRender: =>
     super
     if @collection.size()
-      @ui.new_page_title.text("Create new page")
+      @ui.new_page_title.text t('pages.new_title')
     else 
-      @ui.new_page_title.text("Create home page")
+      @ui.new_page_title.text t('pages.new_home_title')
+
     page_tree = new Cms.Views.PageTree
       collection: @collection
     page_tree.on "beget", @startChildPage

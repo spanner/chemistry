@@ -7,9 +7,9 @@
     %use{"xlink:href" => "#new_page_symbol"}
   %span.detail
     %span.heading
-      = t('new_page.title')
+      = t('pages.new_title')
     %span.description
-      = t('new_page.description')
+      = t('pages.new_description')
 
 %p
   %span.title.required{contenteditable: "true", data: {placeholder: t("placeholders.page.title")}}

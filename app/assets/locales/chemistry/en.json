@@ -30,7 +30,7 @@
     "templates": "templates"
   },
   "pages": {
-    "config_description": "Be careful when changing template or parent page",
+    "config_description": "Please be careful when changing template or parent page",
     "config_title": "Configure page",
     "new_description": "Please choose a template and parent page.",
     "new_home_title": "Create home page",
@@ -45,6 +45,9 @@
       "title": "Page title",
       "parent": "Parent page"
     }
+  },
+  "notes": {
+    "create_new_page": ""
   },
   "reassurances": {
     "page_saved": "Page saved"
