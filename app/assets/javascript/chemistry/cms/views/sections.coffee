@@ -28,11 +28,11 @@ class Cms.Views.Section extends Cms.View
     @model.on "change:section_type", @render
 
   onRender: =>
-    super
     @$el.find('[data-role="title"]').attr('contenteditable', 'plaintext-only')
     @$el.find('[data-role="primary"]').attr('contenteditable', 'true')
     @$el.find('[data-role="secondary"]').attr('contenteditable', 'true')
     @setPlaceholders()
+    super
 
   sectionId: (id) -> 
     "section_#{id}"

@@ -5,10 +5,7 @@ class Cms.Views.Page extends Cms.View
 
   ui:
     content: "#page_content"
-
-  bindings:
-    "h1.pagetitle":
-      observe: "title"
+    saver: "#controls"
 
   onRender: =>
     @stickit()

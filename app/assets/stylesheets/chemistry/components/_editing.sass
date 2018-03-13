@@ -1,15 +1,9 @@
 .editor
   [contenteditable]:not([contenteditable=false])
-    display: block
-    position: relative
-    box-sizing: border-box
-    cursor: text
     color: $editfg
     background-color: $editbg
     outline: none
-    +cms-font-light
-    font-size: 1.2rem
-    width: 100%
+    cursor: text
     &[disabled]
       pointer-events: none
     &:focus

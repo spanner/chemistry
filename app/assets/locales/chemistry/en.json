@@ -48,13 +48,13 @@
     },
     "sections": {
       "standard": {
-        "title": "Block title (optional: leave blank to omit)",
-        "primary": "The text of this block. While editing you can also place inline images, video, quotes, marginal blocks and document links."
+        "title": "Block title (optional)",
+        "primary": "The text of this block. While editing you can also add headings, lists, inline images, video, quotes, marginal blocks and document links. Click the plus button see the options."
       },
       "standfirst": {
         "title": "Page title",
-        "primary": "The standfirst usually contains an introduction or overview.",
-        "secondary": "This aside can contain document-level notes and links. Leave blank to omit."
+        "primary": "The standfirst usually contains an introduction or overview that might go on for a few lines",
+        "secondary": "This aside can contain document-level notes and links."
       }
     }
   },
