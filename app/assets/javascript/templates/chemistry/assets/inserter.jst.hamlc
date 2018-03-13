@@ -1,0 +1,16 @@
+.cms-buttons<
+  %a.control.show>
+    %svg.icon
+      %use{"xlink:href" => "#insert_symbol"}
+  %a.control.add.image>
+    %svg.icon
+      %use{"xlink:href" => "#image_symbol"}
+  %a.control.add.video>
+    %svg.icon
+      %use{"xlink:href" => "#video_symbol"}
+  %a.control.add.quote>
+    %svg.icon
+      %use{"xlink:href" => "#quote_symbol"}
+  %a.control.add.annotation>
+    %svg.icon
+      %use{"xlink:href" => "#annotation_symbol"}

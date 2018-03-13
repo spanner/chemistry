@@ -180,6 +180,37 @@ class Cms.EditView extends Cms.View
         _cms.navigate @showMeHref(@model.get('id'))
 
 
+# The menu view has a head and a toggled body.
+# Examples include the image and video pickers.
+#
+class Cms.Views.MenuView extends Cms.View
+
+  ui:
+    head: ".menu-head"
+    body: ".menu-body"
+
+  events:
+    "click @ui.head": "toggleMenu"
+
+  toggleMenu: =>
+    if @showing()
+      @close()
+    else
+      @open()
+
+  showing: =>
+    @$el.hasClass('open')
+
+  open: =>
+    @$el.addClass('open')
+    @ui.body.show()
+
+  close: =>
+    @_menu_view?.close()
+    @ui.body.hide()
+    @$el.removeClass('open')
+
+
 ## Collection View
 #
 # Adds some conventional lifecycle and useful bindings to our various composite views:

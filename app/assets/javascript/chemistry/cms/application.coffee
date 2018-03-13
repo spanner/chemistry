@@ -165,7 +165,7 @@ class Cms.Application extends Backbone.Marionette.Application
     @notify message, duration, 'confirmation'
 
   complain: (message, duration=10000) =>
-    @log "compain", message
+    @log "Complaint:", message
     @notify message, duration, 'error'
 
   notify: (html_or_text, duration=4000, notice_type='information') =>
@@ -208,7 +208,8 @@ class Cms.Application extends Backbone.Marionette.Application
         locale_loader.done (data) =>
           polyglot = new Polyglot()
           polyglot.extend(data)
-          root.t = polyglot.t.bind polyglot
+          root.t = polyglot.t.bind(polyglot)
+          @translationAvailable = polyglot.has.bind(polyglot)
           @_ui_locale = locale
           @_locale_ready.resolve(data)
           @_ui?.reset() if resetting

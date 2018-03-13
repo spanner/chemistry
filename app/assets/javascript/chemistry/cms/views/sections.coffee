@@ -5,6 +5,12 @@ class Cms.Views.Section extends Cms.View
 
   template: => @model?.getTemplate()
 
+  ui:
+    title: '[data-cms-role="title"]'
+    primary: '[data-cms-role="primary"]'
+    secondary: '[data-cms-role="secondary"]'
+    editable: '[data-cms-editor="full"]'
+
   bindings:
     ":el":
       class:
@@ -14,12 +20,13 @@ class Cms.Views.Section extends Cms.View
         observe: "id"
         onGet: "sectionId"
       ]
-    '[data-role="title"]':
+    '[data-cms-role="title"]':
       observe: "title"
-    '[data-role="primary"]':
+      updateMethod: "html"
+    '[data-cms-role="primary"]':
       observe: "primary_html"
       updateMethod: "html"
-    '[data-role="secondary"]':
+    '[data-cms-role="secondary"]':
       observe: "secondary_html"
       updateMethod: "html"
 
@@ -28,11 +35,14 @@ class Cms.Views.Section extends Cms.View
     @model.on "change:section_type", @render
 
   onRender: =>
-    @$el.find('[data-role="title"]').attr('contenteditable', 'plaintext-only')
-    @$el.find('[data-role="primary"]').attr('contenteditable', 'true')
-    @$el.find('[data-role="secondary"]').attr('contenteditable', 'true')
+    @ui.title.attr('contenteditable', 'plaintext-only')
+    @ui.primary.attr('contenteditable', 'true')
+    @ui.secondary.attr('contenteditable', 'true')
+    @ui.primary.on('focus', @ensureP).on('blur', @clearP)
+    @ui.secondary.on('focus', @ensureP).on('blur', @clearP)
     @setPlaceholders()
     super
+    @addEditor()
 
   sectionId: (id) -> 
     "section_#{id}"
@@ -41,10 +51,29 @@ class Cms.Views.Section extends Cms.View
     @log "setPlaceholders", @model.get('section_type_slug')
     if slug = @model.get('section_type_slug')
       for att in ['title', 'primary', 'secondary']
-        @log "placeholding", att
-        @log "placeholder", t("placeholders.sections.#{slug}.#{att}")
-        @log "place", @$el.find('[data-role="' + att + '"]')
-        @$el.find('[data-role="' + att + '"]').attr('data-placeholder', t("placeholders.sections.#{slug}.#{att}"))
+        if _cms.translationAvailable("placeholders.sections.#{slug}.#{att}")
+          @$el.find('[data-cms-role="' + att + '"]').attr('data-placeholder', t("placeholders.sections.#{slug}.#{att}"))
+
+  addEditor: =>
+    @ui.editable.each (i, el) =>
+      @log "addEditor", el
+      @addView new Cms.Views.Editor
+        model: @model
+        el: el
+
+  ensureP: (e) =>
+    el = e.target
+    if el.innerHTML is ""
+      el.style.minHeight = el.offsetHeight + 'px'
+      p = document.createElement('p')
+      p.innerHTML = "&#8203;"
+      el.appendChild p
+
+  clearP: (e) =>
+    el = e.target
+    content = el.innerHTML
+    el.innerHTML = "" if content is "<p>&#8203;</p>" or content is "<p><br></p>" or content is "<p>​</p>"  # there's a zwsp in that last string
+
 
 
 class Cms.Views.NoSection extends Cms.View

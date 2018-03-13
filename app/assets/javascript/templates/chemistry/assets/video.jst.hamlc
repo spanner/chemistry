@@ -1,0 +1,7 @@
+%video
+.embed
+.cms-buttons
+.cms-dropmask
+  %p.prompt
+    = t('placeholders.video.file')
+%figcaption{contenteditable: "plaintext-only", data: {placeholder: t('placeholders.video.caption')}}<

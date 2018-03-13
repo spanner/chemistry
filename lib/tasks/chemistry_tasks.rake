@@ -17,10 +17,11 @@ namespace :chemistry do
     section_types = JSON.parse(File.read(File.expand_path('../../../db/import/v1/section_types.json', __FILE__)))
     section_types.each do |st|
       begin
-        if Chemistry::SectionType.find_by(slug: st['slug'])
-          puts "- Section type #{st['slug']} exists".colorize(:light_white)
+        if section_type = Chemistry::SectionType.find_by(slug: st['slug'])
+          section_type.update_attributes(st)
+          puts "- Section type #{st['slug']} updated".colorize(:light_green)
         else
-          Chemistry::SectionType.create(st)
+          section_type = Chemistry::SectionType.create(st)
           puts "√ Section type: #{st['slug']} created".colorize(:green)
         end
       rescue => e
@@ -31,8 +32,9 @@ namespace :chemistry do
     templates = JSON.parse(File.read(File.expand_path('../../../db/import/v1/templates.json', __FILE__)))
     templates.each do |t|
       begin
-        if Chemistry::Template.find_by(title: t['title'])
-          puts "- Template #{t['title']} exists".colorize(:light_white)
+        if template = Chemistry::Template.find_by(title: t['title'])
+          template.update_attributes(t)
+          puts "- Template #{t['title']} updated".colorize(:light_green)
         else
           section_types = t.delete('section_types')
           template = Chemistry::Template.create(t)

@@ -25,6 +25,7 @@
 
 $ ->
   _.mixin(s.exports())
+  document.execCommand('defaultParagraphSeparator', false, 'p')
 
   $.fn.chemistry = (options={}) ->
     @each ->
