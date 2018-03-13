@@ -159,3 +159,25 @@ $editbg: white
     margin-left: 0.1em
     margin-top: -0.1em
 
+=validated
+  &.required
+    font-weight: bold
+    &:after
+      display: block
+      position: absolute
+      width: 24px
+      height: 24px
+      bottom: 5px
+      right: 2px
+      z-index: 50
+      content: image-url('chemistry/required.svg')
+  &.valid
+    &:after
+      display: block
+      position: absolute
+      width: 32px
+      height: 32px
+      bottom: 0
+      right: 0
+      z-index: 50
+      content: image-url('chemistry/valid.svg')

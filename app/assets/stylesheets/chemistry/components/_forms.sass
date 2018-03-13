@@ -1,0 +1,146 @@
+.form
+  input[type="text"], input[type="email"], input[type="password"], [contenteditable]:not([contenteditable=false])
+    display: block
+    position: relative
+    box-sizing: border-box
+    cursor: text
+    color: $editfg
+    background-color: $editbg
+    padding: 20px 10px 3px
+    border: 1px solid $verypale
+    outline: none
+    +cms-font-light
+    font-size: 1.5rem
+    width: 100%
+    &[disabled]
+      pointer-events: none
+    &:focus
+      outline: 0
+    &.block
+      display: block
+      min-height: 40px
+      max-height: 100px
+      overflow: auto
+      margin: 3px 0
+    &.oneline
+      display: inline-block
+      white-space: nowrap
+    &:lang(ar)
+      line-height: 1.4
+    &.percentage
+      &:after
+        content: "%"
+    &.config
+      background-color: white
+      border-radius: 0
+      border: none
+      display: inline-block
+      padding: 5px 6px 3px 0
+    &.email, &.phone
+      white-space: nowrap
+      overflow: hidden
+    &.number
+      width: 2.4em
+    +validated
+
+  [data-placeholder]:before
+    content: attr(data-placeholder)
+    color: $verypale
+    transition: color 0.5s ease-out, font-weight 0.5s ease-out
+    position: absolute
+    font-size: 0.9rem
+    top: 3px
+    left: 10px
+    font-weight: normal
+
+  [data-placeholder]:empty:before
+    color: $mid
+    font-weight: bold
+
+  .inputlike
+    display: block
+    position: relative
+    box-sizing: border-box
+    border: 1px solid $verypale
+    outline: none
+    +cms-font-light
+    font-size: 1.5rem
+    width: 100%
+    +validated
+    span.label
+      position: absolute
+      font-size: 0.9rem
+      top: 3px
+      left: 10px
+      font-weight: normal
+      color: $verypale
+      transition: color 0.5s ease-out, font-weight 0.5s ease-out
+    span.value
+      color: $editfg
+    &.absent
+      span.label
+        color: $mid
+        font-weight: bold
+        z-index: 20
+        pointer-events: none
+    &.selecting
+      height: 64px
+      select
+        -webkit-appearance: none
+        position: absolute
+        padding: 20px 10px 3px
+        box-sizing: border-box
+        background-color: transparent
+        border: none
+        +cms-font-light
+        width: 100%
+        height: 100%
+        z-index: 10
+        opacity: 1
+        font-size: 1.5rem
+        &:required:invalid
+          color: $pale
+
+ul.picker.page, ul.picker.template
+  list-style: none
+  margin: 0
+  padding: 0
+  +clearfix
+  li
+    display: inline-block
+    float: left
+    margin: 0 32px 32px 0
+    a.choose
+      cursor: pointer
+      display: block
+      position: relative
+      opacity: 0.75
+      color: $pale
+      &:not(.chosen):hover
+        opacity: 1
+        color: $green
+      svg
+        width: 96px
+        height: 128px
+        color: currentColor
+      span
+        display: block
+        font-size: 0.75rem
+        width: 96px
+        margin: 0.25em 0
+        text-align: center
+        color: $mid
+      &.chosen
+        opacity: 1
+        color: $mid
+        &:after
+          display: block
+          position: absolute
+          width: 48px
+          height: 48px
+          top: 100px
+          right: -18px
+          content: image-url('chemistry/chosen.svg')
+        span
+          font-weight: bold
+          color: $dark

@@ -38,10 +38,13 @@ class Cms.Views.Section extends Cms.View
     "section_#{id}"
 
   setPlaceholders: =>
+    @log "setPlaceholders", @model.get('section_type_slug')
     if slug = @model.get('section_type_slug')
       for att in ['title', 'primary', 'secondary']
-        @log "placeholding", att, t("placeholders.sections.#{slug}.#{att}")
-        @$el.find('[data-role="' + att + '"]').data('placeholder', t("placeholders.sections.#{slug}.#{att}"))
+        @log "placeholding", att
+        @log "placeholder", t("placeholders.sections.#{slug}.#{att}")
+        @log "place", @$el.find('[data-role="' + att + '"]')
+        @$el.find('[data-role="' + att + '"]').attr('data-placeholder', t("placeholders.sections.#{slug}.#{att}"))
 
 
 class Cms.Views.NoSection extends Cms.View
