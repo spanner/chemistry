@@ -11,8 +11,8 @@ class Chemistry::SectionSerializer
              :section_type_id,
              :section_type_slug,
              :title,
-             :main,
-             :aside,
+             :primary_html,
+             :secondary_html,
              :deleted_at
 
 end

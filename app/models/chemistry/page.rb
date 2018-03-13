@@ -116,8 +116,9 @@ module Chemistry
         end
         # detach (but keep) leftovers
         leftover_sections.update_all(position: nil, detached: true)
+
+        self.sections = revised_sections + leftover_sections
       end
-      self.sections = revised_sections + leftover_sections
     end
 
   end

@@ -197,6 +197,7 @@ class Cms.Application extends Backbone.Marionette.Application
       'en'
 
   setUILocale: (locale) =>
+    resetting = !!@_ui_locale
     locale ?= @chooseUILocale()
     @log "setUILocale", locale, 'was', @_ui_locale
     unless @_ui_locale is locale
@@ -210,7 +211,7 @@ class Cms.Application extends Backbone.Marionette.Application
           root.t = polyglot.t.bind polyglot
           @_ui_locale = locale
           @_locale_ready.resolve(data)
-          @_ui?.reset()
+          @_ui?.reset() if resetting
         locale_loader.fail (data, status, error) =>
           @complain("Locale file #{locale_url} could not be loaded: #{error}", 10000)
         @_locale_ready.promise()

@@ -1,8 +1,9 @@
 class Cms.Views.Section extends Cms.View
   tagName: "section"
 
-  className: =>
-    @model?.get('section_type_slug')
+  className: => @model?.get('section_type_slug')
+
+  template: => @model?.getTemplate()
 
   bindings:
     ":el":
@@ -13,23 +14,34 @@ class Cms.Views.Section extends Cms.View
         observe: "id"
         onGet: "sectionId"
       ]
-    ## can we bind everything here or do the section_type templates vary more than that?
-
-
-
+    '[data-role="title"]':
+      observe: "title"
+    '[data-role="primary"]':
+      observe: "primary_html"
+      updateMethod: "html"
+    '[data-role="secondary"]':
+      observe: "secondary_html"
+      updateMethod: "html"
 
   initialize: =>
     super
-    @log "init"
     @model.on "change:section_type", @render
-    window.sv = @
 
-  template: =>
-    @log "template", @model.getTemplate()
-    @model.getTemplate()
+  onRender: =>
+    super
+    @$el.find('[data-role="title"]').attr('contenteditable', 'plaintext-only')
+    @$el.find('[data-role="primary"]').attr('contenteditable', 'true')
+    @$el.find('[data-role="secondary"]').attr('contenteditable', 'true')
+    @setPlaceholders()
 
   sectionId: (id) -> 
     "section_#{id}"
+
+  setPlaceholders: =>
+    if slug = @model.get('section_type_slug')
+      for att in ['title', 'primary', 'secondary']
+        @log "placeholding", att, t("placeholders.sections.#{slug}.#{att}")
+        @$el.find('[data-role="' + att + '"]').data('placeholder', t("placeholders.sections.#{slug}.#{att}"))
 
 
 class Cms.Views.NoSection extends Cms.View

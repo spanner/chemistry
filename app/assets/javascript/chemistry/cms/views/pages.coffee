@@ -4,7 +4,7 @@ class Cms.Views.Page extends Cms.View
   template: "page"
 
   ui:
-    sections: "#sections"
+    content: "#page_content"
 
   bindings:
     "h1.pagetitle":
@@ -15,7 +15,7 @@ class Cms.Views.Page extends Cms.View
     window.p = @model
     @addView new Cms.Views.Sections
       collection: @model.sections
-      el: @ui.sections
+      el: @ui.content
 
 
 # Main page list

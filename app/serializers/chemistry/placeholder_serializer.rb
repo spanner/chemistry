@@ -11,8 +11,8 @@ class Chemistry::PlaceholderSerializer
              :section_type_id,
              :section_type_slug,
              :title,
-             :content,
-             :aside,
+             :primary_html,
+             :secondary_html,
              :created_at,
              :updated_at
 

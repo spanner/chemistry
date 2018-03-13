@@ -44,8 +44,8 @@ class InitChemistry < ActiveRecord::Migration[5.1]
       t.boolean :detached, default: false
       t.integer :section_type_id
       t.string :title
-      t.text :main, limit: 16.megabytes - 1
-      t.text :aside, limit: 16.megabytes - 1
+      t.text :primary_html, limit: 16.megabytes - 1
+      t.text :secondary_html, limit: 16.megabytes - 1
       t.datetime :deleted_at
       t.timestamps
     end

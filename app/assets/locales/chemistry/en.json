@@ -45,6 +45,17 @@
     "page": {
       "title": "Page title",
       "parent": "Parent page"
+    },
+    "sections": {
+      "standard": {
+        "title": "Block title (optional: leave blank to omit)",
+        "primary": "The text of this block. While editing you can also place inline images, video, quotes, marginal blocks and document links."
+      },
+      "standfirst": {
+        "title": "Page title",
+        "primary": "The standfirst usually contains an introduction or overview.",
+        "secondary": "This aside can contain document-level notes and links. Leave blank to omit."
+      }
     }
   },
   "notes": {

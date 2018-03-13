@@ -1,6 +1,7 @@
 module Chemistry
   class SectionsController < ApplicationController
-    load_and_authorize_resource
+    load_and_authorize_resource :page
+    load_and_authorize_resource through: :page
 
     def index
       return_sections
@@ -54,8 +55,8 @@ module Chemistry
         :position,
         :section_type_id,
         :title,
-        :main,
-        :aside
+        :primary_html,
+        :secondary_html
       )
     end
 

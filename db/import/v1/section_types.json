@@ -1,50 +1,44 @@
 [
   {
-    "title": "Text",
-    "slug": "text",
-    "description": "Just a column of html. Can include images, video, quotes.",
-    "template": "<h2 data-role='title'></h2><article data-role='main'></article>"
-  },
-  {
-    "title": "Two column",
-    "slug": "twocol",
-    "description": "Main text and aside. Either can include images, video, quotes.",
-    "template": "<h2 data-role='title'></h2><article data-role='main'></article><aside data-role='aside'></aside>"
+    "title": "Standard",
+    "slug": "standard",
+    "description": "A column of html with optional heading. Can include images, video, quotes, marginalia, document links.",
+    "template": "<h2 data-role='title'></h2><div data-role='primary'></div>"
   },
   {
     "title": "Hero",
     "slug": "hero",
     "description": "Big picture in the backgound, title and optional caption in the foreground. Usually the top of a landing page.",
-    "template": "<figure data-role='image'><h1 data-role='title'></h1><figcaption data-role='image_caption'></figcaption></figure>"
+    "template": "<figure data-role='image'><h1 data-role='title'></h1><figcaption data-role='caption'></figcaption></figure>"
   },
   {
     "title": "Standfirst",
     "slug": "standfirst",
     "description": "A useful page opener.",
-    "template": "<h1 data-role='title'></h1><div class='standfirst' data-role='main'></div><aside class='comments' data-role='aside'></aside>"
+    "template": "<h1 data-role='title'></h1><div class='standfirst' data-role='primary'></div><aside class='metadata' data-role='secondary'></aside>"
   },
   {
     "title": "Big quote",
     "slug": "quote",
     "description": "Big quote by itself.",
-    "template": "<figure><p class='statement' data-role-'main'></p><figcaption class='speaker' data-role='aside'></figcaption></figure>"
+    "template": "<figure><p class='statement' data-role-'main'></p><figcaption class='speaker' data-role='secondary'></figcaption></figure>"
   },
   {
     "title": "Big picture",
     "slug": "picture",
     "description": "Full width image block with caption.",
-    "template": "<figure><div data-role='background-image'></div><figcaption data-role='image_caption'></figcaption></figure>"
+    "template": "<figure><div data-role='background-image'></div><figcaption data-role='caption'></figcaption></figure>"
   },
   {
     "title": "Big video",
     "slug": "video",
     "description": "Full width video block with caption.",
-    "template": "<figure><video><source><img data-role='image'></video><div class='embed'></div><figcaption data-role='video_caption'></figcaption></figure>"
+    "template": "<figure><video><source><img data-role='image'></video><div class='embed'></div><figcaption data-role='caption'></figcaption></figure>"
   },
   {
     "title": "Contents",
     "slug": "contents",
     "description": "A list of the pages beneath this or another page.",
-    "template": "<h2 data-role='title'></h2><article data-role='contents'></article><aside data-role='aside'></aside>"
+    "template": "<h2 data-role='title'></h2><div data-role='contents'></div><aside data-role='secondary'></aside>"
   }
 ]

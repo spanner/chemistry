@@ -55,8 +55,8 @@ module Chemistry
         :position,
         :section_type_id,
         :title,
-        :content,
-        :aside
+        :primary_html,
+        :secondary_html
       )
     end
 
