@@ -222,6 +222,9 @@ class Cms.Views.NewPage extends Cms.Views.FloatingView
   events:
     "click a.save": "saveAndEdit"
 
+  ui:
+    "savebutton": "a.save"
+
   bindings:
     "span.title":
       observe: "title"
@@ -239,7 +242,6 @@ class Cms.Views.NewPage extends Cms.Views.FloatingView
     unless @model
       @model = new Cms.Models.Page
       @model.set 'parent', options.parent
-      window.np = @model
     super
 
   onRender: =>
@@ -252,6 +254,7 @@ class Cms.Views.NewPage extends Cms.Views.FloatingView
         model: @model
 
   saveAndEdit: (e) =>
+    #TODO model validation
     @containEvent(e)
     @model.save().done =>
       if id = @model.get('id')
