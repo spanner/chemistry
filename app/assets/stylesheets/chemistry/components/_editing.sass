@@ -1,4 +1,5 @@
 .editor
+  overflow: hidden
   [contenteditable]:not([contenteditable=false])
     color: $editfg
     background-color: $editbg
@@ -17,6 +18,7 @@
     transition: opacity 0.5s ease-out
     position: absolute
     z-index: 1
+    font-style: italic
 
   [data-placeholder]:empty:before
     opacity: 1

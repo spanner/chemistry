@@ -7,247 +7,50 @@
       position: relative
       z-index: 20
 
-
-    &.twocol
-      .col
-        display: inline-block
-        vertical-align: top
-        float: left
-        min-height: 100px
-        width: 48%
-        margin-right: 4%
-        *:first-child
-          margin-top: 0
-        &.second
-          margin-right: 0
-        &:empty
-          height: 400px
-
-    &.asidequote
-      aside
-        float: right
-        width: 22%
-        min-height: 50px
-        margin: 0 0 16px 4%
-        color: $pale
-        p:first-child
-          margin-top: 0
-        img:first-child
-          margin-top: 0.4em
-      .section_body
-        min-height: 100px
-        max-width: 830px
-        border-top: 1px solid transparent
-        *:first-child
-          margin-top: 0
-        &:empty
-          height: 400px
-      &.left
-        aside
-          float: left
-          margin: 0 4% 16px 0
-      &.full
-        aside
-          float: none
-          margin: 1em auto
-          width: 75%
-          font-size: 1.5rem
-
-    &.asideimage
-      aside
-        float: right
-        width: 48%
-        min-height: 50px
-        margin: 0 0 0 4%
-        figure.image
-          margin: 0.5em 0 0.5em 0
-        img, video, iframe
-          width: 100%
-          height: auto
-          min-height: 100px
-        .caption
-          color: $pale
-          margin-top: 1em
-          margin-bottom: 1em
-      .section_body
-        min-height: 200px
-        border-top: 1px solid transparent
-        *:first-child
-          margin-top: 0
-        &:empty
-          height: 400px
-      &.left
-        aside
-          float: left
-          margin: 0 4% 16px 0
-      &.full
-        aside
-          float: none
-          margin: 1em 0
-          width: 100%
-
-    &.onecol
-      .content
-        .section_body, h2
-          width: 50%
-          margin: 1.25em auto
-
-    &.bigquote
-      p
-        width: 75%
-        +bigtext
-        margin: 2.5em auto 2em auto
-
-    &.bigpicture
-      position: relative
-      top: 0
-      width: 100vw
-      margin: 0
-      max-height: 80vh
-      min-height: 50vh
-      .picture
-        position: relative
-        overflow: hidden
-        max-height: 80vh
-        img, video, iframe
-          width: 100%
-          height: auto
-          min-height: 50vh
-          position: relative
-          margin: 0 auto
-          background-color: $coolgrey11
-        img[src=""]
-          height: 90vh
-      .content
-        position: absolute
-        bottom: 1.25em
-        left: 0
-        right: 0
-        .caption
-          max-width: 300px
-          font-size: 1rem
-          color: white
-          text-shadow: 0 0 10px rgba(0,0,0,0.6)
-          min-width: 100px
-
-    &.links
-      padding-bottom: 3em
-      .built
-        +central
-        div.block
-          position: relative
-          width: 22%
-          margin-right: 3.3%
-          display: inline-block
-          vertical-align: top
-          &:last-child
-            margin: 0
-          a.block
-            position: relative
-            display: block
-            width: 100%
-            padding-bottom: 100%
-            background:
-              position: center center
-              repeat: no-repeat
-              size: cover
-            span.caption
-              position: absolute
-              bottom: 0
-              left: 0
-              right: 0
-              padding: 10px
-              background-color: rgba(255,255,255,0.75)
-              color: black
-            &:hover
-              span.caption
-                background-color: rgba(255,255,255,0.95)
-
-    &.gallery
-      .built
-        .images
-          div.block
-            figure.image
-              display: block
-              position: relative
-              margin: 0
-              width: 100%
-              padding-bottom: 75%
-              overflow: hidden
-              background:
-                position: center center
-                repeat: no-repeat
-                size: cover
-      &.blocks
-        padding-bottom: 3em
-        .built
-          .images
-            position: relative
-            margin-left: -1.8%
-            margin-right: -1.8%
-            div.block
-              position: relative
-              width: 21%
-              margin: 24px 1.8%
-              display: inline-block
-              vertical-align: top
-              figure.image
-                padding-bottom: 100%
-                
-
-      &.slides
-        .built
-          position: relative
-          .images
-            width: 100%
-            height: 80vh
-            div.block
-              display: inline-block
-              float: left
-              margin: 0
-              width: 100%
-              height: 100%
-              &.slick-slide
-                opacity: 0.25
-                transition: opacity 0.5s ease
-              &.slick-active
-                opacity: 1
-
     &.hero
       position: relative
-      top: 0
       width: 100vw
+      max-width: 100vw
       margin: 0
+      padding: 0
       min-height: 260px
-      .picture
+      figure
         position: relative
         width: 100%
+        height: 100vw
         max-height: 80vh
         overflow: hidden
-        figure.image
+        margin: 0
+        background:
+          color: $pale
+          position: center center
+          repeat: no-repeat
+          size: cover
+        .fg
+          position: absolute
+          bottom: 2em
+          left: 0
           margin: 0
           width: 100%
-          height: 90vh
-          background:
-            position: center center
-            repeat: no-repeat
-            size: cover
-        figure.video
-          margin: 0
-          width: 100%
-          background:
-            position: center center
-            repeat: no-repeat
-            size: cover
-        img, video
-          position: relative
-          width: 100%
-          height: auto
-          min-height: 50vh
-          margin: 0 auto
-          background-color: $coolgrey11
-        img[src=""]
-          height: 90vh
+        h1
+          font-size: 3em
+          font-weight: lighter
+          background-color: transparent
+          color: white
+          text-shadow: 0 0 10px rgba(0,0,0,0.6)
+          line-height: 1.1
+          min-width: 100px
+          &:empty:before
+            color: white
+            opacity: 0.75
+        figcaption
+          position: absolute
+            bottom: 1.25em
+            right: 5%
+            max-width: 33%
+            font-size: 1rem
+            color: white
+
       .content
         position: absolute
         bottom: 1.25em
@@ -345,3 +148,12 @@
                 a:before
                   content: "◼ "
 
+@media (max-width: 700px)
+  #page_content
+    section
+      &.hero
+        figure
+          .fg
+            bottom: 1.5em
+          h1
+            font-size: 2em

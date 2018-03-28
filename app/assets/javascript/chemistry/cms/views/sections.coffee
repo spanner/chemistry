@@ -30,8 +30,9 @@ class Cms.Views.Section extends Cms.View
       observe: "secondary_html"
       updateMethod: "html"
 
-  initialize: =>
+  initialize: (opts={}) =>
     super
+    @page = opts.page
     @model.on "change:section_type", @render
 
   onRender: =>
@@ -40,6 +41,7 @@ class Cms.Views.Section extends Cms.View
     @ui.secondary.attr('contenteditable', 'true')
     @ui.primary.on('focus', @ensureP).on('blur', @clearP)
     @ui.secondary.on('focus', @ensureP).on('blur', @clearP)
+    @setDefaults()
     @setPlaceholders()
     super
     @addEditor()
@@ -47,12 +49,22 @@ class Cms.Views.Section extends Cms.View
   sectionId: (id) -> 
     "section_#{id}"
 
+  setDefaults: =>
+    slug = @model.get('section_type_slug')
+    if slug is 'hero' or slug is 'standfirst'
+      @log "setDefaults", @model.get('section_type_slug'), @page.get('title')
+      @model.set('title', @page?.get('title')) unless @model.get('title')
+
   setPlaceholders: =>
-    @log "setPlaceholders", @model.get('section_type_slug')
     if slug = @model.get('section_type_slug')
-      for att in ['title', 'primary', 'secondary']
+      for att in ['title', 'primary', 'secondary', 'caption']
         if _cms.translationAvailable("placeholders.sections.#{slug}.#{att}")
-          @$el.find('[data-cms-role="' + att + '"]').attr('data-placeholder', t("placeholders.sections.#{slug}.#{att}"))
+          title = t("placeholders.sections.#{slug}.#{att}")
+        else if _cms.translationAvailable("placeholders.sections.#{att}")
+          title = t("placeholders.sections.#{att}")
+        @log "setPlaceholders", att, slug, "->", title
+        if title
+          @$el.find('[data-cms-role="' + att + '"]').attr('data-placeholder', title)
 
   addEditor: =>
     @ui.editable.each (i, el) =>
@@ -84,3 +96,12 @@ class Cms.Views.Sections extends Cms.Views.AttachedCollectionView
   childView: Cms.Views.Section
   emptyView: Cms.Views.NoSection
   # nb AttachedCollectionView is self-loading and self-rendering
+
+  childViewOptions: (model) =>
+    page: @page
+
+  initialize: (opts={}) =>
+    @page = opts.page
+    super
+
+

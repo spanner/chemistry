@@ -11,6 +11,7 @@ class Cms.Views.Page extends Cms.View
     @stickit()
     window.p = @model
     @addView new Cms.Views.Sections
+      page: @model
       collection: @model.sections
       el: @ui.content
 

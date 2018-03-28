@@ -60,9 +60,20 @@ class Cms.Views.UI extends Cms.View
         collection_class = Cms.Collections[collection_name]
         if id is 'new'
           model = new model_class()
+
+        # try to get model from previous collection, eg when navigating from list to item
         else if @_collection and @_collection instanceof collection_class
           model = @_collection.get(id)
-        model ||= new model_class({id: id})
+
+        # try to get model from main application collection, eg when going straight to an item view
+        else if @_collection = _cms[collection_name.toLowerCase()]
+          model = @_collection.get(id)
+
+        # or we have to fetch a new copy of the model
+        unless model
+          model = new model_class({id: id})
+          model.fetch()
+
         @showView new view_class
           model: model
 

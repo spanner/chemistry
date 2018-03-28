@@ -128,7 +128,8 @@ class Cms.Model extends Backbone.Model
     # etc
 
   parse: (response) =>
-    attributes = response.attributes
+    #TODO: be less fucked up
+    attributes = response.attributes or response.data?.attributes
     if @populate(attributes)
       attributes
 

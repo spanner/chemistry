@@ -55,12 +55,16 @@
       "attribution": "Optional speaker attribution"
     },
     "sections": {
+      "hero": {
+        "caption": "Image or video caption",
+        "title": "Page title"
+      },
       "standard": {
         "primary": "The text of this block. While editing you can also add headings, lists, inline images, video, quotes, marginal blocks and document links. Click the plus button see the options."
       },
       "standfirst": {
         "title": "Page title",
-        "primary": "The standfirst usually contains an introduction or summary.",
+        "primary": "The standfirst usually contains an introduction or summary of up to 100 words.",
         "secondary": "Optional page notes."
       }
     },
