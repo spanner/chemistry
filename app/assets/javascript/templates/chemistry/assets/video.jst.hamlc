@@ -1,7 +1,7 @@
-%video
+%img{src: ""}
 .embed
-.cms-buttons
 .cms-dropmask
   %p.prompt
     = t('placeholders.video.file')
+.cms-buttons
 %figcaption{contenteditable: "plaintext-only", data: {placeholder: t('placeholders.video.caption')}}<

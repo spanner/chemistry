@@ -1,0 +1,116 @@
+figure
+  position: relative
+  min-height: 48px
+  margin: 2em 0
+  blockquote
+    min-height: 1em
+    min-width: 1em
+  .holder
+    display: block
+    position: relative
+    z-index: 100
+  figcaption
+    display: block
+    min-height: 1em
+    margin: 8px 20px
+    text-align: center
+    z-index: 300
+    cursor: text
+  img[src=""]
+    display: block
+    padding-bottom: 56%
+    width: 100%
+    background: radial-gradient($pale, $mid)
+  .cms-controls
+    position: absolute
+    bottom: 0
+    right: 0
+
+.editing
+  figure
+    position: relative
+    width: 100%
+    height: 100%
+    transition: background-position 0.5s ease-in-out
+    background:
+      repeat: no-repeat
+      position: center bottom
+      size: cover
+    p
+      color: $pale
+    .cms-dropmask
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      display: flex
+      align-items: center
+      justify-content: center
+      p
+        color: white
+        pointer-events: none
+        mix-blend-mode: normal
+        font-size: 1rem
+        text-shadow: 0 0 6px $dark
+        margin: 20px 4%
+    &.droppable
+      .cms-dropmask
+        background-color: $green
+        mix-blend-mode: difference
+    .cms-buttons
+      position: absolute
+      top: 10px
+      left: 10px
+      width: calc(100% - 20px)
+      pointer-events: none
+      a.control, label.control
+        margin-bottom: 0
+
+      .picker, .styler, .config, .weighter, .remover
+        display: block
+        margin: 0
+        pointer-events: auto
+      .picker
+        float: left
+      .remover
+        float: right
+        margin: 0 4px
+      .styler, .weighter
+        float: right
+      .thumbnails, .select
+        display: inline-block
+        vertical-align: top
+
+    &:hover, &.hold
+      .cms-buttons
+        display: block
+
+.touch
+  .ed-buttons
+    display: block
+
+.cms-importer
+  margin: 6px 0 20px 20px !important
+  clear: both
+  input, a.button
+    display: inline-block
+    vertical-align: top
+    box-sizing: border-box
+    padding: 8px 12px
+    height: 36px
+    font-size: 0.9rem
+    line-height: 20px
+    margin: 0
+  input
+    width: 240px
+    margin-right: 0
+    color: $dark
+    border: 1px solid $pale
+    outline: none
+  a.button
+    background-color: $blue
+    color: white
+    width: 64px
+    cursor: pointer
+

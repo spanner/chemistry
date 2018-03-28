@@ -1,3 +1,130 @@
+## Asset inserter
+#
+# This view inserts a new asset element into the html stream with a management view wrapped around it.
+#
+class Cms.Views.AssetInserter extends Cms.View
+  template: "assets/inserter"
+  tagName: "div"
+  className: "cms-inserter"
+
+  events:
+    "click a.show": "toggleButtons"
+    "click a.image": "addImage"
+    "click a.video": "addVideo"
+    "click a.quote": "addQuote"
+    "click a.annotation": "addAnnotation"
+
+  initialize: (@options={}) ->
+    @log "init", @options
+    @_target_el = @options.target
+    @_p = null
+
+  onRender: () =>
+    @log "onRender"
+    @$el.appendTo _cms.el
+    @_target_el.on "click keyup focus", @followCaret
+
+  followCaret: (e)=>
+    @log "followCaret"
+    selection = @el.ownerDocument.getSelection()
+    if !selection or selection.rangeCount is 0
+      current = $(e.target)
+    else
+      range = selection.getRangeAt(0)
+      current = $(range.commonAncestorContainer)
+    @_p = current.closest('p')
+    text = @_p.text()
+    if @_p.length and _.isBlank(text) or text is "​" # zwsp!
+      @log "showing", @el
+      @show(@_p)
+    else
+      @log "not showing:", @_p.text().length
+      @hide()
+
+  toggleButtons: (e) =>
+    e?.preventDefault()
+    if @$el.hasClass('showing')
+      @trigger 'contract'
+      @$el.removeClass('showing')
+    else
+      @trigger 'expand'
+      @$el.addClass('showing')
+
+  addImage: (e) =>
+    e?.preventDefault()
+    @insert new Cms.Views.Image
+
+  addVideo: (e) =>
+    e?.preventDefault()
+    @insert new Cms.Views.Video
+
+  addQuote: (e) =>
+    e?.preventDefault()
+    @insert new Cms.Views.Quote
+
+  addAnnotation: (e) =>
+    e?.preventDefault()
+    @insert new Cms.Views.Annotation
+
+  insert: (view) =>
+    if @_p
+      @_p.before view.el
+      @_p.remove() unless @_p.is(":last-child")
+    else
+      @_target_el.append view.el
+      @_target_el.append $("<p />")
+    view.render()
+    view.focus?()
+    # @_target_el.trigger 'input'
+    @hide()
+
+  place: ($el) =>
+    position = $el.offset()
+    @$el.css
+      top: position.top - 6
+      left: position.left - 40
+
+  show: () =>
+    @place(@_p)
+    @$el.show()
+
+  hide: () =>
+    @$el.hide()
+    @$el.removeClass('showing')
+
+
+## Asset stylers
+#
+# All the assets get similar layout options,
+# depending on which buttons are provided in that template of that subclass.
+
+class Cms.Views.AssetStyler extends Cms.View
+  tagName: "div"
+  className: "styler"
+  template: "assets/styler"
+  events:
+    "click a.right": "setRight"
+    "click a.left": "setLeft"
+    "click a.full": "setFull"
+    "click a.wide": "setWide"
+    "click a.hero": "setHero"
+
+  onRender: =>
+    if @model
+      @$el.show()
+    else
+      @$el.hide()
+
+  setModel: (model) =>
+    @model = model
+    @render()
+
+  setRight: => @trigger "styled", "right"
+  setLeft: => @trigger "styled", "left"
+  setFull: => @trigger "styled", "full"
+  setWide: => @trigger "styled", "wide"
+
+
 ## Asset-choosers
 #
 # The submenu for each asset picker is a chooser-list.
@@ -66,7 +193,7 @@ class Cms.Views.ListedAsset extends Cms.View
       ""
 
 
-class Cms.Views.NoAsset extends Cms.View
+class Cms.Views.NoListedAsset extends Cms.View
   template: "assets/no_asset"
   tagName: "li"
   className: "empty"
@@ -76,7 +203,7 @@ class Cms.Views.AssetsList extends Cms.CompositeView
   template: "assets/list"
   childViewContainer: "ul.cms-assets"
   childView: Cms.Views.ListedAsset
-  emptyView: Cms.Views.NoAsset
+  emptyView: Cms.Views.NoListedAsset
 
   events:
     "click a.import": "importAsset"
@@ -88,25 +215,14 @@ class Cms.Views.AssetsList extends Cms.CompositeView
 
   ui:
     'heading': 'span.heading'
-    'search_field': 'input.q'
-    'prev_button': 'a.prev'
-    'next_button': 'a.next'
     'import_field': 'input.remote_url'
     'import_button': 'a.import'
 
   initialize: (opts={}) =>
-    @_q = ""
-    @_p = 1
     @_title = opts.title ? "Assets"
-    @_master_collection = @collection.clone()
-    @_master_collection.on "reset", @selectAssets
-    @_filterSoon = _.debounce @selectAssets, 250
-    $.al = @
 
   onRender: =>
     @ui.heading.text @_title
-    @ui.search_field.on 'input', @_filterSoon
-    @selectAssets()
 
   # passed through to the picker.
   #
@@ -134,37 +250,6 @@ class Cms.Views.AssetsList extends Cms.CompositeView
         @ui.import_field.val("")
         @trigger 'selected', imported
 
-  selectAssets: (e, q) =>
-    first = (@_p - 1) * 20
-    last = first + 20
-    if q = @ui.search_field.val()
-      re = new RegExp(q, 'i')
-      matches = @_master_collection.select (image) ->
-        re.test(image.get('title')) or re.test(image.get('caption'))
-    else
-      matches = @_master_collection.toArray()
-
-    @collection.reset matches.slice(first,last)
-
-    total = matches.length
-    if total > last
-      @ui.next_button.removeClass('inactive')
-    else
-      @ui.next_button.addClass('inactive')
-    if first == 0
-      @ui.prev_button.addClass('inactive')
-    else
-      @ui.prev_button.removeClass('inactive')
-
-  nextPage: =>
-    @_p = @_p + 1
-    @selectAssets()
-
-  prevPage: =>
-    @_p = @_p - 1
-    @_p = 1 if @_p < 1
-    @selectAssets()
-
 
 ## Asset-pickers
 #
@@ -174,7 +259,7 @@ class Cms.Views.AssetsList extends Cms.CompositeView
 class Cms.Views.AssetPicker extends Cms.Views.MenuView
   tagName: "div"
   className: "picker"
-  menuView: Cms.Views.AssetsList
+  menuView: "AssetsList"
 
   ui:
     head: ".menu-head"
@@ -193,11 +278,13 @@ class Cms.Views.AssetPicker extends Cms.Views.MenuView
   open: =>
     @ui.body.show()
     unless @_menu_view
-      @_menu_view = new Cms.Views.AssetsList
+      menu_view_class = @getOption('menuView')
+      @_menu_view = new Cms.Views[menu_view_class]
         collection: @collection
       @ui.body.append @_menu_view.el
       @_menu_view.render()
       @_menu_view.on "select", @select
+      @collection.load()
     @_menu_view.open()
     @$el.addClass('open')
 
@@ -226,7 +313,7 @@ class Cms.Views.AssetPicker extends Cms.Views.MenuView
 
 
 class Cms.Views.AssetRemover extends Backbone.Marionette.View
-  template: "remover"
+  template: "assets/remover"
   className: "remover"
 
   ui:
@@ -243,10 +330,10 @@ class Cms.Views.AssetRemover extends Backbone.Marionette.View
 
 
 class Cms.Views.ImagePicker extends Cms.Views.AssetPicker
-  template: "image_picker"
+  template: "assets/image_picker"
 
   initialize: (data, options={}) ->
-    @collection ?= _cms.images
+    @collection ?= new Cms.Collections.Images
     super
 
   createModel: (data, file) =>
@@ -260,11 +347,27 @@ class Cms.Views.ImagePicker extends Cms.Views.AssetPicker
       @trigger "create", model
 
 
+class Cms.Views.ImageWeighter extends Cms.Views.MenuView
+  tagName: "div"
+  className: "weighter"
+  template: "assets/weighter"
+
+  ui:
+    head: ".menu-head"
+    body: ".menu-body"
+
+  events:
+    "click @ui.head": "toggleMenu"
+
+  bindings: 
+    "input.weight": "main_image_weighting"
+
+
 class Cms.Views.VideoPicker extends Cms.Views.AssetPicker
-  template: "video_picker"
+  template: "assets/video_picker"
 
   initialize: ->
-    @collection ?= _cms.videos
+    @collection ?= new Cms.Collections.Videos
     super
 
   createModel: (data, file) =>
@@ -277,7 +380,3 @@ class Cms.Views.VideoPicker extends Cms.Views.AssetPicker
     model.save().done =>
       @trigger "create", model
 
-
-class Cms.Views.QuotePicker extends Cms.Views.AssetPicker
-  template: "quote_picker"
-  title: "Quotes"

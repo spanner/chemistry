@@ -1,7 +1,6 @@
 .editor
   overflow: hidden
   [contenteditable]:not([contenteditable=false])
-    color: $editfg
     background-color: $editbg
     outline: none
     cursor: text
@@ -10,6 +9,19 @@
       pointer-events: none
     &:focus
       outline: 0
+    & > p
+      &:empty
+        min-height: 2em
+        border: 1px dotted $verypale
+      &:before
+        content: "❡ "
+        color: $pale
+        font-size: 1rem
+        display: inline-block
+        float: left
+        width: 20px
+        margin-left: -24px
+        margin-top: -3px
 
   [data-placeholder]:before
     content: attr(data-placeholder)
@@ -28,15 +40,14 @@ a.control, label.control
   pointer-events: auto
   display: inline-block
   vertical-align: top
-  width: 36px
-  height: 36px
-  background-color: $translucent
-  border-radius: 36px
+  width: 24px
+  height: 24px
+  background-color: white
   margin-left: 2px
   margin-bottom: 8px
   cursor: pointer
   overflow: hidden
-  color: $blue
+  color: $pale
   border: 1px solid currentColor
   &:hover
     color: $dark
@@ -44,8 +55,8 @@ a.control, label.control
   input[type="file"]
     display: none
   svg
-    width: 36px
-    height: 36px
+    width: 24px
+    height: 24px
     transition: transform 0.5s ease-out
   &.delete
     color: $red
@@ -100,20 +111,19 @@ a.control, label.control
         height: 24px
 
 .cms-menu
+  display: inline-block
   .menu-body
     display: none
     position: absolute
     z-index: 500
     left: 10px
-    top: 40px
+    top: 30px
     width: 340px
     overflow: hidden
     padding: 0
     background-color: white
     box-sizing: border-box
     pointer-events: auto
-    box-shadow: 0 3px 4px $shadow
-    border-radius: 4px
     .weighter &
       right: 32px
       left: auto
@@ -123,11 +133,9 @@ a.control, label.control
 .open
   .cms-menu
     &>a.control, &>label.control
-      border-bottom-right-radius: 0
-      border-bottom-left-radius: 0
+      border-radius: 0
       background-color: white
-      box-shadow: 0 3px 4px $shadow
-      padding-bottom: 4px
+      padding-bottom: 5px
       z-index: 501
     .menu-body
       display: block
@@ -151,7 +159,7 @@ ul.cms-assets
   list-style: none
   li.empty
     color: $mid
-    margin: 20px
+    margin: 30px 0
 
   li.asset
     position: relative

@@ -1,6 +1,6 @@
 %img{src: ""}
-.cms-buttons
 .cms-dropmask
   %p.prompt
     = t('placeholders.image.file')
+.cms-buttons
 %figcaption{contenteditable: "plaintext-only", data: {placeholder: t('placeholders.image.caption')}}<

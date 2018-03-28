@@ -37,8 +37,8 @@ class Cms.Views.Section extends Cms.View
 
   onRender: =>
     @ui.title.attr('contenteditable', 'plaintext-only')
-    @ui.primary.attr('contenteditable', 'true')
-    @ui.secondary.attr('contenteditable', 'true')
+    @ui.primary.attr('contenteditable', 'true').addClass('editing')
+    @ui.secondary.attr('contenteditable', 'true').addClass('editing')
     @ui.primary.on('focus', @ensureP).on('blur', @clearP)
     @ui.secondary.on('focus', @ensureP).on('blur', @clearP)
     @setDefaults()

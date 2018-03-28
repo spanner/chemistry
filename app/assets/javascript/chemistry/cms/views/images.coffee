@@ -1,4 +1,4 @@
-class Cms.Views.Image extends Cms.View
+class Cms.Views.ListedImage extends Cms.View
 
   bindings:
     ":el":
@@ -15,5 +15,5 @@ class Cms.Views.NoImage extends Cms.View
 
 
 class Cms.Views.Images extends Cms.CollectionView
-  childView: Cms.Views.Image
-  emptyView: Cms.Views.NoImage
+  childView: Cms.Views.ListedImage
+  emptyView: Cms.Views.NoListedImage

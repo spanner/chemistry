@@ -1,12 +1,3 @@
-%p.cms-search
-  %a.prev
-    %svg.icon
-      %use{"xlink:href" => "#prev_symbol"}
-  %span.heading
-  %a.next
-    %svg.icon
-      %use{"xlink:href" => "#next_symbol"}
-  
 %ul.cms-assets
 
 %p.cms-importer
