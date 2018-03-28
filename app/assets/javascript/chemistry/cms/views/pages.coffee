@@ -31,12 +31,7 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
   bindings:
     ".title":
       observe: "title"
-    ".indent":
-      attributes: [
-        name: "style"
-        observe: "depth"
-        onGet: "indentStyle"
-      ]
+      onGet: "shortTitle"
     "use.template":
       attributes: [
         name: "xlink:href"
@@ -60,12 +55,15 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
         model: @model
         el: @ui.deleter
 
+  onRendered: =>
+    balanceText('span.title')
+
   templateSymbol: (template) =>
     slug = template?.get('slug') or 'empty'
     "##{slug}_page_symbol"
 
-  indentStyle: (depth) =>
-    "width: #{depth * 48}px"
+  shortTitle: (title) =>
+    @shortAndClean(title, 48)
 
 
 class Cms.Views.TreePage extends Cms.Views.ListedPage
@@ -74,6 +72,17 @@ class Cms.Views.TreePage extends Cms.Views.ListedPage
   triggers:
     "click a.config": "config"
     "click a.add.child": "beget"
+
+  extraBindings:
+    ".indent":
+      attributes: [
+        name: "style"
+        observe: "depth"
+        onGet: "indentStyle"
+      ]
+
+  indentStyle: (depth) =>
+    "width: #{depth * 8}%"
 
 
 class Cms.Views.NoPage extends Cms.View

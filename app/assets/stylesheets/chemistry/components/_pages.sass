@@ -50,7 +50,6 @@ ul.pages
       span.title
         +cms-font-light
         font-size: 1.75rem
-        margin-right: 10px
       span.description
         font-size: 0.9rem
     &:hover
@@ -79,4 +78,17 @@ h2.page
       font-size: 1.75rem
     span.description
       font-size: 0.9rem
-  
+
+
+@media (max-width: 700px)
+  ul.pages
+    li.page
+      min-height: 32px
+      clear: left
+      svg.page, img.page_icon
+        width: 22px
+        height: 30px
+      span.detail
+        span.title
+          font-size: 1.25rem
+        

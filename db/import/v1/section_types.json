@@ -3,7 +3,7 @@
     "title": "Standard",
     "slug": "standard",
     "description": "A column of html with optional heading. Can include images, video, quotes, marginalia, document links.",
-    "template": "<div data-cms-role='primary' data-cms-editor='full'></div>"
+    "template": "<div class='main' data-cms-role='primary' data-cms-editor='full'></div>"
   },
   {
     "title": "Hero",
@@ -16,24 +16,6 @@
     "slug": "standfirst",
     "description": "A useful page opener.",
     "template": "<h1 data-cms-role='title'></h1><div class='standfirst' data-cms-role='primary'></div><aside class='metadata' data-cms-role='secondary'></aside>"
-  },
-  {
-    "title": "Big quote",
-    "slug": "quote",
-    "description": "Big quote by itself.",
-    "template": "<figure><p class='statement' data-cms-role-'main'></p><figcaption class='speaker' data-cms-role='secondary'></figcaption></figure>"
-  },
-  {
-    "title": "Big picture",
-    "slug": "picture",
-    "description": "Full width image block with caption.",
-    "template": "<figure><div data-cms-role='background-image'></div><figcaption data-cms-role='caption'></figcaption></figure>"
-  },
-  {
-    "title": "Big video",
-    "slug": "video",
-    "description": "Full width video block with caption.",
-    "template": "<figure><video><source><img data-cms-role='image'></video><div class='embed'></div><figcaption data-cms-role='caption'></figcaption></figure>"
   },
   {
     "title": "Contents",

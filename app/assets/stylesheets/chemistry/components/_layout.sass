@@ -9,7 +9,7 @@
   width: 100%
   min-height: 100%
   #chemistry-management
-    width: 80%
+    width: 90%
     max-width: 920px
     margin: auto
     padding-top: 80px
@@ -32,3 +32,11 @@
   position: absolute
   bottom: 4%
   right: 4%
+
+
+@media (max-width: 700px)
+  #main
+    #chemistry-management
+      flex-flow: column nowrap
+      #chemistry-main, #chemistry-notes
+        width: 100%

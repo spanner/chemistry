@@ -8,7 +8,11 @@ class Cms.View extends Backbone.Marionette.View
     @subviews = []
 
   onRender: =>
-    @stickit() if @model
+    if @model
+      @addBinding null, _.result @, 'extraBindings'
+      @stickit()
+      _.defer =>
+        @triggerMethod 'rendered'
 
   addView: (view) =>
     @subviews.push view
@@ -47,6 +51,14 @@ class Cms.View extends Backbone.Marionette.View
 
   thisButNotThat: ([thing, other_thing]=[]) =>
     thing and not other_thing
+
+  shortAndClean: (value, limit=64) =>
+    text = $('<div />').html(value).text().trim()
+    if text.length > limit
+      shortened = text.substr(0, limit)
+      shortened.substr(0, Math.min(shortened.length, shortened.lastIndexOf(" "))) + '…'
+    else
+      text
 
   inBytes: (value) =>
     if value
@@ -156,6 +168,8 @@ class Cms.EditView extends Cms.View
   events:
     "submit form": "saveModel"
 
+  extraBindings: {}
+
   onRender: =>
     @_saved = false
     @stickit()
@@ -164,6 +178,7 @@ class Cms.EditView extends Cms.View
   onBeforeDestroy: =>
     unless @_saved
       @model.revert()
+
 
   saveModel: (e) =>
     e?.preventDefault()
