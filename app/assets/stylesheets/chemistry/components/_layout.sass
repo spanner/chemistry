@@ -1,7 +1,8 @@
 #nav
   position: absolute
   top: 0
-  left: 0
+  right: 0
+  z-index: 20
 
 #main
   position: relative
@@ -27,14 +28,16 @@
       min-height: 200px
       margin-top: 6em
       color: $pale
+  z-index: 10
 
 #notices
   position: absolute
   bottom: 4%
   right: 4%
+  z-index: 30
 
 
-@media (max-width: 700px)
+@media (max-width: 750px)
   #main
     #chemistry-management
       flex-flow: column nowrap

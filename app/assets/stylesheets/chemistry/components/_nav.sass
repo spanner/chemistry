@@ -1,0 +1,70 @@
+header#nav
+  position: fixed
+  pointer-events: none
+
+  a.menu
+    position: absolute
+    top: 0
+    right: 0
+    display: block
+    padding: 16px
+    color: $rubine
+    transition: color 0.5s ease-out
+    cursor: pointer
+    pointer-events: auto
+    &:hover
+      color: $rubine
+    svg
+      width: 32px
+      height: 32px
+
+  nav
+    position: relative
+    display: block
+    opacity: 0
+    transition: opacity 0.25s ease-out
+    .mask
+      display: none
+      z-index: 10
+    &.up
+      opacity: 1
+      pointer-events: auto
+    ul
+      list-style: none
+      clear: both
+      padding: 0
+      margin: 0
+      width: 300px
+      display: block
+      position: relative
+      z-index: 30
+      li
+        +clearfix
+      a
+        color: $mid
+        transition: color 0.5s ease-out
+        &:hover
+          color: $rubine
+        &.close
+          svg.icon
+            margin: 16px
+      svg.icon
+        display: inline-block
+        vertical-align: middle
+        width: 32px
+        height: 32px
+        float: right
+        margin: 4px 16px 8px 8px
+      span.label
+        display: block
+        vertical-align: middle
+        font-size: 1.35rem
+        text-align: right
+        margin: 4px 0
+        line-height: 44px
+
+@media (max-width: 750px)
+  header#nav
+    nav
+      .mask
+        display: block

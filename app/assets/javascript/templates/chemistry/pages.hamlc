@@ -27,5 +27,10 @@
       = t('and')
       %a.fullstop{href: "/section_types"}<
         = t('links.section_types')
+    %p
+      For more navigation, tap the
+      %svg.inline
+        %use{"xlink:href" => "#flask_symbol"}
+      menu icon at top right.
 
 #new_page.floater

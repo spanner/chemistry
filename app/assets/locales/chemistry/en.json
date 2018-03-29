@@ -30,6 +30,15 @@
     "section_types": "section types",
     "templates": "templates"
   },
+  "nav": {
+    "documents": "Documents",
+    "images": "Images",
+    "pages": "Pages",
+    "section_types": "Section types",
+    "settings": "Settings",
+    "templates": "Templates",
+    "videos": "Videos"
+  },
   "pages": {
     "config_description": "Please be careful when changing template or parent page",
     "config_title": "Configure page",
@@ -64,7 +73,7 @@
       },
       "standfirst": {
         "title": "Page title",
-        "primary": "The standfirst usually contains an introduction or summary of up to 100 words.",
+        "primary": "The standfirst usually contains an introduction or summary of up to 30-50 words.",
         "secondary": "Optional page notes."
       }
     },

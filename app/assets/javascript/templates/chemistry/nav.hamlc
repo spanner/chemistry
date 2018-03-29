@@ -1,1 +1,48 @@
-nav
+%a.menu
+  %svg
+    %use{"xlink:href" => "#flask_symbol"}
+
+%nav.submenu
+  .mask
+
+  %ul
+    %li
+      %a.close
+        %svg.icon
+          %use{"xlink:href" => "#flask_symbol"}
+    %li
+      %a{href: "/"}
+        %svg.icon
+          %use{"xlink:href" => "#empty_page_symbol"}
+        %span.label
+          = t("nav.pages")
+    %li
+      %a{href: "templates"}
+        %svg.icon
+          %use{"xlink:href" => "#article_page_symbol"}
+        %span.label
+          = t("nav.templates")
+    %li
+      %a{href: "section_types"}
+        %svg.icon
+          %use{"xlink:href" => "#hero_section_symbol"}
+        %span.label
+          = t("nav.section_types")
+    %li
+      %a{href: "images"}
+        %svg.icon
+          %use{"xlink:href" => "#images_menu_symbol"}
+        %span.label
+          = t("nav.images")
+    %li
+      %a{href: "videos"}
+        %svg.icon
+          %use{"xlink:href" => "#videos_menu_symbol"}
+        %span.label
+          = t("nav.videos")
+    %li
+      %a{href: "documents"}
+        %svg.icon
+          %use{"xlink:href" => "#documents_menu_symbol"}
+        %span.label
+          = t("nav.documents")
