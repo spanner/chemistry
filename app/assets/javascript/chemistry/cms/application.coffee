@@ -229,7 +229,7 @@ class Cms.Application extends Backbone.Marionette.Application
   #
   log: =>
     if console?.log? and @logging()
-      console.log "🔥", arguments...
+      console.log "⚗️", arguments...
 
   logging: (level) =>
     !!@_log_level

@@ -46,6 +46,9 @@ class Cms.View extends Backbone.Marionette.View
   ifPresent: (value) =>
     not not value
 
+  thisOrThat: ([thing, other_thing]=[]) =>
+    thing or other_thing
+
   thisAndThat: ([thing, other_thing]=[]) =>
     thing and other_thing
 
@@ -84,6 +87,9 @@ class Cms.View extends Backbone.Marionette.View
 
   asPercentage: (value=0) =>
     "#{value}%"
+
+  providerClass: (provider) =>
+    "yt" if provider is "YouTube"
 
   justDate: (mom) =>
     _amp.log "mom", mom

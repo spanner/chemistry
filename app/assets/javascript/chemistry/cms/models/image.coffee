@@ -1,23 +1,20 @@
 class Cms.Models.Image extends Cms.Model
-  savedAttributes: ["title", "caption", "file", "file_name", "remote_url"]
-
-  #TODO revise to handle `urls` hash
+  savedAttributes: ["title", "caption", "file_data", "file_name", "remote_url"]
 
   initialize: () ->
-    @on 'change:file', @getThumb
+    super
+    @on 'change:file_data', @getThumbs
 
-  getThumb: (data) =>
-    unless @get('thumb_url')
-      img = document.createElement('img')
-      w = 48
-      img.onload = =>
-        @resizeImage(img, 48)
-      img.src = @get('file')
+  getThumbs: (data) =>
+    img = document.createElement('img')
+    w = 48
+    img.onload = =>
+      thumb_url = @resizeImage(img, 48)
+      @set "thumb_url", thumb_url
+      full_url = @resizeImage(img, 1120)
+      @set "file_url", full_url
+    img.src = @get('file_data')
 
-  # Image data is held in file.
-  # *url attributes are computed on the server when we save the asset.
-  # We approximate them roughly (at visibly lower quality) for user-reassurance while uploading.
-  #
   resizeImage: (img, w=48) =>
     unless @get('url')
       if img.height > img.width
@@ -31,4 +28,3 @@ class Cms.Models.Image extends Cms.Model
       ctx = canvas.getContext('2d')
       ctx.drawImage(img, 0, 0, w, h)
       preview = canvas.toDataURL('image/png')
-      @set "url", preview

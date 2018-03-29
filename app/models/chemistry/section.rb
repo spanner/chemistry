@@ -3,7 +3,7 @@ module Chemistry
     acts_as_paranoid
 
     belongs_to :page
-    # acts_as_list scope: :page_id
+    acts_as_list scope: :page_id
 
     belongs_to :section_type
     validates :page, presence: true

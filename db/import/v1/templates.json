@@ -3,18 +3,18 @@
     "title": "Landing page",
     "slug": "landing",
     "description": "Normal sort of front page.",
-    "section_types": "hero,standard,quote,text"
+    "section_types": "hero,standfirst,standard"
   },
   {
     "title": "Article page",
     "slug": "article",
     "description": "One long thing.",
-    "section_types": "standfirst,standard"
+    "section_types": "title,standfirst,standard"
   },
   {
     "title": "Contents page",
     "slug": "contents",
     "description": "A list of child pages with introduction and footnotes.",
-    "section_types": "standfirst,contents,standard"
+    "section_types": "title,standfirst,contents,standard"
   }
 ]

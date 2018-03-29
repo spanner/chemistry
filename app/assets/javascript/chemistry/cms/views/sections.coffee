@@ -46,12 +46,15 @@ class Cms.Views.Section extends Cms.View
     super
     @addEditor()
 
+  # onRendered: =>
+  #   balanceText(@ui.title) if @ui.title.length
+
   sectionId: (id) -> 
     "section_#{id}"
 
   setDefaults: =>
     slug = @model.get('section_type_slug')
-    if slug is 'hero' or slug is 'standfirst'
+    if slug is 'hero' or slug is 'title'
       @log "setDefaults", @model.get('section_type_slug'), @page.get('title')
       @model.set('title', @page?.get('title')) unless @model.get('title')
 

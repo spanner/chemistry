@@ -6,10 +6,10 @@ module Chemistry
     has_attached_file :file,
       preserve_files: true,
       styles: {
-        thumb: "48x48#",
-        half: "540x",
+        thumb: "96x96#",
+        half: "560x",
         full: "1120x",
-        hero: "1600x900"
+        hero: "1600x900#"
       },
       convert_options: {
         thumb: "-strip",
@@ -20,26 +20,37 @@ module Chemistry
 
     validates_attachment_content_type :file, :content_type => /\Aimage/
 
-    before_validation :read_remote_url
-    after_post_process :read_dimensions
-  
-    def file_url(style=:original, decache=true)
+    def file_url(style=:full, decache=true)
       if file?
         url = file.url(style, decache)
-        url.sub(/^\//, "#{Settings.api.protocol}://#{Settings.api.host}/")
+        
       else
         ""
+      end
+    end
+  
+    def file_data=(data)
+      if data
+        self.file = data
+      else
+        self.file = nil
       end
     end
   
     def file_name=(name)
       self.file_file_name = name
     end
-  
+
+    def remote_url=(url)
+      if url
+        self.file = open(url)
+      end
+    end
+
     ## serialization
 
     def title
-      title.presence || file_file_name
+      read_attribute(:title).presence || file_file_name
     end
 
     def file_name
@@ -54,37 +65,21 @@ module Chemistry
       file_file_size
     end
  
-    def urls
-      {
-        original: file_url(:original),
-        hero: file_url(:hero),
-        full: file_url(:full),
-        half: file_url(:half),
-        thumb: file_url(:thumb)
-      }
+    def thumb_url
+      file_url(:thumb)
     end
 
-    protected
-    
-    # *read_dimensions* is called after post processing to record in the database the original width, height
-    # and extension of the uploaded file. At this point the file queue will not have been flushed but the upload
-    # should still be in the queue.
-    #
-    def read_dimensions
-      if uploaded_file = file.queued_for_write[:original]
-        file = uploaded_file.send :destination
-        geometry = Paperclip::Geometry.from_file(file)
-        self.file_width = geometry.width
-        self.file_height = geometry.height
-      end
-      true
+    def half_url
+      file_url(:half)
     end
-  
-    def read_remote_url
-      if remote_url? && !file?
-        self.file = open(remote_url)
-      end
+
+    def hero_url
+      file_url(:hero)
     end
-  
+
+    def original_url
+      file_url(:original)
+    end
+   
   end
 end

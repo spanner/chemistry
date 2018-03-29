@@ -127,7 +127,7 @@ class Cms.Views.AssetStyler extends Cms.View
 
 ## Asset-choosers
 #
-# The submenu for each asset picker is a chooser-list.
+# The submenu for each asset picker is a chooser-list derived from this class.
 # Most are small thumbnail galleries with add and import controls alongside.
 #
 class Cms.Views.ListedAsset extends Cms.View
@@ -146,7 +146,7 @@ class Cms.Views.ListedAsset extends Cms.View
     "a.preview":
       attributes: [
         name: 'style'
-        observe: 'icon_url'
+        observe: 'thumb_url'
         onGet: "backgroundUrl"
       ,
         name: "class"
@@ -294,7 +294,6 @@ class Cms.Views.AssetPicker extends Cms.Views.MenuView
     @trigger "select", model
 
   pickFile: (e) =>
-    console.log "pickFile", e.target or e.originalEvent.target
     @ui.filefield.click()
 
   getPickedFile: (e) =>
@@ -304,7 +303,7 @@ class Cms.Views.AssetPicker extends Cms.Views.MenuView
   readLocalFile: (file) =>
     if file?
       reader = new FileReader()
-      reader.onloadend = => 
+      reader.onloadend = =>
         @createModel reader.result, file
       reader.readAsDataURL(file)
 
@@ -337,8 +336,9 @@ class Cms.Views.ImagePicker extends Cms.Views.AssetPicker
     super
 
   createModel: (data, file) =>
+    @log "ImagePicker createModel", @collection
     model = @collection.add
-      file: data
+      file_data: data
       file_name: file.name
       file_size: file.size
       file_type: file.type
@@ -372,7 +372,7 @@ class Cms.Views.VideoPicker extends Cms.Views.AssetPicker
 
   createModel: (data, file) =>
     model = @collection.unshift
-      file: data
+      file_data: data
       file_name: file.name
       file_size: file.size
       file_type: file.type

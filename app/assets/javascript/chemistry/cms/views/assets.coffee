@@ -186,8 +186,8 @@ class Cms.Views.Image extends Cms.Views.Asset
     "img":
       attributes: [
         name: "src"
-        observe: "url"
-        onGet: "urlAtSize"
+        observe: ["file_url", "file_data"]
+        onGet: "thisOrThat"
       ]
     "figcaption":
       observe: "caption"

@@ -50,8 +50,8 @@ module Chemistry
     protected
 
     def image_params
-      params.permit(
-        :file,
+      params.require(:image).permit(
+        :file_data,
         :file_name,
         :caption,
         :remote_url

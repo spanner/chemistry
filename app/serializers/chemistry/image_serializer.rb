@@ -15,6 +15,10 @@ class Chemistry::ImageSerializer
              :file_size,
              :file_type,
              :file_updated_at,
-             :urls
+             :file_url,           # defaults to :full size
+             :thumb_url,
+             :half_url,
+             :hero_url,
+             :original_url
  
 end

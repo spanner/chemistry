@@ -1,5 +1,11 @@
 [
   {
+    "title": "Title",
+    "slug": "title",
+    "description": "Plain page heading with no illustration.",
+    "template": "<h1 data-cms-role='title'></h1>"
+  },
+  {
     "title": "Standard",
     "slug": "standard",
     "description": "A column of html with optional heading. Can include images, video, quotes, marginalia, document links.",
@@ -9,13 +15,13 @@
     "title": "Hero",
     "slug": "hero",
     "description": "Big picture in the backgound, title and optional caption in the foreground. Usually the top of a landing page.",
-    "template": "<figure data-cms-role='image'><h1 data-cms-role='title'></h1><figcaption data-cms-role='caption'></figcaption></figure>"
+    "template": "<figure data-cms-role='image'><div class='fg'><h1 data-cms-role='title'></h1><figcaption data-cms-role='caption'></figcaption></div></figure>"
   },
   {
     "title": "Standfirst",
     "slug": "standfirst",
     "description": "A useful page opener.",
-    "template": "<h1 data-cms-role='title'></h1><div class='standfirst' data-cms-role='primary'></div><aside class='metadata' data-cms-role='secondary'></aside>"
+    "template": "<div class='standfirst' data-cms-role='primary'></div><aside class='metadata' data-cms-role='secondary'></aside>"
   },
   {
     "title": "Contents",
