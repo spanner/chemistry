@@ -4,6 +4,11 @@
 class Cms.Models.Section extends Cms.Model
   savedAttributes: ["id", "page_id", "title", "primary_html", "secondary_html", "section_type", "subject_page_id", "position", "image_id", "video_id", "deleted_at"]
 
+  defaults:
+    title: ""
+    primary_html: ""
+    secondary_html: ""
+
   build: =>
     @belongsTo 'section_type', _cms.section_types
     @on "change:section_type", @setSlug
@@ -24,3 +29,12 @@ class Cms.Collections.Sections extends Cms.Collection
   comparator: "position"
   paginated: false
   sorted: false
+
+  setDefaults: =>
+    @log "🙈 setDefaults", @_nested, @first()
+    if @_nested
+      if first_section = @first()
+        slug = first_section.get('section_type_slug')
+        if slug is 'hero' or slug is 'title'
+          first_section.setDefault 'title', @_nested?.get('title')
+  

@@ -36,12 +36,12 @@ class Cms.Views.Section extends Cms.View
     @model.on "change:section_type", @render
 
   onRender: =>
+    @log "🙈 Section render"
     @ui.title.attr('contenteditable', 'plaintext-only')
     @ui.primary.attr('contenteditable', 'true').addClass('editing')
     @ui.secondary.attr('contenteditable', 'true').addClass('editing')
     @ui.primary.on('focus', @ensureP).on('blur', @clearP)
     @ui.secondary.on('focus', @ensureP).on('blur', @clearP)
-    @setDefaults()
     @setPlaceholders()
     super
     @addEditor()
@@ -51,11 +51,6 @@ class Cms.Views.Section extends Cms.View
 
   sectionId: (id) -> 
     "section_#{id}"
-
-  setDefaults: =>
-    slug = @model.get('section_type_slug')
-    if slug is 'hero' or slug is 'title'
-      @model.setDefault 'title', @page?.get('title')
 
   setPlaceholders: =>
     if slug = @model.get('section_type_slug')

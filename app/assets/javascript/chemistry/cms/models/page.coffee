@@ -13,7 +13,7 @@ class Cms.Models.Page extends Cms.Model
 
   published: () =>
     @get('published_at')?
-  
+
   # Publish is a special save that sends up our rendered html for composition and saving.
   #
   publish: () =>
@@ -24,7 +24,7 @@ class Cms.Models.Page extends Cms.Model
       method: "PUT"
       success: @published
       error: @failedToPublish
-  
+
   published: (response) =>
     @set(response)
 
@@ -38,6 +38,9 @@ class Cms.Models.Page extends Cms.Model
     renderer.render()
     renderer.el.innerHTML
 
+  revert: =>
+    @reload()
+    @sections.reload()
 
 
 class Cms.Collections.Pages extends Cms.Collection

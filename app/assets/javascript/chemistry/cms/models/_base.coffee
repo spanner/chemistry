@@ -48,6 +48,7 @@ class Cms.Model extends Backbone.Model
   #
   setDefault: (attribute, value) =>
     @set(attribute, value) unless @get(attribute)
+    @defaults[attribute] = value
     @_original_attributes[attribute] = value
 
   ## Load and save
@@ -133,7 +134,7 @@ class Cms.Model extends Backbone.Model
     @_saved.reject(error)
 
   revert: =>
-    
+    @reload()
 
 
   ## Construction
@@ -372,6 +373,8 @@ class Cms.Collection extends Backbone.Collection
     @_nested = @options.nested    # normally only set by hasMany
     @setOriginalIds()
     @prepareLoader()
+    @setDefaults()
+    @on 'add remove reset', @setDefaults
     @debouncedReload = _.debounce @reload, 250
 
     if @getOption('paginated')
@@ -385,6 +388,9 @@ class Cms.Collection extends Backbone.Collection
       @initSorting opts.params
     else
       @_sorted = false
+
+  setDefaults: =>
+    # noop here
 
   setParams: (params) =>
     @setPaginationState(params) if @_paginated
@@ -542,7 +548,7 @@ class Cms.Collection extends Backbone.Collection
   load: =>
     unless @_loading or @isLoaded()
       @_loading = true
-      @fetch(error: @notLoaded).done(@loaded)
+      @fetch(reset: true).done(@loaded).fail(@notLoaded)
     @_loaded.promise()
 
   reload: =>
