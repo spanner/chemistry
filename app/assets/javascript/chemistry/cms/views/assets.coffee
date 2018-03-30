@@ -5,12 +5,63 @@
 class Cms.Views.Asset extends Cms.View
   defaultSize: "full"
   tagName: "figure"
+  editorView: "AssetEditor"
+
+  initialize: (opts={}) =>
+    @wrap()
+    @render()
+
+  wrap: =>
+    # Previously embedded assets will come back in HTML form.
+    # Each subclass will perform its own value extraction to decompose that into model + template.
+    # NB wrap is only possible before render, when contents of el will be replaced.
+
+  onRender: =>
+    @$el.attr "contenteditable", false
+    @stickit() if @model
+    @addEditor()
+    @listenToEditor()
+
+  addEditor: =>
+    @log "🙈 addEditor", @getOption('editorView')
+    if editor_view_class = Cms.Views[@getOption('editorView')]
+      @_editor = new editor_view_class
+        model: @model
+      @_editor.$el.appendTo @$el
+      @_editor.render()
+
+  listenToEditor: =>
+    @_editor.on 'remove', @remove
+    @_editor.on 'update', @update
+    @_editor.on 'select', @setModel
+
+  update: =>
+    @$el.parent().trigger 'input'
+
+  remove: () =>
+    @$el.slideUp 'fast', =>
+      @$el.remove()
+      @update()
+
+  setModel: (model) =>
+    @model = model
+    @stickit() if @model
+    @update()
+
+
+class Cms.Views.AssetEditor extends Cms.View
+  defaultSize: "full"
+  stylerView: "AssetStyler"
 
   ui:
     buttons: ".cms-buttons"
     catcher: ".cms-dropmask"
     prompt: ".prompt"
     overlay: ".darken"
+    deleter: "a.delete"
+
+  triggers:
+    "click @ui.deleter": "remove"
 
   events:
     "dragenter": "lookAvailable"
@@ -19,29 +70,21 @@ class Cms.Views.Asset extends Cms.View
     "drop @ui.catcher": "catchFiles"
     "click @ui.catcher": "pickFile"
 
-  initialize: =>
+  initialize: (opts={}) =>
     @_size ?= _.result @, 'defaultSize'
     super
 
-  wrap: =>
-    #required in subclass to extract model properties from html.
-
   onRender: =>
-    @$el.attr "contenteditable", false
-    @stickit() if @model
+    @$el.attr('data-cms', true)
     @addHelpers()
 
   addHelpers: =>
     @addPicker()
     @listenToPicker()
-    @addRemover()
-    @listenToRemover()
     @addStyler()
     @listenToStyler()
-    @addConfig()
 
   addPicker: =>
-    @log "addPicker", @getOption('pickerView')
     if picker_view_class = Cms.Views[@getOption('pickerView')]
       @_picker = new picker_view_class
       @_picker.$el.appendTo @ui.buttons
@@ -51,21 +94,8 @@ class Cms.Views.Asset extends Cms.View
     @_picker?.on "select", @setModel
     @_picker?.on "create", @savedModel
 
-  addRemover: =>
-    @_remover = new Cms.Views.AssetRemover
-      model: @model
-    @_remover.$el.appendTo @ui.buttons
-    @_remover.render()
-  
-  listenToRemover: =>
-    @_remover.on "remove", @remove
-
-  withinBlock: =>
-    console.log "withinBlock?", !!@$el.parents('.block').length
-    !!@$el.parents('.block').length
-
   addStyler: =>
-    if _cms.getOption('asset_styles') and not @withinBlock()
+    if _cms.getOption('asset_styles')
       if styler_view_class = Cms.Views[@getOption('stylerView')]
         @_styler = new styler_view_class
           model: @model
@@ -75,27 +105,16 @@ class Cms.Views.Asset extends Cms.View
   listenToStyler: =>
     @_styler?.on "styled", @setStyle
 
-  addConfig: =>
-    if config_view_class = @getOption('configView')
-      @_config = new config_view_class
-        model: @model
-      @_config.$el.appendTo @ui.buttons
-      @_config.render()
-
+  # picker selects a new model
   setModel: (model) =>
     @model = model
-    @stickit() if @model
     @_styler?.setModel(model)
-    @_progress?.setModel(model)
-    @trigger "select"
-    @ui.prompt.hide()
-    @update()
+    @trigger "select", @model
 
-  savedModel: =>
+  # picker populates our existing shared model
+  savedModel: (model) =>
+    @log "🙈 savedModel", model
     @stickit()
-
-  update: =>
-    @$el.parent().trigger 'input'
 
   setSize: (size) =>
     @_size = size
@@ -106,11 +125,6 @@ class Cms.Views.Asset extends Cms.View
     size = if style is "full" then "full" else "half"
     @setSize size
     @update()
-
-  remove: () =>
-    @$el.slideUp 'fast', =>
-      @$el.remove()
-      @update()
 
   lookAvailable: (e) =>
     @log "lookAvailable"
@@ -143,27 +157,73 @@ class Cms.Views.Asset extends Cms.View
     @_picker?.pickFile(e)
 
 
-  # bindings for use within an asset model.
-  #
-  urlAtSize: (url) =>
-    @model.get("#{@_size}_url") ? url
+## Asset-pickers
+#
+# These menus are embedded in the asset view. They select from an asset collection to
+# set the model in the asset view, with the option to upload or import new items.
+#
+class Cms.Views.AssetPicker extends Cms.Views.MenuView
+  tagName: "div"
+  className: "picker"
+  menuView: "AssetsList"
 
-  backgroundAtSize: (url) =>
-    if url
-      "background-image: url('#{@urlAtSize(url)}')"
+  ui:
+    head: ".menu-head"
+    body: ".menu-body"
+    label: "label"
+    filefield: 'input[type="file"]'
 
-  weightedBackground: ([url, weighting]=[]) =>
-    style = ""
-    if url
-      style += "background-image: url('#{@urlAtSize(url)}')"
-      if weighting
-        style += "; background-position: #{weighting}"
-    style
+  events:
+    "click @ui.head": "toggleMenu"
+    "click @ui.filefield": "containEvent" # always artificial
+
+  onRender: =>
+    @ui.label.on "click", @close
+    @ui.filefield.on 'change', @getPickedFile
+
+  open: =>
+    @ui.body.show()
+    unless @_menu_view
+      menu_view_class = @getOption('menuView')
+      @_menu_view = new Cms.Views[menu_view_class]
+        collection: @collection
+      @ui.body.append @_menu_view.el
+      @_menu_view.render()
+      @_menu_view.on "select", @setModel
+    @collection.reload()
+    @_menu_view.open()
+    @$el.addClass('open')
+
+  pickFile: (e) =>
+    @ui.filefield.click()
+
+  getPickedFile: (e) =>
+    if files = @ui.filefield[0].files
+      @readLocalFile files[0]
+
+  readLocalFile: (file) =>
+    if file?
+      reader = new FileReader()
+      reader.onloadend = =>
+        @createModel reader.result, file
+      reader.readAsDataURL(file)
+
+  containEvent: (e) =>
+    e?.stopPropagation()
+
+  createModel: (data, file) =>
+    #noop here: subclass must define
+
+  # passed through again to reach the Asset view.
+  setModel: (model) =>
+    @close()
+    @trigger "select", model
 
 
+## Image assets
+#
 class Cms.Views.Image extends Cms.Views.Asset
-  pickerView: "ImagePicker"
-  stylerView: "AssetStyler"
+  editorView: "ImageEditor"
   template: "assets/image"
   className: "image full"
   defaultSize: "full"
@@ -180,27 +240,61 @@ class Cms.Views.Image extends Cms.Views.Asset
         observe: ["file_url", "file_data"]
         onGet: "thisOrThat"
       ]
-    "figcaption":
-      observe: "caption"
-    "a.save":
-      observe: "changed"
-      visible: true
 
   wrap: =>
     if image_id = @$el.data('image')
-      _cms.withAssets =>
-        @setModel _cms.images.get(image_id) ? new Cms.Models.Image
-    else
-      @model = new Cms.Models.Image
-
-  saveImage: (e) =>
-    e?.preventDefault()
-    @model.save()
+      @model = new Cms.Models.Image(id: image_id)
+      @model.load()
+    @model ?= new Cms.Models.Image
 
 
-class Cms.Views.Video extends Cms.Views.Asset
-  pickerView: "VideoPicker"
+class Cms.Views.ImageEditor extends Cms.Views.AssetEditor
+  template: "assets/image_editor"
+  className: "cms-editor"
+  pickerView: "ImagePicker"
   stylerView: "AssetStyler"
+
+
+class Cms.Views.ImagePicker extends Cms.Views.AssetPicker
+  template: "assets/image_picker"
+
+  initialize: (data, options={}) ->
+    @collection ?= new Cms.Collections.Images
+    super
+
+  createModel: (data, file) =>
+    @log "ImagePicker createModel", @collection
+    model = @collection.add
+      file_data: data
+      file_name: file.name
+      file_size: file.size
+      file_type: file.type
+    @setModel(model)
+    model.save().done =>
+      @trigger "create", model
+
+
+class Cms.Views.ImageWeighter extends Cms.Views.MenuView
+  tagName: "div"
+  className: "weighter"
+  template: "assets/weighter"
+
+  ui:
+    head: ".menu-head"
+    body: ".menu-body"
+
+  events:
+    "click @ui.head": "toggleMenu"
+
+  bindings: 
+    "input.weight": "main_image_weighting"
+
+
+
+## Video assets
+#
+class Cms.Views.Video extends Cms.Views.Asset
+  editorView: "VideoEditor"
   template: "assets/video"
   className: "video full"
   defaultSize: "full"
@@ -223,8 +317,6 @@ class Cms.Views.Video extends Cms.Views.Asset
       observe: "embed_code"
       visible: "unlessEmbedded"
       visibleFn: "hideVideo"
-    "figcaption":
-      observe: "caption"
 
   wrap: =>
     @$el.addClass 'editing'
@@ -239,14 +331,40 @@ class Cms.Views.Video extends Cms.Views.Asset
     el.hide() unless visible
 
 
+class Cms.Views.VideoEditor extends Cms.Views.AssetEditor
+  template: "assets/video_editor"
+  pickerView: "VideoPicker"
+
+
+class Cms.Views.VideoPicker extends Cms.Views.AssetPicker
+  template: "assets/video_picker"
+
+  initialize: ->
+    @collection ?= new Cms.Collections.Videos
+    super
+
+  createModel: (data, file) =>
+    model = @collection.unshift
+      file_data: data
+      file_name: file.name
+      file_size: file.size
+      file_type: file.type
+    @select(model)
+    model.save().done =>
+      @trigger "create", model
+
+
+## Quote pseudo-assets
+#
+# Just html, with no reference to an external asset, but editable and stylable like an embedded object.
+#
 class Cms.Views.Quote extends Cms.Views.Asset
-  stylerView: "AssetStyler"
+  editorView: "QuoteEditor"
   template: "assets/quote"
   className: "quote full"
   defaultSize: "full"
 
   ui:
-    buttons: ".cms-buttons"
     quote: "blockquote"
     caption: "figcaption"
 
@@ -281,3 +399,12 @@ class Cms.Views.Quote extends Cms.Views.Asset
     else
       ""
 
+
+class Cms.Views.QuoteEditor extends Cms.Views.AssetEditor
+  template: "assets/quote_editor"
+
+
+## Annotation pseudo-assets
+#
+# Just html, with no reference to an external asset, but editable and stylable like an embedded object.
+#

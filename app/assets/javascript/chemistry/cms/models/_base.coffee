@@ -96,7 +96,7 @@ class Cms.Model extends Backbone.Model
     @_loader = null
     @_saved.resolve()
     @_loaded.resolve(data)
-    @recordAttributes()
+    @resetChanges()
 
   notLoaded: (error) =>
     @_loading = false
@@ -127,7 +127,7 @@ class Cms.Model extends Backbone.Model
   saved: (data) =>
     @_loading = false
     @_saved.resolve(data)
-    @recordAttributes()
+    @resetChanges()
 
   notSaved: (error) =>
     @_saving = false
@@ -292,6 +292,11 @@ class Cms.Model extends Backbone.Model
 
   recordAttributes: =>
     @_original_attributes = @significantAttributes()
+
+  resetChanges: =>
+    @recordAttributes()
+    _.each @savedAssociations, (k) =>
+        @[k].resetChanges()
 
   significantAttributes: => 
     _.pick @attributes, @savedAttributes
@@ -615,6 +620,9 @@ class Cms.Collection extends Backbone.Collection
   setOriginalIds: =>
     @_original_ids = @pluck('id')
 
+  resetChanges: =>
+    @setOriginalIds()
+    @each (m) -> m.resetChanges()
 
   ## Selection
 

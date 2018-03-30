@@ -1,3 +1,2 @@
-%blockquote{contenteditable: "plaintext-only", data: {placeholder: t('placeholders.quote.remarks')}}<}<
+%blockquote{contenteditable: "plaintext-only", data: {placeholder: t('placeholders.quote.remarks')}}<
 %figcaption{contenteditable: "plaintext-only", data: {placeholder: t('placeholders.quote.attribution')}}<
-.cms-buttons

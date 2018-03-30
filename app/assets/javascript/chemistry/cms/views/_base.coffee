@@ -114,6 +114,13 @@ class Cms.View extends Backbone.Marionette.View
     weighting ?= 'center center'
     "background-image: url('#{url}'); background-position: #{weighting}"
 
+  urlAtSize: (url) =>
+    @model.get("#{@_size}_url") ? url
+
+  styleBackgroundAtSize: (url) =>
+    if url
+      "background-image: url('#{@urlAtSize(url)}')"
+
 
   ## Visibility functions
   #

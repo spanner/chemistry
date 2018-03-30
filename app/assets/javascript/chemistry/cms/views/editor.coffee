@@ -6,6 +6,7 @@ class Cms.Views.Editor extends Cms.View
   template: false
 
   initialize: ->
+    super
     @render()
 
   onRender: =>

@@ -9,7 +9,7 @@ class Cms.Views.Section extends Cms.View
     title: '[data-cms-role="title"]'
     primary: '[data-cms-role="primary"]'
     secondary: '[data-cms-role="secondary"]'
-    editable: '[data-cms-editor="full"]'
+    editable: '[data-cms-editor]'
 
   bindings:
     ":el":
@@ -26,9 +26,11 @@ class Cms.Views.Section extends Cms.View
     '[data-cms-role="primary"]':
       observe: "primary_html"
       updateMethod: "html"
+      onSet: "withoutControls"
     '[data-cms-role="secondary"]':
       observe: "secondary_html"
       updateMethod: "html"
+      onSet: "withoutControls"
 
   initialize: (opts={}) =>
     super
@@ -36,7 +38,6 @@ class Cms.Views.Section extends Cms.View
     @model.on "change:section_type", @render
 
   onRender: =>
-    @log "🙈 Section render"
     @ui.title.attr('contenteditable', 'plaintext-only')
     @ui.primary.attr('contenteditable', 'true').addClass('editing')
     @ui.secondary.attr('contenteditable', 'true').addClass('editing')
@@ -83,6 +84,17 @@ class Cms.Views.Section extends Cms.View
     content = el.innerHTML
     el.innerHTML = "" if content is "<p>&#8203;</p>" or content is "<p><br></p>" or content is "<p>​</p>"  # there's a zwsp in that last string
 
+  # onSet callback to remove our controls from the html.
+  # TODO: sanitize?
+  #
+  withoutControls: (html) =>
+    @_cleaner ?= $('<div />')
+    @_cleaner.html(html)
+    @_cleaner.find('[data-cms]').remove()
+    @_cleaner.find('[contenteditable]').removeAttr('contenteditable')
+    @_cleaner.find('[data-placeholder]').removeAttr('data-placeholder')
+    @log "cleaned html", @_cleaner.html()
+    @_cleaner.html()
 
 
 class Cms.Views.NoSection extends Cms.View

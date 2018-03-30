@@ -31,7 +31,6 @@ class Cms.Collections.Sections extends Cms.Collection
   sorted: false
 
   setDefaults: =>
-    @log "🙈 setDefaults", @_nested, @first()
     if @_nested
       if first_section = @first()
         slug = first_section.get('section_type_slug')
