@@ -294,9 +294,11 @@ class Cms.Model extends Backbone.Model
     @_original_attributes = @significantAttributes()
 
   resetChanges: =>
-    @recordAttributes()
+    @log "🙈 model.resetChanges", @
     _.each @savedAssociations, (k) =>
-        @[k].resetChanges()
+      @[k].resetChanges()
+    @recordAttributes()
+    @changedIfSignificantlyChanged()
 
   significantAttributes: => 
     _.pick @attributes, @savedAttributes
@@ -621,6 +623,7 @@ class Cms.Collection extends Backbone.Collection
     @_original_ids = @pluck('id')
 
   resetChanges: =>
+    @log "🙈 collection.resetChanges", @
     @setOriginalIds()
     @each (m) -> m.resetChanges()
 
