@@ -13,7 +13,7 @@ class Cms.Views.Saver extends Cms.View
 
   bindings:
     "a.save":
-      classes: 
+      classes:
         available:
           observe: ["changed", "valid"]
           onGet: "ifSaveable"

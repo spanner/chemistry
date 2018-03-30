@@ -26,7 +26,6 @@ header#nav
     .mask
       display: block
       z-index: 10
-      background-color: rgba(255,255,255,0.5)
     &.up
       opacity: 1
       pointer-events: auto
@@ -64,21 +63,42 @@ header#nav
         margin: 4px 0
         line-height: 44px
 
-  #controls, #queue
-    position: relative
+  #controls
+    position: absolute
     display: block
-    margin: 16px 64px 0 0
-    width: 220px
+    top: 16px
+    right: 64px
+    width: 120px
+    float: right
     &:empty
       display: none
 
+  #queue
+    position: absolute
+    top: 60px
+    right: 16px
+    width: 168px
+
   #controls
     a
-      +smallbutton
-      &:not(.available)
-        +buttonbg($pale)
-        pointer-events: none
-
+      color: $verypale
+      pointer-events: none
+      transition: color 0.5s ease-out, opacity 0.25s ease-out
+      opacity: 0.5
+      svg
+        width: 32px
+        height: 32px
+      &:hover
+        opacity: 1
+      &.available
+        pointer-events: auto
+        cursor: pointer
+      &.save.available
+        color: $green
+      &.revert.available
+        color: $red
+      &.publish.available
+        color: $purple
 
 
 @media (max-width: 750px)

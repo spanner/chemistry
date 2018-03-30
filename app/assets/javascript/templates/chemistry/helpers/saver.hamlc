@@ -1,9 +1,12 @@
 .buttons
-  %a.save.unavailable
-    =t('buttons.save')
-  %a.revert.unavailable
-    =t('buttons.revert')
-  %a.publish.unavailable
-    =t('buttons.publish')
+  %a.save
+    %svg
+      %use{"xlink:href" => "#save_button_symbol"}
+  %a.revert{data: {confirm: t("confirmations.revert")}}
+    %svg
+      %use{"xlink:href" => "#revert_button_symbol"}
+  %a.publish
+    %svg
+      %use{"xlink:href" => "#publish_button_symbol"}
 
 .warnings

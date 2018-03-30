@@ -37,7 +37,7 @@ class Cms.Model extends Backbone.Model
     @resetOriginalAttributes()
     @set 'changed', false
     @on "change", @changedIfSignificant
-    @on "sync", @resetOriginalAttributes
+    @on "change", @validate
 
 
   ## Load and save
@@ -81,6 +81,7 @@ class Cms.Model extends Backbone.Model
     @_loading = false
     @_saved.resolve()
     @_loaded.resolve(data)
+    @resetOriginalAttributes()
 
   notLoaded: (error) =>
     @_loading = false
@@ -110,6 +111,7 @@ class Cms.Model extends Backbone.Model
   saved: (data) =>
     @_loading = false
     @_saved.resolve(data)
+    @resetOriginalAttributes()
 
   notSaved: (error) =>
     @_saving = false
@@ -282,9 +284,10 @@ class Cms.Model extends Backbone.Model
     @_changed_associations = []
 
   changedIfSignificant: =>
+    @log "changedIfSignificant", @hasSignificantChangedAttributes(), @hasSignificantChangedAssociations()
     changed = @hasSignificantChangedAttributes() or @hasSignificantChangedAssociations()
     @set "changed", changed
-    
+
   hasSignificantChangedAttributes: () =>
     not _.isEmpty @significantChangedAttributes()
 
@@ -301,6 +304,12 @@ class Cms.Model extends Backbone.Model
     changed_keys = _.filter @savedAssociations, (k) =>
       k in @_changed_associations
     changed_keys
+
+
+  ## Validation
+  #
+  validate: =>
+    @set 'valid', true
 
 
   ## Selection
