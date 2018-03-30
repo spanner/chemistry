@@ -109,20 +109,18 @@ module Chemistry
         :parent_id,
         :content,
         :external_url,
+        :document_id,
         :title,
         :nav,               # takes part in navigation?
         :nav_name,          # with this name
         :nav_position,      # in this position
-        sections: [
+        sections_data: [    # + nested section data
           :id,
           :position,
           :title,
-          :main,
-          :aside,
+          :primary_html,
+          :secondary_html,
           :section_type_id,
-          :image_id,
-          :video_id,
-          :document_id,
           :deleted_at
         ]
       )

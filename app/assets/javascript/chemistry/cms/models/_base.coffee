@@ -261,7 +261,7 @@ class Cms.Model extends Backbone.Model
       json = @toJSON()
     if associations = _.result @, "savedAssociations"
       for association_name in associations
-        json[association_name] = @[association_name].toJSONWithAssociations()
+        json["#{association_name}_data"] = @[association_name].toJSONWithAssociations()
     json
 
 
@@ -316,6 +316,7 @@ class Cms.Model extends Backbone.Model
   #
   validate: =>
     @set 'valid', true
+    return null
 
 
   ## Selection

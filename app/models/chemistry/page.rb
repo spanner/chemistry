@@ -24,7 +24,7 @@ module Chemistry
 
     # It's not pretty, but it's a lot nicer than accepts_nested_attributes_for.
     #
-    def section_data=(section_data=nil)
+    def sections_data=(section_data=nil)
       if section_data
         old_section_ids = sections.map(&:id)
         new_section_ids = []
