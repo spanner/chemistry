@@ -55,8 +55,7 @@ class Cms.Views.Section extends Cms.View
   setDefaults: =>
     slug = @model.get('section_type_slug')
     if slug is 'hero' or slug is 'title'
-      @log "setDefaults", @model.get('section_type_slug'), @page.get('title')
-      @model.set('title', @page?.get('title')) unless @model.get('title')
+      @model.setDefault 'title', @page?.get('title')
 
   setPlaceholders: =>
     if slug = @model.get('section_type_slug')

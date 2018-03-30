@@ -36,7 +36,7 @@ class Cms.Views.Saver extends Cms.View
     @model.save()
 
   revert: =>
-    @model.revert()
+    @model.reload()
 
   publish: =>
     @model.publish()

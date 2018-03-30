@@ -19,6 +19,7 @@ class Cms.Model extends Backbone.Model
   initialize: (opts={}) ->
     @_class_name = @constructor.name
     @_original_attributes = {}
+    @checkState = _.debounce @changedIfSignificantlyChanged, 250
 
     @prepareLoader()
     @load() if @autoload
@@ -34,11 +35,20 @@ class Cms.Model extends Backbone.Model
     # original attributes and set the 'changed' marker accordingly.
     #
     @prepareSaver()
-    @resetOriginalAttributes()
+    @recordAttributes()
     @set 'changed', false
-    @on "change", @changedIfSignificant
+    @on "change", @checkState
     @on "change", @validate
 
+
+  ## Useful
+  #
+  # SetDefault sets an attribute if it is not set, as though it always had been set.
+  # This is useful for eg. assigning a page title to the first section without setting off all the save buttons.
+  #
+  setDefault: (attribute, value) =>
+    @set(attribute, value) unless @get(attribute)
+    @_original_attributes[attribute] = value
 
   ## Load and save
   # Loading is promised. Actions that should be taken only when a model needs no further fetching
@@ -46,8 +56,11 @@ class Cms.Model extends Backbone.Model
   # which does not itself trigger loading but will call back when loading is complete.
   # The loaded promise is resolved when we are fetched either individually or in a collection.
   #
+  urlRoot: () =>
+    [_cms.config('api_url'), @pluralName()].join('/')
+
   prepareLoader: =>
-    @_loaded?.cancel()
+    @_loader?.cancel()
     @_loaded = $.Deferred()
     @_loaded.resolve() if @isNew()
     @_loading = false
@@ -74,17 +87,19 @@ class Cms.Model extends Backbone.Model
     @log "load", @_loading, @_loaded
     unless @_loading or @isLoaded()
       @_loading = true
-      @fetch(error: @notLoaded).done(@loaded)
+      @_loader = @fetch(error: @notLoaded).done(@loaded)
     @_loaded.promise()
 
   loaded: (data) =>
     @_loading = false
+    @_loader = null
     @_saved.resolve()
     @_loaded.resolve(data)
-    @resetOriginalAttributes()
+    @recordAttributes()
 
   notLoaded: (error) =>
     @_loading = false
+    @_loader = null
     @_loaded.reject(error)
 
   reload: ->
@@ -111,14 +126,14 @@ class Cms.Model extends Backbone.Model
   saved: (data) =>
     @_loading = false
     @_saved.resolve(data)
-    @resetOriginalAttributes()
+    @recordAttributes()
 
   notSaved: (error) =>
     @_saving = false
     @_saved.reject(error)
 
-  urlRoot: () =>
-    [_cms.config('api_url'), @pluralName()].join('/')
+  revert: =>
+    
 
 
   ## Construction
@@ -229,8 +244,7 @@ class Cms.Model extends Backbone.Model
 
     # Listen for changes to the attached collection.
     @[association_name].on "change:changed add remove clear", (e) =>
-      @_changed_associations.push(association_name) unless association_name in @_changed_associations
-      @changedIfSignificant()
+      @changedIfSignificantlyChanged()
 
   toJSONWithRootAndAssociations: =>
     root = @singularName()
@@ -273,37 +287,29 @@ class Cms.Model extends Backbone.Model
 
   ## Change monitoring
   #
-  markAsChanged: (e) =>
-    @set "changed", true
+  changedIfSignificantlyChanged: =>
+    @set "changed", @hasSignificantChangedAttributes() or @hasSignificantChangedAssociations()
   
-  markAsUnchanged: () =>
-    @set "changed", false
-  
-  resetOriginalAttributes: =>
-    @_original_attributes = _.pick @attributes, @savedAttributes
-    @_changed_associations = []
+  recordAttributes: =>
+    @_original_attributes = @significantAttributes()
 
-  changedIfSignificant: =>
-    @log "changedIfSignificant", @hasSignificantChangedAttributes(), @hasSignificantChangedAssociations()
-    changed = @hasSignificantChangedAttributes() or @hasSignificantChangedAssociations()
-    @set "changed", changed
+  significantAttributes: => 
+    _.pick @attributes, @savedAttributes
 
   hasSignificantChangedAttributes: () =>
     not _.isEmpty @significantChangedAttributes()
 
   significantChangedAttributes: () =>
-    significantly_changed = _.pick @changedAttributes(), @savedAttributes
-    actually_changed_keys = _.filter _.keys(significantly_changed), (k) =>
-      significantly_changed[k] isnt @_original_attributes[k]
-    _.pick significantly_changed, actually_changed_keys
+    current_attributes = @significantAttributes()
+    changed_keys = _.filter _.keys(current_attributes), (k) =>
+      current_attributes[k] isnt @_original_attributes[k]
+    _.pick current_attributes, changed_keys
 
   hasSignificantChangedAssociations: () =>
     not _.isEmpty @significantChangedAssociations()
 
   significantChangedAssociations: () =>
-    changed_keys = _.filter @savedAssociations, (k) =>
-      k in @_changed_associations
-    changed_keys
+    _.filter @savedAssociations, (k) => @[k].hasAnyChanges()
 
 
   ## Validation
@@ -346,11 +352,6 @@ class Cms.Model extends Backbone.Model
   isDestroyed: () =>
     @get('deleted_at')
 
-  destroyReversibly: () =>
-    unless @get('deleted_at')
-      @set('deleted_at', moment())
-      @markAsChanged()
-
   log: ->
     _cms.log "[#{@constructor.name}]", arguments...
 
@@ -368,8 +369,8 @@ class Cms.Collection extends Backbone.Collection
 
   initialize: (models, @options={}) ->
     @_class_name = @constructor.name
-    @_original_ids = @pluck('id')
     @_nested = @options.nested    # normally only set by hasMany
+    @setOriginalIds()
     @prepareLoader()
     @debouncedReload = _.debounce @reload, 250
 
@@ -568,6 +569,7 @@ class Cms.Collection extends Backbone.Collection
         @_total_pages = Math.ceil(@_total_records / @_page_size)
     @_loading = false
     @sort()
+    @setOriginalIds()
     @_loaded?.resolve(data)
     @trigger('loaded')
 
@@ -591,6 +593,21 @@ class Cms.Collection extends Backbone.Collection
 
   notLoaded: (error) =>
     @_loaded.reject(error)
+
+
+  ## Change management
+  
+  hasAnyChanges: =>
+    @hasCollectionChanges() or @hasModelChanges()
+
+  hasCollectionChanges: =>
+    !_.isEqual @pluck('id'), @_original_ids
+
+  hasModelChanges: =>
+    !!@findWhere changed: true
+
+  setOriginalIds: =>
+    @_original_ids = @pluck('id')
 
 
   ## Selection
