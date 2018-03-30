@@ -28,3 +28,7 @@ class Cms.Models.Image extends Cms.Model
       ctx = canvas.getContext('2d')
       ctx.drawImage(img, 0, 0, w, h)
       preview = canvas.toDataURL('image/png')
+
+
+class Cms.Collections.Images extends Cms.Collection
+  model: Cms.Models.Image

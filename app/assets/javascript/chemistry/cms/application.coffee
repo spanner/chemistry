@@ -41,6 +41,7 @@ class Cms.Application extends Backbone.Marionette.Application
     @_config = new Cms.Config
     @_log_level = @_config.logLevel()
     @env = @_config.environment()
+    @jobs = new Cms.Collections.Jobs
     @notices = new Cms.Collections.Notices
     @pages = new Cms.Collections.Pages
     @section_types = new Cms.Collections.SectionTypes
@@ -143,6 +144,11 @@ class Cms.Application extends Backbone.Marionette.Application
     else
       ""
 
+  ## Queue helpers
+  #
+  addJob: (attributes={}) =>
+    @jobs.add(attributes)
+
 
   ## Confirmation and error messages
   #
@@ -181,7 +187,7 @@ class Cms.Application extends Backbone.Marionette.Application
 
 
   ## Localisation
-
+  #
   withLocale: (fn) =>
     @_locale_ready.done fn
 

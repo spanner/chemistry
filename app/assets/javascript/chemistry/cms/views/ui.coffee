@@ -19,7 +19,8 @@ class Cms.Views.UI extends Cms.View
   onRender: =>
     @_view = null
     @_collection = null
-    @getRegion('nav').show new Cms.Views.Nav
+    @_nav = new Cms.Views.Nav
+    @getRegion('nav').show @_nav
     @getRegion('notices').show new Cms.Views.Notices
       collection: _cms.notices
 
@@ -45,6 +46,7 @@ class Cms.Views.UI extends Cms.View
         # always rebuild?
         @showView new view_class
           collection: @_collection
+        @clearNavModel()
 
   modelView: (base, action, id) =>
     @log "modelView", base, action
@@ -58,17 +60,15 @@ class Cms.Views.UI extends Cms.View
       if view_class and model_class
         collection_name = model_name + 's'    # take that, ActiveSupport
         collection_class = Cms.Collections[collection_name]
+
         if id is 'new'
           model = new model_class()
-
         # try to get model from previous collection, eg when navigating from list to item
         else if @_collection and @_collection instanceof collection_class
           model = @_collection.get(id)
-
         # try to get model from main application collection, eg when going straight to an item view
         else if @_collection = _cms[collection_name.toLowerCase()]
           model = @_collection.get(id)
-
         # or we have to fetch a new copy of the model
         unless model
           model = new model_class({id: id})
@@ -76,6 +76,7 @@ class Cms.Views.UI extends Cms.View
 
         @showView new view_class
           model: model
+        @setNavModel(model)
 
   collectionParams: (params={}) =>
     _.pick params, ['p', 'pp', 'q', 's', 'o']
@@ -83,4 +84,12 @@ class Cms.Views.UI extends Cms.View
   showView: (view=@_view) =>
     @getRegion('main').show view
 
-  
+
+  # Nav presents the save / revert / publish controls
+  #
+  setNavModel: (model) =>
+    @_nav.setModel(model)
+
+  clearNavModel: () =>
+    @_nav.setModel(null)
+    

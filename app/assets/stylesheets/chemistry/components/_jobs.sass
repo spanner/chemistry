@@ -1,0 +1,34 @@
+#queue
+  ul
+    list-style: none
+    padding: 0
+    width: 100%
+    li
+      span.job_status
+        display: block
+      span.percentage
+        float: right
+        color: $pale
+        &:after
+          content: "%"
+        &:empty
+          display: none
+      span.progress
+        position: relative
+        display: block
+        margin-top: 2px
+        width: 100%
+        height: 4px
+        background-color: $coolgrey00
+        span.bar
+          display: block
+          width: 0
+          height: 4px
+          background-color: $green
+          transition: width 250ms ease-out
+      &.finished
+        span.percentage
+          color: $green
+      span.error
+        color: $red
+        display: none

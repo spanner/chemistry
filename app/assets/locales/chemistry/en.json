@@ -5,7 +5,10 @@
     "create_page": "Create and edit page",
     "delete": "Delete",
     "no_not_really": "No, not really",
-    "save_page": "Save page"
+    "publish": "Publish",
+    "revert": "Revert",
+    "save_page": "Save page",
+    "save": "Save"
   },
   "confirmations": {
     "delete": "Delete this?",

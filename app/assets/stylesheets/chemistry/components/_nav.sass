@@ -24,8 +24,9 @@ header#nav
     opacity: 0
     transition: opacity 0.25s ease-out
     .mask
-      display: none
+      display: block
       z-index: 10
+      background-color: rgba(255,255,255,0.5)
     &.up
       opacity: 1
       pointer-events: auto
@@ -62,6 +63,23 @@ header#nav
         text-align: right
         margin: 4px 0
         line-height: 44px
+
+  #controls, #queue
+    position: relative
+    display: block
+    margin: 16px 64px 0 0
+    width: 220px
+    &:empty
+      display: none
+
+  #controls
+    a
+      +smallbutton
+      &:not(.available)
+        +buttonbg($pale)
+        pointer-events: none
+
+
 
 @media (max-width: 750px)
   header#nav

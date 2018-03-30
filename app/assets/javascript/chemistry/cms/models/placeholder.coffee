@@ -9,3 +9,13 @@ class Cms.Models.Placeholder extends Cms.Model
       section_type.get("template")
     else
       '<p class="warning">Placeholder has no section type</p>'
+
+
+class Cms.Collections.Placeholders extends Cms.Collection
+  model: Cms.Models.Placeholder
+  comparator: "position"
+  paginated: false
+  sorted: false
+
+  initialize: (array, opts) ->
+    @template = opts.template

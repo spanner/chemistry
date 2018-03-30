@@ -39,7 +39,6 @@ class Cms.Views.Asset extends Cms.View
     @addStyler()
     @listenToStyler()
     @addConfig()
-    @addProgress()
 
   addPicker: =>
     @log "addPicker", @getOption('pickerView')
@@ -82,14 +81,6 @@ class Cms.Views.Asset extends Cms.View
         model: @model
       @_config.$el.appendTo @ui.buttons
       @_config.render()
-
-  addProgress: =>
-    @_progress = new Cms.Views.ProgressBar
-      model: @model
-      size: 100
-      thickness: 4
-    @_progress.$el.appendTo @$el
-    @_progress.render()
 
   setModel: (model) =>
     @model = model

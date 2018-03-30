@@ -19,7 +19,6 @@
 #= require ./cms/config
 #= require_tree ../templates/chemistry
 #= require_tree ./cms/models
-#= require_tree ./cms/collections
 #= require_tree ./cms/views
 #= require_self
 

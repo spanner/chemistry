@@ -1,6 +1,11 @@
 =buttonbg($color: $green)
   background: linear-gradient(to bottom, lighten($color, 5) 5%, $color 60%, darken($color, 5) 90%)
 
+=smallbutton($color: $green, $textcolor: white)
+  +button($color, $textcolor)
+  padding: 4px 8px
+  font-size: 1rem
+
 =button($color: $green, $textcolor: white)
   display: inline-block
   pointer-events: auto
@@ -12,23 +17,30 @@
   box-sizing: border-box
   +cms_font_light
   &:hover
-    background-color: $control_over
+    box-shadow: 0 2px 3px $shadow
+  &:active
+    box-shadow: inset 0 1px 6px $shadow
   &.save
-    background-color: $greenish
+    +buttonbg($greenish)
     color: white
     &:hover
-      background-color: $green
+      +buttonbg($green)
+  &.revert
+    +buttonbg($reddish)
+    color: white
+    &:hover
+      +buttonbg($red)
   &.publish
-    background-color: $purpleish
+    +buttonbg($purpleish)
     color: white
     &:hover
-      background-color: $purple
+      +buttonbg($purple)
   &.delete
-    background: $reddish
+    +buttonbg($reddish)
     &:hover
-      background-color: $red
+      +buttonbg($red)
   &.cancel
-    background: white
+    +buttonbg(white)
     color: $pale
     &:hover
       background: $red

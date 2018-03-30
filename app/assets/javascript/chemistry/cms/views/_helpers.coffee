@@ -1,3 +1,64 @@
+class Cms.Views.Saver extends Cms.View
+  template: 'helpers/saver'
+
+  ui:
+    save_button: "a.save"
+    revert_button: "a.revert"
+    publish_button: "a.publish"
+
+  events:
+    "click @ui.save_button": "save"
+    "click @ui.revert_button": "revert"
+    "click @ui.publish_button": "publish"
+
+  bindings:
+    "a.save":
+      classes: 
+        available:
+          observe: ["changed", "valid"]
+          onGet: "ifSaveable"
+    "a.revert":
+      classes: 
+        available:
+          observe: "changed"
+          onGet: "ifRevertable"
+    "a.publish":
+      classes: 
+        available:
+          observe: ["changed", "valid", "unpublished"]
+          onGet: "ifPublishable"
+
+  onRender: =>
+    super
+    @ui.publish_button.hide() unless @model.is_a('Page')
+
+  save: =>
+    @model.save()
+
+  revert: =>
+    @model.revert()
+
+  publish: =>
+    @model.publish()
+
+  # Object is saveable if it valid and has significant changes.
+  #
+  ifSaveable: ([changed, valid]=[]) =>
+    changed and valid
+
+  # Object is revertable if it has significant changes.
+  #
+  ifRevertable: (changed) =>
+    @log "ifRevertable", changed
+    !!changed
+
+  # page is publishable if it has no unsaved changes,
+  # and the current publication is out of date.
+  #
+  ifPublishable: ([changed, valid, unpublished]=[]) =>
+    valid and unpublished and not changed
+
+
 class Cms.Views.Confirmation extends Cms.View
   className: "confirm"
   template: "helpers/confirmation"
@@ -74,45 +135,3 @@ class Cms.Views.Deleter extends Cms.View
       confirm: @$el.data('confirmation')
 
 
-
-class Cms.Views.ProgressBar extends Cms.View
-  template: false
-  tagName: "span"
-  className: "cms-progress"
-  
-  bindings:
-    ":el":
-      observe: "progressing"
-      visible: true
-    ".label":
-      observe: "progress"
-      update: "progressLabel"
-
-  onRender: () =>
-    @initProgress()
-    @stickit() if @model
-    @model?.on "change:progress", @showProgress
-
-  setModel: (model) =>
-    @model = model
-    @render()
-
-  initProgress: =>
-    @$el.append('<div class="label"></div>')
-    #TODO svg progress arc
-
-  showProgress: (model, progress) =>
-    @initProgress() unless @$el.data('circle-progress')
-    if progress > 1
-      @$el.fadeOut(1000)
-    else
-      @$el.show() unless @$el.is(':visible')
-      #TODO adjust svg progress arc
-
-  progressLabel: ($el, progress, model, options) =>
-    if progress > 1
-      $el.text("Done")
-    else if progress <= 0.99
-      $el.text("#{progress * 100}%").removeClass('processing')
-    else
-      $el.html("please wait").addClass('processing')

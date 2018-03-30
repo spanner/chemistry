@@ -1,3 +1,6 @@
+# Sections are saved as a nested resource within the page object
+# so that we can offer a nice simple save and publish workflow.
+#
 class Cms.Models.Section extends Cms.Model
   savedAttributes: ["id", "page_id", "title", "primary_html", "secondary_html", "section_type", "subject_page_id", "position", "image_id", "video_id", "deleted_at"]
 
@@ -14,3 +17,10 @@ class Cms.Models.Section extends Cms.Model
 
   setSlug: (section_type) =>
     @set 'section_type_slug', section_type?.get('slug')
+
+
+class Cms.Collections.Sections extends Cms.Collection
+  model: Cms.Models.Section
+  comparator: "position"
+  paginated: false
+  sorted: false

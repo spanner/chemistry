@@ -169,15 +169,6 @@ class Cms.Views.ListedAsset extends Cms.View
       observe: "duration"
       onGet: "inTime"
 
-  onRender: =>
-    @stickit()
-    @_progress = new Cms.Views.ProgressBar
-      model: @model
-      size: 40
-      thickness: 10
-    @_progress.$el.appendTo @$el
-    @_progress.render()
-
   deleteModel: (e) =>
     e?.preventDefault()
     @model.remove()
@@ -284,7 +275,7 @@ class Cms.Views.AssetPicker extends Cms.Views.MenuView
       @ui.body.append @_menu_view.el
       @_menu_view.render()
       @_menu_view.on "select", @select
-      @collection.load()
+    @collection.reload()
     @_menu_view.open()
     @$el.addClass('open')
 

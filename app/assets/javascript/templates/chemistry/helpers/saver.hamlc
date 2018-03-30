@@ -1,0 +1,9 @@
+.buttons
+  %a.save.unavailable
+    =t('buttons.save')
+  %a.revert.unavailable
+    =t('buttons.revert')
+  %a.publish.unavailable
+    =t('buttons.publish')
+
+.warnings
