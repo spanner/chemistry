@@ -219,8 +219,10 @@ class Cms.Views.MenuView extends Cms.View
 
   events:
     "click @ui.head": "toggleMenu"
+    "click a.close": "close"
 
-  toggleMenu: =>
+  toggleMenu: (e) =>
+    e?.preventDefault()
     if @showing()
       @close()
     else
@@ -229,11 +231,13 @@ class Cms.Views.MenuView extends Cms.View
   showing: =>
     @$el.hasClass('open')
 
-  open: =>
+  open: (e) =>
+    e?.preventDefault()
     @$el.addClass('open')
     @ui.body.show()
 
-  close: =>
+  close: (e) =>
+    e?.preventDefault()
     @_menu_view?.close()
     @ui.body.hide()
     @$el.removeClass('open')

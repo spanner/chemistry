@@ -1,7 +1,8 @@
 .cms-dropmask
   %p.prompt
     = t('placeholders.image.file')
+
 .cms-buttons
   %a.control.delete
     %svg.icon.filled
-      %use{"xlink:href" => "#delete_symbol"}
+      %use{"xlink:href" => "#cross_button_symbol"}

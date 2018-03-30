@@ -176,6 +176,7 @@ class Cms.Views.AssetPicker extends Cms.Views.MenuView
   events:
     "click @ui.head": "toggleMenu"
     "click @ui.filefield": "containEvent" # always artificial
+    "click a.close": "close"
 
   onRender: =>
     @ui.label.on "click", @close
@@ -257,6 +258,7 @@ class Cms.Views.ImageEditor extends Cms.Views.AssetEditor
 
 class Cms.Views.ImagePicker extends Cms.Views.AssetPicker
   template: "assets/image_picker"
+  menuView: "ImagesList"
 
   initialize: (data, options={}) ->
     @collection ?= new Cms.Collections.Images
@@ -288,7 +290,6 @@ class Cms.Views.ImageWeighter extends Cms.Views.MenuView
 
   bindings: 
     "input.weight": "main_image_weighting"
-
 
 
 ## Video assets
@@ -338,6 +339,7 @@ class Cms.Views.VideoEditor extends Cms.Views.AssetEditor
 
 class Cms.Views.VideoPicker extends Cms.Views.AssetPicker
   template: "assets/video_picker"
+  menuView: "VideosList"
 
   initialize: ->
     @collection ?= new Cms.Collections.Videos

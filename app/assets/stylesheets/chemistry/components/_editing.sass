@@ -40,28 +40,32 @@ a.control, label.control
   pointer-events: auto
   display: inline-block
   vertical-align: top
-  width: 24px
-  height: 24px
-  background-color: white
+  width: 32px
+  height: 32px
   margin-left: 2px
   margin-bottom: 8px
   cursor: pointer
   overflow: hidden
-  color: $pale
-  border: 1px solid currentColor
+  color: white
+  opacity: 0.85
+  transition: color 0.25s ease-out, opacity 0.25s ease-out
+  border-radius: 16px
   &:hover
     color: $dark
     background-color: white
+    box-shadow: 0 0 15px white
+    opacity: 1
   input[type="file"]
     display: none
   svg
-    width: 24px
-    height: 24px
+    width: 32px
+    height: 32px
     transition: transform 0.5s ease-out
   &.delete
-    color: $red
     &:hover
-      color: $reddish
+      color: $red
+  &.import:hover
+    color: $blue
   &.choose:hover
     color: $orange
   &.add:hover
@@ -88,6 +92,8 @@ a.control, label.control
   left: -20px
   transition: width 0.25s ease-out
   background-color: white
+  a.control
+    color: $mid
   a.control.show
     &:hover
       color: $green
@@ -95,7 +101,7 @@ a.control, label.control
     width: 250px
     a.control.show
       svg
-        transform: rotate(45deg)
+        transform: rotate(315deg)
       &:hover
         color: $red
   .cms-buttons
@@ -117,13 +123,36 @@ a.control, label.control
     position: absolute
     z-index: 500
     left: 10px
-    top: 30px
+    top: 10px
     width: 340px
     overflow: hidden
     padding: 0
     background-color: white
     box-sizing: border-box
     pointer-events: auto
+    border-radius: 8px
+    box-shadow: 0 2px 8px $shadow
+    a.close
+      display: block
+      position: absolute
+      top: 8px
+      right: 8px
+      color: $pale
+      cursor: pointer
+      &:hover
+        color: $mid
+      svg
+        width: 32px
+        height: 32px
+    h3
+      margin: 10px 0 10px 10px
+      font-weight: lighter
+      svg
+        width: 32px
+        height: 32px
+      svg, span.label
+        display: inline-block
+        vertical-align: middle
     .weighter &
       right: 32px
       left: auto
@@ -155,7 +184,7 @@ ul.image-buttons
 
 ul.cms-assets
   padding: 0
-  margin: 16px 0 0 20px
+  margin: 16px 0 0 10px
   list-style: none
   li.empty
     color: $mid

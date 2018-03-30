@@ -1,10 +1,16 @@
 %label.control.add.upload
   %svg.icon.filled
-    %use{"xlink:href" => "#up_symbol"}
+    %use{"xlink:href" => "#save_button_symbol"}
   %input{type: "file"}
 
 .cms-menu
   %a.control.choose.menu-head
     %svg.icon.filled
-      %use{"xlink:href" => "#reuse_symbol"}
+      %use{"xlink:href" => "#image_button_symbol"}
+  .assets.menu-body
+
+.cms-menu
+  %a.control.import.menu-head
+    %svg.icon.filled
+      %use{"xlink:href" => "#download_button_symbol"}
   .assets.menu-body

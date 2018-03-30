@@ -2,7 +2,11 @@
   No assets available for reuse.
   %br
   Click
-  %a.control.upload
+  %a.upload
     %svg.inline
-      %use{"xlink:href" => "#up_symbol"}
-  to upload, or enter a URL below.
+      %use{"xlink:href" => "#save_button_symbol"}
+  to upload, or
+  %a.import
+    %svg.inline
+      %use{"xlink:href" => "#download_button_symbol"}
+  to import from a URL.

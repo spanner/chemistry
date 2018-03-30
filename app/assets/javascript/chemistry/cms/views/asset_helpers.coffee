@@ -242,7 +242,12 @@ class Cms.Views.AssetsList extends Cms.CompositeView
         @trigger 'selected', imported
 
 
+class Cms.Views.ImagesList extends Cms.Views.AssetsList
+  template: "assets/image_list"
 
+
+class Cms.Views.VideosList extends Cms.Views.AssetsList
+  template: "assets/video_list"
 
 
 

@@ -21,7 +21,10 @@
     "pages": "No pages."
   },
   "headings": {
-    "pages": "Pages"
+    "pages": "Pages",
+    "reuse_image": "Choose image",
+    "reuse_video": "Choose video",
+    "reuse_document": "Choose document"
   },
   "introductions": {
     "chemistry": "Chemistry helps you to build and manage a tree of pages.",
@@ -101,6 +104,13 @@
   "sorts": {
     "by_date": "Date",
     "by_name": "Name"
+  },
+  "tooltips": {
+    "insert_something": "Place something here",
+    "insert_image": "Place an image",
+    "insert_video": "Place a video",
+    "insert_quote": "Place a quote",
+    "insert_annotation": "Place an annotation"
   },
   "waiters": {
     "site": "Site data loading"
