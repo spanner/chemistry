@@ -136,7 +136,6 @@ class Cms.Model extends Backbone.Model
   revert: =>
     @reload()
 
-
   ## Construction
   #
   build: =>
@@ -244,7 +243,7 @@ class Cms.Model extends Backbone.Model
     @trigger "change:#{association_name}"
 
     # Listen for changes to the attached collection.
-    @[association_name].on "change:changed add remove clear", (e) =>
+    @[association_name].on "change:changed add remove clear reset", (e) =>
       @changedIfSignificantlyChanged()
 
   toJSONWithRootAndAssociations: =>
@@ -290,7 +289,7 @@ class Cms.Model extends Backbone.Model
   #
   changedIfSignificantlyChanged: =>
     @set "changed", @hasSignificantChangedAttributes() or @hasSignificantChangedAssociations()
-  
+
   recordAttributes: =>
     @_original_attributes = @significantAttributes()
 
