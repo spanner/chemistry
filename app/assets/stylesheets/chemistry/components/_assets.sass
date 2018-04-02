@@ -1,3 +1,16 @@
+.darken
+  position: absolute
+  width: 100%
+  height: 100%
+  left: 0
+  bottom: 0
+  max-height: 100%
+  pointer-events: none
+  background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.3) 35%, rgba(0,0,0,0) 95%)
+  &.darker
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 40%)
+
+
 figure
   position: relative
   min-height: 48px
@@ -84,9 +97,9 @@ figure
         mix-blend-mode: difference
     .cms-buttons
       position: absolute
-      top: 10px
-      left: 10px
-      width: calc(100% - 20px)
+      top: 16px
+      left: 16px
+      width: calc(100% - 32px)
       pointer-events: none
       a.control, label.control
         margin-bottom: 0
@@ -110,6 +123,10 @@ figure
       .cms-buttons
         display: block
 
+  figure.bg
+    .cms-buttons
+      .delete
+        display: none
 .touch
   .ed-buttons
     display: block

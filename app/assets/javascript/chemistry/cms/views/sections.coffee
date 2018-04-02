@@ -6,10 +6,9 @@ class Cms.Views.Section extends Cms.View
   template: => @model?.getTemplate()
 
   ui:
-    title: '[data-cms-role="title"]'
-    primary: '[data-cms-role="primary"]'
-    secondary: '[data-cms-role="secondary"]'
-    editable: '[data-cms-editor]'
+    editable_background_image: '[data-cms-editor="bg"]'
+    editable_html: '[data-cms-editor="html"]'
+    editable_string: '[data-cms-editor="string"]'
 
   bindings:
     ":el":
@@ -23,6 +22,7 @@ class Cms.Views.Section extends Cms.View
     '[data-cms-role="title"]':
       observe: "title"
       updateMethod: "html"
+      onSet: "withoutHTML"
     '[data-cms-role="primary"]':
       observe: "primary_html"
       updateMethod: "html"
@@ -38,17 +38,12 @@ class Cms.Views.Section extends Cms.View
     @model.on "change:section_type", @render
 
   onRender: =>
-    @ui.title.attr('contenteditable', 'plaintext-only')
-    @ui.primary.attr('contenteditable', 'true').addClass('editing')
-    @ui.secondary.attr('contenteditable', 'true').addClass('editing')
-    @ui.primary.on('focus', @ensureP).on('blur', @clearP)
-    @ui.secondary.on('focus', @ensureP).on('blur', @clearP)
+    # apply localised placeholders
     @setPlaceholders()
+    # bind
     super
-    @addEditor()
-
-  # onRendered: =>
-  #   balanceText(@ui.title) if @ui.title.length
+    # then wrap editing controls around content elements
+    @addEditors()
 
   sectionId: (id) -> 
     "section_#{id}"
@@ -56,36 +51,40 @@ class Cms.Views.Section extends Cms.View
   setPlaceholders: =>
     if slug = @model.get('section_type_slug')
       for att in ['title', 'primary', 'secondary', 'caption']
+        ph = null
         if _cms.translationAvailable("placeholders.sections.#{slug}.#{att}")
-          title = t("placeholders.sections.#{slug}.#{att}")
+          ph = t("placeholders.sections.#{slug}.#{att}")
         else if _cms.translationAvailable("placeholders.sections.#{att}")
-          title = t("placeholders.sections.#{att}")
-        @log "setPlaceholders", att, slug, "->", title
-        if title
-          @$el.find('[data-cms-role="' + att + '"]').attr('data-placeholder', title)
+          ph = t("placeholders.sections.#{att}")
+        @log "setPlaceholders", slug, att, "->", ph
+        if ph
+          @$el.find('[data-cms-role="' + att + '"]').attr('data-placeholder', ph)
 
-  addEditor: =>
-    @ui.editable.each (i, el) =>
-      @log "addEditor", el
-      @addView new Cms.Views.Editor
+
+  ## Edit helpers
+  # Wrap html and image editors around our bound elements to provide extra editing controls.
+  #
+  addEditors: =>
+    @ui.editable_string.each (i, el) =>
+      @log "🐵 String Editor", el
+      @addView new Cms.Views.StringEditor
         model: @model
         el: el
 
-  ensureP: (e) =>
-    el = e.target
-    if el.innerHTML is ""
-      el.style.minHeight = el.offsetHeight + 'px'
-      p = document.createElement('p')
-      p.innerHTML = "&#8203;"
-      el.appendChild p
+    @ui.editable_html.each (i, el) =>
+      @log "🐵 HTML Editor", el
+      @addView new Cms.Views.HtmlEditor
+        model: @model
+        el: el
 
-  clearP: (e) =>
-    el = e.target
-    content = el.innerHTML
-    el.innerHTML = "" if content is "<p>&#8203;</p>" or content is "<p><br></p>" or content is "<p>​</p>"  # there's a zwsp in that last string
+    @ui.editable_background_image.each (i, el) =>
+      @log "🐵 Background Image Editor", el
+      @addView new Cms.Views.BackgroundImageEditor
+        model: @model
+        el: el
 
-  # onSet callback to remove our controls from the html.
-  # TODO: sanitize?
+  # then onSet we remove all control elements and editable attribuets: 
+  # the database holds exactly the html that we will display.
   #
   withoutControls: (html) =>
     @_cleaner ?= $('<div />')
@@ -93,8 +92,12 @@ class Cms.Views.Section extends Cms.View
     @_cleaner.find('[data-cms]').remove()
     @_cleaner.find('[contenteditable]').removeAttr('contenteditable')
     @_cleaner.find('[data-placeholder]').removeAttr('data-placeholder')
-    @log "cleaned html", @_cleaner.html()
     @_cleaner.html()
+
+  withoutHTML: (html) =>
+    @_cleaner ?= $('<div />')
+    @_cleaner.html(html)
+    @_cleaner.text().trim()
 
 
 class Cms.Views.NoSection extends Cms.View

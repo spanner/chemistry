@@ -107,7 +107,8 @@ class Cms.View extends Backbone.Marionette.View
   styleBackgroundColor: (color) =>
     "background-color: #{color}" if color
 
-  styleBackgroundImage: (url) =>
+  styleBackgroundImage: ([url, data]=[]) =>
+    url ||= data
     "background-image: url('#{url}')"
 
   styleBackgroundImageAndPosition: ([url, weighting]=[]) =>

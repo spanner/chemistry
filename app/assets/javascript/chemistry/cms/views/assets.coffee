@@ -23,7 +23,6 @@ class Cms.Views.Asset extends Cms.View
     @listenToEditor()
 
   addEditor: =>
-    @log "🙈 addEditor", @getOption('editorView')
     if editor_view_class = Cms.Views[@getOption('editorView')]
       @_editor = new editor_view_class
         model: @model
@@ -35,7 +34,9 @@ class Cms.Views.Asset extends Cms.View
     @_editor.on 'update', @update
     @_editor.on 'select', @setModel
 
+  # changes to an embedded asset should update bound values in the parent section.
   update: =>
+    @log "🐵 update!", @$el.parent()
     @$el.parent().trigger 'input'
 
   remove: () =>
@@ -113,7 +114,6 @@ class Cms.Views.AssetEditor extends Cms.View
 
   # picker populates our existing shared model
   savedModel: (model) =>
-    @log "🙈 savedModel", model
     @stickit()
 
   setSize: (size) =>
@@ -179,7 +179,6 @@ class Cms.Views.AssetPicker extends Cms.Views.MenuView
     "click a.close": "close"
 
   onRender: =>
-    @ui.label.on "click", @close
     @ui.filefield.on 'change', @getPickedFile
 
   open: =>
@@ -247,6 +246,22 @@ class Cms.Views.Image extends Cms.Views.Asset
       @model = new Cms.Models.Image(id: image_id)
       @model.load()
     @model ?= new Cms.Models.Image
+
+
+class Cms.Views.BackgroundImage extends Cms.Views.Image
+  template: false
+  className: "bg"
+
+  bindings:
+    ":el":
+      attributes: [
+        name: "data-image",
+        observe: "id"
+      ,
+        name: "style",
+        observe: ["file_url", "file_data"]
+        onGet: "styleBackgroundImage"
+      ]
 
 
 class Cms.Views.ImageEditor extends Cms.Views.AssetEditor
@@ -320,7 +335,6 @@ class Cms.Views.Video extends Cms.Views.Asset
       visibleFn: "hideVideo"
 
   wrap: =>
-    @$el.addClass 'editing'
     if video_id = @$el.data('video')
       _cms.withAssets =>
         @setModel _cms.videos.get(video_id ) ? new Cms.Models.Video

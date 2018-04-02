@@ -1,8 +1,7 @@
-# The editor is wrapped around existing html content.
-# It has two jobs: to make embedded assets editable,
-# and to attach an asset-inserter that will add more.
+# The editors are wrapped around existing html content
+# to provide the right tools for editing it.
 
-class Cms.Views.Editor extends Cms.View
+class Cms.Views.StringEditor extends Cms.View
   template: false
 
   initialize: ->
@@ -10,7 +9,19 @@ class Cms.Views.Editor extends Cms.View
     @render()
 
   onRender: =>
-    @log "render", @el
+    @$el.attr('contenteditable', 'plaintext-only').addClass('editing')
+
+
+class Cms.Views.HtmlEditor extends Cms.View
+  template: false
+
+  initialize: ->
+    super
+    @render()
+
+  onRender: =>
+    @$el.attr('contenteditable', 'true').addClass('editing')
+
     @$el.find('figure.image').each (i, el) =>
       @addView new Cms.Views.Image
         el: el
@@ -31,3 +42,36 @@ class Cms.Views.Editor extends Cms.View
     @$el.on "focus", @ensureP
     @$el.on "blur", @removeEmptyP
 
+  ## Contenteditable helpers
+  # Hacky intervention to make contenteditable behave in a slightly saner way,
+  # eg. by definitely typing into an (apprently) empty <p> element.
+  #
+  ensureP: (e) =>
+    el = e.target
+    if el.innerHTML is ""
+      el.style.minHeight = el.offsetHeight + 'px'
+      p = document.createElement('p')
+      p.innerHTML = "&#8203;"
+      el.appendChild p
+
+  clearP: (e) =>
+    el = e.target
+    content = el.innerHTML
+    el.innerHTML = "" if content is "<p>&#8203;</p>" or content is "<p><br></p>" or content is "<p>​</p>"  # there's a zwsp in that last string
+
+
+class Cms.Views.BackgroundImageEditor extends Cms.View
+  template: false
+
+  initialize: ->
+    super
+    @render()
+
+  onRender: =>
+    @$el.addClass('editing')
+    unless @$el.find('figure.bg').length
+      $('<figure class="bg"></figure>').appendTo @el
+    @$el.find('figure.bg').each (i, el) =>
+      @log "🐵 Background image", el
+      @addView new Cms.Views.BackgroundImage
+        el: el
