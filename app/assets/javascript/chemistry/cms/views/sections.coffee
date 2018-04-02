@@ -6,6 +6,7 @@ class Cms.Views.Section extends Cms.View
   template: => @model?.getTemplate()
 
   ui:
+    editable: '[data-cms-editor]'
     editable_background_image: '[data-cms-editor="bg"]'
     editable_html: '[data-cms-editor="html"]'
     editable_string: '[data-cms-editor="string"]'
@@ -41,8 +42,9 @@ class Cms.Views.Section extends Cms.View
     # apply localised placeholders
     @setPlaceholders()
     # bind
+    @makeEditable()
     super
-    # then wrap editing controls around content elements
+    # wrap editing controls around content elements
     @addEditors()
 
   sectionId: (id) -> 
@@ -60,6 +62,8 @@ class Cms.Views.Section extends Cms.View
         if ph
           @$el.find('[data-cms-role="' + att + '"]').attr('data-placeholder', ph)
 
+  makeEditable: =>
+    @ui.editable.attr('contenteditable', 'true').addClass('editing')
 
   ## Edit helpers
   # Wrap html and image editors around our bound elements to provide extra editing controls.

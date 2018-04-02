@@ -45,6 +45,7 @@ class Cms.Views.Asset extends Cms.View
       @update()
 
   setModel: (model) =>
+    @log "🐵 setModel", model
     @model = model
     @stickit() if @model
     @update()

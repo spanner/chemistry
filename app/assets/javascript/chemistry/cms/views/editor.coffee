@@ -9,7 +9,7 @@ class Cms.Views.StringEditor extends Cms.View
     @render()
 
   onRender: =>
-    @$el.attr('contenteditable', 'plaintext-only').addClass('editing')
+    # @$el.attr('contenteditable', 'plaintext-only').addClass('editing')
 
 
 class Cms.Views.HtmlEditor extends Cms.View
@@ -20,8 +20,6 @@ class Cms.Views.HtmlEditor extends Cms.View
     @render()
 
   onRender: =>
-    @$el.attr('contenteditable', 'true').addClass('editing')
-
     @$el.find('figure.image').each (i, el) =>
       @addView new Cms.Views.Image
         el: el
@@ -68,10 +66,12 @@ class Cms.Views.BackgroundImageEditor extends Cms.View
     @render()
 
   onRender: =>
-    @$el.addClass('editing')
     unless @$el.find('figure.bg').length
       $('<figure class="bg"></figure>').appendTo @el
+    @$el.attr('contenteditable', 'true').addClass('editing')
     @$el.find('figure.bg').each (i, el) =>
-      @log "🐵 Background image", el
       @addView new Cms.Views.BackgroundImage
         el: el
+
+
+    # bindings are not set up correctly because we bind primary before the contenteditable attribute is added
