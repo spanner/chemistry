@@ -102,6 +102,9 @@ class Cms.Views.Asset extends Cms.View
     @stickit() if @model
     @addEditor()
 
+  onWrap: =>
+    @addEditor()
+
   addEditor: =>
     if editor_view_class = Cms.Views[@getOption('editorView')]
       @_editor = new editor_view_class
@@ -113,12 +116,13 @@ class Cms.Views.Asset extends Cms.View
       @_editor.on 'select', @setModel
 
   update: =>
+    @log "update", @$el.parent()
     @$el.parent().trigger 'input'
 
   remove: () =>
     @$el.slideUp 'fast', =>
-      @$el.remove()
       @update()
+      @$el.remove()
 
   setModel: (model) =>
     @model = model
@@ -151,6 +155,7 @@ class Cms.Views.Image extends Cms.Views.Asset
     if image_id = @$el.data('image')
       @model = new Cms.Models.Image(id: image_id)
       @model.load()
+      @triggerMethod 'wrap'
 
   onRender: =>
     @model ?= new Cms.Models.Image
@@ -192,8 +197,6 @@ class Cms.Views.Video extends Cms.Views.Asset
       ]
     ".embed":
       observe: "embed_code"
-      visible: true
-      updateView: true
       updateMethod: "html"
     "video":
       observe: ["file_url", "embed_code"]
@@ -221,6 +224,7 @@ class Cms.Views.Video extends Cms.Views.Asset
     if video_id = @$el.data('video')
       @model = new Cms.Models.Video(id: video_id)
       @model.load()
+      @triggerMethod 'wrap'
 
   onRender: =>
     @model ?= new Cms.Models.Video
