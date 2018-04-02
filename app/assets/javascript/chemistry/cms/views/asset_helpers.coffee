@@ -93,6 +93,341 @@ class Cms.Views.AssetInserter extends Cms.View
     @$el.removeClass('showing')
 
 
+## Asset editors
+#
+# Wrap around an embedded asset to present controls for editing or replacing it.
+# The editor is responsible for adding pickers, stylers, importers and so on.
+# We also catch some events here and pass them on, so as to present a broad target,
+# including click to select and drop to upload. 
+#
+class Cms.Views.AssetEditor extends Cms.View
+  defaultSize: "full"
+  stylerView: "AssetStyler"
+  importerView: "AssetImporter"
+  uploaderView: "AssetUploader"
+
+  ui:
+    dropmask: ".cms-dropmask"
+    buttons: ".cms-buttons"
+    deleter: "a.delete"
+
+  triggers:
+    "click @ui.deleter": "remove"
+
+  events:
+    "click @ui.dropmask": "closeHelpers"
+    "dragenter": "lookAvailable"
+    "dragover @ui.catcher": "dragOver"
+    "dragleave @ui.catcher": "lookNormal"
+    "drop @ui.catcher": "catchFiles"
+
+  initialize: (opts={}) =>
+    @_size ?= _.result @, 'defaultSize'
+    super
+
+  onRender: =>
+    @$el.attr('data-cms', true)
+    @addHelpers()
+
+  addHelpers: =>
+    if uploader_view_class = Cms.Views[@getOption('uploaderView')]
+      @_uploader = new uploader_view_class
+        collection: @collection
+      @_uploader.$el.appendTo @ui.buttons
+      @_uploader.render()
+      @_uploader.on "select", @setModel
+      @_uploader.on "pick", => @closeHelpers()
+
+    if picker_view_class = Cms.Views[@getOption('pickerView')]
+      @_picker = new picker_view_class
+        collection: @collection
+      @_picker.$el.appendTo @ui.buttons
+      @_picker.render()
+      @_picker.on "select", @setModel
+      @_picker.on "open", => @closeOtherHelpers(@_picker)
+
+    if importer_view_class = Cms.Views[@getOption('importerView')]
+      @_importer = new importer_view_class
+        collection: @collection
+      @_importer.$el.appendTo @ui.buttons
+      @_importer.render()
+      @_importer.on "select", @setModel
+      @_importer.on "open", => @closeOtherHelpers(@_importer)
+
+    if _cms.getOption('asset_styles')
+      if styler_view_class = Cms.Views[@getOption('stylerView')]
+        @_styler = new styler_view_class
+          model: @model
+        @_styler.$el.appendTo @ui.buttons
+        @_styler.render()
+        @_styler.on "styled", @setStyle
+        @_styler.on "open", => @closeOtherHelpers(@_styler)
+
+  ## Selection controls
+  #
+  # helper selects or begins to create a different model for this view
+  setModel: (model) =>
+    @model = model
+    @_styler?.setModel(model)
+    if @model
+      @trigger "select", @model
+      @stickit()
+
+  createModel: (data, file) =>
+    #noop here: subclass must define
+
+  ## Styling controls
+  #
+  setSize: (size) =>
+    @_size = size
+    @stickit() if @model
+
+  setStyle: (style) =>
+    @$el.removeClass('right left full').addClass(style)
+    size = if style is "full" then "full" else "half"
+    @setSize size
+    @update()
+
+
+  ## Dropped-file handlers
+  # Live here so as to be applied to the whole asset element.
+  # Dropped file is passed to our uploader for processing.
+  #
+  dragOver: (e) =>
+    @log "dragOver"
+    e?.preventDefault()
+    if e.originalEvent.dataTransfer
+      e.originalEvent.dataTransfer.dropEffect = 'copy'
+
+  catchFiles: (e) =>
+    @lookNormal()
+    @log "catchFiles", e?.originalEvent.dataTransfer?.files
+    if e?.originalEvent.dataTransfer?.files.length
+      @containEvent(e)
+      @readFile e.originalEvent.dataTransfer.files
+    else
+      console.log "unreadable drop", e
+
+  readFile: (files) =>
+    @_uploader.readLocalFile(files[0]) if @_uploader and files.length
+
+  lookAvailable: (e) =>
+    e?.stopPropagation()
+    @$el.addClass('droppable')
+
+  lookNormal: (e) =>
+    e?.stopPropagation()
+    @$el.removeClass('droppable')
+
+  ## Click handler
+  # allows click anywhere to upload. Event is relayed to uploader.
+  #
+  pickFile: (e) =>
+    e?.preventDefault()
+    @_uploader?.pickFile(e)
+
+  ## Menu display
+
+  closeHelpers: =>
+    # event allowed through
+    _.each [@_picker, @_importer, @_styler], (h) ->
+      h?.close()
+
+  closeOtherHelpers: (helper) =>
+    _.each [@_picker, @_importer, @_styler], (h) ->
+      h?.close() unless h is helper
+
+
+class Cms.Views.ImageEditor extends Cms.Views.AssetEditor
+  template: "assets/image_editor"
+  pickerView: "ImagePicker"
+  importerView: "ImageImporter"
+  uploaderView: "ImageUploader"
+
+  initialize: (data, options={}) ->
+    @collection ?= new Cms.Collections.Images
+    super
+
+
+class Cms.Views.VideoEditor extends Cms.Views.AssetEditor
+  template: "assets/video_editor"
+  pickerView: "VideoPicker"
+  importerView: "VideoImporter"
+  uploaderView: "VideoUploader"
+
+  initialize: ->
+    @collection ?= new Cms.Collections.Videos
+    super
+
+
+class Cms.Views.QuoteEditor extends Cms.Views.AssetEditor
+  template: "assets/quote_editor"
+
+
+class Cms.Views.NoteEditor extends Cms.Views.AssetEditor
+  template: "assets/note_editor"
+
+
+## Asset pickers
+#
+# Display a list of assets, receive a selection click and call setModel on the Asset container.
+#
+class Cms.Views.AssetPicker extends Cms.Views.MenuView
+  tagName: "div"
+  className: "picker"
+  listView: "AssetsList"
+
+  ui:
+    head: ".menu-head"
+    body: ".menu-body"
+    list: "ul.cms-assets"
+    closer: "a.close"
+
+  onOpen: =>
+    unless @_list_view
+      list_view_class = @getOption('listView')
+      @_list_view = new Cms.Views[list_view_class]
+        collection: @collection
+      @ui.list.append @_list_view.el
+      @_list_view.on "select", @setModel
+    @collection.reload()
+    @_list_view.render()
+
+  # passed back to the Asset view.
+  setModel: (model) =>
+    @close()
+    @trigger "select", model
+
+
+class Cms.Views.ImagePicker extends Cms.Views.AssetPicker
+  template: "assets/image_picker"
+  listView: "ImageList"
+
+
+class Cms.Views.VideoPicker extends Cms.Views.AssetPicker
+  template: "assets/video_picker"
+  listView: "VideoList"
+
+
+## Asset importers
+#
+# Take a URL, turn it into an Asset and call setModel on the Asset container.
+#
+class Cms.Views.AssetImporter extends Cms.Views.MenuView
+  tagName: "div"
+  className: "importer"
+
+  ui:
+    head: ".menu-head"
+    body: ".menu-body"
+    url: "input.remote_url"
+    button: "a.submit"
+    closer: "a.close"
+    waiter: "p.waiter"
+
+  events:
+    "click @ui.head": "toggleMenu"
+    "click @ui.closer": "close"
+    "click @ui.button": "createModel"
+
+  createModel: =>
+    if remote_url = @ui.url.val()
+      model = @collection.add
+        remote_url: remote_url
+      @trigger 'select', model
+      @disableForm()
+      model.save().done =>
+        @trigger 'saved', model
+        @resetForm()
+        @close()
+
+  disableForm: =>
+    @ui.url.attr('disabled', true)
+    @ui.button.addClass('waiting')
+    @ui.waiter.show()
+
+  resetForm: =>
+    @ui.button.removeClass('waiting')
+    @ui.url.removeAttr('disabled')
+    @ui.waiter.hide()
+    @ui.url.val("")
+
+
+class Cms.Views.ImageImporter extends Cms.Views.AssetImporter
+  template: "assets/image_importer"
+
+
+class Cms.Views.VideoImporter extends Cms.Views.AssetImporter
+  template: "assets/video_importer"
+
+
+## Asset uploaders
+#
+# Take a file, turn it into an Asset and call setModel on the Asset container.
+#
+class Cms.Views.AssetUploader extends Cms.View
+  tagName: "div"
+  className: "uploader"
+
+  ui:
+    label: "label"
+    filefield: 'input[type="file"]'
+    catcher: ".cms-dropmask"
+    prompt: ".prompt"
+
+  events:
+    "click @ui.filefield": "containEvent"
+    "change @ui.filefield": "getPickedFile"
+    "click @ui.label": "triggerPick"
+
+  ## Picked-file handlers
+  #
+  # `pickFile` can be called from outside the uploader.
+  pickFile: (e) =>
+    e?.preventDefault()
+    e?.stopPropagation()
+    @trigger 'pick'
+    @ui.filefield.click()
+
+  triggerPick: =>
+    # event is allowed to continue.
+    @trigger 'pick'
+
+  # then `getPickedFile` is called on filefield change.
+  getPickedFile: (e) =>
+    if files = @ui.filefield[0].files
+      @readLocalFile files[0]
+
+  # `readLocalFile` is called either from here or from the outer Editor on file drop.
+  readLocalFile: (file) =>
+    if file?
+      reader = new FileReader()
+      reader.onloadend = =>
+        @createModel reader.result, file
+      reader.readAsDataURL(file)
+
+  createModel: (data, file) =>
+    model = @collection.add
+      file_data: data
+      file_name: file.name
+      file_size: file.size
+      file_type: file.type
+    @trigger "select", model
+    model.save().done =>
+      @trigger "saved", model
+
+  containEvent: (e) =>
+    e?.stopPropagation()
+
+
+class Cms.Views.ImageUploader extends Cms.Views.AssetUploader
+  template: "assets/image_uploader"
+  
+
+class Cms.Views.VideoUploader extends Cms.Views.AssetUploader
+  template: "assets/video_uploader"
+
+
 ## Asset stylers
 #
 # All the assets get similar layout options,
@@ -125,130 +460,18 @@ class Cms.Views.AssetStyler extends Cms.View
   setWide: => @trigger "styled", "wide"
 
 
-## Asset-choosers
-#
-# The submenu for each asset picker is a chooser-list derived from this class.
-# Most are small thumbnail galleries with add and import controls alongside.
-#
-class Cms.Views.ListedAsset extends Cms.View
-  template: "assets/listed"
-  tagName: "li"
-  className: "asset"
+class Cms.Views.ImageWeighter extends Cms.Views.MenuView
+  tagName: "div"
+  className: "weighter"
+  template: "assets/weighter"
 
   ui:
-    img: 'img'
+    head: ".menu-head"
+    body: ".menu-body"
 
   events:
-    "click a.delete": "deleteModel"
-    "click a.preview": "selectMe"
+    "click @ui.head": "toggleMenu"
 
-  bindings:
-    "a.preview":
-      attributes: [
-        name: 'style'
-        observe: 'thumb_url'
-        onGet: "backgroundUrl"
-      ,
-        name: "class"
-        observe: "provider"
-        onGet: "providerClass"
-      ,
-        name: "title"
-        observe: "title"
-      ]
-    ".file_size":
-      observe: "file_size"
-      onGet: "inBytes"
-    ".width":
-      observe: "width"
-      onGet: "inPixels"
-    ".height":
-      observe: "height"
-      onGet: "inPixels"
-    ".duration":
-      observe: "duration"
-      onGet: "inTime"
-
-  deleteModel: (e) =>
-    e?.preventDefault()
-    @model.remove()
-
-  selectMe: (e) =>
-    e?.preventDefault?()
-    @trigger 'select', @model
-
-  backgroundUrl: (url) =>
-    if url
-      "background-image: url('#{url}')"
-    else
-      ""
-
-
-class Cms.Views.NoListedAsset extends Cms.View
-  template: "assets/no_asset"
-  tagName: "li"
-  className: "empty"
-
-
-class Cms.Views.AssetsList extends Cms.CompositeView
-  template: "assets/list"
-  childViewContainer: "ul.cms-assets"
-  childView: Cms.Views.ListedAsset
-  emptyView: Cms.Views.NoListedAsset
-
-  events:
-    "click a.import": "importAsset"
-    "click a.next": "nextPage"
-    "click a.prev": "prevPage"
-
-  childViewEvents:
-    'select': 'select'
-
-  ui:
-    'heading': 'span.heading'
-    'import_field': 'input.remote_url'
-    'import_button': 'a.import'
-
-  initialize: (opts={}) =>
-    @_title = opts.title ? "Assets"
-
-  onRender: =>
-    @ui.heading.text @_title
-
-  # passed through to the picker.
-  #
-  select: (model) =>
-    @trigger 'select', model
-
-  open: =>
-    @$el.slideDown 'fast'
-
-  close: =>
-    @$el.slideUp 'fast'
-
-  closeAndRemove: (callback) =>
-    @$el.slideUp 'fast', =>
-      @remove()
-      callback?()
-
-  importAsset: =>
-    if remote_url = @ui.import_field.val()
-      @ui.import_button.addClass('waiting')
-      imported = @collection.add
-        remote_url: remote_url
-      importCms.save().done =>
-        @ui.import_button.removeClass('waiting')
-        @ui.import_field.val("")
-        @trigger 'selected', imported
-
-
-class Cms.Views.ImagesList extends Cms.Views.AssetsList
-  template: "assets/image_list"
-
-
-class Cms.Views.VideosList extends Cms.Views.AssetsList
-  template: "assets/video_list"
-
-
-
+  bindings: 
+    "input.weight": "main_image_weighting"
 

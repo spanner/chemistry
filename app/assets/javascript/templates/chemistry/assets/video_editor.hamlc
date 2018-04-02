@@ -1,7 +1,3 @@
-.cms-dropmask
-  %p.prompt
-    = t('placeholders.video.file')
-
 .cms-buttons
   %a.control.delete
     %svg.icon.filled

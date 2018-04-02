@@ -23,12 +23,12 @@ module Chemistry
     def file_url(style=:full, decache=true)
       if file?
         url = file.url(style, decache)
-        
+        url.sub(/^\//, Settings.chemistry.host + "/")
       else
         ""
       end
     end
-  
+
     def file_data=(data)
       if data
         self.file = data

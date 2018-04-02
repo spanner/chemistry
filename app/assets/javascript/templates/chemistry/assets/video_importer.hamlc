@@ -1,0 +1,20 @@
+.cms-menu
+  %a.control.import.menu-head
+    %svg.icon.filled
+      %use{"xlink:href" => "#download_button_symbol"}
+  .menu-body
+    %a.close
+      %svg.icon
+        %use{"xlink:href" => "#close_symbol"}
+    %h3
+      %svg.icon
+        %use{"xlink:href" => "#video_symbol"}
+      %span.label 
+        = t('headings.import_video')
+
+    .cms-importer
+      %input.remote_url{type: "url", placeholder: t("placeholders.video.remote_url")}>
+      %a.button.submit>
+        = t('buttons.import')
+      %p.waiter
+        = t('waiters.video_import')

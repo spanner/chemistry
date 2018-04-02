@@ -50,7 +50,7 @@ module Chemistry
     protected
 
     def video_params
-      params.permit(
+      params.require(:video).permit(
         :file,
         :file_name,
         :caption,

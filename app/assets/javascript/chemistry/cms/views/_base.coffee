@@ -217,17 +217,15 @@ class Cms.Views.MenuView extends Cms.View
   ui:
     head: ".menu-head"
     body: ".menu-body"
+    closer: "a.close"
 
   events:
     "click @ui.head": "toggleMenu"
-    "click a.close": "close"
+    "click @ui.closer": "close"
 
   toggleMenu: (e) =>
     e?.preventDefault()
-    if @showing()
-      @close()
-    else
-      @open()
+    if @showing() then @close() else @open()
 
   showing: =>
     @$el.hasClass('open')
@@ -235,13 +233,15 @@ class Cms.Views.MenuView extends Cms.View
   open: (e) =>
     e?.preventDefault()
     @$el.addClass('open')
-    @ui.body.show()
+    @triggerMethod 'open'
+    @trigger 'opened'
 
   close: (e) =>
     e?.preventDefault()
     @_menu_view?.close()
-    @ui.body.hide()
     @$el.removeClass('open')
+    @triggerMethod 'close'
+    @trigger 'closed'
 
 
 ## Collection View

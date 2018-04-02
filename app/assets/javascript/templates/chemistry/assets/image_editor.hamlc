@@ -1,7 +1,4 @@
 .cms-dropmask
-  %p.prompt
-    = t('placeholders.image.file')
-
 .cms-buttons
   %a.control.delete
     %svg.icon.filled

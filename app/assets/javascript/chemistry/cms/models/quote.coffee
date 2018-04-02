@@ -5,5 +5,5 @@ class Cms.Models.Quote extends Cms.Model
     caption: ""
 
 
-class Cms.Collections.Images extends Cms.Collection
+class Cms.Collections.Quotes extends Cms.Collection
   model: Cms.Models.Quote

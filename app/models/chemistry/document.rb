@@ -13,7 +13,7 @@ module Chemistry
     def file_url(style=:original, decache=true)
       if file?
         url = file.url(style, decache)
-        url.sub(/^\//, "#{Settings.api.protocol}://#{Settings.api.host}/")
+        url.sub(/^\//, Settings.chemistry.host)
       else
         ""
       end

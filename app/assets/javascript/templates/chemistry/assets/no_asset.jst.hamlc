@@ -1,12 +1,11 @@
 %p
   No assets available for reuse.
-  %br
   Click
-  %a.upload
+  %a.sidestep.upload
     %svg.inline
       %use{"xlink:href" => "#save_button_symbol"}
   to upload, or
-  %a.import
+  %a.sidestep.import
     %svg.inline
       %use{"xlink:href" => "#download_button_symbol"}
   to import from a URL.

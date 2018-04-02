@@ -18,6 +18,10 @@ class Chemistry::VideoSerializer
              :file_type,
              :file_updated_at,
              :embed_code,
-             :urls
+             :file_url,           # defaults to :full size
+             :thumb_url,
+             :half_url,
+             :hero_url,
+             :original_url
 
 end

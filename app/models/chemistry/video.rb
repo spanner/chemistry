@@ -16,12 +16,27 @@ module Chemistry
     validates_attachment_content_type :file, :content_type => /\Avideo/
     before_validation :get_metadata
 
-    def file_url(style=:original, decache=true)
+
+    def uploaded_file_url(style=:full, decache=true)
       if file?
         url = file.url(style, decache)
-        url.sub(/^\//, "#{Settings.api.protocol}://#{Settings.api.host}/")
+        url.sub(/^\//, Settings.chemistry.host + "/")
       else
         ""
+      end
+    end
+
+
+    ## Upload
+    #
+    # Unusual but possible. Usually we just take a remote_url from youtube or
+    # elsewhere and use video_info to get its metadata, including embed code.
+    #
+    def file_data=(data)
+      if data
+        self.file = data
+      else
+        self.file = nil
       end
     end
   
@@ -29,17 +44,13 @@ module Chemistry
       self.file_file_name = name
     end
 
-    # serialization
 
-    def urls
-      {
-        original: file_url(:original),
-        full: file_url(:full),
-        half: file_url(:half),
-        thumb: file_url(:thumb)
-      }
+    ## Serialization
+    #
+    def title
+      read_attribute(:title).presence || file_file_name
     end
-  
+
     def file_name
       file_file_name
     end
@@ -52,22 +63,27 @@ module Chemistry
       file_file_size
     end
 
-    protected
-
-    # *read_dimensions* is called after post processing to record in the database the original width, height
-    # and extension of the uploaded file. At this point the file queue will not have been flushed but the upload
-    # should still be in the queue.
-    #
-    def read_dimensions
-      # if uploaded_file = image.queued_for_write[:original]
-      #   file = uploaded_file.send :destination
-      #   geometry = Paperclip::Geometry.from_file(file)
-      #   self.file_width = geometry.width
-      #   self.file_height = geometry.height
-      #   self.file_duration = geometry.height
-      # end
-      # true
+    def file_url
+      thumbnail_large.presence || uploaded_file_url(:full)
     end
+
+    def thumb_url
+      thumbnail_small.presence || uploaded_file_url(:thumb)
+    end
+
+    def half_url
+      thumbnail_medium.presence || uploaded_file_url(:half)
+    end
+
+    def hero_url
+      thumbnail_large.presence || uploaded_file_url(:hero)
+    end
+
+    def original_url
+      remote_url.presence || uploaded_file_url(:original)
+    end
+
+    protected
   
     def get_metadata
       if remote_url?
@@ -77,9 +93,9 @@ module Chemistry
           self.thumbnail_large = video.thumbnail_large
           self.thumbnail_medium = video.thumbnail_medium
           self.thumbnail_small = video.thumbnail_small
-          self.file_width = video.width
-          self.file_height = video.height
-          self.file_duration = video.duration
+          self.width = video.width
+          self.height = video.height
+          self.duration = video.duration
           self.embed_code = video.embed_code
         end
       else
@@ -88,9 +104,9 @@ module Chemistry
         self.thumbnail_large = nil
         self.thumbnail_medium = nil
         self.thumbnail_small = nil
-        self.file_width = nil
-        self.file_height = nil
-        self.file_duration = nil
+        self.width = nil              #
+        self.height = nil             # we should be able to get these from the file
+        self.duration = nil           #
       end
     end
 

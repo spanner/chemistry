@@ -70,19 +70,16 @@ class Cms.Views.Section extends Cms.View
   #
   addEditors: =>
     @ui.editable_string.each (i, el) =>
-      @log "🐵 String Editor", el
       @addView new Cms.Views.StringEditor
         model: @model
         el: el
 
     @ui.editable_html.each (i, el) =>
-      @log "🐵 HTML Editor", el
       @addView new Cms.Views.HtmlEditor
         model: @model
         el: el
 
     @ui.editable_background_image.each (i, el) =>
-      @log "🐵 Background Image Editor", el
       @addView new Cms.Views.BackgroundImageEditor
         model: @model
         el: el

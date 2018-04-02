@@ -18,15 +18,17 @@ figure
   blockquote
     min-height: 1em
     min-width: 1em
-  .holder
-    display: block
-    position: relative
-    z-index: 100
   figcaption
+    position: absolute
+    display: block
+    top: 0
+    right: -32%
+    font-size: 1rem
+    width: 27%
     display: block
     min-height: 1em
-    margin: 8px 20px
-    text-align: center
+    margin: 0
+    text-align: left
     z-index: 300
     cursor: text
   img
@@ -42,6 +44,22 @@ figure
     position: absolute
     bottom: 0
     right: 0
+  &.video
+    video
+      width: 100%
+      height: 0
+      display: block
+      padding-bottom: 56.25%
+      background: radial-gradient($pale, $mid)
+    .embed
+      position: relative
+      padding: 0 0 56.25% 0
+      iframe
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
 
   &.quote
     blockquote
@@ -84,6 +102,7 @@ figure
       display: flex
       align-items: flex-end
       justify-content: center
+      cursor: pointer
       p
         color: white
         pointer-events: none
@@ -103,12 +122,11 @@ figure
       pointer-events: none
       a.control, label.control
         margin-bottom: 0
-
-      .picker, .styler, .config, .weighter, .remover
+      .picker, .importer, .uploader, .styler, .config, .weighter, .remover
         display: block
-        margin: 0
+        margin: 0 5px 0 0
         pointer-events: auto
-      .picker
+      .picker, .importer, .uploader
         float: left
       .delete
         float: right
@@ -132,26 +150,49 @@ figure
     display: block
 
 .cms-importer
-  margin: 6px 0 20px 20px !important
+  margin: 20px 0 10px 10px
   clear: both
-  input, a.button
+  input, a.submit
     display: inline-block
     vertical-align: top
     box-sizing: border-box
-    padding: 8px 12px
     height: 36px
     font-size: 0.9rem
     line-height: 20px
     margin: 0
   input
-    width: 240px
+    width: 248px
+    padding: 8px
     margin-right: 0
     color: $dark
     border: 1px solid $pale
     outline: none
-  a.button
-    background-color: $blue
-    color: white
-    width: 64px
+    &::-webkit-input-placeholder
+      color: $pale
+      font-style: italic
+    &::-moz-placeholder
+      color: $pale
+      font-style: italic
+    &:-ms-input-placeholder
+      color: $pale
+      font-style: italic
+    &.placeholder
+      color: $pale
+      font-style: italic
+  a.submit
+    +bg($blue, white)
+    width: 72px
+    padding: 8px 12px
     cursor: pointer
+  p.waiter
+    display: none
 
+
+@media (max-width: 750px)
+  figure
+    figcaption
+      position: relative
+      top: auto
+      right: auto
+      margin: 8px 20px
+      text-align: center

@@ -1,6 +1,3 @@
-=buttonbg($color: $green)
-  background: linear-gradient(to bottom, lighten($color, 5) 5%, $color 60%, darken($color, 5) 90%)
-
 =smallbutton($color: $green, $textcolor: white)
   +button($color, $textcolor)
   padding: 4px 8px
@@ -11,49 +8,50 @@
   pointer-events: auto
   margin: 0 0.5em 8px 0
   padding: 8px 16px
-  +buttonbg($color)
-  color: $textcolor
+  +bg($color, $textcolor)
   cursor: pointer
   box-sizing: border-box
+  white-space: nowrap
   +cms_font_light
   &:hover
     box-shadow: 0 2px 3px $shadow
   &:active
     box-shadow: inset 0 1px 6px $shadow
   &.save
-    +buttonbg($greenish)
-    color: white
+    +bg($greenish)
     &:hover
-      +buttonbg($green)
+      +bg($green)
   &.revert
-    +buttonbg($reddish)
-    color: white
+    +bg($reddish)
     &:hover
-      +buttonbg($red)
+      +bg($red)
   &.publish
-    +buttonbg($purpleish)
+    +bg($purpleish)
     color: white
     &:hover
-      +buttonbg($purple)
+      +bg($purple)
   &.delete
-    +buttonbg($reddish)
+    +bg($reddish)
     &:hover
-      +buttonbg($red)
+      +bg($red)
   &.cancel
-    +buttonbg(white)
-    color: $pale
+    +bg(white, $pale)
     &:hover
       background: $red
       color: white
+  &.unavailable
+    +bg($verypale)
   &.waiting
     pointer-events: none
     padding-left: 30px
     color: white
+    text-indent: 1000px
     background:
-      color: $mid !important
-      position: 8px 16px
+      color: $pale !important
+      position: center center
       repeat: no-repeat
-      image: image-url('spinner_on_grey.gif')
+      image: image-url('chemistry/white_spinner.svg')
+      size: 24px
 
 a.button
   +button

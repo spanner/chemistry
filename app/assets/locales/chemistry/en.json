@@ -4,6 +4,7 @@
     "cancel": "Cancel",
     "create_page": "Create and edit page",
     "delete": "Delete",
+    "import": "Import",
     "no_not_really": "No, not really",
     "publish": "Publish",
     "revert": "Revert",
@@ -22,6 +23,8 @@
   },
   "headings": {
     "pages": "Pages",
+    "import_image": "Import image",
+    "import_video": "Embed video",
     "reuse_image": "Choose image",
     "reuse_video": "Choose video",
     "reuse_document": "Choose document"
@@ -59,7 +62,8 @@
     },
     "image": {
       "caption": "Optional image caption",
-      "file": "Click or drop image file here"
+      "file": "Click or drop image file here",
+      "remote_url": "From URL..."
     },
     "page": {
       "title": "Page title",
@@ -92,11 +96,13 @@
     },
     "video": {
       "caption": "Optional video caption",
-      "file": "Click or drop video file here"
+      "file": "Click or drop video file here",
+      "remote_url": "From URL or Youtube ID"
     }
   },
   "notes": {
-    "create_new_page": ""
+    "create_new_page": "",
+    "video_providers": "Videos can be embedded automatically from youtube, vimeo and most other providers. Just paste a URL or youtube ID here."
   },
   "reassurances": {
     "page_saved": "Page saved"
@@ -113,6 +119,8 @@
     "insert_annotation": "Place an annotation"
   },
   "waiters": {
-    "site": "Site data loading"
+    "image_import": "Please wait: fetching and processing remote image.",
+    "site": "Site data loading",
+    "video_import": "Please wait: fetching and preparing video embed."
   }
 }

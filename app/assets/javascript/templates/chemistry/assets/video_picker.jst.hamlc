@@ -1,16 +1,15 @@
-%label.control.add.upload
-  %svg.icon.filled
-    %use{"xlink:href" => "#save_button_symbol"}
-  %input{type: "file"}
-
 .cms-menu
   %a.control.choose.menu-head
     %svg.icon.filled
       %use{"xlink:href" => "#video_button_symbol"}
   .assets.menu-body
+    %a.close
+      %svg.icon
+        %use{"xlink:href" => "#close_symbol"}
+    %h3
+      %svg.icon
+        %use{"xlink:href" => "#video_symbol"}
+      %span.label 
+        = t('headings.reuse_video')
 
-.cms-menu
-  %a.control.import.menu-head
-    %svg.icon.filled
-      %use{"xlink:href" => "#download_button_symbol"}
-  .assets.menu-body
+    %ul.cms-assets
