@@ -23,18 +23,11 @@
         margin-left: -24px
         margin-top: -3px
 
-  [data-placeholder]:before
+  [data-placeholder]:empty:before
     content: attr(data-placeholder)
     color: $pale
-    opacity: 0.15
-    transition: opacity 0.5s ease-out
-    position: absolute
     z-index: 1
     font-style: italic
-
-  [data-placeholder]:empty:before
-    opacity: 1
-    position: relative
 
 a.control, label.control
   pointer-events: auto
