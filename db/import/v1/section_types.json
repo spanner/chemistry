@@ -3,30 +3,36 @@
     "title": "Title",
     "slug": "title",
     "description": "Plain page heading with no illustration.",
-    "template": "<h1 data-cms-role='title'></h1>"
+    "template": "<h1 data-cms-role='title' data-cms-editor='string'></h1>"
   },
   {
     "title": "Standard",
     "slug": "standard",
     "description": "A column of html with optional heading. Can include images, video, quotes, marginalia, document links.",
-    "template": "<div class='main' data-cms-role='primary' data-cms-editor='full'></div>"
+    "template": "<div class='main' data-cms-role='primary' data-cms-editor='html'></div>"
+  },
+  {
+    "title": "Illuminated",
+    "slug": "illuminated",
+    "description": "Page header with illustration to left, standfirst and optional notes.",
+    "template": "<aside class='illumination' data-cms-editor='bg'><figure class='illumination'></figure><figcaption data-cms-role='secondary' data-cms-editor='string'></figcaption><aside><div class='standfirst' data-cms-role='primary' data-cms-editor='html'></div>"
   },
   {
     "title": "Hero",
     "slug": "hero",
     "description": "Big picture in the backgound, title and optional caption in the foreground. Usually the top of a landing page.",
-    "template": "<figure data-cms-role='image'><div class='fg'><h1 data-cms-role='title'></h1><figcaption data-cms-role='caption'></figcaption></div></figure>"
+    "template": "<div class='bg' data-cms-role='primary' data-cms-editor='bg'></div><div class='fg'><h1 data-cms-role='title' data-cms-editor='string'></h1></div>"
   },
   {
     "title": "Standfirst",
     "slug": "standfirst",
     "description": "A useful page opener.",
-    "template": "<div class='standfirst' data-cms-role='primary'></div><aside class='metadata' data-cms-role='secondary'></aside>"
+    "template": "<div class='standfirst' data-cms-role='primary' data-cms-editor='html'></div><aside class='metadata' data-cms-role='secondary' data-cms-editor='string'></aside>"
   },
   {
     "title": "Contents",
     "slug": "contents",
     "description": "A list of the pages beneath this or another page.",
-    "template": "<h2 data-cms-role='title'></h2><div data-cms-role='contents'></div><aside data-cms-role='secondary'></aside>"
+    "template": "<h2 data-cms-role='title' data-cms-editor='string'></h2><div data-cms-role='contents'><p>Contents will appear here automatically</p></div><aside data-cms-role='secondary' data-cms-editor='string'></aside>"
   }
 ]

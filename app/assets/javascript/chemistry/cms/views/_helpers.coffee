@@ -158,7 +158,7 @@ class Cms.Views.Toolbar extends Cms.View
         linkValidation: false
         placeholderText: 'URL...'
         targetCheckbox: false
-      anchorPreview: true
+      anchorPreview: false
       paste:
         forcePlainText: false
         cleanPastedHTML: true

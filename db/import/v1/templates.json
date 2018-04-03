@@ -1,9 +1,9 @@
 [
   {
-    "title": "Home page",
-    "slug": "home",
-    "description": "VWL home page with small picture.",
-    "section_types": "beside,standfirst,standard"
+    "title": "VWL page",
+    "slug": "vwl",
+    "description": "VWL standard page with small picture.",
+    "section_types": "title,illuminated,standard"
   },
   {
     "title": "Landing page",

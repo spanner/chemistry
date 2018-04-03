@@ -4,7 +4,6 @@
     background-color: $editbg
     outline: none
     cursor: text
-    z-index: 2
     &[disabled]
       pointer-events: none
     &:focus
@@ -23,7 +22,6 @@
   [data-placeholder]:empty:before
     content: attr(data-placeholder)
     color: $pale
-    z-index: 1
     font-style: italic
 
 a.control, label.control

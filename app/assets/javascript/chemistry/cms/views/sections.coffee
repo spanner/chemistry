@@ -51,6 +51,7 @@ class Cms.Views.Section extends Cms.View
     "section_#{id}"
 
   setPlaceholders: =>
+    @log "👉 setPlaceholders"
     if slug = @model.get('section_type_slug')
       for att in ['title', 'primary', 'secondary', 'caption']
         ph = null
@@ -58,7 +59,7 @@ class Cms.Views.Section extends Cms.View
           ph = t("placeholders.sections.#{slug}.#{att}")
         else if _cms.translationAvailable("placeholders.sections.#{att}")
           ph = t("placeholders.sections.#{att}")
-        @log "setPlaceholders", slug, att, "->", ph
+        @log "👉 setPlaceholders", slug, att, "->", ph
         if ph
           @$el.find('[data-cms-role="' + att + '"]').attr('data-placeholder', ph)
 

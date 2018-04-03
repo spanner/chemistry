@@ -15,16 +15,17 @@ class Cms.Views.AssetInserter extends Cms.View
     "click a.note": "addNote"
 
   initialize: (@options={}) ->
-    @log "init", @options
+    @log "👉 init", @options
     @_target_el = @options.target
     @_p = null
 
   onRender: () =>
+    @log "👉 render"
     @$el.appendTo _cms.el
     @_target_el.on "click keyup focus", @followCaret
 
   followCaret: (e)=>
-    @log "followCaret"
+    @log "👉 followCaret"
     selection = @el.ownerDocument.getSelection()
     if !selection or selection.rangeCount is 0
       current = $(e.target)
@@ -66,6 +67,7 @@ class Cms.Views.AssetInserter extends Cms.View
     @insert new Cms.Views.Note
 
   insert: (view) =>
+    @log "👉 insert", view
     if @_p
       @_p.before view.el
       @_p.remove() unless @_p.is(":last-child")

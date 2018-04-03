@@ -87,11 +87,14 @@
         "title": "Page title"
       },
       "standard": {
-        "primary": "The text of this block. While editing you can also add headings, lists, inline images, video, quotes, marginal blocks and document links. Click the plus button to see all the options."
+        "primary": "The text of the main page block. While editing you can also add headings, lists, inline images, video, quotes and marginal annotations. Click the plus button on an empty line to see all the options."
+      },
+      "illuminated": {
+        "primary": "The standfirst usually displays an introduction or summary of around 30-50 words. If you add an image or video here it will be displayed on the left as an aside.",
+        "secondary": "Optional page notes or picture caption."
       },
       "standfirst": {
-        "title": "Page title",
-        "primary": "The standfirst usually contains an introduction or summary of up to 30-50 words.",
+        "primary": "The standfirst usually displays an introduction or summary of around 30-50 words. If you add an image or video here it will be displayed on the left as an aside.",
         "secondary": "Optional page notes."
       },
       "title": {

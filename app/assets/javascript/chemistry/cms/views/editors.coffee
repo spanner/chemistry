@@ -1,17 +1,6 @@
 # The editors are wrapped around existing html content
 # to provide the right tools for editing it.
 
-class Cms.Views.StringEditor extends Cms.View
-  template: false
-
-  initialize: ->
-    super
-    @render()
-
-  onRender: =>
-    # @$el.attr('contenteditable', 'plaintext-only').addClass('editing')
-
-
 class Cms.Views.HtmlEditor extends Cms.View
   template: false
 
@@ -20,6 +9,8 @@ class Cms.Views.HtmlEditor extends Cms.View
     @render()
 
   onRender: =>
+    @log "👉 onRender"
+    
     @$el.find('figure.image').each (i, el) =>
       @addView new Cms.Views.Image
         el: el
@@ -33,20 +24,20 @@ class Cms.Views.HtmlEditor extends Cms.View
       @addView new Cms.Views.Note
         el: el
 
-    @_inserter = new Cms.Views.AssetInserter
-      target: @$el
-    @_inserter.render()
-
     @_toolbar = new Cms.Views.Toolbar
       target: @$el
     @_toolbar.render()
+
+    @_inserter = new Cms.Views.AssetInserter
+      target: @$el
+    @_inserter.render()
 
     @$el.on "focus", @ensureP
     @$el.on "blur", @removeEmptyP
 
   ## Contenteditable helpers
-  # Hacky intervention to make contenteditable behave in a slightly saner way,
-  # eg. by definitely typing into an (apprently) empty <p> element.
+  # Small intervention to make contenteditable behave in a slightly saner way,
+  # eg. by definitely typing into an (apparently) empty <p> element.
   #
   ensureP: (e) =>
     el = e.target
@@ -60,6 +51,19 @@ class Cms.Views.HtmlEditor extends Cms.View
     el = e.target
     content = el.innerHTML
     el.innerHTML = "" if content is "<p>&#8203;</p>" or content is "<p><br></p>" or content is "<p>​</p>"  # there's a zwsp in that last string
+
+
+class Cms.Views.StringEditor extends Cms.View
+  template: false
+
+  initialize: ->
+    super
+    @render()
+
+  onRender: =>
+    @_toolbar = new Cms.Views.Toolbar
+      target: @$el
+    @_toolbar.render()
 
 
 class Cms.Views.BackgroundImageEditor extends Cms.View
