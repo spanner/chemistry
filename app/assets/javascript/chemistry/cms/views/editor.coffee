@@ -29,9 +29,9 @@ class Cms.Views.HtmlEditor extends Cms.View
     @$el.find('figure.quote').each (i, el) =>
       @addView new Cms.Views.Quote
         el: el
-    # @$el.find('div.annotation').each (i, el) =>
-    #   @addView new Cms.Views.Annotation
-    #     el: el
+    @$el.find('aside.note').each (i, el) =>
+      @addView new Cms.Views.Note
+        el: el
 
     @_inserter = new Cms.Views.AssetInserter
       target: @$el

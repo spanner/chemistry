@@ -1,0 +1,2 @@
+%h3{contenteditable: "plaintext-only", data: {placeholder: t('placeholders.note.heading')}}<
+%p{contenteditable: "plaintext-only", data: {placeholder: t('placeholders.note.text')}}<

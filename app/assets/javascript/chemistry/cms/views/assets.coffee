@@ -89,6 +89,7 @@ class Cms.Views.Asset extends Cms.View
   editorView: "AssetEditor"
 
   initialize: (opts={}) =>
+    @bindUIElements();
     @wrap() or @render()
 
   # Previously embedded assets will come back in HTML form.
@@ -286,14 +287,30 @@ class Cms.Views.Quote extends Cms.Views.Asset
       ""
 
 
-
-
-## Annotation pseudo-assets
+## Annotation (Note) pseudo-assets
 #
 # Just html, with no reference to an external asset, but editable and stylable like an embedded object.
 #
 
+class Cms.Views.Note extends Cms.Views.Asset
+  editorView: "NoteEditor"
+  template: "assets/note"
+  tagName: "aside"
+  className: "note"
 
+  ui:
+    heading: "h3"
+    text: "p"
 
+  bindings:
+    "h3": "heading"
+    "p": "text"
 
+  wrap: =>
+    @model = new Cms.Models.Note
+      heading: @ui.heading.text()
+      text: @ui.text.text()
+
+  focus: =>
+    @ui.heading.focus()
 

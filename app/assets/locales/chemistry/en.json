@@ -69,6 +69,10 @@
       "title": "Page title",
       "parent": "Parent page"
     },
+    "note": {
+      "heading": "Optional heading",
+      "text": "Marginal annotation"
+    },
     "quote": {
       "remarks": "Quoted remarks",
       "attribution": "Optional speaker attribution"
@@ -116,7 +120,7 @@
     "insert_image": "Place an image",
     "insert_video": "Place a video",
     "insert_quote": "Place a quote",
-    "insert_annotation": "Place an annotation"
+    "insert_note": "Place an annotation"
   },
   "waiters": {
     "image_import": "Please wait: fetching and processing remote image.",

@@ -12,7 +12,7 @@ class Cms.Views.AssetInserter extends Cms.View
     "click a.image": "addImage"
     "click a.video": "addVideo"
     "click a.quote": "addQuote"
-    "click a.annotation": "addAnnotation"
+    "click a.note": "addNote"
 
   initialize: (@options={}) ->
     @log "init", @options
@@ -62,9 +62,9 @@ class Cms.Views.AssetInserter extends Cms.View
     e?.preventDefault()
     @insert new Cms.Views.Quote
 
-  addAnnotation: (e) =>
+  addNote: (e) =>
     e?.preventDefault()
-    @insert new Cms.Views.Annotation
+    @insert new Cms.Views.Note
 
   insert: (view) =>
     if @_p
