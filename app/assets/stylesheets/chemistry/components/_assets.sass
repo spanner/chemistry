@@ -82,8 +82,8 @@ figure
 aside.note
   position: absolute
   display: block
-  right: -32%
-  width: 27%
+  right: -38%
+  width: 30%
   margin: 0
   min-height: 2em
   z-index: 300
@@ -91,6 +91,22 @@ aside.note
   h3, p
     margin: 0
     font-size: 1rem
+  .cms-buttons
+    position: absolute
+    top: -10px
+    right: -10px
+    width: 32px
+    height: 32px
+    pointer-events: none
+    a.control.delete
+      color: $pale
+      width: 20px
+      height: 20px
+      &:hover
+        color: $red
+      svg
+        width: 20px
+        height: 20px
 
 
 .editing

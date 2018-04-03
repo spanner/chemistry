@@ -20,7 +20,6 @@ class Cms.Views.AssetInserter extends Cms.View
     @_p = null
 
   onRender: () =>
-    @log "onRender"
     @$el.appendTo _cms.el
     @_target_el.on "click keyup focus", @followCaret
 
@@ -126,6 +125,7 @@ class Cms.Views.AssetEditor extends Cms.View
     super
 
   onRender: =>
+    @log "🤡 onRender"
     @$el.attr('data-cms', true)
     @addHelpers()
 

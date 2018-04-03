@@ -310,6 +310,11 @@ class Cms.Views.Note extends Cms.Views.Asset
     @model = new Cms.Models.Note
       heading: @ui.heading.text()
       text: @ui.text.text()
+    @triggerMethod 'wrap'
+
+  onRender: =>
+    @model ?= new Cms.Models.Note
+    super
 
   focus: =>
     @ui.heading.focus()
