@@ -1,0 +1,74 @@
+// theme settings
+$medium-editor-bgcolor: white
+$medium-editor-fgcolor: $pale
+$medium-editor-button-size: 36px
+$medium-editor-border-radius: 36px
+$medium-editor-shadow: 0 3px 10px $shadow
+
+// theme rules
+.medium-toolbar-arrow-under:after
+  border-color: $medium-editor-bgcolor transparent transparent transparent
+  top: $medium-editor-button-size
+
+.medium-toolbar-arrow-over:before
+  border-color: transparent transparent $medium-editor-bgcolor transparent
+  top: -12px
+
+.medium-editor-toolbar
+  background-color: $medium-editor-bgcolor
+  box-shadow: $medium-editor-shadow
+  border-radius: $medium-editor-border-radius
+  li
+    button
+      background-color: $medium-editor-bgcolor
+      border: 0
+      padding: 0
+      margin: 4px 1px 0 1px
+      color: $medium-editor-fgcolor
+      height: $medium-editor-button-size
+      width: $medium-editor-button-size
+      transition: background-color .1s ease-in
+      svg
+        width: 32px
+        height: 32px
+      &:hover
+        color: $reddish
+      &:active
+        color: $dark
+    .medium-editor-button-first
+      border-bottom-left-radius: $medium-editor-border-radius
+      border-top-left-radius: $medium-editor-border-radius
+    .medium-editor-button-last
+      border-bottom-right-radius: $medium-editor-border-radius
+      border-top-right-radius: $medium-editor-border-radius
+    .medium-editor-button-active
+      color: $green
+    &:last-child
+      button
+        border-right: none
+
+.medium-editor-toolbar-form
+  background: $medium-editor-bgcolor
+  border-radius: $medium-editor-border-radius
+  color: $medium-editor-fgcolor
+  .medium-editor-toolbar-input
+    background: transparent
+    box-sizing: border-box
+    color: $dark
+    height: $medium-editor-button-size
+    padding: 0 14px
+    font-size: 1.2em
+  a
+    color: $medium-editor-fgcolor
+
+.medium-editor-toolbar-anchor-preview
+  background: $medium-editor-bgcolor
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.5)
+  border-radius: 32px
+  padding: 2px 8px
+  a
+    color: $mid
+    text-decoration: none
+
+.medium-editor-placeholder:after
+  color: $verypale

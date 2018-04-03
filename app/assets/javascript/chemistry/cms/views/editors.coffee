@@ -37,6 +37,10 @@ class Cms.Views.HtmlEditor extends Cms.View
       target: @$el
     @_inserter.render()
 
+    @_toolbar = new Cms.Views.Toolbar
+      target: @$el
+    @_toolbar.render()
+
     @$el.on "focus", @ensureP
     @$el.on "blur", @removeEmptyP
 

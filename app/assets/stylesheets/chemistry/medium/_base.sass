@@ -1,0 +1,213 @@
+/* typography */
+
+$font-fixed: Consolas, "Liberation Mono", Menlo, Courier, monospace !default
+$font-sans-serif: "Trade Gothic W01", "Helvetica Neue", Helvetica, Arial, sans-serif !default
+
+/* positioning */
+
+$z-toolbar: 9000 !default
+
+/* animation frames */
+
+@keyframes medium-editor-image-loading
+  0%
+    transform: scale(0)
+  100%
+    transform: scale(1)
+
+
+@keyframes medium-editor-pop-upwards
+  0%
+    opacity: 0
+    transform: matrix(0.97, 0, 0, 1, 0, 12)
+  20%
+    opacity: .7
+    transform: matrix(0.99, 0, 0, 1, 0, 2)
+  40%
+    opacity: 1
+    transform: matrix(1, 0, 0, 1, 0, -1)
+  100%
+    transform: matrix(1, 0, 0, 1, 0, 0)
+
+
+/* link address label */
+
+.medium-editor-anchor-preview
+  font-family: $font-sans-serif
+  font-size: 16px
+  left: 0
+  line-height: 1.4
+  max-width: 280px
+  position: absolute
+  text-align: center
+  top: 0
+  word-break: break-all
+  word-wrap: break-word
+  visibility: hidden
+  z-index: $z-toolbar
+  a
+    display: inline-block
+    margin: 5px
+
+.medium-editor-anchor-preview-active
+  visibility: visible
+
+/* drag and drop styles */
+
+.medium-editor-dragover
+  background: #ddd
+
+.medium-editor-image-loading
+  animation: medium-editor-image-loading 1s infinite ease-in-out
+  background-color: #333
+  border-radius: 100%
+  display: inline-block
+  height: 40px
+  width: 40px
+
+/* contenteditable placeholder */
+
+.medium-editor-placeholder
+  position: relative
+  &:after
+    content: attr(data-placeholder) !important
+    font-style: italic
+    left: 0
+    position: absolute
+    top: 0
+    white-space: pre
+
+/* toolbar */
+
+%medium-toolbar-arrow
+  border-style: solid
+  content: ''
+  display: block
+  height: 0
+  left: 50%
+  margin-left: -8px
+  position: absolute
+  width: 0
+
+.medium-toolbar-arrow-under:after
+  @extend %medium-toolbar-arrow
+  border-width: 12px 8px 0 8px
+
+.medium-toolbar-arrow-over:before
+  @extend %medium-toolbar-arrow
+  border-width: 0 8px 12px 8px
+  top: -12px
+
+.medium-editor-toolbar
+  font-family: $font-sans-serif
+  font-size: 16px
+  left: 0
+  position: absolute
+  top: 0
+  visibility: hidden
+  z-index: $z-toolbar
+  ul
+    margin: 0
+    padding: 0
+  li
+    float: left
+    list-style: none
+    margin: 0
+    padding: 0
+    button
+      box-sizing: border-box
+      cursor: pointer
+      display: block
+      font-size: 14px
+      line-height: 1.33
+      margin: 0
+      padding: 12px
+      text-decoration: none
+      &:focus
+        outline: none
+    .medium-editor-action-underline
+      text-decoration: underline
+    .medium-editor-action-pre
+      font-family: $font-fixed
+      font-size: 12px
+      font-weight: 100
+      padding: 15px 0
+
+.medium-editor-toolbar-active
+  visibility: visible
+
+.medium-editor-sticky-toolbar
+  position: fixed
+  top: 1px
+
+.medium-editor-relative-toolbar
+  position: relative
+
+.medium-editor-toolbar-active.medium-editor-stalker-toolbar
+  animation: medium-editor-pop-upwards 160ms forwards linear
+
+.medium-editor-toolbar-actions
+  @extend %clearfix
+
+.medium-editor-action-bold
+  font-weight: bolder
+
+.medium-editor-action-italic
+  font-style: italic
+
+/* toolbar-form */
+
+.medium-editor-toolbar-form
+  display: none
+  input,
+  a
+    font-family: $font-sans-serif
+  .medium-editor-toolbar-form-row
+    line-height: 14px
+    margin-left: 5px
+    padding-bottom: 5px
+  .medium-editor-toolbar-input,
+  label
+    border: none
+    box-sizing: border-box
+    font-size: 14px
+    margin: 0
+    padding: 6px
+    width: 316px
+    display: inline-block
+    &:focus
+      appearance: none
+      border: none
+      box-shadow: none
+      outline: 0
+  a
+    display: inline-block
+    font-size: 24px
+    font-weight: bolder
+    margin: 0 10px
+    text-decoration: none
+
+.medium-editor-toolbar-form-active
+  display: block
+
+
+/* clearfix */
+
+%clearfix
+  &:after
+    clear: both
+    content: ""
+    display: table
+
+/* contenteditable rules */
+
+[data-medium-editor-element]
+  img
+    max-width: 100%
+  sub
+    vertical-align: sub
+  sup
+    vertical-align: super
+
+.medium-editor-hidden
+  display: none
