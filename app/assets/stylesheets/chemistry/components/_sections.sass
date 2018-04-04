@@ -9,20 +9,26 @@
 
     &.title
       margin-top: 8em
+      h1
+        margin-bottom: 0.25em
 
     &.illuminated
       div.illumination
         position: relative
-        float: left
-        width: 25%
-        margin: 0.5em 0 0 -30%
+        float: right
+        width: 50%
+        margin: -3em -20% 20px 20px
+        z-index: 10
         figure.bg
           position: relative
           width: 100%
           height: 0
           margin: 0
           padding-bottom: 56%
-          background: radial-gradient($pale, $mid)
+          background:
+            color: radial-gradient($pale, $mid)
+            repeat: no-repeat
+            size: cover
         figcaption
           position: relative
           margin: 1em 0
@@ -156,3 +162,11 @@
             bottom: 1.5em
           h1
             font-size: 2em
+      &.illuminated
+        div.illumination
+          margin: 0 -10% 20px 20px
+          figure.bg
+            .cms-menu
+              .menu-body
+                right: -5px
+                left: auto

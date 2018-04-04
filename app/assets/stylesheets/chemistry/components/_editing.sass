@@ -1,7 +1,6 @@
 .editor
   overflow: hidden
   [contenteditable]:not([contenteditable=false])
-    background-color: $editbg
     outline: none
     cursor: text
     &[disabled]
@@ -251,3 +250,9 @@ ul.cms-assets
       float: left
       display: inline-block
       vertical-align: top
+
+
+
+@media (max-width: 750px)
+  #chemistry .cms-menu .menu-body
+    max-width: 75vw
