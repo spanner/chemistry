@@ -105,6 +105,8 @@ module Chemistry
     def update_page_params
       params.require(:page).permit(
         :id,
+        :slug,
+        :home,
         :template_id,
         :parent_id,
         :content,
@@ -116,6 +118,7 @@ module Chemistry
         :nav_position,      # in this position
         sections_data: [    # + nested section data
           :id,
+          :section_type_id,
           :position,
           :title,
           :primary_html,

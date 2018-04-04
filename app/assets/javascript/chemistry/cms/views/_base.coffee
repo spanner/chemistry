@@ -109,7 +109,10 @@ class Cms.View extends Backbone.Marionette.View
 
   styleBackgroundImage: ([url, data]=[]) =>
     url ||= data
-    "background-image: url('#{url}')"
+    if url
+      "background-image: url('#{url}')"
+    else 
+      ""
 
   styleBackgroundImageAndPosition: ([url, weighting]=[]) =>
     weighting ?= 'center center'
