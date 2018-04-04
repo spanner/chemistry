@@ -63,7 +63,7 @@ class Cms.Application extends Backbone.Marionette.Application
         Backbone.history.start
           pushState: true
           root: @config('mount_point')
-        $(document).on "click", "a:not([data-bypass])", @handleLinkClick
+        $(@el).on "click", "a:not([data-bypass])", @handleLinkClick
 
   config: (key) =>
     @_config.get(key)
