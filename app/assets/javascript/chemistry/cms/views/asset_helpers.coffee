@@ -108,7 +108,7 @@ class Cms.Views.AssetEditor extends Cms.View
   uploaderView: "AssetUploader"
 
   ui:
-    dropmask: ".cms-dropmask"
+    catcher: ".cms-dropmask"
     buttons: ".cms-buttons"
     deleter: "a.delete"
 
@@ -116,8 +116,8 @@ class Cms.Views.AssetEditor extends Cms.View
     "click @ui.deleter": "remove"
 
   events:
-    "click @ui.dropmask": "closeHelpers"
-    "dragenter": "lookAvailable"
+    "click @ui.catcher": "closeHelpers"
+    "dragenter @ui.catcher": "lookAvailable"
     "dragover @ui.catcher": "dragOver"
     "dragleave @ui.catcher": "lookNormal"
     "drop @ui.catcher": "catchFiles"
@@ -127,7 +127,6 @@ class Cms.Views.AssetEditor extends Cms.View
     super
 
   onRender: =>
-    @log "🤡 onRender"
     @$el.attr('data-cms', true)
     @addHelpers()
 
@@ -138,7 +137,17 @@ class Cms.Views.AssetEditor extends Cms.View
       @_uploader.$el.appendTo @ui.buttons
       @_uploader.render()
       @_uploader.on "select", @setModel
+      @_uploader.on "create", @update
       @_uploader.on "pick", => @closeHelpers()
+
+    if importer_view_class = Cms.Views[@getOption('importerView')]
+      @_importer = new importer_view_class
+        collection: @collection
+      @_importer.$el.appendTo @ui.buttons
+      @_importer.render()
+      @_importer.on "select", @setModel
+      @_uploader.on "create", @update
+      @_importer.on "open", => @closeOtherHelpers(@_importer)
 
     if picker_view_class = Cms.Views[@getOption('pickerView')]
       @_picker = new picker_view_class
@@ -147,14 +156,6 @@ class Cms.Views.AssetEditor extends Cms.View
       @_picker.render()
       @_picker.on "select", @setModel
       @_picker.on "open", => @closeOtherHelpers(@_picker)
-
-    if importer_view_class = Cms.Views[@getOption('importerView')]
-      @_importer = new importer_view_class
-        collection: @collection
-      @_importer.$el.appendTo @ui.buttons
-      @_importer.render()
-      @_importer.on "select", @setModel
-      @_importer.on "open", => @closeOtherHelpers(@_importer)
 
     if _cms.getOption('asset_styles')
       if styler_view_class = Cms.Views[@getOption('stylerView')]
@@ -165,18 +166,19 @@ class Cms.Views.AssetEditor extends Cms.View
         @_styler.on "styled", @setStyle
         @_styler.on "open", => @closeOtherHelpers(@_styler)
 
+
   ## Selection controls
   #
-  # helper selects or begins to create a different model for this view
   setModel: (model) =>
+    @log "🤡 setModel", model
     @model = model
     @_styler?.setModel(model)
     if @model
       @trigger "select", @model
       @stickit()
 
-  createModel: (data, file) =>
-    #noop here: subclass must define
+  update: =>
+    @trigger 'update'
 
   ## Styling controls
   #
@@ -196,14 +198,14 @@ class Cms.Views.AssetEditor extends Cms.View
   # Dropped file is passed to our uploader for processing.
   #
   dragOver: (e) =>
-    @log "dragOver"
+    @log "🤡 dragOver"
     e?.preventDefault()
     if e.originalEvent.dataTransfer
       e.originalEvent.dataTransfer.dropEffect = 'copy'
 
   catchFiles: (e) =>
     @lookNormal()
-    @log "catchFiles", e?.originalEvent.dataTransfer?.files
+    @log "🤡 catchFiles", e?.originalEvent.dataTransfer?.files
     if e?.originalEvent.dataTransfer?.files.length
       @containEvent(e)
       @readFile e.originalEvent.dataTransfer.files
@@ -214,10 +216,12 @@ class Cms.Views.AssetEditor extends Cms.View
     @_uploader.readLocalFile(files[0]) if @_uploader and files.length
 
   lookAvailable: (e) =>
+    @log "🤡 lookAvailable"
     e?.stopPropagation()
     @$el.addClass('droppable')
 
   lookNormal: (e) =>
+    @log "🤡 lookNormal"
     e?.stopPropagation()
     @$el.removeClass('droppable')
 
@@ -339,7 +343,7 @@ class Cms.Views.AssetImporter extends Cms.Views.MenuView
       @trigger 'select', model
       @disableForm()
       model.save().done =>
-        @trigger 'saved', model
+        @trigger 'create', model
         @resetForm()
         @close()
 
@@ -374,7 +378,6 @@ class Cms.Views.AssetUploader extends Cms.View
   ui:
     label: "label"
     filefield: 'input[type="file"]'
-    catcher: ".cms-dropmask"
     prompt: ".prompt"
 
   events:
@@ -402,6 +405,7 @@ class Cms.Views.AssetUploader extends Cms.View
 
   # `readLocalFile` is called either from here or from the outer Editor on file drop.
   readLocalFile: (file) =>
+    @log "🤡 readLocalFile", file
     if file?
       reader = new FileReader()
       reader.onloadend = =>
@@ -416,7 +420,7 @@ class Cms.Views.AssetUploader extends Cms.View
       file_type: file.type
     @trigger "select", model
     model.save().done =>
-      @trigger "saved", model
+      @trigger "create", model
 
   containEvent: (e) =>
     e?.stopPropagation()

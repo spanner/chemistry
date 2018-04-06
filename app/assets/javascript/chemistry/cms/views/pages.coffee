@@ -7,6 +7,14 @@ class Cms.Views.Page extends Cms.View
     content: "#page_content"
     saver: "#controls"
 
+  bindings:
+    "#page_content":
+      attributes: [
+        name: "class"
+        observe: "template"
+        onGet: "templateSlug"
+      ]
+
   onRender: =>
     window.p = @model
     @stickit()
@@ -15,6 +23,11 @@ class Cms.Views.Page extends Cms.View
         page: @model
         collection: @model.sections
         el: @ui.content
+
+  templateSlug: (template) =>
+    template.get('slug') if template
+
+
 
 
 class Cms.Views.PageRenderer extends Cms.Views.Page
