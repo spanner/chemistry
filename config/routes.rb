@@ -19,6 +19,7 @@ Chemistry::Engine.routes.draw do
   resources :images
   resources :videos
   resources :documents
+  resources :terms
 
   get "*path" => "pages#editor"
 

@@ -1,5 +1,6 @@
 require "chemistry/engine"
 require "json"
+require "searchkick"
 require "paperclip"
 require "paperclip/av/transcoder"
 require "acts_as_list"

@@ -4,6 +4,7 @@
 
 #controls
 #queue
+#dialog
 
 %nav.submenu
   .mask

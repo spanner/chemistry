@@ -1,0 +1,103 @@
+ul.token-input-list
+  box-sizing: border-box
+  display: inline-block
+  width: 100%
+  padding: 2px 8px
+  border: 1px solid $verypale
+  font-size: 1rem
+  overflow: hidden
+  height: auto !important
+  height: 1%
+  cursor: text
+  z-index: 9000
+  margin: 0
+  background-color: white
+  color: $dark
+  list-style-type: none
+  clear: left
+  li input
+    display: inline-block
+    vertical-align: middle
+    border: 0
+    margin: 6px 7px 4px 0
+    padding: 4px 7px 4px 0
+    background-color: white
+    color: $dark
+    -webkit-appearance: caret
+    &:focus
+      box-shadow: none
+
+li
+  &.token-input-token
+    overflow: hidden
+    margin: 5px 6px 6px 0
+    padding: 4px 4px 4px 16px
+    background: linear-gradient(to bottom, $blue, darken($blue, 10))
+    color: white
+    cursor: default
+    border-radius: 20px
+    float: left
+    white-space: nowrap
+    p
+      display: inline-block
+      vertical-align: top
+      font-weight: lighter
+      padding: 0
+      margin: 0
+    span
+      display: inline-block
+      vertical-align: top
+      color: white
+      opacity: 0.5
+      margin: 0 4px 0 8px
+      font-weight: bold
+      cursor: pointer
+      &:hover
+        opacity: 1
+  &.token-input-selected-token
+    background-color: $red
+    color: #fff
+  &.token-input-input-token
+    float: left
+    margin: 0
+    padding: 0
+    list-style-type: none
+    input[type="text"]
+      padding: 3px
+    input:empty
+      min-width: 150px
+
+div.token-input-dropdown
+  position: absolute
+  background-color: white
+  border: 1px solid $verypale
+  border-top: none
+  overflow: hidden
+  cursor: default
+  z-index: 7000
+  margin-top: -1px
+  padding: 1px 8px
+  p
+    margin: 0
+    padding: 5px 10px
+    color: $pale
+    text-align: right
+  ul
+    margin: 0
+    padding: 0
+    li
+      padding: 8px
+      margin: 0
+      list-style-type: none
+      cursor: pointer
+      em
+        font-weight: bold
+        font-style: normal
+      &.token-input-selected-dropdown-item
+        background-color: rgba(0,0,0,0.1)
+        color: $dark
+
+.faceting
+  li
+    &.token-input-token
+      background: linear-gradient(to bottom, $blue, darken($blue, 10))

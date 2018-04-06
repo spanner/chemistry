@@ -1,0 +1,131 @@
+@keyframes bulge
+  0%, 100%
+    transform: scale(1)
+  10%
+    transform: scale(1.4)
+
+
+table.terms
+  margin-top: 40px
+  width: 97%
+  border-top: 1px solid white
+  border-collapse: collapse
+  th, td
+    padding: 12px 0 12px 0
+    border-bottom: 1px dotted $pale
+    vertical-align: top
+  th
+    text-align: left
+  td.term
+    font-weight: 300
+    width: 30%
+    font-size: 1.5rem
+    padding-right: 10px
+    a
+      +inverted
+    a.attach
+      position: relative
+      display: block
+      float: right
+      width: 24px
+      height: 24px
+      margin-top: 6px
+      margin-right: 4px
+      color: $green
+      cursor: pointer
+      svg
+        width: 24px
+        height: 24px
+        position: absolute
+
+  td.usage
+    width: 70%
+    ul
+      font-size: 0.9rem
+      list-style: square inside
+      color: $mid
+
+#cloud
+  position: relative
+  margin-top: 2em
+  border-top: 1px solid white
+  svg
+    text.term
+      cursor: pointer
+      fill: $coolgrey8
+      transition: fill 0.25s ease-out
+      &.guided
+        fill: $coolgrey11
+      &:hover
+        fill: $link
+
+ul.terms
+  font-size: 0.9rem
+  list-style: square inside
+  color: $mid
+  padding: 0
+
+li.term
+  display: inline-block
+  transition: transform 0.25s ease-out, background 0.25s ease-out
+  background: linear-gradient(to top, $blue, lighten($blue, 5))
+  border-radius: 20px
+  padding: 6px
+  margin: 0 4px 4px 0
+  min-width: 22px
+  &.add
+    background: linear-gradient(to top, $green, lighten($green, 5))
+    text-align: center
+  &.working
+    background: linear-gradient(to top, $pale, lighten($pale, 5))
+  a, span.term
+    color: white
+    overflow: hidden
+    display: inline-block
+    vertical-align: top
+    padding: 0 6px
+    cursor: pointer
+    white-space: nowrap
+  &:hover
+    background: linear-gradient(to top, $link, lighten($link, 5))
+  span.collection
+    color: $pale
+  &.dragged
+    opacity: 0.2
+  &.dragging
+    position: absolute
+    opacity: 0.6
+    z-index: 1000
+    pointer-events: none
+    transform: scale(1.25)
+    background: $translucent
+    box-shadow: 1px 0 10px $shadow
+    pointer-events: none
+    a, span.term
+      color: $mid
+    a.delete
+      display: none
+  &.droppable
+    border-color: $highlight
+    box-shadow: inset 2px 0 8px $shadow
+  &.splash
+    animation: bulge 1s 1
+    animation-timing-function: ease-out
+
+ul.sortable_items
+  list-style: none
+  padding-left: 30px
+  li
+    &:before
+      content: "☰"
+      font-size: 70%
+      display: inline-block
+      width: 30px
+      margin-left: -30px
+
+form.term
+  p.term
+    margin: 0
+    input
+      width: 520px
+      font-size: 1.5em

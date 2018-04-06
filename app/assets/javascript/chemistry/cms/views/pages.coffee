@@ -3,9 +3,15 @@
 class Cms.Views.Page extends Cms.View
   template: "page"
 
+  regions:
+    sections:
+      el: "#page_content"
+    config:
+      el: "#config"
+      regionClass: Cms.FloatingRegion
+
   ui:
     content: "#page_content"
-    saver: "#controls"
 
   bindings:
     "#page_content":
@@ -19,15 +25,12 @@ class Cms.Views.Page extends Cms.View
     window.p = @model
     @stickit()
     @model.sections.loadAnd =>
-      @addView new Cms.Views.Sections
+      @getRegion('sections').show new Cms.Views.Sections
         page: @model
         collection: @model.sections
-        el: @ui.content
 
   templateSlug: (template) =>
     template.get('slug') if template
-
-
 
 
 class Cms.Views.PageRenderer extends Cms.Views.Page
@@ -39,8 +42,6 @@ class Cms.Views.PageRenderer extends Cms.Views.Page
       collection: @model.sections
       el: @ui.content
     @model.set 'rendered_html', @ui.content.html()
-    @log "🤡 render finished"
-
 
 
 # Main page list
@@ -238,17 +239,21 @@ class Cms.Views.ParentPagePicker extends Cms.View
       ""
 
 
-# The transient view used to inject a new page into the tree and prepare it for editing.
+
+## Page metadata editors
 #
-class Cms.Views.NewPage extends Cms.Views.FloatingView
-  template: "new_page"
+# Used to modify existing or create new pages.
+#
+class Cms.Views.ConfigPage extends Cms.Views.FloatingView
+  template: "config_page"
 
   regions:
     parent: ".parent_picker"
     template: ".template_picker"
+    keywords: ".term_picker"
 
   events:
-    "click a.save": "saveAndEdit"
+    "click a.save": "saveAndClose"
 
   ui:
     "savebutton": "a.save"
@@ -280,6 +285,9 @@ class Cms.Views.NewPage extends Cms.Views.FloatingView
     if @regions.parent
       @getRegion('parent').show new Cms.Views.ParentPagePicker
         model: @model
+    if @regions.keywords
+      @getRegion('keywords').show new Cms.Views.TermsPicker
+        model: @model
 
   saveAndEdit: (e) =>
     #TODO model validation
@@ -296,24 +304,16 @@ class Cms.Views.NewPage extends Cms.Views.FloatingView
       @trigger 'close'
 
 
-class Cms.Views.NewHomePage extends Cms.Views.NewPage
-  template: "new_home_page"
+class Cms.Views.NewPage extends Cms.Views.ConfigPage
+  template: "new_page"
   regions:
-    template: ".template_picker"
-
-
-class Cms.Views.ConfigPage extends Cms.Views.NewPage
-  template: "config_page"
-  regions:
-    parent: ".parent_picker"
     template: ".template_picker"
   events:
-    "click a.save": "saveAndClose"
-
-  onRender: =>
-    super
-    @log "ConfigPage render", @model
-    window.cp = @model
+    "click a.save": "saveAndEdit"
 
 
-    
+class Cms.Views.NewHomePage extends Cms.Views.NewPage
+  template: "new_home_page"
+
+
+

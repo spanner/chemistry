@@ -1,0 +1,2 @@
+%p#terms
+  %input.keywords{type: 'text', placeholder: "Keywords"}

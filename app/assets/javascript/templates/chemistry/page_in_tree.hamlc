@@ -10,7 +10,7 @@
         %use{"xlink:href" => "#cross_button_symbol"}
     %a.config
       %svg.icon
-        %use{"xlink:href" => "#config_symbol"}
+        %use{"xlink:href" => "#config_button_symbol"}
     %a.add.child
       %svg.icon
         %use{"xlink:href" => "#plus_button_symbol"}

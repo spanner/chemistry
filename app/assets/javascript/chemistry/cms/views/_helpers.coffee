@@ -5,6 +5,11 @@ class Cms.Views.Saver extends Cms.View
     save_button: "a.save"
     revert_button: "a.revert"
     publish_button: "a.publish"
+    preview_button: "a.preview"
+    config_button: "a.config"
+
+  triggers:
+    "click @ui.config_button": "config"
 
   events:
     "click @ui.save_button": "save"
@@ -51,7 +56,6 @@ class Cms.Views.Saver extends Cms.View
 
   revertWithConfirmation: (e) =>
     e?.preventDefault()
-    @log "🤡 PWC!"
     new Cms.Views.ReversionConfirmation
       model: @model
       link: @ui.revert_button
@@ -59,12 +63,10 @@ class Cms.Views.Saver extends Cms.View
 
   publish: =>
     e?.preventDefault()
-    @log "🤡 PWC!"
     @model.publish()
 
   publishWithConfirmation: (e) =>
     e?.preventDefault()
-    @log "🤡 PWC!"
     new Cms.Views.PublicationConfirmation
       model: @model
       link: @ui.publish_button
@@ -179,7 +181,6 @@ class Cms.Views.Deleter extends Cms.View
 #
 # Attaches an editing toolbar to a DOM element.
 #
-
 class Cms.Views.Toolbar extends Cms.View
   template: false
   className: "ed-toolbar"

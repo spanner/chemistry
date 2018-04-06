@@ -21,6 +21,8 @@
 
   .template_picker
 
+  .term_picker
+
   .buttons
     %a.save.button
       = t('buttons.save_page')

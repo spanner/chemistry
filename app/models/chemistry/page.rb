@@ -8,6 +8,9 @@ module Chemistry
     has_many :documents, -> {order(position: :asc)}, dependent: :destroy
     acts_as_list column: :nav_position
 
+    has_many :page_terms
+    has_many :terms, through: :page_terms
+
     before_validation :derive_slug
     before_validation :derive_path
     before_validation :get_excerpt
@@ -23,7 +26,12 @@ module Chemistry
     scope :nav, -> { published.where(nav: true) }
     scope :from_path, -> path { published.where(path: path) }
 
+    def published?
+      published_at?
+    end
 
+    ## Sections
+    #
     # It's not pretty, but it's a lot nicer than accepts_nested_attributes_for.
     #
     def sections_data=(section_data=nil)
@@ -57,6 +65,64 @@ module Chemistry
         # so, delete them all?
       end
       self.touch
+    end
+
+
+    ## Terms
+    #
+    def term_names
+      terms.pluck(:term).uniq
+    end
+
+    def term_list
+      term_names.join(", ")
+    end
+
+    def terms_with_synonyms
+      terms.includes(:term_synonyms).map(&:with_synonyms).flatten.uniq.join(' ')
+    end
+
+    # public tagging interface looks like this:
+    #
+    def keywords
+      term_list
+    end
+
+    def keywords=(somewords)
+      if somewords.blank?
+        self.terms.clear
+      else
+        self.terms = Chemistry::Term.from_list(somewords)
+      end
+    end
+
+
+    ## Elasticsearch indexing
+    #
+    searchkick searchable: [:title, :content],
+               word_start: [:title],
+               highlight: [:title, :content]
+
+    scope :search_import, -> { includes(:template) }
+
+    def search_data
+      {
+        title: title,
+        content: clean_rendered_html,
+        terms: terms_with_synonyms,
+        page_type: template_slug,
+        path: path,
+        published: published?,
+        published_at: published_at
+      }
+    end
+
+    def clean_rendered_html
+      ActionController::Base.helpers.strip_tags(rendered_html)
+    end
+
+    def template_slug
+      template.slug if template
     end
 
 

@@ -13,6 +13,7 @@
 #= require smartquotes/dist/smartquotes
 #= require balance-text/balancetext
 #= require medium-editor/dist/js/medium-editor
+#= require ep-jquery-tokeninput/src/jquery.tokeninput
 
 # Chemistry JS
 #= require ./cms/application

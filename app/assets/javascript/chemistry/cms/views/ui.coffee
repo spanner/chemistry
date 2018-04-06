@@ -84,12 +84,11 @@ class Cms.Views.UI extends Cms.View
   showView: (view=@_view) =>
     @getRegion('main').show view
 
-
   # Nav presents the save / revert / publish controls
+  # and various other utility views.
   #
   setNavModel: (model) =>
     @_nav.setModel(model)
 
   clearNavModel: () =>
     @_nav.setModel(null)
-    

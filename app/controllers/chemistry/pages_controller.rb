@@ -2,6 +2,8 @@ require 'json'
 
 module Chemistry
   class PagesController < ApplicationController
+    include Chemistry::Concerns::Searchable
+
     load_and_authorize_resource
 
     # HTML routes
@@ -121,6 +123,7 @@ module Chemistry
         :external_url,
         :document_id,
         :title,
+        :keywords,
         :nav,               # takes part in navigation?
         :nav_name,          # with this name
         :nav_position,      # in this position
@@ -141,6 +144,21 @@ module Chemistry
       params.permit(
         :rendered_html
       )
+    end
+
+
+    ## Searchable configuration
+    #
+    def search_fields
+      ['title^10', 'terms^5', 'content']
+    end
+
+    def search_highlights
+      {tag: "<strong>"}
+    end
+
+    def search_default_sort
+      "title"
     end
 
   end

@@ -1,14 +1,18 @@
 .buttons
-  %a.save
+  %a.save{title: t("tooltips.save")}
     %svg
       %use{"xlink:href" => "#save_button_symbol"}
-  %a.revert{data: {confirm: t("confirmations.revert")}}
+  %a.revert{title: t("tooltips.revert")}
     %svg
       %use{"xlink:href" => "#revert_button_symbol"}
-  %a.publish
+  %a.publish{title: t("tooltips.revert")}
     %svg
       %use{"xlink:href" => "#publish_button_symbol"}
-  %a.preview{target: "_published"}
+  %br
+  %a.config.available{title: t("tooltips.config")}
+    %svg
+      %use{"xlink:href" => "#config_button_symbol"}
+  %a.preview{target: "_published", title: t("tooltips.preview")}
     %svg
       %use{"xlink:href" => "#show_button_symbol"}
 

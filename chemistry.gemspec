@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'acts_as_list'
   s.add_dependency 'colorize'
   s.add_dependency 'settingslogic'
+  s.add_dependency 'searchkick'
 
   # UI
   s.add_dependency "haml"
