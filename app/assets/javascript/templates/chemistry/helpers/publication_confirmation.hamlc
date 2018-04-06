@@ -1,0 +1,6 @@
+%span.message
+%span.decision
+  %a.confirm.publish
+    =t('buttons.publish')
+  %a.cancel
+    =t('buttons.cancel')

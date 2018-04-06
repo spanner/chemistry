@@ -8,5 +8,8 @@
   %a.publish
     %svg
       %use{"xlink:href" => "#publish_button_symbol"}
+  %a.preview{target: "_published"}
+    %svg
+      %use{"xlink:href" => "#show_button_symbol"}
 
 .warnings

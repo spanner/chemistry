@@ -25,7 +25,6 @@ class Cms.Models.Page extends Cms.Model
 
   publish: () =>
     @render()
-    @log "🤡 publishing now"
     @save()
     $.ajax
       url: @url() + "/publish"
@@ -37,7 +36,6 @@ class Cms.Models.Page extends Cms.Model
 
   published: (response) =>
     attrs = @parse response
-    @log "🤡 update on publish with", attrs
     @set attrs
 
   failedToPublish: (request) =>

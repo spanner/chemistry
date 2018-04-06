@@ -68,7 +68,7 @@ header#nav
     display: block
     top: 16px
     right: 64px
-    width: 120px
+    width: 150px
     float: right
     &:empty
       display: none
@@ -93,12 +93,15 @@ header#nav
       &.available
         pointer-events: auto
         cursor: pointer
+        color: $mid
       &.save.available
         color: $green
       &.revert.available
         color: $red
       &.publish.available
         color: $purple
+      &.preview.available
+        color: $blue
 
 
 @media (max-width: 750px)

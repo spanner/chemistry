@@ -8,8 +8,8 @@ class Cms.Views.Saver extends Cms.View
 
   events:
     "click @ui.save_button": "save"
-    "click @ui.revert_button": "revert"
-    "click @ui.publish_button": "publish"
+    "click @ui.revert_button": "revertWithConfirmation"
+    "click @ui.publish_button": "publishWithConfirmation"
 
   bindings:
     "a.save":
@@ -27,6 +27,15 @@ class Cms.Views.Saver extends Cms.View
         available:
           observe: ["changed", "valid", "unpublished"]
           onGet: "ifPublishable"
+    "a.preview":
+      attributes: [
+        name: "href"
+        observe: "path"
+        onGet: "absolutePath"
+      ]
+      classes: 
+        available:
+          observe: "published_at"
 
   onRender: =>
     super
@@ -40,9 +49,27 @@ class Cms.Views.Saver extends Cms.View
     e?.preventDefault()
     @model.revert()
 
-  publish: (e) =>
+  revertWithConfirmation: (e) =>
     e?.preventDefault()
+    @log "🤡 PWC!"
+    new Cms.Views.ReversionConfirmation
+      model: @model
+      link: @ui.revert_button
+      action: @revert
+
+  publish: =>
+    e?.preventDefault()
+    @log "🤡 PWC!"
     @model.publish()
+
+  publishWithConfirmation: (e) =>
+    e?.preventDefault()
+    @log "🤡 PWC!"
+    new Cms.Views.PublicationConfirmation
+      model: @model
+      link: @ui.publish_button
+      action: @publish
+
 
   # Object is saveable if it valid and has significant changes.
   #
@@ -60,6 +87,9 @@ class Cms.Views.Saver extends Cms.View
   #
   ifPublishable: ([changed, valid, unpublished]=[]) =>
     valid and unpublished and not changed
+
+  absolutePath: (path) =>
+    if path[0] is '/' then path else "/#{path}"
 
 
 class Cms.Views.Confirmation extends Cms.View
@@ -89,7 +119,7 @@ class Cms.Views.Confirmation extends Cms.View
     @$el.appendTo(_cms.el)
     @$el.css
       left: position.left + @link.width()
-      top: position.top - @$el.height()
+      top: position.top
     @ui.message.text(@message) if @message
     @stickit()
     @$el.fadeIn('fast')
@@ -113,11 +143,18 @@ class Cms.Views.Confirmation extends Cms.View
     @and_then?()
 
 
+class Cms.Views.ReversionConfirmation extends Cms.Views.Confirmation
+  template: "helpers/reversion_confirmation"
+
+
+class Cms.Views.PublicationConfirmation extends Cms.Views.Confirmation
+  template: "helpers/publication_confirmation"
+
+
 class Cms.Views.DeletionConfirmation extends Cms.Views.Confirmation
   template: "helpers/deletion_confirmation"
 
   enact: () =>
-    @log "Enact deletion", @and_then
     @model.destroy()
     @remove()
     @and_then?()

@@ -117,6 +117,7 @@ class Cms.Model extends Backbone.Model
     _.isEqual @attributes, bare_attributes
 
   save: =>
+    @log "🛠 model save", @_saving
     unless @_saving
       @_saved = $.Deferred()
       @_saving = true
@@ -125,7 +126,7 @@ class Cms.Model extends Backbone.Model
     @_saved.promise()
 
   saved: (data) =>
-    @_loading = false
+    @_saving = false
     @_saved.resolve(data)
     @resetChanges()
 
@@ -158,8 +159,8 @@ class Cms.Model extends Backbone.Model
   momentify: (data) =>
     for col in ["created_at", "updated_at", "published_at", "deleted_at"]
       if string = data[col]
-        @set col, new Date(string)
-        delete data[col]
+        @log "momenting", col, string
+        data[col] = moment(string)
 
 
   ## Associations

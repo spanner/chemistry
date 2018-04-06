@@ -87,6 +87,7 @@ class Cms.Views.Section extends Cms.View
 
 
 class Cms.Views.SectionRenderer extends Cms.Views.Section
+  tagName: "section"
 
   bindings:
     ":el":

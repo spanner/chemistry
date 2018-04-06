@@ -74,7 +74,7 @@ module Chemistry
 
     def derive_path
       if home?
-        self.path = ""
+        self.path = "/"
       elsif parent
         path_parts = []
         path_parts += parent.path.split(/\/+/).map(&:parameterize)

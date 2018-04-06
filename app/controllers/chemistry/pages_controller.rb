@@ -19,9 +19,9 @@ module Chemistry
 
     def published
       @path = params[:path] || ''
-      @path = '' if @path == '/'
-      @page = Page.from_path(@path)
-      Rails.logger.warn "🤡 PUBLISHED PAGE: #{@page.inspect}"
+      @path = '/' if @path == ''
+      @page = Page.from_path(@path.strip).first
+      head :not_found unless @page
       render
     end
 
@@ -69,7 +69,8 @@ module Chemistry
     end
   
     def publish
-      if @page.update_attributes(publish_page_params.merge(published_at: Time.now))
+      if @page.update_attributes(publish_page_params)
+        @page.update_attributes published_at: Time.now
         return_page
       else
         return_errors
