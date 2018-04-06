@@ -85,21 +85,30 @@ class Cms.Views.Section extends Cms.View
         model: @model
         el: el
 
-  # then onSet we remove all control elements and editable attribuets: 
-  # the database holds exactly the html that we will display.
-  #
-  withoutControls: (html) =>
-    @_cleaner ?= $('<div />')
-    @_cleaner.html(html)
-    @_cleaner.find('[data-cms]').remove()
-    @_cleaner.find('[contenteditable]').removeAttr('contenteditable')
-    @_cleaner.find('[data-placeholder]').removeAttr('data-placeholder')
-    @_cleaner.html()
 
-  withoutHTML: (html) =>
-    @_cleaner ?= $('<div />')
-    @_cleaner.html(html)
-    @_cleaner.text().trim()
+class Cms.Views.SectionRenderer extends Cms.Views.Section
+
+  bindings:
+    ":el":
+      class:
+        deleted: "deleted_at"
+      attributes: [
+        name: "id"
+        observe: "id"
+        onGet: "sectionId"
+      ]
+    '[data-cms-role="title"]':
+      observe: "title"
+      updateMethod: "html"
+    '[data-cms-role="primary"]':
+      observe: "primary_html"
+      updateMethod: "html"
+    '[data-cms-role="secondary"]':
+      observe: "secondary_html"
+      updateMethod: "html"
+
+  onRender: =>
+    @stickit()
 
 
 class Cms.Views.NoSection extends Cms.View
@@ -118,4 +127,7 @@ class Cms.Views.Sections extends Cms.Views.AttachedCollectionView
     @page = opts.page
     super
 
+
+class Cms.Views.RenderedSections extends Cms.Views.Sections
+  childView: Cms.Views.SectionRenderer
 

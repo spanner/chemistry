@@ -8,6 +8,7 @@ Chemistry::Engine.routes.draw do
     resources :sections
     get :site, on: :collection
     put :publish, on: :member
+    get :publshed, on: :member
   end
 
   resources :templates do

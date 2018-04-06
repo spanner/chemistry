@@ -10,10 +10,18 @@ module Chemistry
     #
     def home
       @page = Page.home.first
-      render
+      render template: "chemistry/pages/published"
     end
 
     def editor
+      render
+    end
+
+    def published
+      @path = params[:path] || ''
+      @path = '' if @path == '/'
+      @page = Page.from_path(@path)
+      Rails.logger.warn "🤡 PUBLISHED PAGE: #{@page.inspect}"
       render
     end
 
@@ -61,8 +69,7 @@ module Chemistry
     end
   
     def publish
-      if @page.update_attributes(publish_page_params)
-        @page.publish!
+      if @page.update_attributes(publish_page_params.merge(published_at: Time.now))
         return_page
       else
         return_errors

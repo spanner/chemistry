@@ -32,13 +32,16 @@ class Cms.Views.Saver extends Cms.View
     super
     @ui.publish_button.hide() unless @model.is_a('Page')
 
-  save: =>
+  save: (e) =>
+    e?.preventDefault()
     @model.save()
 
-  revert: =>
+  revert: (e) =>
+    e?.preventDefault()
     @model.revert()
 
-  publish: =>
+  publish: (e) =>
+    e?.preventDefault()
     @model.publish()
 
   # Object is saveable if it valid and has significant changes.

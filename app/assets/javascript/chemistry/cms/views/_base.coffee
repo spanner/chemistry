@@ -141,6 +141,27 @@ class Cms.View extends Backbone.Marionette.View
       $el.css 'display', 'none'
 
 
+  ## Cleanup
+  #
+  # For saving and publication.
+  
+  # then onSet we remove all control elements and editable attribuets: 
+  # the database holds exactly the html that we will display.
+  #
+  withoutControls: (html) =>
+    @_cleaner ?= $('<div />')
+    @_cleaner.html(html)
+    @_cleaner.find('[data-cms]').remove()
+    @_cleaner.find('[contenteditable]').removeAttr('contenteditable')
+    @_cleaner.find('[data-placeholder]').removeAttr('data-placeholder')
+    @_cleaner.html()
+
+  withoutHTML: (html) =>
+    @_cleaner ?= $('<div />')
+    @_cleaner.html(html)
+    @_cleaner.text().trim()
+  
+
   ## Utilities
   #
   containEvent: (e) =>

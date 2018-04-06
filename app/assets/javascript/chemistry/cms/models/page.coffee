@@ -10,37 +10,47 @@ class Cms.Models.Page extends Cms.Model
     @belongsTo 'template'
     @belongsTo 'parent'
     @hasMany 'sections'
+    @setPublicationStatus()
+    @on 'change:updated_at change:published_at', @setPublicationStatus
 
   published: () =>
     @get('published_at')?
 
   # Publish is a special save that sends up our rendered html for composition and saving.
   #
+  render: =>
+    @_renderer ?= new Cms.Views.PageRenderer 
+      model: @
+    @_renderer.render()
+
   publish: () =>
+    @render()
+    @log "🤡 publishing now"
+    @save()
     $.ajax
       url: @url() + "/publish"
       data:
-        rendered_html: @render()
+        rendered_html: @get('rendered_html')
       method: "PUT"
       success: @published
       error: @failedToPublish
 
   published: (response) =>
-    @set(response)
+    attrs = @parse response
+    @log "🤡 update on publish with", attrs
+    @set attrs
 
   failedToPublish: (request) =>
     #...
+    debugger
 
-  render: () =>
-    renderer = new Cms.Views.PageRenderer
-      model: @
-      collection: @sections
-    renderer.render()
-    renderer.el.innerHTML
+  setPublicationStatus: =>
+    @set 'unpublished', !@get('published_at') or @get('updated_at') > @get('published_at')
 
   revert: =>
     @reload()
     @sections.reload()
+
 
 
 class Cms.Collections.Pages extends Cms.Collection

@@ -18,8 +18,10 @@ module Chemistry
 
     scope :undeleted, -> { where(deleted_at: nil) }
     scope :published, -> { undeleted.where.not(published_at: nil) }
+
     scope :home, -> { published.where(home: true).limit(1) }
     scope :nav, -> { published.where(nav: true) }
+    scope :from_path, -> path { published.where(path: path) }
 
 
     # It's not pretty, but it's a lot nicer than accepts_nested_attributes_for.
@@ -56,22 +58,7 @@ module Chemistry
       end
       self.touch
     end
-    #
-    # ## Publication
-    # #
-    # # Pages are published to the filesystem as static html for direct delivery by the web server.
-    # #
-    # # The are first composed by placing page html elements into the site html wrapper.
-    # #
-    # def publish!
-    #   path_and_filename = path.sub(/^\//, '')
-    #   path_and_filename = "index" if path_and_filename.blank?
-    #   file = Pathname.new(Settings.pub.root).join(site.slug, path_and_filename + ".html").cleanpath
-    #   html = self.compose
-    #   FileUtils.mkdir_p(file.dirname)
-    #   File.open(file, 'w') { |f| f.write html }
-    #   self.update_column(:published_at, Time.now)
-    # end
+
 
     protected
 

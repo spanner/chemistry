@@ -8,13 +8,26 @@ class Cms.Views.Page extends Cms.View
     saver: "#controls"
 
   onRender: =>
-    @stickit()
     window.p = @model
+    @stickit()
     @model.sections.loadAnd =>
       @addView new Cms.Views.Sections
         page: @model
         collection: @model.sections
         el: @ui.content
+
+
+class Cms.Views.PageRenderer extends Cms.Views.Page
+  template: "rendered_page"
+
+  onRender: =>
+    @addView new Cms.Views.RenderedSections
+      page: @model
+      collection: @model.sections
+      el: @ui.content
+    @model.set 'rendered_html', @ui.content.html()
+    @log "🤡 render finished"
+
 
 
 # Main page list
@@ -288,3 +301,6 @@ class Cms.Views.ConfigPage extends Cms.Views.NewPage
     super
     @log "ConfigPage render", @model
     window.cp = @model
+
+
+    
