@@ -1,0 +1,8 @@
+#page_content
+  - if @page
+    = sanitize @page.rendered_html
+  - else
+    %p.warning
+      No page matches 
+      %pre
+        = @path.inspect
