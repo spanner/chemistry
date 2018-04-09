@@ -239,7 +239,6 @@ class Cms.Views.ParentPagePicker extends Cms.View
       ""
 
 
-
 ## Page metadata editors
 #
 # Used to modify existing or create new pages.
@@ -251,6 +250,7 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
     parent: ".parent_picker"
     template: ".template_picker"
     keywords: ".term_picker"
+    dates: ".dates_picker"
 
   events:
     "click a.save": "saveAndClose"
@@ -288,6 +288,9 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
     if @regions.keywords
       @getRegion('keywords').show new Cms.Views.TermsPicker
         model: @model
+    if @regions.dates
+      @getRegion('dates').show new Cms.Views.DatesPicker
+        model: @model
 
   saveAndEdit: (e) =>
     #TODO model validation
@@ -314,6 +317,4 @@ class Cms.Views.NewPage extends Cms.Views.ConfigPage
 
 class Cms.Views.NewHomePage extends Cms.Views.NewPage
   template: "new_home_page"
-
-
 

@@ -237,3 +237,79 @@ class Cms.Views.Toolbar extends Cms.View
           name: 'removeFormat'
           contentDefault: '<svg><use xlink:href="#clear_button"></use></svg>'
         ]
+
+
+
+class Cms.Views.TermsPicker extends Cms.View
+  template: "pick_terms"
+
+  ui:
+    keywords: 'input.keywords'
+
+  bindings:
+    "input.keywords":
+      observe: "keywords"
+
+  onRender: =>
+    @initTokenInput()
+    @stickit()
+
+  initTokenInput: =>
+    if terms = @model.get('keywords')
+      existing_terms = _.map _.uniq(terms.split(',')), (t) -> name: t
+    else
+      existing_terms = []
+
+    url = [_cms.config('api_url'), 'terms'].join('/')
+    @ui.keywords.tokenInput url,
+      minChars: 2
+      tokenValue: "name"
+      placeholder: "Keywords"
+      prePopulate: existing_terms
+      excludeCurrent: true
+      allowFreeTagging: true
+      hintText: t("notes.term_search_hint")
+      onResult: (data) ->
+        seen = {}
+        terms = []
+        data = data.data if data.data
+        _.map data, (datum) ->
+          term = datum.attributes.term
+          unless seen[term]
+            terms.push(name: term)
+            seen[term] = true
+        terms
+    @_search_field = @$el.find('li.token-input-input-token input[type="text"]')
+    @_search_field.attr "placeholder", @ui.keywords.attr('placeholder')
+
+  focus: =>
+    @_search_field?.focus()
+
+
+
+class Cms.Views.DatesPicker extends Cms.View
+  template: "pick_dates"
+
+  ui:
+    dates: 'span.dates'
+
+  onRender: =>
+    @stickit()
+    model = @model
+    @ui.dates.text [model.get('began_at'), model.get('ended_at')].join(' to ')
+    @ui.dates.dateRangePicker
+      monthSelect: true
+      yearSelect: true
+      autoClose: true
+      singleDate : false
+      singleMonth: false
+      showShortcuts: false
+      showTopbar: false
+      getValue: () ->
+        @innerHTML
+      setValue: (s, d1, d2) -> 
+        model.set
+          began_at: d1
+          ended_at: d2
+        @innerHTML = s
+

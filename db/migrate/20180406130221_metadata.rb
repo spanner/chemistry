@@ -1,4 +1,4 @@
-class Terms < ActiveRecord::Migration[5.1]
+class Metadata < ActiveRecord::Migration[5.1]
   def change
 
     create_table :chemistry_terms do |t|
@@ -23,6 +23,10 @@ class Terms < ActiveRecord::Migration[5.1]
     end
     add_index :chemistry_page_terms, :page_id
     add_index :chemistry_page_terms, :term_id
+
+    add_column :chemistry_pages, :original_context, :text
+    add_column :chemistry_pages, :began_at, :datetime
+    add_column :chemistry_pages, :ended_at, :datetime
 
   end
 end

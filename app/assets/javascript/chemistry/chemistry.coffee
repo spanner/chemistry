@@ -14,6 +14,7 @@
 #= require balance-text/balancetext
 #= require medium-editor/dist/js/medium-editor
 #= require ep-jquery-tokeninput/src/jquery.tokeninput
+#= require jquery-date-range-picker/src/jquery.daterangepicker
 
 # Chemistry JS
 #= require ./cms/application

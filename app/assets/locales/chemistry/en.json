@@ -48,6 +48,9 @@
     "templates": "Templates",
     "videos": "Videos"
   },
+  "notes": {
+    "term_search_hint": "Type in a search term to see suggestions. Press enter to create a new tag."
+  },
   "pages": {
     "config_description": "Please be careful when changing template or parent page",
     "config_title": "Configure page",
@@ -66,8 +69,9 @@
       "remote_url": "From URL..."
     },
     "page": {
-      "title": "Page title",
-      "parent": "Parent page"
+      "dates": "Period (optional)",
+      "parent": "Parent page",
+      "title": "Page title"
     },
     "note": {
       "heading": "Optional heading",

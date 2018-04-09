@@ -124,6 +124,8 @@ module Chemistry
         :document_id,
         :title,
         :keywords,
+        :began_at,
+        :ended_at,
         :nav,               # takes part in navigation?
         :nav_name,          # with this name
         :nav_position,      # in this position

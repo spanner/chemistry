@@ -19,9 +19,25 @@
 
   .parent_picker
 
-  .template_picker
+  .content_picker
+    %p
+      Content type
+      %br
+      %span.radio
+        %input#content_page{type: "radio", name: "content", value: "page"}
+        %label{for: "content_page"} Page
+      %span.radio
+        %input#content_file{type: "radio", name: "content", value: "file", disabled: true}
+        %label.disabled{for: "content_file"} File
+      %span.radio
+        %input#content_url{type: "radio", name: "content", value: "url", disabled: true}
+        %label.disabled{for: "content_url"} External link
 
+  .template_picker.if_page
+  .document_picker.if_file
+  .url_picker.if_url
   .term_picker
+  .dates_picker
 
   .buttons
     %a.save.button

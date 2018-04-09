@@ -16,6 +16,8 @@ class Chemistry::PageSerializer
              :summary,
              :excerpt,
              :keywords,
+             :began_at,
+             :ended_at,
              :home,
              :nav,
              :nav_name,

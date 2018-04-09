@@ -67,7 +67,12 @@
     font-size: 1.5rem
     width: 100%
     +validated
-    span.label
+    span.value
+      color: $editfg
+      border: none
+      display: inline-block
+      padding: 20px 10px 3px
+    label, span.label
       position: absolute
       font-size: 0.9rem
       top: 3px
@@ -75,8 +80,10 @@
       font-weight: normal
       color: $verypale
       transition: color 0.5s ease-out, font-weight 0.5s ease-out
-    span.value
-      color: $editfg
+      z-index: 30
+      &.additional
+        left: auto
+        right: 10px
     &.absent
       span.label
         color: $mid
@@ -100,6 +107,8 @@
         font-size: 1.5rem
         &:required:invalid
           color: $pale
+
+
 
 ul.picker.page, ul.picker.template
   list-style: none
