@@ -91,7 +91,8 @@
       },
       "illuminated": {
         "primary": "The standfirst usually gives an introduction or summary of around 30-50 words.",
-        "secondary": "Optional page notes or picture caption."
+        "secondary": "Optional page notes or picture caption.",
+        "title": "Optional page title"
       },
       "standfirst": {
         "primary": "The standfirst usually gives an introduction or summary of around 30-50 words.",

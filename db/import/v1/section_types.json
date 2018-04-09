@@ -15,7 +15,7 @@
     "title": "Illuminated",
     "slug": "illuminated",
     "description": "Page header with illustration to left, standfirst and optional notes.",
-    "template": "<div class='illumination' data-cms-role='secondary' data-cms-editor='bg'><figure class='bg'></figure><figcaption></figcaption></div><div class='standfirst' data-cms-role='primary' data-cms-editor='html'></div>"
+    "template": "<h1 data-cms-role='title' data-cms-editor='string'></h1><div class='illumination' data-cms-role='secondary' data-cms-editor='bg'><figure class='bg'></figure><figcaption></figcaption></div><div class='standfirst' data-cms-role='primary' data-cms-editor='html'></div>"
   },
   {
     "title": "Hero",
