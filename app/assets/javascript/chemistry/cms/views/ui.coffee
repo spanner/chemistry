@@ -15,6 +15,9 @@ class Cms.Views.UI extends Cms.View
     nav: "#nav"
     notices: "#notices"
     main: "#main"
+    floater:
+      el: "#floater"
+      regionClass: Cms.FloatingRegion
 
   onRender: =>
     @_view = null
@@ -52,6 +55,8 @@ class Cms.Views.UI extends Cms.View
     @log "modelView", base, action
     if ['page', 'template', 'section_type', 'image', 'video', 'document'].indexOf(base) is -1
       _cms.complain "Unknown object type: #{base}"
+    else if ['edit'].indexOf(action) is -1
+      _cms.complain "Unknown action: #{action}"
     else
       model_name = base.charAt(0).toUpperCase() + base.slice(1)
       action_name = action.charAt(0).toUpperCase() + action.slice(1)
@@ -92,3 +97,8 @@ class Cms.Views.UI extends Cms.View
 
   clearNavModel: () =>
     @_nav.setModel(null)
+
+  # Floating region handles closure, masking, etc.
+  #
+  floatView: (view, options={}) =>
+    @getRegion('floater').show view, options

@@ -142,9 +142,6 @@ class Cms.Views.PagesIndex extends Cms.Views.IndexView
   regions:
     pages:
       el: "#pages"
-    new_page:
-      el: "#new_page"
-      regionClass: Cms.FloatingRegion
 
   ui:
     new_page_link: "li.new.page"
@@ -170,17 +167,20 @@ class Cms.Views.PagesIndex extends Cms.Views.IndexView
   startNewPage: (e) =>
     @containEvent(e)
     new_page_view = if @collection.size() then new Cms.Views.NewPage else new Cms.Views.NewHomePage
-    @getRegion('new_page').show new_page_view, over: @ui.new_page_link
+    _cms.ui.floatView new_page_view,
+      over: @ui.new_page_link
 
   startChildPage: (model) =>
     new_page_view = new Cms.Views.NewPage
       parent: model
-    @getRegion('new_page').show new_page_view, over: @ui.new_page_link
+    _cms.ui.floatView new_page_view,
+      over: @ui.new_page_link
 
   configPage: (model) =>
     config_page_view = new Cms.Views.ConfigPage
       model: model
-    @getRegion('new_page').show config_page_view, over: @ui.new_page_link
+    _cms.ui.floatView config_page_view,
+      over: @ui.new_page_link
 
 
 # Page choosers

@@ -56,10 +56,10 @@ class Cms.Application extends Backbone.Marionette.Application
   onStart: =>
     @preloadSite().done =>
       @setUILocale().done =>
-        @_ui = new Cms.Views.UI el: @el
-        @_ui.render()
+        @ui = new Cms.Views.UI el: @el
+        @ui.render()
         @_router = new Cms.AppRouter
-          controller: @_ui
+          controller: @ui
         Backbone.history.start
           pushState: true
           root: @config('mount_point')
@@ -175,7 +175,7 @@ class Cms.Application extends Backbone.Marionette.Application
     @notify message, duration, 'error'
 
   notify: (html_or_text, duration=4000, notice_type='information') =>
-    if @_ui
+    if @ui
       @notices.add
         message: html_or_text
         duration: duration
@@ -192,7 +192,7 @@ class Cms.Application extends Backbone.Marionette.Application
     @_locale_ready.done fn
 
   getUILocale: =>
-    @_ui_locale
+    @ui_locale
 
   chooseUILocale: =>
     if locale = @getQsParam('loc') or localStorage.getItem('chemistry_locale') or window.navigator.userLanguage or window.navigator.language or 'en'
@@ -203,10 +203,10 @@ class Cms.Application extends Backbone.Marionette.Application
       'en'
 
   setUILocale: (locale) =>
-    resetting = !!@_ui_locale
+    resetting = !!@ui_locale
     locale ?= @chooseUILocale()
-    @log "setUILocale", locale, 'was', @_ui_locale
-    unless @_ui_locale is locale
+    @log "setUILocale", locale, 'was', @ui_locale
+    unless @ui_locale is locale
       if locale_url = @_available_locales[locale]
         @log "loading locale from", locale_url
         localStorage.setItem('chemistry_locale', locale)
@@ -216,9 +216,9 @@ class Cms.Application extends Backbone.Marionette.Application
           polyglot.extend(data)
           root.t = polyglot.t.bind(polyglot)
           @translationAvailable = polyglot.has.bind(polyglot)
-          @_ui_locale = locale
+          @ui_locale = locale
           @_locale_ready.resolve(data)
-          @_ui?.reset() if resetting
+          @ui?.reset() if resetting
         locale_loader.fail (data, status, error) =>
           @complain("Locale file #{locale_url} could not be loaded: #{error}", 10000)
         @_locale_ready.promise()

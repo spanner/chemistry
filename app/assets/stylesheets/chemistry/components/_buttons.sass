@@ -35,7 +35,7 @@
     &:hover
       +bg($red)
   &.cancel
-    +bg(white, $pale)
+    background: $coolgrey00
     &:hover
       background: $red
       color: white
@@ -53,13 +53,13 @@
       image: image-url('chemistry/white_spinner.svg')
       size: 24px
 
+div.buttons
+  margin-top: 1em
+
 a.button
   +button
 
   & + span.conjunction
-    padding: 8px 4px
-
-  & + a.cancel
     padding: 8px 4px
 
 a.cancel

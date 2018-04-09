@@ -8,13 +8,11 @@ class Cms.Views.Saver extends Cms.View
     preview_button: "a.preview"
     config_button: "a.config"
 
-  triggers:
-    "click @ui.config_button": "config"
-
   events:
     "click @ui.save_button": "save"
     "click @ui.revert_button": "revertWithConfirmation"
     "click @ui.publish_button": "publishWithConfirmation"
+    "click @ui.config_button": "floatConfig"
 
   bindings:
     "a.save":
@@ -72,6 +70,11 @@ class Cms.Views.Saver extends Cms.View
       link: @ui.publish_button
       action: @publish
 
+  floatConfig: (e) =>
+    e?.preventDefault()
+    config_page_view = new Cms.Views.ConfigPage
+      model: @model
+    _cms.ui.floatView config_page_view
 
   # Object is saveable if it valid and has significant changes.
   #

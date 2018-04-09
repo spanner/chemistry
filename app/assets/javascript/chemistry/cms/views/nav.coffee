@@ -22,21 +22,9 @@ class Cms.Views.Nav extends Cms.View
 
   setModel: (model) =>
     if model
-      saver = new Cms.Views.Saver(model: model)
-      saver.on 'config', @showConfig
-      @getRegion('controls').show saver
+      @getRegion('controls').show new Cms.Views.Saver(model: model)
     else
       @getRegion('controls').reset()
-
-  showConfig: =>
-    # make more decisions when it becomes possible that model is not a page
-    config_page_view = new Cms.Views.ConfigPage
-      model: @model
-    @getRegion('dialog').show config_page_view
-    config_page_view.on "cancel close", @hideDialog
-
-  hideConfig: =>
-    @getRegion('dialog').reset()
 
   toggleNav: =>
     if @ui.nav.hasClass('up')

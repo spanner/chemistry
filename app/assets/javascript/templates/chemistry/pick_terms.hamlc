@@ -1,2 +1,1 @@
-%p#terms
-  %input.keywords{type: 'text', placeholder: "Keywords"}
+%input.keywords{type: 'text', placeholder: "Keywords"}
