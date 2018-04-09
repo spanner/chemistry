@@ -1,3 +1,4 @@
+require 'chemistry/version'
 require "chemistry/engine"
 require "json"
 require "searchkick"
