@@ -269,6 +269,10 @@ class Cms.Views.TermsPicker extends Cms.View
       excludeCurrent: true
       allowFreeTagging: true
       hintText: t("notes.term_search_hint")
+      onDelete: () ->
+        @trigger 'input'
+      onAdd: () ->
+        @trigger 'input'
       onResult: (data) ->
         seen = {}
         terms = []
@@ -296,7 +300,8 @@ class Cms.Views.DatesPicker extends Cms.View
   onRender: =>
     @stickit()
     model = @model
-    @ui.dates.text [model.get('began_at'), model.get('ended_at')].join(' to ')
+    if model.get('began_at') and model.get('ended_at')
+      @ui.dates.text [model.get('began_at'), model.get('ended_at')].join(' to ')
     @ui.dates.dateRangePicker
       monthSelect: true
       yearSelect: true

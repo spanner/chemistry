@@ -1,4 +1,8 @@
 .form
+  label.disabled
+    color: $pale
+    pointer-events: none
+
   input[type="text"], input[type="email"], input[type="password"], [contenteditable]:not([contenteditable=false])
     display: block
     position: relative
@@ -27,7 +31,9 @@
       white-space: nowrap
     &:lang(ar)
       line-height: 1.4
-    &.percentage
+    &.title
+      line-height: 1.5
+      &.percentage
       &:after
         content: "%"
     &.config
@@ -45,7 +51,7 @@
 
   [data-placeholder]:before
     content: attr(data-placeholder)
-    color: $verypale
+    color: $pale
     transition: color 0.5s ease-out, font-weight 0.5s ease-out
     position: absolute
     font-size: 0.9rem
@@ -81,9 +87,8 @@
       color: $verypale
       transition: color 0.5s ease-out, font-weight 0.5s ease-out
       z-index: 30
-      &.additional
-        left: auto
-        right: 10px
+      &.disabled
+        color: $pale
     &.absent
       span.label
         color: $mid
@@ -108,6 +113,9 @@
         &:required:invalid
           color: $pale
 
+  span.radio
+    display: inline-block
+    margin-right: 1em
 
 
 ul.picker.page, ul.picker.template

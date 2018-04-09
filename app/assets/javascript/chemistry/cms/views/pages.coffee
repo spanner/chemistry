@@ -265,6 +265,8 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
         valid:
           observe: "title"
           onGet: "ifPresent"
+    'input[name="content"]':
+      observe: "content"
     "a.save":
       classes:
         available:
