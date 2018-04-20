@@ -58,20 +58,29 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
     "click a.add.child": "beget"
 
   bindings:
+    ":el":
+      attributes: [
+        name: "class"
+        observe: "content"
+      ]
     ".title":
       observe: "title"
       onGet: "shortTitle"
     "use.template":
       attributes: [
         name: "xlink:href"
-        observe: "template"
+        observe: ["content", "template"]
         onGet: "templateSymbol"
       ]
     "a.page":
       attributes: [
         name: "href"
-        observe: "id"
-        onGet: "editMeHref"
+        observe: ["id", "content", "external_url", "file_url"]
+        onGet: "pageHref"
+      ,
+        name: "target"
+        observe: "content"
+        onGet: "outsideUnlessPage"
       ]
     "a.delete":
       classes:
@@ -87,13 +96,18 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
   onRendered: =>
     balanceText('span.title')
 
-  templateSymbol: (template) =>
-    slug = template?.get('slug') or 'empty'
+  templateSymbol: ([content, template]=[]) =>
+    if content is 'page'
+      slug = template?.get('slug') or 'empty'
+    else
+      slug = content
     "##{slug}_page_symbol"
 
   shortTitle: (title) =>
     @shortAndClean(title, 48)
 
+  outsideUnlessPage: (content) =>
+    if content is 'page' then "_self" else "_blank"
 
 class Cms.Views.TreePage extends Cms.Views.ListedPage
   template: "page_in_tree"
@@ -211,7 +225,7 @@ class Cms.Views.ParentPageSelect extends Cms.Views.PageSelect
 
 
 class Cms.Views.ParentPagePicker extends Cms.View
-  template: "parent_picker"
+  template: "helpers/pick_parent"
 
   ui:
     select: "select"
@@ -249,7 +263,9 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
   regions:
     parent: ".parent_picker"
     template: ".template_picker"
-    keywords: ".term_picker"
+    file: ".file_picker"
+    url: ".url_picker"
+    keywords: ".terms_picker"
     dates: ".dates_picker"
 
   events:
@@ -267,6 +283,15 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
           onGet: "ifPresent"
     'input[name="content"]':
       observe: "content"
+    '.if_page':
+      observe: "content"
+      visible: "ifPage"
+    '.if_file':
+      observe: "content"
+      visible: "ifFile"
+    '.if_url':
+      observe: "content"
+      visible: "ifUrl"
     "a.save":
       classes:
         available:
@@ -274,6 +299,7 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
           onGet: "thisAndThat"
 
   initialize: (options={}) ->
+    window.p = @model
     unless @model
       @model = new Cms.Models.Page
       @model.set 'parent', options.parent
@@ -283,6 +309,12 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
     @stickit()
     if @regions.template
       @getRegion('template').show new Cms.Views.TemplatePicker
+        model: @model
+    if @regions.file
+      @getRegion('file').show new Cms.Views.FilePicker
+        model: @model
+    if @regions.url
+      @getRegion('url').show new Cms.Views.UrlPicker
         model: @model
     if @regions.parent
       @getRegion('parent').show new Cms.Views.ParentPagePicker
@@ -295,24 +327,39 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
         model: @model
 
   saveAndEdit: (e) =>
-    #TODO model validation
     @containEvent(e)
     @model.save().done =>
       if id = @model.get('id')
         @trigger 'close'
         _cms.pages.add @model
-        _cms.navigate "/#{@model.pluralName()}/edit/#{id}"
+        if @model.get('content') is 'page'
+          _cms.navigate "/#{@model.singularName()}/edit/#{id}"
+
 
   saveAndClose: (e) =>
     @containEvent(e)
     @model.save().done =>
       @trigger 'close'
 
+  ifPage: (content) =>
+    content is "page"
+
+  ifFile: (content) =>
+    content is "file"
+
+  ifUrl: (content) =>
+    content is "url"
+
 
 class Cms.Views.NewPage extends Cms.Views.ConfigPage
   template: "new_page"
   regions:
+    parent: ".parent_picker"
     template: ".template_picker"
+    file: ".file_picker"
+    url: ".url_picker"
+    keywords: ".terms_picker"
+    dates: ".dates_picker"
   events:
     "click a.save": "saveAndEdit"
 

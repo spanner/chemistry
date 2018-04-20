@@ -241,7 +241,7 @@ class Cms.Views.Toolbar extends Cms.View
 
 
 class Cms.Views.TermsPicker extends Cms.View
-  template: "pick_terms"
+  template: "helpers/pick_terms"
 
   ui:
     keywords: 'input.keywords'
@@ -292,7 +292,7 @@ class Cms.Views.TermsPicker extends Cms.View
 
 
 class Cms.Views.DatesPicker extends Cms.View
-  template: "pick_dates"
+  template: "helpers/pick_dates"
 
   ui:
     dates: 'span.dates'
@@ -317,4 +317,27 @@ class Cms.Views.DatesPicker extends Cms.View
           began_at: d1
           ended_at: d2
         @innerHTML = s
+
+
+class Cms.Views.UrlPicker extends Cms.View
+  template: "helpers/pick_url"
+  tagName: "p"
+
+  bindings:
+    "span.url": "external_url"
+
+  onRender: =>
+    @log "UrlPicker model", @model
+    @stickit()
+
+
+class Cms.Views.FilePicker extends Cms.View
+  template: "helpers/pick_file"
+
+  bindings:
+    "span.url": "external_url"
+
+  onRender: =>
+    @stickit()
+
 

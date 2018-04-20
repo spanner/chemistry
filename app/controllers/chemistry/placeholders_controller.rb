@@ -51,7 +51,7 @@ module Chemistry
 
     def placeholder_params
       params.permit(
-        :template_id
+        :template_id,
         :position,
         :section_type_id,
         :title,

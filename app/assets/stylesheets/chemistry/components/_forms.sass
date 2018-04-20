@@ -1,4 +1,10 @@
 .form
+  span.notes
+    color: $pale
+    font-size: 0.9rem
+    display: block
+    margin-top: 0.25em
+
   label.disabled
     color: $pale
     pointer-events: none
@@ -52,16 +58,15 @@
   [data-placeholder]:before
     content: attr(data-placeholder)
     color: $pale
-    transition: color 0.5s ease-out, font-weight 0.5s ease-out
+    transition: color 0.25s ease-out, font-weight 0.25s ease-out, font-size 0.25s ease-out
     position: absolute
     font-size: 0.9rem
     top: 3px
     left: 10px
-    font-weight: normal
 
   [data-placeholder]:empty:before
-    color: $mid
-    font-weight: bold
+    color: $pale
+    font-size: 2.3rem
 
   .inputlike
     display: block
@@ -116,17 +121,38 @@
   span.radio
     display: inline-block
     margin-right: 1em
-
+    line-height: 1.4
+    input[type="radio"]
+      display: none
+      & + label
+        display: inline-block
+        vertical-align: middle
+        color: $pale
+        font-size: 1.25rem
+        font-weight: lighter
+        margin-right: 8px
+        cursor: pointer
+        &:before
+          display: inline-block
+          vertical-align: middle
+          width: 24px
+          height: 24px
+          content: image-url('chemistry/unchosen.svg')
+          margin: -2px 2px 0 0
+      &:checked + label
+        color: $green
+        &:before
+          content: image-url('chemistry/chosen.svg')
 
 ul.picker.page, ul.picker.template
   list-style: none
-  margin: 0
+  margin: 2em 0 0
   padding: 0
   +clearfix
   li
     display: inline-block
     float: left
-    margin: 0 32px 20px 0
+    margin: 0 24px 20px 0
     a.choose
       cursor: pointer
       display: block
@@ -137,13 +163,14 @@ ul.picker.page, ul.picker.template
         opacity: 1
         color: $green
       svg
-        width: 96px
-        height: 128px
+        width: 72px
+        height: 96px
         color: currentColor
       span
         display: block
         font-size: 0.75rem
-        width: 96px
+        line-height: 1.25
+        width: 72px
         margin: 0.25em 0
         text-align: center
         color: $mid
@@ -153,10 +180,10 @@ ul.picker.page, ul.picker.template
         &:after
           display: block
           position: absolute
-          width: 48px
-          height: 48px
-          top: 100px
-          right: -18px
+          width: 24px
+          height: 24px
+          top: 80px
+          right: -8px
           content: image-url('chemistry/chosen.svg')
         span
           font-weight: bold
@@ -165,13 +192,6 @@ ul.picker.page, ul.picker.template
 .term_picker
   p
     margin-top: 0
-
-
-
-
-
-
-
 
 
 

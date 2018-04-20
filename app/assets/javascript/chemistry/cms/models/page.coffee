@@ -1,5 +1,5 @@
 class Cms.Models.Page extends Cms.Model
-  savedAttributes: ['template_id', 'parent_id', 'slug', 'title', 'slug', 'content', 'summary', 'keywords', 'home', 'nav', 'nav_name', 'nav_position', 'began_at', 'ended_at']
+  savedAttributes: ['template_id', 'parent_id', 'slug', 'title', 'slug', 'content', 'summary', 'external_url', 'document_id', 'keywords', 'home', 'nav', 'nav_name', 'nav_position', 'began_at', 'ended_at']
   savedAssociations: ['sections']
 
   defaults:

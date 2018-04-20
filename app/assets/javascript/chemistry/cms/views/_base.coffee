@@ -34,6 +34,14 @@ class Cms.View extends Backbone.Marionette.View
     type = @model.label()
     "/#{type}/show/#{id}"
 
+  pageHref: ([id, content, external_url, file_url]=[]) =>
+    @log "pageHref", id, content, external_url, file_url
+    if content is 'url'
+      external_url
+    else if content is 'file'
+      file_url
+    else
+      @showMeHref(id)
 
   ## onGet helpers
   #

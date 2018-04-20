@@ -21,24 +21,25 @@
 
   .content_picker
     %p
-      Content type
-      %br
       %span.radio
         %input.content#content_page{type: "radio", name: "content", value: "page"}
-        %label{for: "content_page"} Page
+        %label{for: "content_page"}
+          = t('content.page')
       %span.radio
-        %input.content#content_file{type: "radio", name: "content", value: "file", disabled: true}
-        %label.disabled{for: "content_file"} File
+        %input.content#content_file{type: "radio", name: "content", value: "file"}
+        %label{for: "content_file"}
+          = t('content.file')
       %span.radio
-        %input.content#content_url{type: "radio", name: "content", value: "url", disabled: true}
-        %label.disabled{for: "content_url"} External link
+        %input.content#content_url{type: "radio", name: "content", value: "url"}
+        %label{for: "content_url"}
+          = t('content.url')
 
   .template_picker.if_page
-  .document_picker.if_file
+  .file_picker.if_file
   .url_picker.if_url
 
   .dates_picker
-  .term_picker
+  .terms_picker
 
   .buttons
     %a.save.button

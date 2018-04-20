@@ -1,8 +1,8 @@
 %span.indent
-%svg.page
-  %use.template{"xlink:href" => "#empty_page_symbol"}
 %span.detail
   %a.page
+    %svg.page
+      %use.template{"xlink:href" => "#empty_page_symbol"}
     %span.title
   %span.actions
     %a.delete{data: {confirmation: t('confirmations.delete_page')}}
@@ -17,3 +17,6 @@
   %span.notes
     %span.description
     %span.published_at
+
+
+

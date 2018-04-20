@@ -15,6 +15,11 @@
     "delete": "Delete this?",
     "delete_page": "Delete this page?"
   },
+  "content": {
+    "page": "Page",
+    "file": "Document",
+    "url": "Link"
+  },
   "errors": {
     "page": "Could not save page"
   },
@@ -49,7 +54,10 @@
     "videos": "Videos"
   },
   "notes": {
-    "term_search_hint": "Type in a search term to see suggestions. Press enter to create a new tag."
+    "create_new_page": "",
+    "external_url": "Please give full web address including http:// or https:// prefix",
+    "term_search_hint": "Type in a search term to see suggestions. Press enter to create a new tag.",
+    "video_providers": "Videos can be embedded automatically from youtube, vimeo and most other providers. Just paste a URL or youtube ID here."
   },
   "pages": {
     "config_description": "Please be careful when changing template or parent page",
@@ -71,7 +79,8 @@
     "page": {
       "dates": "Period (optional)",
       "parent": "Parent page",
-      "title": "Page title"
+      "title": "Page title",
+      "url": "External URL"
     },
     "note": {
       "heading": "Optional heading",
@@ -111,10 +120,6 @@
       "file": "Click or drop video file here",
       "remote_url": "From URL or Youtube ID"
     }
-  },
-  "notes": {
-    "create_new_page": "",
-    "video_providers": "Videos can be embedded automatically from youtube, vimeo and most other providers. Just paste a URL or youtube ID here."
   },
   "reassurances": {
     "page_saved": "Page saved"

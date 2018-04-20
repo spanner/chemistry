@@ -4,7 +4,7 @@ module Chemistry
   class PagesController < ApplicationController
     include Chemistry::Concerns::Searchable
 
-    load_and_authorize_resource
+    load_and_authorize_resource except: [:published]
 
     # HTML routes
     #
@@ -36,6 +36,8 @@ module Chemistry
     #
     # Serialized collections do not include associates: the object must be fetched singly
     # to get eg. page sections or template placeholders.
+    #
+    # TODO eventually we will need a real site object but for now, this shortcut.
     #
     def site
       render json: {

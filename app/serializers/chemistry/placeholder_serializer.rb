@@ -6,7 +6,7 @@ class Chemistry::PlaceholderSerializer
   set_type :placeholder
 
   attributes :id,
-             :template_id
+             :template_id,
              :position,
              :section_type_id,
              :section_type_slug,
