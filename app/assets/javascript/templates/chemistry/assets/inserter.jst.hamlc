@@ -8,6 +8,9 @@
   %a.control.add.video{title: t("tooltips.insert_video")}>
     %svg.icon
       %use{"xlink:href" => "#video_symbol"}
+  %a.control.add.document{title: t("tooltips.insert_document")}>
+    %svg.icon
+      %use{"xlink:href" => "#document_symbol"}
   %a.control.add.quote{title: t("tooltips.insert_quote")}>
     %svg.icon
       %use{"xlink:href" => "#quote_symbol"}

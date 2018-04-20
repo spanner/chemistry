@@ -37,6 +37,7 @@ figure
     position: absolute
     bottom: 0
     right: 0
+
   &.video
     video
       width: 100%
@@ -74,6 +75,26 @@ figure
         font-size: 2.5em
         line-height: 1.2
 
+  &.document
+    text-align: center
+    margin: 0
+    padding: 1em 0
+    img.icon
+      display: inline-block
+      vertical-align: top
+      width: 36px
+      height: auto
+    span.filename
+      display: inline-block
+      vertical-align: top
+      color: $dark
+      font-weight: lighter
+      font-size: 1.75rem
+      margin-left: 5px
+    a.missing
+      span.filename
+        color: $pale
+
 aside.note
   position: absolute
   display: block
@@ -109,7 +130,7 @@ aside.note
   figure
     position: relative
     width: 100%
-    height: 100%
+    height: auto
     transition: background-position 0.5s ease-in-out
     background:
       repeat: no-repeat
@@ -126,6 +147,7 @@ aside.note
       display: flex
       align-items: flex-end
       justify-content: center
+      background-color: rgba(0,0,0,0.05)
       p
         color: white
         pointer-events: none

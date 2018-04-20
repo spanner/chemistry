@@ -20,6 +20,9 @@ class Cms.Views.HtmlEditor extends Cms.View
     @$el.find('figure.quote').each (i, el) =>
       @addView new Cms.Views.Quote
         el: el
+    @$el.find('figure.document').each (i, el) =>
+      @addView new Cms.Views.Document
+        el: el
     @$el.find('aside.note').each (i, el) =>
       @addView new Cms.Views.Note
         el: el

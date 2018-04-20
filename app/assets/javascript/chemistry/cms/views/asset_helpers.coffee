@@ -11,6 +11,7 @@ class Cms.Views.AssetInserter extends Cms.View
     "click a.show": "toggleButtons"
     "click a.image": "addImage"
     "click a.video": "addVideo"
+    "click a.document": "addDocument"
     "click a.quote": "addQuote"
     "click a.note": "addNote"
 
@@ -58,6 +59,10 @@ class Cms.Views.AssetInserter extends Cms.View
     e?.preventDefault()
     @insert new Cms.Views.Video
 
+  addDocument: (e) =>
+    e?.preventDefault()
+    @insert new Cms.Views.Document
+
   addQuote: (e) =>
     e?.preventDefault()
     @insert new Cms.Views.Quote
@@ -67,7 +72,6 @@ class Cms.Views.AssetInserter extends Cms.View
     @insert new Cms.Views.Note
 
   insert: (view) =>
-    @log "👉 insert", view
     if @_p
       @_p.before view.el
       @_p.remove() unless @_p.is(":last-child")
@@ -77,6 +81,7 @@ class Cms.Views.AssetInserter extends Cms.View
     view.render()
     view.focus?()
     # @_target_el.trigger 'input'
+    @log "👉 inserted", view.el
     @hide()
 
   place: ($el) =>
@@ -266,6 +271,16 @@ class Cms.Views.VideoEditor extends Cms.Views.AssetEditor
     super
 
 
+class Cms.Views.DocumentEditor extends Cms.Views.AssetEditor
+  template: "assets/document_editor"
+  pickerView: "DocumentPicker"
+  uploaderView: "DocumentUploader"
+
+  initialize: (data, options={}) ->
+    @collection ?= new Cms.Collections.Documents
+    super
+
+
 class Cms.Views.QuoteEditor extends Cms.Views.AssetEditor
   template: "assets/quote_editor"
 
@@ -313,6 +328,11 @@ class Cms.Views.ImagePicker extends Cms.Views.AssetPicker
 class Cms.Views.VideoPicker extends Cms.Views.AssetPicker
   template: "assets/video_picker"
   listView: "VideoList"
+
+
+class Cms.Views.DocumentPicker extends Cms.Views.AssetPicker
+  template: "assets/document_picker"
+  listView: "DocumentList"
 
 
 ## Asset importers
@@ -365,6 +385,10 @@ class Cms.Views.ImageImporter extends Cms.Views.AssetImporter
 
 class Cms.Views.VideoImporter extends Cms.Views.AssetImporter
   template: "assets/video_importer"
+
+
+class Cms.Views.DocumentImporter extends Cms.Views.AssetImporter
+  template: "assets/document_importer"
 
 
 ## Asset uploaders
@@ -432,6 +456,10 @@ class Cms.Views.ImageUploader extends Cms.Views.AssetUploader
 
 class Cms.Views.VideoUploader extends Cms.Views.AssetUploader
   template: "assets/video_uploader"
+
+
+class Cms.Views.DocumentUploader extends Cms.Views.AssetUploader
+  template: "assets/document_uploader"
 
 
 ## Asset stylers

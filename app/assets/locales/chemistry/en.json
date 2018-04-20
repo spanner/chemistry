@@ -68,6 +68,9 @@
     "new_title": "Create new page"
   },
   "placeholders": {
+    "document": {
+      "file": "No file attached"
+    },
     "home_page": {
       "title": "Site title"
     },

@@ -41,7 +41,7 @@ class Cms.View extends Backbone.Marionette.View
     else if content is 'file'
       file_url
     else
-      @showMeHref(id)
+      @editMeHref(id)
 
   ## onGet helpers
   #

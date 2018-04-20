@@ -3,9 +3,9 @@ require "open-uri"
 module Chemistry
   class Document < ApplicationRecord
     acts_as_paranoid
-    belongs_to :page
 
-    has_attached_file :file, preserve_files: true                   # TODO extract text, image of front page
+    # TODO extract text, thumbnail image
+    has_attached_file :file, preserve_files: true
     do_not_validate_attachment_file_type :file
 
     before_validation :read_remote_url
@@ -19,14 +19,28 @@ module Chemistry
       end
     end
   
+    def file_data=(data)
+      if data
+        self.file = data
+      else
+        self.file = nil
+      end
+    end
+  
     def file_name=(name)
       self.file_file_name = name
+    end
+
+    def remote_url=(url)
+      if url
+        self.file = open(url)
+      end
     end
 
     ## serialization
 
     def file_name
-      object.file_name
+      file_file_name
     end
 
     def file_type

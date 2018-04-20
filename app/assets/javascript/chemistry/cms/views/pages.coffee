@@ -51,6 +51,7 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
   className: "page"
 
   ui:
+    link: "a.page"
     deleter: "a.delete"
 
   triggers:
@@ -77,10 +78,6 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
         name: "href"
         observe: ["id", "content", "external_url", "file_url"]
         onGet: "pageHref"
-      ,
-        name: "target"
-        observe: "content"
-        onGet: "outsideUnlessPage"
       ]
     "a.delete":
       classes:
@@ -95,6 +92,10 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
 
   onRendered: =>
     balanceText('span.title')
+    if @model.get('content') is 'page'
+      @ui.link.removeAttr('target')
+    else
+      @ui.link.attr('target', "_blank")
 
   templateSymbol: ([content, template]=[]) =>
     if content is 'page'
@@ -106,8 +107,7 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
   shortTitle: (title) =>
     @shortAndClean(title, 48)
 
-  outsideUnlessPage: (content) =>
-    if content is 'page' then "_self" else "_blank"
+
 
 class Cms.Views.TreePage extends Cms.Views.ListedPage
   template: "page_in_tree"

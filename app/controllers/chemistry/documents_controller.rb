@@ -50,10 +50,9 @@ module Chemistry
     protected
 
     def document_params
-      params.permit(
-        :file,
+      params.require(:document).permit(
+        :file_data,
         :file_name,
-        :page_id,
         :caption,
         :remote_url
       )

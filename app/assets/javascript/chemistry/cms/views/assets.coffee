@@ -62,6 +62,41 @@ class Cms.Views.NoListedAsset extends Cms.View
   className: "empty"
 
 
+class Cms.Views.ListedDocument extends Cms.Views.ListedAsset
+  template: "assets/listed_document"
+  tagName: "li"
+  className: "document"
+
+  events:
+    "click a.delete": "deleteModel"
+    "click a.document": "selectMe"
+
+  bindings:
+    ":el":
+      attributes: [
+        name: "data-document",
+        observe: "id"
+      ]
+    "a.preview":
+      attributes: [
+        name: "href"
+        observe: "file_url"
+      ]
+    "img.icon":
+      attributes: [
+        name: "src"
+        observe: "icon_url"
+        onGet: "iconOrDefault"
+      ]
+    "span.label":
+      observe: ["title", "file_name"]
+      onGet: "thisOrThat"
+
+  iconOrDefault: (icon_url) =>
+    icon_url or "/images/file_types/pdf.png"
+
+
+
 class Cms.Views.AssetList extends Cms.CollectionView
   childView: Cms.Views.ListedAsset
   emptyView: Cms.Views.NoListedAsset
@@ -71,12 +106,13 @@ class Cms.Views.AssetList extends Cms.CollectionView
 
 
 class Cms.Views.ImageList extends Cms.Views.AssetList
-  template: "assets/image_list"
 
 
 class Cms.Views.VideoList extends Cms.Views.AssetList
-  template: "assets/video_list"
 
+
+class Cms.Views.DocumentList extends Cms.Views.AssetList
+  childView: Cms.Views.ListedDocument
 
 
 ## Individual Asset Managers
@@ -189,9 +225,6 @@ class Cms.Views.Video extends Cms.Views.Asset
   className: "video full"
   defaultSize: "full"
 
-  events:
-    "click a.save": "saveVideo"
-
   bindings:
     ":el":
       attributes: [
@@ -241,6 +274,58 @@ class Cms.Views.Video extends Cms.Views.Asset
 
   videoId: (id) =>
     "video_#{id}"
+
+
+## Video assets
+#
+class Cms.Views.Document extends Cms.Views.Asset
+  editorView: "DocumentEditor"
+  template: "assets/document"
+  className: "document"
+
+  bindings:
+    ":el":
+      attributes: [
+        name: "data-document",
+        observe: "id"
+      ]
+    "a.document":
+      attributes: [
+        name: "href"
+        observe: "file_url"
+      ]
+      classes:
+        missing:
+          observe: "file_url"
+          onGet: "untrue"
+    "img.icon":
+      attributes: [
+        name: "src"
+        observe: "icon_url"
+        onGet: "iconOrDefault"
+      ]
+    "span.filename":
+      observe: ["title", "file_name"]
+      onGet: "titleOrPrompt"
+
+  wrap: =>
+    if document_id = @$el.data('document')
+      @model = new Cms.Models.Document(id: document_id)
+      @model.load()
+      @triggerMethod 'wrap'
+
+  onRender: =>
+    @model ?= new Cms.Models.Document
+    super
+
+  documentId: (id) =>
+    "document_#{id}"
+
+  titleOrPrompt: ([title, file_name]=[]) =>
+    title or file_name or t("placeholders.document.file")
+
+  iconOrDefault: (icon_url) =>
+    icon_url or "/images/file_types/pdf.png"
 
 
 ## Quote pseudo-assets
