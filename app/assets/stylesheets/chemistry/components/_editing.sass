@@ -34,13 +34,12 @@ a.control, label.control
   cursor: pointer
   overflow: hidden
   color: white
-  opacity: 0.85
+  opacity: 1
   transition: color 0.25s ease-out, opacity 0.25s ease-out
   border-radius: 16px
+  border: 1px solid white
+  background-color: white
   &:hover
-    color: $dark
-    background-color: white
-    box-shadow: 0 0 15px white
     opacity: 1
   input[type="file"]
     display: none
@@ -49,15 +48,14 @@ a.control, label.control
     height: 32px
     transition: transform 0.5s ease-out
   &.delete
-    &:hover
-      color: $red
-  &.import:hover
+    color: $red
+  &.import
     color: $blue
-  &.choose:hover
+  &.choose
     color: $orange
-  &.add:hover
+  &.add
     color: $green
-  &.properties:hover
+  &.properties
     color: $mid
   &.small
     width: 24px
