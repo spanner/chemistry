@@ -1,0 +1,4 @@
+%label
+  %input{type: "file"}
+  %svg.icon
+    %use{"xlink:href" => "#add_symbol"}

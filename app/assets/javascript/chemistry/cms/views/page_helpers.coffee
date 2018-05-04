@@ -31,12 +31,15 @@ class Cms.Views.ContentPicker extends Cms.View
     @stickit()
     @getRegion('template').show new Cms.Views.TemplatePicker
       model: @model
-    @getRegion('file').show new Cms.Views.PageFilePicker
+    @getRegion('file').show new Cms.Views.PageDocumentPicker
       model: @model
+      collection: new Cms.Collections.Documents
     @getRegion('image').show new Cms.Views.PageImagePicker
       model: @model
+      collection: new Cms.Collections.Images
     @getRegion('video').show new Cms.Views.PageVideoPicker
       model: @model
+      collection: new Cms.Collections.Videos
     @getRegion('url').show new Cms.Views.UrlPicker
       model: @model
 
@@ -128,8 +131,61 @@ class Cms.Views.UrlPicker extends Cms.View
     "span.url": "external_url"
 
 
-class Cms.Views.FilePicker extends Cms.View
-  template: "helpers/pick_file"
+class Cms.Views.PageAssetPicker extends Cms.CompositeView
+  template: "assets/pick_page_asset"
+  childView: Cms.Views.ListedAsset
+  emptyView: Cms.Views.NoAsset
+  childViewContainer: "ul.cms-assets"
+
+  events:
+    "child:select": "setModel"
+
+  ui:
+    upload: "li.upload"
+
+  initialize: ->
+    @collection.load()
+
+  onRender: =>
+    unless @_upload_view
+      @_upload_view = new Cms.Views.PageAssetUploader
+        collection: @collection
+      @ui.upload.append @_upload_view.el
+      @_upload_view.on "create", @setModel
+    @_upload_view.render()
+
+  setModel: (model) =>
+    @trigger "select", model
+
+
+class Cms.Views.PageImagePicker extends Cms.Views.PageAssetPicker
+
+
+class Cms.Views.PageVideoPicker extends Cms.Views.PageAssetPicker
+
+
+class Cms.Views.PageDocumentPicker extends Cms.Views.PageAssetPicker
+  childView: Cms.Views.ListedDocument
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Cms.Views.PageFilePicker extends Cms.PageAssetPicker
+  template: "helpers/page_file"
 
   bindings:
     "span.url": "external_url"

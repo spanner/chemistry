@@ -1,5 +1,0 @@
-%label.control.add.upload
-  %svg.icon.filled
-    %use{"xlink:href" => "#save_button_symbol"}
-  %input{type: "file"}
-

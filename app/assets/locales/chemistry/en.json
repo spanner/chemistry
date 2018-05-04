@@ -9,7 +9,8 @@
     "publish": "Publish",
     "revert": "Revert",
     "save_page": "Save page",
-    "save": "Save"
+    "save": "Save",
+    "upload": "Upload"
   },
   "confirmations": {
     "delete": "Delete this?",
@@ -21,6 +22,9 @@
     "page": "Page",
     "video": "Video",
     "url": "Link"
+  },
+  "files": {
+    "upload": "Upload new file"
   },
   "errors": {
     "page": "Could not save page"
@@ -35,6 +39,9 @@
     "reuse_image": "Choose image",
     "reuse_video": "Choose video",
     "reuse_document": "Choose document"
+  },
+  "images": {
+    "upload": "Upload new image"
   },
   "introductions": {
     "chemistry": "Chemistry helps you to build and manage a tree of pages.",
@@ -139,6 +146,10 @@
     "insert_video": "Place a video",
     "insert_quote": "Place a quote",
     "insert_note": "Place an annotation"
+  },
+  "videos": {
+    "upload": "Upload new video",
+    "import": "Import from URL"
   },
   "waiters": {
     "image_import": "Please wait: fetching and processing remote image.",

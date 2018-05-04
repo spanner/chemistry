@@ -136,40 +136,44 @@ class Cms.Views.AssetEditor extends Cms.View
     @addHelpers()
 
   addHelpers: =>
-    if uploader_view_class = Cms.Views[@getOption('uploaderView')]
-      @_uploader = new uploader_view_class
-        collection: @collection
-      @_uploader.$el.appendTo @ui.buttons
-      @_uploader.render()
-      @_uploader.on "select", @setModel
-      @_uploader.on "create", @update
-      @_uploader.on "pick", => @closeHelpers()
+    if uploader_view_class_name = @getOption('uploaderView')
+      if uploader_view_class = Cms.Views[uploader_view_class_name]
+        @_uploader = new uploader_view_class
+          collection: @collection
+        @_uploader.$el.appendTo @ui.buttons
+        @_uploader.render()
+        @_uploader.on "select", @setModel
+        @_uploader.on "create", @update
+        @_uploader.on "pick", => @closeHelpers()
 
-    if importer_view_class = Cms.Views[@getOption('importerView')]
-      @_importer = new importer_view_class
-        collection: @collection
-      @_importer.$el.appendTo @ui.buttons
-      @_importer.render()
-      @_importer.on "select", @setModel
-      @_uploader.on "create", @update
-      @_importer.on "open", => @closeOtherHelpers(@_importer)
+    if importer_view_class_name = @getOption('importerView')
+      if importer_view_class = Cms.Views[importer_view_class_name]
+        @_importer = new importer_view_class
+          collection: @collection
+        @_importer.$el.appendTo @ui.buttons
+        @_importer.render()
+        @_importer.on "select", @setModel
+        @_uploader.on "create", @update
+        @_importer.on "open", => @closeOtherHelpers(@_importer)
 
-    if picker_view_class = Cms.Views[@getOption('pickerView')]
-      @_picker = new picker_view_class
-        collection: @collection
-      @_picker.$el.appendTo @ui.buttons
-      @_picker.render()
-      @_picker.on "select", @setModel
-      @_picker.on "open", => @closeOtherHelpers(@_picker)
+    if picker_view_class_name = @getOption('pickerView')
+      if picker_view_class = Cms.Views[picker_view_class_name ]
+        @_picker = new picker_view_class
+          collection: @collection
+        @_picker.$el.appendTo @ui.buttons
+        @_picker.render()
+        @_picker.on "select", @setModel
+        @_picker.on "open", => @closeOtherHelpers(@_picker)
 
     if _cms.getOption('asset_styles')
-      if styler_view_class = Cms.Views[@getOption('stylerView')]
-        @_styler = new styler_view_class
-          model: @model
-        @_styler.$el.appendTo @ui.buttons
-        @_styler.render()
-        @_styler.on "styled", @setStyle
-        @_styler.on "open", => @closeOtherHelpers(@_styler)
+      if styler_view_class_name = @getOption('stylerView')
+        if styler_view_class = Cms.Views[styler_view_class_name]
+          @_styler = new styler_view_class
+            model: @model
+          @_styler.$el.appendTo @ui.buttons
+          @_styler.render()
+          @_styler.on "styled", @setStyle
+          @_styler.on "open", => @closeOtherHelpers(@_styler)
 
 
   ## Selection controls
@@ -252,8 +256,7 @@ class Cms.Views.AssetEditor extends Cms.View
 class Cms.Views.ImageEditor extends Cms.Views.AssetEditor
   template: "assets/image_editor"
   pickerView: "ImagePicker"
-  importerView: "ImageImporter"
-  uploaderView: "ImageUploader"
+  uploaderView: "AssetUploader"
 
   initialize: (data, options={}) ->
     @collection ?= new Cms.Collections.Images
@@ -264,7 +267,7 @@ class Cms.Views.VideoEditor extends Cms.Views.AssetEditor
   template: "assets/video_editor"
   pickerView: "VideoPicker"
   importerView: "VideoImporter"
-  uploaderView: "VideoUploader"
+  uploaderView: "AssetUploader"
 
   initialize: ->
     @collection ?= new Cms.Collections.Videos
@@ -274,7 +277,7 @@ class Cms.Views.VideoEditor extends Cms.Views.AssetEditor
 class Cms.Views.DocumentEditor extends Cms.Views.AssetEditor
   template: "assets/document_editor"
   pickerView: "DocumentPicker"
-  uploaderView: "DocumentUploader"
+  uploaderView: "AssetUploader"
 
   initialize: (data, options={}) ->
     @collection ?= new Cms.Collections.Documents
@@ -396,6 +399,7 @@ class Cms.Views.DocumentImporter extends Cms.Views.AssetImporter
 # Take a file, turn it into an Asset and call setModel on the Asset container.
 #
 class Cms.Views.AssetUploader extends Cms.View
+  template: "assets/asset_uploader"
   tagName: "div"
   className: "uploader"
 
@@ -449,16 +453,20 @@ class Cms.Views.AssetUploader extends Cms.View
     e?.stopPropagation()
 
 
-class Cms.Views.ImageUploader extends Cms.Views.AssetUploader
-  template: "assets/image_uploader"
-  
-
-class Cms.Views.VideoUploader extends Cms.Views.AssetUploader
-  template: "assets/video_uploader"
+class Cms.Views.PageAssetUploader extends Cms.View
+  template: "assets/page_asset_uploader"
 
 
-class Cms.Views.DocumentUploader extends Cms.Views.AssetUploader
-  template: "assets/document_uploader"
+# class Cms.Views.ImageUploader extends Cms.Views.AssetUploader
+#   template: "assets/image_uploader"
+#
+#
+# class Cms.Views.VideoUploader extends Cms.Views.AssetUploader
+#   template: "assets/video_uploader"
+#
+#
+# class Cms.Views.DocumentUploader extends Cms.Views.AssetUploader
+#   template: "assets/document_uploader"
 
 
 ## Asset stylers

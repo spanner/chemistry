@@ -100,6 +100,8 @@ class Cms.Views.ListedDocument extends Cms.Views.ListedAsset
 class Cms.Views.AssetList extends Cms.CollectionView
   childView: Cms.Views.ListedAsset
   emptyView: Cms.Views.NoListedAsset
+  tagName: "ul"
+  className: "cms-assets"
 
   childViewTriggers:
     'select': 'select'
