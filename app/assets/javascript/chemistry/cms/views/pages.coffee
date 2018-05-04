@@ -1,7 +1,7 @@
 # Page-editing view
 #
 class Cms.Views.Page extends Cms.View
-  template: "page"
+  template: "pages/page"
 
   regions:
     sections:
@@ -47,7 +47,7 @@ class Cms.Views.PageRenderer extends Cms.Views.Page
 # Main page list
 #
 class Cms.Views.ListedPage extends Cms.Views.ListedView
-  template: "page_listed"
+  template: "pages/page_listed"
   className: "page"
 
   ui:
@@ -110,7 +110,7 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
 
 
 class Cms.Views.TreePage extends Cms.Views.ListedPage
-  template: "page_in_tree"
+  template: "pages/page_in_tree"
 
   triggers:
     "click a.config": "config"
@@ -129,7 +129,7 @@ class Cms.Views.TreePage extends Cms.Views.ListedPage
 
 
 class Cms.Views.NoPage extends Cms.View
-  template: "no_page"
+  template: "pages/no_page"
   tagName: "li"
   className: "page new"
 
@@ -151,7 +151,7 @@ class Cms.Views.PageTree extends Cms.Views.Pages
 
 
 class Cms.Views.PagesIndex extends Cms.Views.IndexView
-  template: "pages"
+  template: "pages/index"
 
   regions:
     pages:
@@ -258,13 +258,11 @@ class Cms.Views.ParentPagePicker extends Cms.View
 # Used to modify existing or create new pages.
 #
 class Cms.Views.ConfigPage extends Cms.Views.FloatingView
-  template: "config_page"
+  template: "pages/config_page"
 
   regions:
     parent: ".parent_picker"
-    template: ".template_picker"
-    file: ".file_picker"
-    url: ".url_picker"
+    content: ".content_picker"
     keywords: ".terms_picker"
     dates: ".dates_picker"
 
@@ -281,17 +279,6 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
         valid:
           observe: "title"
           onGet: "ifPresent"
-    'input[name="content"]':
-      observe: "content"
-    '.if_page':
-      observe: "content"
-      visible: "ifPage"
-    '.if_file':
-      observe: "content"
-      visible: "ifFile"
-    '.if_url':
-      observe: "content"
-      visible: "ifUrl"
     "a.save":
       classes:
         available:
@@ -307,24 +294,14 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
 
   onRender: =>
     @stickit()
-    if @regions.template
-      @getRegion('template').show new Cms.Views.TemplatePicker
-        model: @model
-    if @regions.file
-      @getRegion('file').show new Cms.Views.FilePicker
-        model: @model
-    if @regions.url
-      @getRegion('url').show new Cms.Views.UrlPicker
-        model: @model
-    if @regions.parent
-      @getRegion('parent').show new Cms.Views.ParentPagePicker
-        model: @model
-    if @regions.keywords
-      @getRegion('keywords').show new Cms.Views.TermsPicker
-        model: @model
-    if @regions.dates
-      @getRegion('dates').show new Cms.Views.DatesPicker
-        model: @model
+    @getRegion('parent').show new Cms.Views.ParentPagePicker
+      model: @model
+    @getRegion('content').show new Cms.Views.ContentPicker
+      model: @model
+    @getRegion('keywords').show new Cms.Views.TermsPicker
+      model: @model
+    @getRegion('dates').show new Cms.Views.DatesPicker
+      model: @model
 
   saveAndEdit: (e) =>
     @containEvent(e)
@@ -335,35 +312,18 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
         if @model.get('content') is 'page'
           _cms.navigate "/#{@model.singularName()}/edit/#{id}"
 
-
   saveAndClose: (e) =>
     @containEvent(e)
     @model.save().done =>
       @trigger 'close'
 
-  ifPage: (content) =>
-    content is "page"
-
-  ifFile: (content) =>
-    content is "file"
-
-  ifUrl: (content) =>
-    content is "url"
-
 
 class Cms.Views.NewPage extends Cms.Views.ConfigPage
-  template: "new_page"
-  regions:
-    parent: ".parent_picker"
-    template: ".template_picker"
-    file: ".file_picker"
-    url: ".url_picker"
-    keywords: ".terms_picker"
-    dates: ".dates_picker"
+  template: "pages/new_page"
   events:
     "click a.save": "saveAndEdit"
 
 
 class Cms.Views.NewHomePage extends Cms.Views.NewPage
-  template: "new_home_page"
+  template: "pages/new_home_page"
 

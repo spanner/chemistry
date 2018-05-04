@@ -1,0 +1,29 @@
+.mask
+
+%a.close
+  %svg
+    %use{"xlink:href" => "#close_symbol"}
+
+.form
+  %h2.page
+    %svg.page
+      %use{"xlink:href" => "#new_page_symbol"}
+    %span.detail
+      %span.heading
+        = t('pages.new_title')
+      %span.description
+        = t('pages.new_description')
+
+  %p
+    %span.title.required{contenteditable: "true", data: {placeholder: t('placeholders.page.title')}}
+
+  .parent_picker
+  .content_picker
+  .dates_picker
+  .terms_picker
+
+  .buttons
+    %a.save.button
+      = t('buttons.create_page')
+    %a.cancel.button
+      = t('buttons.cancel')

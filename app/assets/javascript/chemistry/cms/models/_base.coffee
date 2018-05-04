@@ -15,6 +15,7 @@ class Cms.Model extends Backbone.Model
   autoload: false
   savedAttributes: []
   savedAssociations: []
+  uploadProgress: false
 
   initialize: (opts={}) ->
     @_class_name = @constructor.name
@@ -51,7 +52,8 @@ class Cms.Model extends Backbone.Model
     @defaults[attribute] = value
     @_original_attributes[attribute] = value
 
-  ## Load and save
+
+  ## Load
   # Loading is promised. Actions that should be taken only when a model needs no further fetching
   # can be triggered safely with `model.loadAnd(function)` or `model.whenLoaded(function)`,
   # which does not itself trigger loading but will call back when loading is complete.
@@ -65,11 +67,6 @@ class Cms.Model extends Backbone.Model
     @_loaded = $.Deferred()
     @_loaded.resolve() if @isNew()
     @_loading = false
-
-  prepareSaver: =>
-    @_saved = $.Deferred()
-    @_saved.resolve() unless @isNew()
-    @_saving = false
 
   loadAnd: (fn) =>
     @_loaded.done fn
@@ -110,11 +107,21 @@ class Cms.Model extends Backbone.Model
   loadIfBare: =>
     @load() if @isBare()
 
-  # true if we have only an id, which would mean we are meant to be fetched.
+  # true if we have _only_ an idAttribute, which would mean we are meant to be fetched.
   isBare: =>
     bare_attributes = {}
     bare_attributes[@idAttribute] = @get(@idAttribute)
     _.isEqual @attributes, bare_attributes
+
+
+  ## Saving
+  # Here we override save to wrap a promise around it and attach callbacks.
+  # In application.js we also override sync to add progress handlers.
+  #
+  prepareSaver: =>
+    @_saved = $.Deferred()
+    @_saved.resolve() unless @isNew()
+    @_saving = false
 
   save: =>
     @log "🛠 model save", @_saving
@@ -136,6 +143,31 @@ class Cms.Model extends Backbone.Model
 
   revert: =>
     @reload()
+
+
+  ## Upload progress
+  # Callbacks that capture progress values for display purposes.
+  # This is called from a `beforeSend` hook in sync.
+  #
+  isProgressive: =>
+    _.result @, 'uploadProgress'
+
+  startProgress: () =>
+    @_job = _cms.addJob()
+    @_job.setStatus('Saving')
+    @set "progressing", true
+
+  setProgress: (p) =>
+    @_job?.setProgress(p)
+
+  finishProgress: () =>
+    @_job?.finish()
+    @_job?.discard()
+    @set "progressing", false
+
+  failProgress: (error) =>
+    @_job?.fail(error)
+
 
   ## Construction
   #
@@ -264,26 +296,6 @@ class Cms.Model extends Backbone.Model
       for association_name in associations
         json["#{association_name}_data"] = @[association_name].toJSONWithAssociations()
     json
-
-
-  ## Save progress
-  # Callbacks that capture progress values for display purposes.
-  #
-  startProgress: () =>
-    @_job = _cms.addJob()
-    @_job.setStatus('Saving')
-    @set "progressing", true
-
-  setProgress: (p) =>
-    @_job?.setProgress(p)
-
-  finishProgress: () =>
-    @_job?.finish()
-    @_job?.discard()
-    @set "progressing", false
-
-  failProgress: (error) =>
-    @_job?.fail(error)
 
 
   ## Change monitoring

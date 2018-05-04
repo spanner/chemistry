@@ -16,8 +16,10 @@
     "delete_page": "Delete this page?"
   },
   "content": {
-    "page": "Page",
     "file": "Document",
+    "image": "Image",
+    "page": "Page",
+    "video": "Video",
     "url": "Link"
   },
   "errors": {

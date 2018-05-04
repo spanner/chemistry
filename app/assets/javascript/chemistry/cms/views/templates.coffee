@@ -1,5 +1,5 @@
 class Cms.Views.Template extends Cms.View
-  template: "template"
+  template: "templates/template"
 
   ui:
     placeholders: "#placeholders"
@@ -16,14 +16,14 @@ class Cms.Views.Template extends Cms.View
 
 
 class Cms.Views.ListedTemplate extends Cms.View
-  template: "listed_template"
+  template: "templates/listed_template"
   bindings:
     ".title": "title"
     ".description": "description"
 
 
 class Cms.Views.TemplateChoice extends Cms.Views.ChoiceView
-  template: "template_choice"
+  template: "templates/template_choice"
   tagName: "li"
   className: "template choice"
   bindings:
@@ -48,7 +48,7 @@ class Cms.Views.TemplateChoice extends Cms.Views.ChoiceView
 
 
 class Cms.Views.NoTemplateChoice extends Cms.Views.ChoiceView
-  template: "no_template_choice"
+  template: "templates/no_template_choice"
   tagName: "li"
   className: "template choice new"
 

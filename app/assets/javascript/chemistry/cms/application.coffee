@@ -118,14 +118,15 @@ class Cms.Application extends Backbone.Marionette.Application
     unless method is "read"
       original_success = opts.success
       opts.attrs = model.toJSONWithRootAndAssociations()
-      model.startProgress()
-      opts.beforeSend = (xhr, settings) ->
-        settings.xhr = () ->
-          xhr = new window.XMLHttpRequest()
-          xhr.upload.addEventListener "progress", (e) ->
-            model.setProgress e
-          , false
-          xhr
+      if model.isProgressive()
+        model.startProgress()
+        opts.beforeSend = (xhr, settings) ->
+          settings.xhr = () ->
+            xhr = new window.XMLHttpRequest()
+            xhr.upload.addEventListener "progress", (e) ->
+              model.setProgress e
+            , false
+            xhr
       opts.success = (data, status, request) ->
         model.finishProgress(true)
         original_success(data, status, request)

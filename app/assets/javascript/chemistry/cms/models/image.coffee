@@ -1,5 +1,6 @@
 class Cms.Models.Image extends Cms.Model
   savedAttributes: ["title", "caption", "file_data", "file_name", "remote_url"]
+  uploadProgress: true
 
   initialize: () ->
     super

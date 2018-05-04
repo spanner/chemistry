@@ -429,7 +429,6 @@ class Cms.Views.AssetUploader extends Cms.View
 
   # `readLocalFile` is called either from here or from the outer Editor on file drop.
   readLocalFile: (file) =>
-    @log "🤡 readLocalFile", file
     if file?
       reader = new FileReader()
       reader.onloadend = =>
