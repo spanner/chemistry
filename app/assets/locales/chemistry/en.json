@@ -16,6 +16,12 @@
     "delete": "Delete this?",
     "delete_page": "Delete this page?"
   },
+  "conjunctions": {
+    "between": " between ",
+    "from": " from ",
+    "of": " of ",
+    "to": " to "
+  },
   "content": {
     "file": "Document",
     "image": "Image",

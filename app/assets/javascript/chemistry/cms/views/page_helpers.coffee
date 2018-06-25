@@ -101,26 +101,48 @@ class Cms.Views.DatesPicker extends Cms.View
   ui:
     dates: 'span.dates'
 
+  bindings:
+    "span.dates":
+      observe: ["began_at", "ended_at"]
+      onGet: "describeDates"
+
   onRender: =>
     @stickit()
-    model = @model
-    if model.get('began_at') and model.get('ended_at')
-      @ui.dates.text [model.get('began_at'), model.get('ended_at')].join(' to ')
-    @ui.dates.dateRangePicker
-      monthSelect: true
-      yearSelect: true
+    @ui.dates.datepicker
+      range: true
+      toggleSelected: false
       autoClose: true
-      singleDate : false
-      singleMonth: false
-      showShortcuts: false
-      showTopbar: false
-      getValue: () ->
-        @innerHTML
-      setValue: (s, d1, d2) -> 
-        model.set
-          began_at: d1
-          ended_at: d2
-        @innerHTML = s
+      inline: false
+      language: "en"
+      dateFormat: "d M yyyy"
+      onSelect: @onPickDates
+
+  onPickDates: (fd, dates, picker) =>
+    @log "[adp] onPickDates", dates
+    if dates.length == 2
+      @model.set
+        began_at: moment(dates[0])
+        ended_at: moment(dates[1])
+      ,
+        from_picker: true
+
+  describeDates: ([began_at, ended_at]=[]) =>
+    console.log "[adp] describeDates", began_at, ended_at
+    parts = []
+    if ended_at
+      if began_at
+        if ended_at.isSame(began_at, 'day')
+          # we can omit date_from
+        else if ended_at.isSame(began_at, 'month')
+          parts.push began_at.format("D")
+        else if ended_at.isSame(began_at, 'year')
+          parts.push began_at.format("D MMM")
+        else
+          parts.push began_at.format("D MMM YYYY")
+      parts.push ended_at.format("D MMM YYYY")
+    else if began_at
+      parts.push began_at.format("D MMM YYYY")
+    parts.join t('conjunctions.to')
 
 
 class Cms.Views.UrlPicker extends Cms.View

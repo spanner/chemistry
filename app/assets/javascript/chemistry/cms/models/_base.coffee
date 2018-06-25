@@ -189,7 +189,7 @@ class Cms.Model extends Backbone.Model
     true
 
   momentify: (data) =>
-    for col in ["created_at", "updated_at", "published_at", "deleted_at"]
+    for col in ["created_at", "updated_at", "published_at", "deleted_at", "began_at", "ended_at"]
       if string = data[col]
         @log "momenting", col, string
         data[col] = moment(string)
