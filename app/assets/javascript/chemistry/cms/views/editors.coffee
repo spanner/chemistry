@@ -9,8 +9,6 @@ class Cms.Views.HtmlEditor extends Cms.View
     @render()
 
   onRender: =>
-    @log "👉 onRender"
-    
     @$el.find('figure.image').each (i, el) =>
       @addView new Cms.Views.Image
         el: el

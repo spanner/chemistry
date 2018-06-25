@@ -34,14 +34,16 @@ class Cms.Views.Page extends Cms.View
 
 
 class Cms.Views.PageRenderer extends Cms.Views.Page
-  template: "rendered_page"
+  template: "pages/rendered_page"
 
   onRender: =>
     @addView new Cms.Views.RenderedSections
       page: @model
       collection: @model.sections
       el: @ui.content
-    @model.set 'rendered_html', @ui.content.html()
+    rendered = @ui.content.html()
+    @log "rendered", rendered
+    @model.set 'rendered_html', rendered
 
 
 # Main page list

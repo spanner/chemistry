@@ -175,7 +175,7 @@ class Cms.Application extends Backbone.Marionette.Application
     @log "Complaint:", message
     @notify message, duration, 'error'
 
-  notify: (html_or_text, duration=4000, notice_type='information') =>
+  notify: (html_or_text, duration=3000, notice_type='information') =>
     if @ui
       @notices.add
         message: html_or_text

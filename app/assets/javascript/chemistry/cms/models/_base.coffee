@@ -124,7 +124,6 @@ class Cms.Model extends Backbone.Model
     @_saving = false
 
   save: =>
-    @log "🛠 model save", @_saving
     unless @_saving
       @_saved = $.Deferred()
       @_saving = true
@@ -135,7 +134,11 @@ class Cms.Model extends Backbone.Model
   saved: (data) =>
     @_saving = false
     @_saved.resolve(data)
+    @confirmSave()
     @resetChanges()
+
+  confirmSave: =>
+    @confirm t('reassurances.saved')
 
   notSaved: (error) =>
     @_saving = false
@@ -375,6 +378,11 @@ class Cms.Model extends Backbone.Model
   log: ->
     _cms.log "[#{@constructor.name}]", arguments...
 
+  confirm: ->
+    _cms.confirm arguments...
+
+  complain: ->
+    _cms.complain arguments...
 
 
 class Cms.Collection extends Backbone.Collection

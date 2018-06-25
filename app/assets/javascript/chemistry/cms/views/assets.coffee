@@ -360,6 +360,7 @@ class Cms.Views.Quote extends Cms.Views.Asset
     @model = new Cms.Models.Quote
       utterance: @$el.find('blockquote').text()
       caption: @$el.find('figcaption').text()
+    @log "→ wrapped quote", @el, _.clone(@model.attributes)
 
   focus: =>
     @ui.quote.focus()
@@ -380,7 +381,6 @@ class Cms.Views.Quote extends Cms.Views.Asset
 #
 # Just html, with no reference to an external asset, but editable and stylable like an embedded object.
 #
-
 class Cms.Views.Note extends Cms.Views.Asset
   editorView: "NoteEditor"
   template: "assets/note"

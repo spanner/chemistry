@@ -26,20 +26,21 @@ class Cms.Models.Page extends Cms.Model
 
   publish: () =>
     @render()
-    @save()
+    # @save()
     $.ajax
       url: @url() + "/publish"
       data:
         rendered_html: @get('rendered_html')
       method: "PUT"
-      success: @published
-      error: @failedToPublish
+      success: @publishSucceeded
+      error: @publishFailed
 
-  published: (response) =>
+  publishSucceeded: (response) =>
     attrs = @parse response
     @set attrs
+    @confirm t('reassurances.page_published')
 
-  failedToPublish: (request) =>
+  publishFailed: (request) =>
     #...
     debugger
 
@@ -50,6 +51,8 @@ class Cms.Models.Page extends Cms.Model
     @reload()
     @sections.reload()
 
+  confirmSave: =>
+    @confirm t('reassurances.page_saved')
 
 
 class Cms.Collections.Pages extends Cms.Collection

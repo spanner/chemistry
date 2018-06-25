@@ -282,10 +282,13 @@ class Cms.Views.DocumentEditor extends Cms.Views.AssetEditor
 
 class Cms.Views.QuoteEditor extends Cms.Views.AssetEditor
   template: "assets/quote_editor"
-
+  importerView: false
+  uploaderView: false
 
 class Cms.Views.NoteEditor extends Cms.Views.AssetEditor
   template: "assets/note_editor"
+  importerView: false
+  uploaderView: false
 
 
 ## Asset pickers

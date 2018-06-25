@@ -140,7 +140,9 @@
     }
   },
   "reassurances": {
-    "page_saved": "Page saved"
+    "page_saved": "Page saved",
+    "page_published": "Page published",
+    "saved": "Saved"
   },
   "sorts": {
     "by_date": "Date",
