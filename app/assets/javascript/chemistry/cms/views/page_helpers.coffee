@@ -168,23 +168,7 @@ class Cms.Views.PageDocumentPicker extends Cms.Views.PageAssetPicker
   childView: Cms.Views.ListedDocument
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class Cms.Views.PageFilePicker extends Cms.PageAssetPicker
+class Cms.Views.PageFilePicker extends Cms.Views.PageAssetPicker
   template: "helpers/page_file"
 
   bindings:

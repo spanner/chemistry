@@ -207,14 +207,12 @@ class Cms.Views.AssetEditor extends Cms.View
   # Dropped file is passed to our uploader for processing.
   #
   dragOver: (e) =>
-    @log "🤡 dragOver"
     e?.preventDefault()
     if e.originalEvent.dataTransfer
       e.originalEvent.dataTransfer.dropEffect = 'copy'
 
   catchFiles: (e) =>
     @lookNormal()
-    @log "🤡 catchFiles", e?.originalEvent.dataTransfer?.files
     if e?.originalEvent.dataTransfer?.files.length
       @containEvent(e)
       @readFile e.originalEvent.dataTransfer.files
@@ -225,12 +223,10 @@ class Cms.Views.AssetEditor extends Cms.View
     @_uploader.readLocalFile(files[0]) if @_uploader and files.length
 
   lookAvailable: (e) =>
-    @log "🤡 lookAvailable"
     e?.stopPropagation()
     @$el.addClass('droppable')
 
   lookNormal: (e) =>
-    @log "🤡 lookNormal"
     e?.stopPropagation()
     @$el.removeClass('droppable')
 
@@ -304,7 +300,7 @@ class Cms.Views.AssetPicker extends Cms.Views.MenuView
   ui:
     head: ".menu-head"
     body: ".menu-body"
-    list: "ul.cms-assets"
+    list: ".pick"
     closer: "a.close"
 
   onOpen: =>
@@ -313,12 +309,13 @@ class Cms.Views.AssetPicker extends Cms.Views.MenuView
       @_list_view = new Cms.Views[list_view_class]
         collection: @collection
       @ui.list.append @_list_view.el
-      @_list_view.on "select", @setModel
+      @log "🤡 onOpen appending list view to", @ui.list
+      @_list_view.on "select", @selectModel
     @collection.reload()
     @_list_view.render()
 
   # passed back to the Asset view.
-  setModel: (model) =>
+  selectModel: (model) =>
     @close()
     @trigger "select", model
 
