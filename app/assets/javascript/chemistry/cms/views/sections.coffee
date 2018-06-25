@@ -1,8 +1,6 @@
 class Cms.Views.Section extends Cms.View
   tagName: "section"
-
   className: => @model?.get('section_type_slug')
-
   template: => @model?.getTemplate()
 
   ui:
@@ -10,6 +8,7 @@ class Cms.Views.Section extends Cms.View
     editable_background_image: '[data-cms-editor="bg"]'
     editable_html: '[data-cms-editor="html"]'
     editable_string: '[data-cms-editor="string"]'
+    contents_list: '[data-cms-role="contents"]'
 
   bindings:
     ":el":
@@ -46,12 +45,12 @@ class Cms.Views.Section extends Cms.View
     super
     # wrap editing controls around content elements
     @addEditors()
+    @showContents()
 
   sectionId: (id) -> 
     "section_#{id}"
 
   setPlaceholders: =>
-    @log "👉 setPlaceholders"
     if slug = @model.get('section_type_slug')
       for att in ['title', 'primary', 'secondary', 'caption']
         ph = null
@@ -59,7 +58,6 @@ class Cms.Views.Section extends Cms.View
           ph = t("placeholders.sections.#{slug}.#{att}")
         else if _cms.translationAvailable("placeholders.sections.#{att}")
           ph = t("placeholders.sections.#{att}")
-        @log "👉 setPlaceholders", slug, att, "->", ph
         if ph
           @$el.find('[data-cms-role="' + att + '"]').attr('data-placeholder', ph)
 
@@ -83,6 +81,12 @@ class Cms.Views.Section extends Cms.View
     @ui.editable_background_image.each (i, el) =>
       @addView new Cms.Views.BackgroundImageEditor
         model: @model
+        el: el
+
+  showContents: =>
+    @ui.contents_list.each (i, el) =>
+      @addView new Cms.Views.ChildPages
+        collection: @page.getChildren()
         el: el
 
 

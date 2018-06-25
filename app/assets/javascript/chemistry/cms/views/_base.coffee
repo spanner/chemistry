@@ -43,6 +43,15 @@ class Cms.View extends Backbone.Marionette.View
     else
       @editMeHref(id)
 
+  publicPageHref: ([path, content, external_url, file_url]=[]) =>
+    @log "publicPageHref", path, content, external_url, file_url
+    if content is 'url'
+      external_url
+    else if content is 'file'
+      file_url
+    else
+      path
+
   ## onGet helpers
   #
   untrue: (value) =>

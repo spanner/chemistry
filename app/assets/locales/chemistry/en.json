@@ -97,6 +97,7 @@
     "page": {
       "dates": "Period (optional)",
       "parent": "Parent page",
+      "summary": "Summary",
       "title": "Page title",
       "url": "External URL"
     },

@@ -125,6 +125,7 @@ module Chemistry
         :external_url,
         :document_id,
         :title,
+        :summary,
         :keywords,
         :began_at,
         :ended_at,
@@ -146,6 +147,7 @@ module Chemistry
 
     def publish_page_params
       params.permit(
+        :excerpt,
         :rendered_html
       )
     end

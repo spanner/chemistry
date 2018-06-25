@@ -69,6 +69,9 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
     ".title":
       observe: "title"
       onGet: "shortTitle"
+    ".summary":
+      observe: "summary"
+      onGet: "shortSummary"
     "use.template":
       attributes: [
         name: "xlink:href"
@@ -93,6 +96,7 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
         el: @ui.deleter
 
   onRendered: =>
+    @bindUIElements()
     balanceText('span.title')
     if @model.get('content') is 'page'
       @ui.link.removeAttr('target')
@@ -109,6 +113,8 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
   shortTitle: (title) =>
     @shortAndClean(title, 48)
 
+  shortSummary: (summary) =>
+    @shortAndClean(summary, 96)
 
 
 class Cms.Views.TreePage extends Cms.Views.ListedPage
@@ -128,6 +134,16 @@ class Cms.Views.TreePage extends Cms.Views.ListedPage
 
   indentStyle: (depth) =>
     "width: #{depth * 8}%"
+
+
+class Cms.Views.ContentsPage extends Cms.Views.ListedPage
+  template: "pages/page_in_contents"
+
+  shortTitle: (title) =>
+    @shortAndClean(title, 64)
+
+  shortSummary: (summary) =>
+    @shortAndClean(summary, 128)
 
 
 class Cms.Views.NoPage extends Cms.View
@@ -150,6 +166,12 @@ class Cms.Views.Pages extends Cms.CollectionView
 
 class Cms.Views.PageTree extends Cms.Views.Pages
   childView: Cms.Views.TreePage
+
+
+class Cms.Views.ChildPages extends Cms.Views.Pages
+  childView: Cms.Views.ContentsPage
+  tagName: "ul"
+  className: "contents"
 
 
 class Cms.Views.PagesIndex extends Cms.Views.IndexView
@@ -281,6 +303,8 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
         valid:
           observe: "title"
           onGet: "ifPresent"
+    "span.summary":
+      observe: "summary"
     "a.save":
       classes:
         available:

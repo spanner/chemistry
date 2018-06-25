@@ -16,6 +16,8 @@
 
   %p
     %span.title.required{contenteditable: "true", data: {placeholder: t('placeholders.page.title')}}
+  %p
+    %span.summary{contenteditable: "true", data: {placeholder: t('placeholders.page.summary')}}
 
   .parent_picker
   .content_picker

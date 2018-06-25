@@ -54,6 +54,9 @@ class Cms.Models.Page extends Cms.Model
   confirmSave: =>
     @confirm t('reassurances.page_saved')
 
+  getChildren: =>
+    new Cms.Collections.Pages(_cms.pages.where(parent_id: @id))
+
 
 class Cms.Collections.Pages extends Cms.Collection
   model: Cms.Models.Page
