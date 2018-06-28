@@ -19,6 +19,9 @@ module Chemistry
     validates :title, presence: true
     validates :path, uniqueness: {conditions: -> { where(deleted_at: nil) }}
 
+    after_create :init_sections
+    after_update :reinit_sections_if_changed
+
     scope :undeleted, -> { where(deleted_at: nil) }
     scope :published, -> { undeleted.where.not(published_at: nil) }
 
@@ -172,6 +175,10 @@ module Chemistry
 
         self.sections = revised_sections + leftover_sections
       end
+    end
+
+    def reinit_sections_if_changed
+      init_sections if template && (sections.empty? || saved_change_to_template_id?)
     end
 
   end

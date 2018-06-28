@@ -3,8 +3,11 @@ module Chemistry
     acts_as_paranoid
     acts_as_list
 
+    has_many :pages, dependent: :nullify
     has_many :placeholders, -> {order(:position)}, dependent: :destroy
     validates :title, presence: true
+
+    after_update :reinit_page_sections
 
     def section_types
       placeholders.map(&:section_type).map(&:slug)
@@ -24,7 +27,11 @@ module Chemistry
       end
     end
 
-    # TODO on change of placeholder sequence,
-    # assign to all existing pages by find_or_creating in the existing sections then pending any no longer mentioned.
+    # TODO modify to act only if section list has changed
+    def reinit_page_sections
+      pages.all.each do |p|
+        p.send :init_sections
+      end
+    end
   end
 end
