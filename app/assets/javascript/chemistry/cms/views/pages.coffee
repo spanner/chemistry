@@ -2,19 +2,20 @@
 #
 class Cms.Views.Page extends Cms.View
   template: "pages/page"
+  tagName: "article"
 
   regions:
     sections:
-      el: "#page_content"
+      el: ".cms-sections"
     config:
       el: "#config"
       regionClass: Cms.FloatingRegion
 
   ui:
-    content: "#page_content"
+    sections: ".cms-sections"
 
   bindings:
-    "#page_content":
+    ":el":
       attributes: [
         name: "class"
         observe: "template"
@@ -40,8 +41,8 @@ class Cms.Views.PageRenderer extends Cms.Views.Page
     @addView new Cms.Views.RenderedSections
       page: @model
       collection: @model.sections
-      el: @ui.content
-    rendered = @ui.content.html()
+      el: @ui.sections
+    rendered = @ui.sections.html()
     @log "rendered", rendered
     @model.set 'rendered_html', rendered
 

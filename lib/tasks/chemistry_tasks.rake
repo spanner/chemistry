@@ -14,7 +14,12 @@ namespace :chemistry do
 
 
   task :seed => :environment do
-    section_types = JSON.parse(File.read(File.expand_path('../../../db/import/v1/section_types.json', __FILE__)))
+    if File.exist? Rails.root + "db/import/v1/section_types.json"
+      path = Rails.root + "db/import/v1/section_types.json"
+    else
+      path = File.expand_path('../../../db/import/v1/section_types.json', __FILE__)
+    end
+    section_types = JSON.parse(File.read(path))
     section_types.each do |st|
       begin
         if section_type = Chemistry::SectionType.find_by(slug: st['slug'])
@@ -29,7 +34,12 @@ namespace :chemistry do
       end
     end
 
-    templates = JSON.parse(File.read(File.expand_path('../../../db/import/v1/templates.json', __FILE__)))
+    if File.exist? Rails.root + "db/import/v1/templates.json"
+      path = Rails.root + "db/import/v1/templates.json"
+    else
+      path = File.expand_path('../../../db/import/v1/templates.json', __FILE__)
+    end
+    templates = JSON.parse(File.read(path))
     templates.each do |t|
       begin
         if template = Chemistry::Template.find_by(title: t['title'])
