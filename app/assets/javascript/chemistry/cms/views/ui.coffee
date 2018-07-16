@@ -12,17 +12,22 @@ class Cms.Views.UI extends Cms.View
   template: "ui"
 
   regions:
-    nav: "#nav"
+    nav: "#cms-nav"
     notices: "#notices"
     main: "#main"
     floater:
       el: "#floater"
       regionClass: Cms.FloatingRegion
 
+  ui:
+    nav: "#cms-nav"
+
   onRender: =>
     @_view = null
     @_collection = null
     @_nav = new Cms.Views.Nav
+    @_nav.on "toggle", @toggleNav
+    @_nav.on "hide", @hideNav
     @getRegion('nav').show @_nav
     @getRegion('notices').show new Cms.Views.Notices
       collection: _cms.notices
@@ -90,13 +95,25 @@ class Cms.Views.UI extends Cms.View
     @getRegion('main').show view
 
   # Nav presents the save / revert / publish controls
-  # and various other utility views.
+  # and the main collection view navigation links.
   #
   setNavModel: (model) =>
     @_nav.setModel(model)
 
   clearNavModel: () =>
     @_nav.setModel(null)
+
+  toggleNav: =>
+    if @ui.nav.hasClass('up')
+      @hideNav()
+    else
+      @showNav()
+
+  hideNav: (e) =>
+    @ui.nav.removeClass('up')
+
+  showNav: (e) =>
+    @ui.nav.addClass('up')
 
   # Floating region handles closure, masking, etc.
   #

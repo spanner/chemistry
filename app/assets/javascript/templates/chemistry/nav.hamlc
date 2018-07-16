@@ -1,18 +1,17 @@
-%a.menu
-  %svg
-    %use{"xlink:href" => "#flask_symbol"}
+#navbg
 
-#controls
+%a.menu
+  %svg.open
+    %use{"xlink:href" => "#flask_symbol"}
+  %svg.close
+    %use{"xlink:href" => "#close_symbol"}
+
 #queue
 
 %nav.submenu
-  .mask
+  #cms-controls
 
-  %ul
-    %li
-      %a.close
-        %svg.icon
-          %use{"xlink:href" => "#flask_symbol"}
+  %ul.menu
     %li
       %a{href: "/"}
         %svg.icon

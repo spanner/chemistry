@@ -2,7 +2,7 @@ class Cms.Views.Nav extends Cms.View
   template: "nav"
 
   regions:
-    controls: "#controls"
+    controls: "#cms-controls"
     queue: "#queue"
     dialog:
       el: "#dialog"
@@ -11,10 +11,12 @@ class Cms.Views.Nav extends Cms.View
   ui:
     head: "a.menu"
     nav: "nav.submenu"
+    bg: "#navbg"
 
-  events:
-    "click @ui.head": "toggleNav"
-    "click @ui.nav": "hideNav"
+  triggers:
+    "click @ui.head": "toggle"
+    "click @ui.nav": "hide"
+    "click @ui.bg": "hide"
 
   onRender: =>
     @getRegion('queue').show new Cms.Views.JobQueue
@@ -25,16 +27,3 @@ class Cms.Views.Nav extends Cms.View
       @getRegion('controls').show new Cms.Views.Saver(model: model)
     else
       @getRegion('controls').reset()
-
-  toggleNav: =>
-    if @ui.nav.hasClass('up')
-      @hideNav()
-    else
-      @showNav()
-
-  hideNav: =>
-    @ui.nav.removeClass('up')
-
-  showNav: =>
-    @ui.nav.addClass('up')
-

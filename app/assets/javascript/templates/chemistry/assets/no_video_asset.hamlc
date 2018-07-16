@@ -1,8 +1,0 @@
-%p
-  No assets available for reuse.
-  %br
-  Click
-  %a.control.upload
-    %svg.inline
-      %use{"xlink:href" => "#up_symbol"}
-  to upload, or enter a youtube/vimeo URL (or id) below to embed.

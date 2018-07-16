@@ -9,8 +9,12 @@
     "publish": "Publish",
     "revert": "Revert",
     "save_page": "Save page",
-    "save": "Save",
-    "upload": "Upload"
+    "save": "Save page",
+    "upload": "Upload",
+    "revert": "Revert to saved page",
+    "publish": "Publish page",
+    "config": "Page settings",
+    "show": "Show published page"
   },
   "confirmations": {
     "delete": "Delete this?",
