@@ -1,31 +1,31 @@
 %ul.buttons
   %li
     %a.save{title: t("tooltips.save")}
-      %svg
+      %svg.icon
         %use{"xlink:href" => "#save_button_symbol"}
       %span.label
         = t("buttons.save")
   %li
     %a.revert{title: t("tooltips.revert")}
-      %svg
+      %svg.icon
         %use{"xlink:href" => "#revert_button_symbol"}
       %span.label
         = t("buttons.revert")
   %li
     %a.publish{title: t("tooltips.publish")}
-      %svg
+      %svg.icon
         %use{"xlink:href" => "#publish_button_symbol"}
       %span.label
         = t("buttons.publish")
   %li
     %a.config.available{title: t("tooltips.config")}
-      %svg
+      %svg.icon
         %use{"xlink:href" => "#config_button_symbol"}
       %span.label
         = t("buttons.config")
   %li
     %a.preview{target: "_published", title: t("tooltips.preview")}
-      %svg
+      %svg.icon
         %use{"xlink:href" => "#show_button_symbol"}
       %span.label
         = t("buttons.show")
