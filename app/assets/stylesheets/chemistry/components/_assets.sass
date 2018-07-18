@@ -20,11 +20,12 @@ figure
     min-width: 1em
     box-sizing: border-box
   figcaption
-    margin: 1em 0
+    margin: 0.5em 0
     font-size: 1rem
     min-height: 1em
     z-index: 300
     cursor: text
+    font-style: italic
   img
     width: 100%
     height: auto
@@ -64,7 +65,10 @@ figure
       transition: font-size 0.5s ease-out
       width: 100%
       margin: 0
-      padding: 0 2em
+      padding: 0 3em 0 2em
+    figcaption
+      text-align: center
+      padding: 0 3em 0 2em
     &.shortish
       blockquote
         font-size: 1.5em
@@ -97,37 +101,6 @@ figure
     a.missing
       span.filename
         color: $pale
-
-aside.note
-  position: absolute
-  display: block
-  right: -38%
-  width: 30%
-  margin: 0
-  min-height: 2em
-  cursor: text
-  h3, p
-    margin: 0
-    font-size: 1rem
-  .cms-buttons
-    position: absolute
-    top: -10px
-    right: -10px
-    width: 32px
-    height: 32px
-    display: none
-    a.control.delete
-      color: $pale
-      width: 20px
-      height: 20px
-      &:hover
-        color: $red
-      svg
-        width: 20px
-        height: 20px
-  &:hover
-    .cms-buttons
-      display: block
 
 .editing
   figure

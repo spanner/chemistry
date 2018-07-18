@@ -17,19 +17,19 @@ class Cms.Views.Saver extends Cms.View
   bindings:
     "a.save":
       classes:
-        available:
+        unavailable:
           observe: ["changed", "valid"]
-          onGet: "ifSaveable"
+          onGet: "unSaveable"
     "a.revert":
       classes: 
-        available:
+        unavailable:
           observe: "changed"
-          onGet: "ifRevertable"
+          onGet: "unRevertable"
     "a.publish":
       classes: 
-        available:
+        unavailable:
           observe: ["changed", "valid", "unpublished"]
-          onGet: "ifPublishable"
+          onGet: "unPublishable"
     "a.preview":
       attributes: [
         name: "href"
@@ -37,8 +37,9 @@ class Cms.Views.Saver extends Cms.View
         onGet: "absolutePath"
       ]
       classes: 
-        available:
+        unavailable:
           observe: "published_at"
+          onGet: "untrue"
 
   onRender: =>
     super
@@ -78,20 +79,20 @@ class Cms.Views.Saver extends Cms.View
 
   # Object is saveable if it valid and has significant changes.
   #
-  ifSaveable: ([changed, valid]=[]) =>
-    changed and valid
+  unSaveable: ([changed, valid]=[]) =>
+    !changed or !valid
 
   # Object is revertable if it has significant changes.
   #
-  ifRevertable: (changed) =>
-    @log "ifRevertable", changed
-    !!changed
+  unRevertable: (changed) =>
+    !changed
 
   # page is publishable if it has no unsaved changes,
   # and the current publication is out of date.
   #
-  ifPublishable: ([changed, valid, unpublished]=[]) =>
-    valid and unpublished and not changed
+  unPublishable: ([changed, valid, unpublished]=[]) =>
+    @log "unPublishable", changed, valid, unpublished
+    changed or !valid or !unpublished
 
   absolutePath: (path) =>
     if path[0] is '/' then path else "/#{path}"

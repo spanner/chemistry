@@ -12,7 +12,7 @@
       %span.label
         = t("buttons.revert")
   %li
-    %a.publish{title: t("tooltips.revert")}
+    %a.publish{title: t("tooltips.publish")}
       %svg
         %use{"xlink:href" => "#publish_button_symbol"}
       %span.label

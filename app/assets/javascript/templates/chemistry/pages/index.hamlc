@@ -31,5 +31,5 @@
       For more navigation, tap the
       %svg.inline
         %use{"xlink:href" => "#flask_symbol"}
-      menu icon at top right.
+      menu icon at top left.
 

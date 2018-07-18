@@ -108,27 +108,27 @@ header#cms-nav
         margin: 0.5em 0
     a
       color: $verypale
-      pointer-events: none
       transition: color 0.25s ease-out
+      cursor: pointer
       svg
         width: 32px
         height: 32px
       &:hover
         opacity: 1
-      &.available
-        pointer-events: auto
-        cursor: pointer
-        color: $mid
-      &.save.available
+      &.save
         color: $green
-      &.revert.available
+      &.revert
         color: $red
-      &.publish.available
+      &.publish
         color: $purple
-      &.preview.available
+      &.preview
         color: $blue
-      &.config.available
+      &.config
         color: $orange
+      &.unavailable
+        cursor: text
+        pointer-events: none
+        color: $pale
 
   #queue
     position: absolute

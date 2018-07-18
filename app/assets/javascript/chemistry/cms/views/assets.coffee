@@ -384,20 +384,17 @@ class Cms.Views.Quote extends Cms.Views.Asset
 class Cms.Views.Note extends Cms.Views.Asset
   editorView: "NoteEditor"
   template: "assets/note"
-  tagName: "aside"
-  className: "note"
+  tagName: "div"
+  className: "aside"
 
   ui:
-    heading: "h3"
     text: "p"
 
   bindings:
-    "h3": "heading"
     "p": "text"
 
   wrap: =>
     @model = new Cms.Models.Note
-      heading: @ui.heading.text()
       text: @ui.text.text()
     @triggerMethod 'wrap'
 
@@ -406,5 +403,4 @@ class Cms.Views.Note extends Cms.Views.Asset
     super
 
   focus: =>
-    @ui.heading.focus()
-
+    @ui.text.focus()
