@@ -19,37 +19,37 @@
 
   %ul.menu
     %li
-      %a{href: "/"}
+      %a.collection{href: "/"}
         %svg.icon
           %use{"xlink:href" => "#empty_page_symbol"}
         %span.label
           = t("nav.pages")
     %li
-      %a{href: "templates"}
+      %a.collection{href: "templates"}
         %svg.icon
           %use{"xlink:href" => "#article_page_symbol"}
         %span.label
           = t("nav.templates")
     %li
-      %a{href: "section_types"}
+      %a.collection{href: "section_types"}
         %svg.icon
           %use{"xlink:href" => "#hero_section_symbol"}
         %span.label
           = t("nav.section_types")
     %li
-      %a{href: "images"}
+      %a.collection{href: "images"}
         %svg.icon
           %use{"xlink:href" => "#images_menu_symbol"}
         %span.label
           = t("nav.images")
     %li
-      %a{href: "videos"}
+      %a.collection{href: "videos"}
         %svg.icon
           %use{"xlink:href" => "#videos_menu_symbol"}
         %span.label
           = t("nav.videos")
     %li
-      %a{href: "documents"}
+      %a.collection{href: "documents"}
         %svg.icon
           %use{"xlink:href" => "#documents_menu_symbol"}
         %span.label

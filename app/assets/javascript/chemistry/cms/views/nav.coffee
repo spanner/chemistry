@@ -11,6 +11,7 @@ class Cms.Views.Nav extends Cms.View
   ui:
     head: "a.menu"
     nav: "nav.submenu"
+    link: "a.collection"
     bg: "#navbg"
     save_button: "a.save_shortcut"
     publish_button: "a.publish_shortcut"
@@ -18,10 +19,10 @@ class Cms.Views.Nav extends Cms.View
   events:
     "click @ui.save_button": "save"
     "click @ui.publish_button": "publishWithConfirmation"
+    "click @ui.link": "hideAndGoto"
 
   triggers:
     "click @ui.head": "toggle"
-    "click @ui.nav": "hide"
     "click @ui.bg": "hide"
 
   bindings:
@@ -41,10 +42,14 @@ class Cms.Views.Nav extends Cms.View
     @setModel(@model)
 
   setModel: (model) =>
-    @log "🦋 nav setModel", model
     @model = model
     if model
       @getRegion('controls').show new Cms.Views.Saver(model: model)
       @stickit()
     else
       @getRegion('controls').reset()
+      @unstickit()
+
+  hideAndGoto: (e) =>
+    @trigger 'hide'
+    # allow event to continue
