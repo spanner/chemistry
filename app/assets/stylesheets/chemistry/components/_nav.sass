@@ -7,6 +7,24 @@ header#cms-nav
   background-color: rgba(255, 255, 255, 0)
   pointer-events: none
   transition: background-color 0.25s ease-out
+  a.save_shortcut, a.publish_shortcut
+    color: $verypale
+    cursor: pointer
+    pointer-events: auto
+    display: block
+    position: absolute
+    top: 16px
+    left: 72px
+    svg
+      width: 24px
+      height: 24px
+    &.unavailable
+      display: none
+  a.save_shortcut
+    color: $green
+  a.publish_shortcut
+    color: $purple
+
   &.up
     background-color: $control_bg
     pointer-events: auto
@@ -107,7 +125,6 @@ header#cms-nav
       li
         margin: 0.5em 0
     a
-      color: $verypale
       transition: color 0.25s ease-out
       cursor: pointer
       svg

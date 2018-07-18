@@ -5,6 +5,12 @@
     %use{"xlink:href" => "#flask_symbol"}
   %svg.close
     %use{"xlink:href" => "#close_symbol"}
+%a.save_shortcut
+  %svg
+    %use{"xlink:href" => "#save_button_symbol"}
+%a.publish_shortcut
+  %svg
+    %use{"xlink:href" => "#publish_button_symbol"}
 
 #queue
 

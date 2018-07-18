@@ -50,6 +50,7 @@ class Cms.View extends Backbone.Marionette.View
     else
       path
 
+
   ## onGet helpers
   #
   untrue: (value) =>
@@ -139,6 +140,52 @@ class Cms.View extends Backbone.Marionette.View
   styleBackgroundAtSize: (url) =>
     if url
       "background-image: url('#{@urlAtSize(url)}')"
+
+
+  ## Save and publish
+  #
+  # Object is saveable if it is valid and has significant changes.
+  #
+  unSaveable: ([changed, valid]=[]) =>
+    !changed or !valid
+
+  # Object is revertable if it has significant changes.
+  #
+  unRevertable: (changed) =>
+    !changed
+
+  # page is publishable if it has no unsaved changes,
+  # and the current publication is out of date.
+  #
+  unPublishable: ([changed, valid, unpublished]=[]) =>
+    @log "unPublishable", changed, valid, unpublished
+    changed or !valid or !unpublished
+
+  save: (e) =>
+    e?.preventDefault()
+    @model.save()
+
+  revert: (e) =>
+    e?.preventDefault()
+    @model.revert()
+
+  revertWithConfirmation: (e) =>
+    e?.preventDefault()
+    new Cms.Views.ReversionConfirmation
+      model: @model
+      link: @ui.revert_button
+      action: @revert
+
+  publish: =>
+    e?.preventDefault()
+    @model.publish()
+
+  publishWithConfirmation: (e) =>
+    e?.preventDefault()
+    new Cms.Views.PublicationConfirmation
+      model: @model
+      link: @ui.publish_button
+      action: @publish
 
 
   ## Visibility functions
