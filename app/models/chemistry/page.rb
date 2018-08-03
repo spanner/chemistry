@@ -138,7 +138,16 @@ module Chemistry
     end
 
     def derive_slug
-      self.slug = (self.slug.presence || self.title).parameterize
+      unless slug?
+        slug = title.parameterize
+        stem = parent ? parent.path : ""
+        addendum = 1
+        while Chemistry::Page.find_by(path: stem + slug)
+          slug = slug + addendum
+          addendum += 1
+        end
+        self.slug = slug
+      end
     end
 
     def derive_path

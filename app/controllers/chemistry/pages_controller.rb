@@ -109,6 +109,7 @@ module Chemistry
         :template_id,
         :parent_id,
         :content,
+        :keywords,
         :external_url,
         :title
       )

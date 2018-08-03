@@ -134,6 +134,10 @@
         "primary": "The standfirst usually gives an introduction or summary of around 30-50 words.",
         "secondary": "Optional page notes."
       },
+      "statement": {
+        "primary": "Big noisy quote is expected to go here.",
+        "secondary": "With this optional footnote."
+      },
       "title": {
         "title": "Page title"
       }
