@@ -253,6 +253,7 @@ class Cms.Views.ImageEditor extends Cms.Views.AssetEditor
   template: "assets/image_editor"
   pickerView: "ImagePicker"
   uploaderView: "AssetUploader"
+  stylerView: "ImageWeighter"
 
   initialize: (data, options={}) ->
     @collection ?= new Cms.Collections.Images
