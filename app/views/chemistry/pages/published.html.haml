@@ -1,7 +1,10 @@
-#page_content
-  - if @page.rendered_html
-    = @page.rendered_html.html_safe
+%article{class: @page.template_slug}
+  .bg
+  .fg
+    - if @page.rendered_html
+      .cms-sections
+        = @page.rendered_html.html_safe
 
-  - else
-    %p.warning
-      Nothing to display here.
+    - else
+      %p.warning
+        Nothing to display here.

@@ -71,16 +71,7 @@ module Chemistry
         return_errors
       end
     end
-  
-    def publish
-      if @page.update_attributes(publish_page_params)
-        @page.update_attributes published_at: Time.now
-        return_page
-      else
-        return_errors
-      end
-    end
-  
+
     def destroy
       @page.destroy
       head :no_content
@@ -127,6 +118,8 @@ module Chemistry
         :document_id,
         :title,
         :summary,
+        :excerpt,
+        :rendered_html,
         :keywords,
         :began_at,
         :ended_at,
@@ -143,13 +136,6 @@ module Chemistry
           :section_type_id,
           :deleted_at
         ]
-      )
-    end
-
-    def publish_page_params
-      params.permit(
-        :excerpt,
-        :rendered_html
       )
     end
 

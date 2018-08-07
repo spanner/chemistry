@@ -1,5 +1,5 @@
 class Cms.Models.Page extends Cms.Model
-  savedAttributes: ['template_id', 'parent_id', 'slug', 'title', 'slug', 'content', 'summary', 'external_url', 'document_id', 'keywords', 'home', 'nav', 'nav_name', 'nav_position', 'began_at', 'ended_at']
+  savedAttributes: ['template_id', 'parent_id', 'slug', 'title', 'slug', 'content', 'summary', 'external_url', 'document_id', 'keywords', 'home', 'nav', 'nav_name', 'nav_position', 'began_at', 'ended_at', 'rendered_html']
   savedAssociations: ['sections']
 
   defaults:
@@ -22,18 +22,21 @@ class Cms.Models.Page extends Cms.Model
   render: =>
     @_renderer ?= new Cms.Views.PageRenderer 
       model: @
-    @_renderer.render()
+    @_renderer.render() # sets our `rendered_html`
 
   publish: () =>
     @render()
-    # @save()
-    $.ajax
-      url: @url() + "/publish"
-      data:
-        rendered_html: @get('rendered_html')
-      method: "PUT"
-      success: @publishSucceeded
-      error: @publishFailed
+    @save().done(@publishSucceeded).fail(@publishFailed)
+    # data =
+    #   rendered_html: @get('rendered_html')
+    # @log "publishing", data
+    # $.ajax
+    #   url: @url() + "/publish"
+    #   method: "PUT"
+    #   data: data
+    #   dataType: "json"
+    #   success: @publishSucceeded
+    #   error: @publishFailed
 
   publishSucceeded: (response) =>
     attrs = @parse response
@@ -41,8 +44,7 @@ class Cms.Models.Page extends Cms.Model
     @confirm t('reassurances.page_published')
 
   publishFailed: (request) =>
-    #...
-    debugger
+    @complain("Error #{request.status}: #{request.responseText}")
 
   setPublicationStatus: =>
     @set 'unpublished', !@get('published_at') or @get('updated_at') > @get('published_at')

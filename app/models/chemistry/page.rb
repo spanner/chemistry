@@ -20,6 +20,7 @@ module Chemistry
     validates :path, uniqueness: {conditions: -> { where(deleted_at: nil) }}
 
     after_create :init_sections
+    before_update :note_publication_date
     after_update :reinit_sections_if_changed
 
     scope :undeleted, -> { where(deleted_at: nil) }
@@ -163,6 +164,11 @@ module Chemistry
 
     def get_excerpt
       #todo: truncated body of first section that has one
+    end
+
+    # tiny little bodge here to make sure that published_at ends up being later than updated_at.
+    def note_publication_date
+      self.published_at = Time.now + 2.seconds if will_save_change_to_rendered_html?
     end
 
     def init_sections

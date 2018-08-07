@@ -172,6 +172,7 @@ class Cms.Application extends Backbone.Marionette.Application
     @notify message, duration, 'confirmation'
 
   complain: (message, duration=10000) =>
+    message = _.truncate(message, 256)
     @log "Complaint:", message
     @notify message, duration, 'error'
 
