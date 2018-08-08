@@ -45,11 +45,12 @@
   "headings": {
     "pages": "Pages",
     "import_image": "Import image",
-    "import_video": "Embed video",
-    "reuse_image": "Choose image",
-    "reuse_video": "Choose video",
-    "reuse_document": "Choose document",
-    "weight_image": "Pin image"
+    "import_video": "Import video",
+    "reuse_image": "Reuse image",
+    "reuse_video": "Reuse video",
+    "reuse_document": "Reuse document",
+    "settings_image": "Properties",
+    "settings_video": "Properties"
   },
   "images": {
     "upload": "Upload new image"

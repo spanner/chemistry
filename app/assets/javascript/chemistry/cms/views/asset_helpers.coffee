@@ -211,7 +211,7 @@ class Cms.Views.VideoEditor extends Cms.Views.AssetEditor
 
 class Cms.Views.ImageOrVideoEditor extends Cms.Views.AssetEditor
   template: "assets/image_or_video_editor"
-  helpers: ["ImagePicker", "ImageUploader", "VideoPicker", "VideoImporter", "VideoUploader"]
+  helpers: ["ImagePicker", "ImageImporter", "ImageUploader", "VideoPicker", "VideoImporter", "VideoUploader"]
 
   initialize: ->
     @image_collection ?= new Cms.Collections.Images

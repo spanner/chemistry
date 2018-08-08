@@ -8,7 +8,7 @@
         %use{"xlink:href" => "#close_symbol"}
     %h3
       %svg.icon
-        %use{"xlink:href" => "#video_symbol"}
+        %use{"xlink:href" => "#video_button_symbol"}
       %span.label 
         = t('headings.reuse_video')
 

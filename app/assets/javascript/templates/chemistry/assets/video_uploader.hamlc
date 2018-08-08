@@ -1,4 +1,4 @@
 %label.control.add.upload
   %input{type: "file"}
   %svg.icon.filled
-    %use{"xlink:href" => "#save_button_symbol"}
+    %use{"xlink:href" => "#upload_video_symbol"}
