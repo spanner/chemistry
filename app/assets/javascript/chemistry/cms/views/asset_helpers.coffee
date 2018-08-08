@@ -139,7 +139,7 @@ class Cms.Views.AssetEditor extends Cms.View
         if helper_class = Cms.Views[helper]
           @log "helper", helper
           helper = new helper_class
-            collection: @collection
+            collection: @collectionForHelper(helper)
           helper.$el.appendTo @ui.buttons
           helper.render()
           helper.on "select", @setModel
@@ -149,6 +149,9 @@ class Cms.Views.AssetEditor extends Cms.View
           helper.on "open", => @closeOtherHelpers(helper)
         else
           @log "NO SUCH HELPER", helper
+
+  collectionForHelper: (helper) =>
+    @collection
 
   ## Selection actions
   #
@@ -214,6 +217,12 @@ class Cms.Views.ImageOrVideoEditor extends Cms.Views.AssetEditor
     @image_collection ?= new Cms.Collections.Images
     @video_collection ?= new Cms.Collections.Videos
     super
+
+  collectionForHelper: (helper) =>
+    if helper in ["VideoPicker", "VideoImporter", "VideoUploader"]
+      @video_collection
+    else
+      @image_collection
 
 
 class Cms.Views.DocumentEditor extends Cms.Views.AssetEditor
