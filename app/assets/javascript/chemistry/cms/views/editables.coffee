@@ -69,14 +69,20 @@ class Cms.Views.EditableString extends Cms.View
 class Cms.Views.EditableBackground extends Cms.View
   template: false
 
+  ui:
+    bg: "figure.bg"
+
   initialize: ->
     super
     @log "EditableBackground", @el
     @render()
 
   onRender: =>
-    unless @$el.find('figure.bg').length
-      $('<figure class="bg"></figure>').appendTo @el
-    @$el.find('figure.bg').each (i, el) =>
-      @addView new Cms.Views.BackgroundImage
-        el: el
+    if @ui.bg.length
+      bg_el = @ui.bg.first()
+    else
+      bg_el = $('<figure class="bg"></figure>').appendTo(@el)
+    @addView new Cms.Views.Background
+      el: bg_el
+
+

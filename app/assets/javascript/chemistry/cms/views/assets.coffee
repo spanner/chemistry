@@ -205,7 +205,7 @@ class Cms.Views.Image extends Cms.Views.Asset
 
 class Cms.Views.BackgroundImage extends Cms.Views.Image
   template: false
-  className: "bg"
+  className: "bg image"
 
   bindings:
     ":el":
@@ -278,7 +278,67 @@ class Cms.Views.Video extends Cms.Views.Asset
     "video_#{id}"
 
 
-## Video assets
+## Background asset
+#  Could be image or video, has pickers and choosers for both.
+#  The variable model class creates some clumsy bindings to properties that might not exist
+#  and relies on a clunky 'asset_type' pseudo-attribute, but it gives the user a simple and consistent UI.
+#
+class Cms.Views.Background extends Cms.Views.Asset
+  editorView: "ImageOrVideoEditor"
+  template: "assets/background"
+  className: "bg"
+
+  bindings:
+    ":el":
+      attributes: [
+        name: "data-asset-id",
+        observe: "id"
+      ,
+        name: "data-asset-type",
+        observe: "asset_type"
+      ,
+        name: "style",
+        observe: ["asset_type", "file_url", "file_data"]
+        onGet: "styleBackgroundIfImage"
+      ]
+    ".embed":
+      observe: ["asset_type", "embed_code"]
+      visible: "ifEmbeddedVideo"
+      updateView: true
+      updateMethod: "html"
+    "video":
+      observe: ["asset_type", "file_url", "embed_code"]
+      visible: "ifUnembeddedVideo"
+      attributes: [
+        name: "id"
+        observe: "id"
+        onGet: "videoId"
+      ,
+        name: "poster"
+        observe: "full_url"
+      ]
+    "img":
+      attributes: [
+        name: "src"
+        observe: "full_url"
+      ]
+    "source":
+      attributes: [
+        name: "src"
+        observe: "url"
+      ]
+
+  ifEmbeddedVideo: ([asset_type, embed_code]=[]) =>
+    asset_type is "video" and embed_code
+
+  ifUnembeddedVideo: ([asset_type, file_url, embed_code]=[]) =>
+    asset_type is "video" and file_url and not embed_code
+
+  styleBackgroundIfImage: ([asset_type, file_url, file_data]=[]) =>
+    @styleBackgroundImage([file_url, file_data]) if asset_type is "image"
+
+
+## Document assets
 #
 class Cms.Views.Document extends Cms.Views.Asset
   editorView: "DocumentEditor"
@@ -328,6 +388,7 @@ class Cms.Views.Document extends Cms.Views.Asset
 
   iconOrDefault: (icon_url) =>
     icon_url or "/images/file_types/pdf.png"
+
 
 
 ## Quote pseudo-assets

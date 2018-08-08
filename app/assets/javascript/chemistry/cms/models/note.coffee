@@ -1,6 +1,7 @@
 class Cms.Models.Note extends Cms.Model
   savedAttributes: []
   defaults:
+    asset_type: "note"
     text: ""
 
 
