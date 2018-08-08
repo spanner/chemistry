@@ -7,8 +7,6 @@
       %svg.icon
         %use{"xlink:href" => "#close_symbol"}
     %h3
-      %svg.icon
-        %use{"xlink:href" => "#image_symbol"}
       %span.label 
         = t('headings.reuse_image')
 

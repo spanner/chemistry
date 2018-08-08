@@ -48,7 +48,8 @@
     "import_video": "Embed video",
     "reuse_image": "Choose image",
     "reuse_video": "Choose video",
-    "reuse_document": "Choose document"
+    "reuse_document": "Choose document",
+    "weight_image": "Pin image"
   },
   "images": {
     "upload": "Upload new image"

@@ -103,7 +103,8 @@ a.control, label.control
     width: 340px
     overflow: hidden
     padding: 0
-    background-color: white
+    background-color: $menubg
+    color: $dark
     box-sizing: border-box
     pointer-events: auto
     border-radius: 8px
@@ -126,26 +127,41 @@ a.control, label.control
         height: 28px
     h3
       margin: 10px 0 10px 10px
-      font-weight: lighter
+      font-weight: normal
+      text-transform: uppercase
       svg
         width: 32px
         height: 32px
       svg, span.label
         display: inline-block
         vertical-align: middle
+        line-height: 1.8
     .weighter &
-      right: 32px
-      left: auto
-      width: 72px
-      height: 72px
+      width: 180px
+      .sectors
+        position: relative
+        padding: 20px
+        input
+          display: none
+        input + span
+          background-color: $pale
+        input:checked + span
+          background-color: $green
+        label.sector
+          display: inline-block
+          span
+            position: relative
+            display: inline-block
+            width: 24px
+            height: 24px
+            border-radius: 12px
+            margin: 4px
+            background-color: $pale
+            &:hover
+              backround-color: $mid
 
 .open
   .cms-menu
-    &>a.control, &>label.control
-      border-radius: 0
-      background-color: white
-      padding-bottom: 5px
-      z-index: 501
     .menu-body
       display: block
 

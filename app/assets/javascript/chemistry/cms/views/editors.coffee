@@ -1,7 +1,6 @@
-# The editors are wrapped around existing html content
-# to provide the right tools for editing it.
+# The EditableSomethings are wrapped around existing html content to overlay editing tools of various kinds.
 
-class Cms.Views.HtmlEditor extends Cms.View
+class Cms.Views.EditableHtml extends Cms.View
   template: false
 
   initialize: ->
@@ -54,7 +53,7 @@ class Cms.Views.HtmlEditor extends Cms.View
     el.innerHTML = "" if content is "<p>&#8203;</p>" or content is "<p><br></p>" or content is "<p>​</p>"  # there's a zwsp in that last string
 
 
-class Cms.Views.StringEditor extends Cms.View
+class Cms.Views.EditableString extends Cms.View
   template: false
 
   initialize: ->
@@ -67,20 +66,17 @@ class Cms.Views.StringEditor extends Cms.View
     @_toolbar.render()
 
 
-class Cms.Views.BackgroundImageEditor extends Cms.View
+class Cms.Views.EditableBackground extends Cms.View
   template: false
 
   initialize: ->
     super
+    @log "EditableBackground", @el
     @render()
 
   onRender: =>
     unless @$el.find('figure.bg').length
       $('<figure class="bg"></figure>').appendTo @el
-    @$el.attr('contenteditable', 'true').addClass('editing')
     @$el.find('figure.bg').each (i, el) =>
       @addView new Cms.Views.BackgroundImage
         el: el
-
-
-    # bindings are not set up correctly because we bind primary before the contenteditable attribute is added

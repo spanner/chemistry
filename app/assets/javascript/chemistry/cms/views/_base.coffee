@@ -318,6 +318,7 @@ class Cms.Views.MenuView extends Cms.View
 
   open: (e) =>
     e?.preventDefault()
+    @place()
     @$el.addClass('open')
     @triggerMethod 'open'
     @trigger 'opened'
@@ -328,6 +329,24 @@ class Cms.Views.MenuView extends Cms.View
     @$el.removeClass('open')
     @triggerMethod 'close'
     @trigger 'closed'
+
+  # ideally we want to put the X over the menu head for quick toggling
+  # but that pushes the menu offscreen, we'll align to its other side.
+  place: =>
+    position = @ui.head.position()
+    bw = @ui.body.width()
+    hw = @ui.head.width()
+    bh = @ui.body.height()
+    hh = @ui.head.height()
+    left = position.left + hw + 11 - bw
+    top = position.top - 9
+    if left < 0
+      left = position.left - 11
+    if top + bw > document.body.scrollHeight
+      top = position.top + hh + 9 - bh
+    @ui.body.css
+      top: top
+      left: left
 
 
 ## Collection View

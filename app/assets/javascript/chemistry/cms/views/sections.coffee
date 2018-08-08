@@ -5,7 +5,7 @@ class Cms.Views.Section extends Cms.View
 
   ui:
     editable: '[data-cms-editor]'
-    editable_background_image: '[data-cms-editor="bg"]'
+    editable_background: '[data-cms-editor="bg"]'
     editable_html: '[data-cms-editor="html"]'
     editable_string: '[data-cms-editor="string"]'
     contents_list: '[data-cms-role="contents"]'
@@ -69,17 +69,17 @@ class Cms.Views.Section extends Cms.View
   #
   addEditors: =>
     @ui.editable_string.each (i, el) =>
-      @addView new Cms.Views.StringEditor
+      @addView new Cms.Views.EditableString
         model: @model
         el: el
 
     @ui.editable_html.each (i, el) =>
-      @addView new Cms.Views.HtmlEditor
+      @addView new Cms.Views.EditableHtml
         model: @model
         el: el
 
-    @ui.editable_background_image.each (i, el) =>
-      @addView new Cms.Views.BackgroundImageEditor
+    @ui.editable_background.each (i, el) =>
+      @addView new Cms.Views.EditableBackground
         model: @model
         el: el
 

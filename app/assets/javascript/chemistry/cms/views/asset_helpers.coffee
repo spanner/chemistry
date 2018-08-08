@@ -165,15 +165,14 @@ class Cms.Views.AssetEditor extends Cms.View
         @_picker.on "select", @setModel
         @_picker.on "open", => @closeOtherHelpers(@_picker)
 
-    if _cms.getOption('asset_styles')
-      if styler_view_class_name = @getOption('stylerView')
-        if styler_view_class = Cms.Views[styler_view_class_name]
-          @_styler = new styler_view_class
-            model: @model
-          @_styler.$el.appendTo @ui.buttons
-          @_styler.render()
-          @_styler.on "styled", @setStyle
-          @_styler.on "open", => @closeOtherHelpers(@_styler)
+    if styler_view_class_name = @getOption('stylerView')
+      if styler_view_class = Cms.Views[styler_view_class_name]
+        @_styler = new styler_view_class
+          model: @model
+        @_styler.$el.appendTo @ui.buttons
+        @_styler.render()
+        @_styler.on "styled", @setStyle
+        @_styler.on "open", => @closeOtherHelpers(@_styler)
 
 
   ## Selection controls
@@ -253,7 +252,7 @@ class Cms.Views.ImageEditor extends Cms.Views.AssetEditor
   template: "assets/image_editor"
   pickerView: "ImagePicker"
   uploaderView: "AssetUploader"
-  stylerView: "ImageWeighter"
+  stylerView: "ImageSettings"
 
   initialize: (data, options={}) ->
     @collection ?= new Cms.Collections.Images
@@ -475,16 +474,26 @@ class Cms.Views.PageAssetUploader extends Cms.View
 # All the assets get similar layout options,
 # depending on which buttons are provided in that template of that subclass.
 
-class Cms.Views.AssetStyler extends Cms.View
+class Cms.Views.AssetStyler extends Cms.Views.MenuView
   tagName: "div"
   className: "styler"
-  template: "assets/styler"
+  template: "assets/asset_styler"
+
+  ui:
+    closer: "a.close"
+    right: "a.right"
+    left: "a.left"
+    full: "a.full"
+    wide: "a.wide"
+    hero: "a.hero"
+
   events:
-    "click a.right": "setRight"
-    "click a.left": "setLeft"
-    "click a.full": "setFull"
-    "click a.wide": "setWide"
-    "click a.hero": "setHero"
+    "click @ui.right": "setRight"
+    "click @ui.left": "setLeft"
+    "click @ui.full": "setFull"
+    "click @ui.wide": "setWide"
+    "click @ui.hero": "setHero"
+    "click @ui.closer": "close"
 
   onRender: =>
     if @model
@@ -502,17 +511,19 @@ class Cms.Views.AssetStyler extends Cms.View
   setWide: => @trigger "styled", "wide"
 
 
-class Cms.Views.ImageWeighter extends Cms.Views.MenuView
+class Cms.Views.ImageSettings extends Cms.Views.MenuView
   tagName: "div"
   className: "weighter"
-  template: "assets/weighter"
+  template: "assets/image_settings"
 
   ui:
     head: ".menu-head"
     body: ".menu-body"
+    closer: "a.close"
 
   events:
     "click @ui.head": "toggleMenu"
+    "click @ui.closer": "close"
 
   bindings: 
     "input.weight": "main_image_weighting"
