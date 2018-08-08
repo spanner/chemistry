@@ -130,9 +130,9 @@ class Cms.Views.Asset extends Cms.View
     @bindUIElements();
     @wrap() or @render()
 
-  # Previously embedded assets will come back in HTML form.
-  # Each subclass will perform its own value extraction to decompose that into model + template.
-  # NB wrap is only possible before render, since contents of el will be replaced.
+  # Previously embedded assets come back to us in HTML form.
+  # Each subclass performs its own value extraction to decompose that into model + template.
+  # NB wrap is only possible before render, since contents of el will then be replaced.
   wrap: =>
     false
 
@@ -310,12 +310,9 @@ class Cms.Views.Background extends Cms.Views.Asset
       observe: ["asset_type", "file_url", "embed_code"]
       visible: "ifUnembeddedVideo"
       attributes: [
-        name: "id"
-        observe: "id"
-        onGet: "videoId"
-      ,
         name: "poster"
-        observe: "full_url"
+        observe: ["asset_type", "full_url"]
+        onGet: "thatIfThisIsVideo"
       ]
     "img":
       attributes: [
@@ -327,6 +324,15 @@ class Cms.Views.Background extends Cms.Views.Asset
         name: "src"
         observe: "url"
       ]
+
+  wrap: =>
+    if asset_id = @$el.data('asset-id')
+      if @$el.data('asset-type') is 'video'
+        @model = new Cms.Models.Video(id: asset_id)
+      else
+        @model = new Cms.Models.Image(id: asset_id)
+      @model.load()
+      @triggerMethod 'wrap'
 
   ifEmbeddedVideo: ([asset_type, embed_code]=[]) =>
     asset_type is "video" and embed_code

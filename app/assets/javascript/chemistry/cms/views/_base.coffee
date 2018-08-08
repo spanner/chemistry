@@ -71,6 +71,15 @@ class Cms.View extends Backbone.Marionette.View
   thisButNotThat: ([thing, other_thing]=[]) =>
     thing and not other_thing
 
+  thatIfThis: ([flag, value]=[]) =>
+    value if flag
+
+  thatIfThisIsVideo: ([flag, value]=[]) =>
+    value if flag is 'video'
+
+  thatIfThisIsImage: ([flag, value]=[]) =>
+    value if flag is 'image'
+
   shortAndClean: (value, limit=64) =>
     text = $('<div />').html(value).text().trim()
     if text.length > limit
@@ -116,6 +125,12 @@ class Cms.View extends Backbone.Marionette.View
 
   numericalDate: (mom) =>
     mom.format("D/M/YY") if mom
+
+  videoId: (id) =>
+    "video_#{id}"
+
+  imageId: (id) =>
+    "image_#{id}"
 
   styleColor: (color) =>
     "color: #{color}" if color
