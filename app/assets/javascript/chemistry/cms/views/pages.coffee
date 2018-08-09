@@ -96,7 +96,7 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
         model: @model
         el: @ui.deleter
 
-  onRendered: =>
+  onReady: =>
     @bindUIElements()
     balanceText('span.title')
     if @model.get('content') is 'page'

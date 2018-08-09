@@ -8,6 +8,11 @@ class Cms.Views.EditableHtml extends Cms.View
     @render()
 
   onRender: =>
+    @$el.attr('contenteditable', 'true')
+    super
+
+  onReady: =>
+    #TODO v2 moves contenteditable down to the block level element, manage that list.
     @$el.find('figure.image').each (i, el) =>
       @addView new Cms.Views.Image
         el: el
@@ -36,7 +41,7 @@ class Cms.Views.EditableHtml extends Cms.View
     @$el.on "blur", @removeEmptyP
 
   ## Contenteditable helpers
-  # Small intervention to make contenteditable behave in a slightly saner way,
+  # Small interventions to make contenteditable behave in a slightly saner way,
   # eg. by definitely typing into an (apparently) empty <p> element.
   #
   ensureP: (e) =>
@@ -61,6 +66,7 @@ class Cms.Views.EditableString extends Cms.View
     @render()
 
   onRender: =>
+    @$el.attr('contenteditable', 'true')
     @_toolbar = new Cms.Views.Toolbar
       target: @$el
     @_toolbar.render()

@@ -147,8 +147,6 @@ class Cms.Views.AssetEditor extends Cms.View
           helper.on "styled", @setStyle
           helper.on "pick", => @closeHelpers()
           helper.on "open", => @closeOtherHelpers(helper)
-        else
-          @log "NO SUCH HELPER", helper
 
   collectionForHelper: (helper) =>
     @collection
@@ -163,6 +161,7 @@ class Cms.Views.AssetEditor extends Cms.View
       @stickit()
 
   updateParent: =>
+    @log "🤡 updateParent"
     @trigger 'update'
 
 
@@ -263,7 +262,6 @@ class Cms.Views.AssetPicker extends Cms.Views.MenuView
       @_list_view = new Cms.Views[list_view_class]
         collection: @collection
       @ui.list.append @_list_view.el
-      @log "🤡 onOpen appending list view to", @ui.list
       @_list_view.on "select", @selectModel
     @collection.reload()
     @_list_view.render()

@@ -194,7 +194,6 @@ class Cms.Model extends Backbone.Model
   momentify: (data) =>
     for col in ["created_at", "updated_at", "published_at", "deleted_at", "began_at", "ended_at"]
       if string = data[col]
-        @log "momenting", col, string
         data[col] = moment(string)
 
 
@@ -215,8 +214,6 @@ class Cms.Model extends Backbone.Model
       model_class_name = _.titleize(_.camelize(object_attribute))
     model_class = Cms.Models[model_class_name]
     collection ?= _cms[model_class_name.toLowerCase() + 's']
-
-    @log "belongsTo collection", model_class_name.toLowerCase() + 's', collection
 
     # For the usual situation when an associate is sent down just as eg. section_type_id
     id_attribute = "#{object_attribute}_id"
@@ -579,12 +576,10 @@ class Cms.Collection extends Backbone.Collection
     @_loaded.promise()
 
   reload: =>
-    @log "reload!"
     @prepareLoader()
     @load()
 
   parse: (response) =>
-    @log "parse", response
     if @prepareData(response)
       response.data
 

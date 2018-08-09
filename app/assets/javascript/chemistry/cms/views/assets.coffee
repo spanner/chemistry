@@ -203,22 +203,6 @@ class Cms.Views.Image extends Cms.Views.Asset
     super
 
 
-class Cms.Views.BackgroundImage extends Cms.Views.Image
-  template: false
-  className: "bg image"
-
-  bindings:
-    ":el":
-      attributes: [
-        name: "data-image",
-        observe: "id"
-      ,
-        name: "style",
-        observe: ["file_url", "file_data"]
-        onGet: "styleBackgroundImage"
-      ]
-
-
 ## Video assets
 #
 class Cms.Views.Video extends Cms.Views.Asset

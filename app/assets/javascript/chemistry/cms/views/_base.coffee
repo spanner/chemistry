@@ -12,7 +12,7 @@ class Cms.View extends Backbone.Marionette.View
       @addBinding null, _.result @, 'extraBindings'
       @stickit()
       _.defer =>
-        @triggerMethod 'rendered'
+        @triggerMethod 'ready'
 
   addView: (view) =>
     @subviews.push view
@@ -49,6 +49,9 @@ class Cms.View extends Backbone.Marionette.View
       file_url
     else
       path
+
+  absolutePath: (path) =>
+    if path[0] is '/' then path else "/#{path}"
 
 
   ## onGet helpers
@@ -161,7 +164,7 @@ class Cms.View extends Backbone.Marionette.View
   #
   # Object is saveable if it is valid and has significant changes.
   #
-  unSaveable: ([changed, valid]=[]) =>
+  unSaveable: ([changed, valid, unpublished]=[]) =>
     !changed or !valid
 
   # Object is revertable if it has significant changes.
@@ -169,11 +172,15 @@ class Cms.View extends Backbone.Marionette.View
   unRevertable: (changed) =>
     !changed
 
+  # Object is reviewable if it has ever been published.
+  #
+  unReviewable: (unpublished) =>
+    !!unpublished
+
   # page is publishable if it has no unsaved changes,
   # and the current publication is out of date.
   #
   unPublishable: ([changed, valid, unpublished]=[]) =>
-    @log "unPublishable", changed, valid, unpublished
     changed or !valid or !unpublished
 
   save: (e) =>
@@ -293,7 +300,6 @@ class Cms.EditView extends Cms.View
   onBeforeDestroy: =>
     unless @_saved
       @model.revert()
-
 
   saveModel: (e) =>
     e?.preventDefault()

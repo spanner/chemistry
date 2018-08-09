@@ -144,6 +144,11 @@
         "title": "Page title"
       }
     },
+    "tooltips": {
+      "save_shortcut": "save page",
+      "publish_shortcut": "publish page",
+      "review_shortcut": "review published page"
+    },
     "video": {
       "caption": "Optional video caption",
       "file": "Click or drop video file here",

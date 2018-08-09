@@ -5,7 +5,7 @@ class Cms.Views.Saver extends Cms.View
     save_button: "a.save"
     revert_button: "a.revert"
     publish_button: "a.publish"
-    preview_button: "a.preview"
+    review_button: "a.review"
     config_button: "a.config"
 
   events:
@@ -30,7 +30,7 @@ class Cms.Views.Saver extends Cms.View
         unavailable:
           observe: ["changed", "valid", "unpublished"]
           onGet: "unPublishable"
-    "a.preview":
+    "a.review":
       attributes: [
         name: "href"
         observe: "path"
@@ -39,7 +39,7 @@ class Cms.Views.Saver extends Cms.View
       classes: 
         unavailable:
           observe: "published_at"
-          onGet: "untrue"
+          onGet: "unReviewable"
 
   onRender: =>
     super
@@ -50,9 +50,6 @@ class Cms.Views.Saver extends Cms.View
     config_page_view = new Cms.Views.ConfigPage
       model: @model
     _cms.ui.floatView config_page_view
-
-  absolutePath: (path) =>
-    if path[0] is '/' then path else "/#{path}"
 
 
 class Cms.Views.Confirmation extends Cms.View

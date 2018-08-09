@@ -7,7 +7,7 @@ header#cms-nav
   background-color: rgba(255, 255, 255, 0)
   pointer-events: none
   transition: background-color 0.25s ease-out
-  a.save_shortcut, a.publish_shortcut
+  a.shortcut
     color: $verypale
     cursor: pointer
     pointer-events: auto
@@ -15,20 +15,22 @@ header#cms-nav
     position: absolute
     top: 16px
     left: 72px
-    width: 24px
-    height: 24px
+    width: 32px
+    height: 32px
+    border-radius: 16px
     background-color: white
     border: 1px solid white
-    border-radius: 12px
     svg
-      width: 24px
-      height: 24px
+      width: 32px
+      height: 32px
     &.unavailable
       display: none
-  a.save_shortcut
-    color: $green
-  a.publish_shortcut
-    color: $purple
+    &.save
+      color: $green
+    &.publish
+      color: $purple
+    &.review
+      color: $blue
 
   &.up
     background-color: $control_bg
@@ -145,7 +147,7 @@ header#cms-nav
         color: $red
       &.publish
         color: $purple
-      &.preview
+      &.review
         color: $blue
       &.config
         color: $orange

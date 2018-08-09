@@ -38,12 +38,11 @@ class Cms.Views.Section extends Cms.View
     @model.on "change:section_type", @render
 
   onRender: =>
-    # apply localised placeholders
-    @setPlaceholders()
-    # bind
+    @log "🚜 onRender", @cid
     @makeEditable()
+    @setPlaceholders()
+    @log "🚜 at binding time, these are contenteditable...", @$el.find('[contenteditable]')
     super
-    # wrap editing controls around content elements
     @addEditors()
     @showContents()
 
@@ -62,12 +61,18 @@ class Cms.Views.Section extends Cms.View
           @$el.find('[data-cms-role="' + att + '"]').attr('data-placeholder', ph)
 
   makeEditable: =>
-    @ui.editable.attr('contenteditable', 'true').addClass('editing')
+    @bindUIElements()
+    @log "🚜 makeEditable", @cid, @ui.editable_string
+    @ui.editable_string.attr('contenteditable', 'plaintext-only')
+    @ui.editable_html.attr('contenteditable', true)
+    @ui.editable.addClass('editing')
 
   ## Edit helpers
   # Wrap html and image editors around our bound elements to provide extra editing controls.
   #
   addEditors: =>
+    @log "🚜 addEditors", @cid, @ui.editable_string
+
     @ui.editable_string.each (i, el) =>
       @addView new Cms.Views.EditableString
         model: @model

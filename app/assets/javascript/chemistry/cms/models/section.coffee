@@ -36,4 +36,3 @@ class Cms.Collections.Sections extends Cms.Collection
         slug = first_section.get('section_type_slug')
         if slug is 'hero' or slug is 'title'
           first_section.setDefault 'title', @_nested?.get('title')
-  

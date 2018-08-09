@@ -5,12 +5,15 @@
     %use{"xlink:href" => "#flask_symbol"}
   %svg.close
     %use{"xlink:href" => "#close_symbol"}
-%a.save_shortcut
+%a.save.shortcut{title: t("nav.tooltips.save_shortcut")}
   %svg
     %use{"xlink:href" => "#save_button_symbol"}
-%a.publish_shortcut
+%a.publish.shortcut{title: t("nav.tooltips.publish_shortcut")}
   %svg
     %use{"xlink:href" => "#publish_button_symbol"}
+%a.review.shortcut{title: t("nav.tooltips.review_shortcut"), target: "_blank"}
+  %svg
+    %use{"xlink:href" => "#show_button_symbol"}
 
 #queue
 
