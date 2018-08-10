@@ -270,6 +270,13 @@ class Cms.Views.Background extends Cms.Views.Asset
 
   bindings:
     ":el":
+      classes:
+        img:
+          observe: "asset_type"
+          onGet: "ifImage"
+        vid:
+          observe: "asset_type"
+          onGet: "ifVideo"
       attributes: [
         name: "data-asset-id",
         observe: "id"
@@ -305,6 +312,12 @@ class Cms.Views.Background extends Cms.Views.Asset
         @model = new Cms.Models.Image(id: asset_id)
       @model.load()
       @triggerMethod 'wrap'
+
+  ifImage: (asset_type) =>
+    asset_type is "image"
+
+  ifVideo: (asset_type) =>
+    asset_type is "video"
 
   ifEmbeddedVideo: ([asset_type, embed_code]=[]) =>
     asset_type is "video" and embed_code

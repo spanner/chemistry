@@ -127,6 +127,7 @@ class Cms.Views.AssetEditor extends Cms.View
 
   initialize: (opts={}) =>
     @_size ?= _.result @, 'defaultSize'
+    @_asset_helpers = []
     super
 
   onRender: =>
@@ -142,6 +143,7 @@ class Cms.Views.AssetEditor extends Cms.View
             collection: @collectionForHelper(helper)
           helper.$el.appendTo @ui.buttons
           helper.render()
+          @_asset_helpers.push helper
           helper.on "select", @setModel
           helper.on "create", @updateParent
           helper.on "styled", @setStyle
@@ -155,6 +157,8 @@ class Cms.Views.AssetEditor extends Cms.View
   #
   setModel: (model) =>
     @model = model
+    for helper in @_asset_helpers
+      helper.setModel?(helper)
     if @model
       @trigger "select", @model
       @stickit()
@@ -190,7 +194,7 @@ class Cms.Views.AssetEditor extends Cms.View
 
 class Cms.Views.ImageEditor extends Cms.Views.AssetEditor
   template: "assets/image_editor"
-  helpers: ["ImagePicker", "ImageImporter", "ImageUploader"]
+  helpers: ["ImagePicker", "ImageImporter", "ImageUploader", "AssetPlacement"]
 
   initialize: (data, options={}) ->
     @collection ?= new Cms.Collections.Images
@@ -431,34 +435,23 @@ class Cms.Views.PageAssetUploader extends Cms.View
   template: "assets/page_asset_uploader"
 
 
-
 ## Asset stylers
 #
-# All the assets get similar layout options,
-# depending on which buttons are provided in that template of that subclass.
-
-class Cms.Views.AssetStyler extends Cms.Views.MenuView
+# These control placement and display of the asset in this setting
+# without touching the asset itself or setting any attributes.
+#
+class Cms.Views.AssetPlacement extends Cms.Views.MenuView
   tagName: "div"
-  className: "styler"
-  template: "assets/asset_styler"
+  className: "settings"
+  template: "assets/asset_placement"
 
-  ui:
-    closer: "a.close"
-    right: "a.right"
-    left: "a.left"
-    full: "a.full"
-    wide: "a.wide"
-    hero: "a.hero"
-
-  events:
-    "click @ui.right": "setRight"
-    "click @ui.left": "setLeft"
-    "click @ui.full": "setFull"
-    "click @ui.wide": "setWide"
-    "click @ui.hero": "setHero"
+  events: 
+    "click @ui.head": "toggleMenu"
     "click @ui.closer": "close"
+    "click a.placement": "setPlacement"
 
   onRender: =>
+    super
     if @model
       @$el.show()
     else
@@ -468,26 +461,9 @@ class Cms.Views.AssetStyler extends Cms.Views.MenuView
     @model = model
     @render()
 
-  setRight: => @trigger "styled", "right"
-  setLeft: => @trigger "styled", "left"
-  setFull: => @trigger "styled", "full"
-  setWide: => @trigger "styled", "wide"
-
-
-class Cms.Views.ImageSettings extends Cms.Views.MenuView
-  tagName: "div"
-  className: "weighter"
-  template: "assets/image_settings"
-
-  ui:
-    head: ".menu-head"
-    body: ".menu-body"
-    closer: "a.close"
-
-  events:
-    "click @ui.head": "toggleMenu"
-    "click @ui.closer": "close"
-
-  bindings: 
-    "input.weight": "main_image_weighting"
+  setPlacement: (e) =>
+    e.preventDefault()
+    $el = $(e.target)
+    if placement = $el.data('placement')
+      @trigger "place", placement
 

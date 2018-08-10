@@ -23,7 +23,7 @@ a.control, label.control
   cursor: pointer
   overflow: hidden
   color: white
-  opacity: 1
+  opacity: 0.4
   transition: color 0.25s ease-out, opacity 0.25s ease-out
   border-radius: 16px
   border: 1px solid white
@@ -136,29 +136,8 @@ a.control, label.control
         display: inline-block
         vertical-align: middle
         line-height: 1.8
-    .weighter &
+    .settings &
       width: 180px
-      .sectors
-        position: relative
-        padding: 20px
-        input
-          display: none
-        input + span
-          background-color: $pale
-        input:checked + span
-          background-color: $green
-        label.sector
-          display: inline-block
-          span
-            position: relative
-            display: inline-block
-            width: 24px
-            height: 24px
-            border-radius: 12px
-            margin: 4px
-            background-color: $pale
-            &:hover
-              backround-color: $mid
 
 .open
   .cms-menu

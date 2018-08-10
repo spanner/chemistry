@@ -139,17 +139,13 @@ figure
       pointer-events: none
       a.control, label.control
         margin-bottom: 0
-      .picker, .importer, .uploader, .styler, .config, .weighter, .remover
+      .picker, .importer, .uploader, .styler, .config, .weighter, .remover, .settings
         display: block
         margin: 0 5px 0 0
         pointer-events: auto
-      .picker, .importer, .uploader
         float: right
       .delete
-        float: right
         margin: 0 4px
-      .styler, .weighter
-        float: right
       .thumbnails, .select
         display: inline-block
         vertical-align: top
@@ -207,6 +203,53 @@ figure
     cursor: pointer
   p.waiter
     display: none
+
+.asset_settings
+  margin: 0 0 10px 10px
+  clear: both
+  h4
+    margin: 6px 0 0 0
+    &:first-child
+      margin-top: 0
+  .placements
+    a.placement
+      color: $pale
+      display: inline-block
+      margin-right: 5px
+      cursor: pointer
+      svg
+        width: 48px
+        height: 48px
+        path.hl
+          fill: $highlight
+      &:hover
+        color: $mid
+        svg
+          path.hl
+            fill: $highlight
+
+  .weightings
+    position: relative
+    padding: 20px
+    a
+      background-color: $pale
+    input:checked + span
+      background-color: $green
+    label.sector
+      display: inline-block
+      span
+        position: relative
+        display: inline-block
+        width: 24px
+        height: 24px
+        border-radius: 12px
+        margin: 4px
+        background-color: $pale
+        &:hover
+          backround-color: $mid
+  
+
+
 
 
 @media (max-width: 750px)

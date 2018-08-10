@@ -44,13 +44,15 @@
   },
   "headings": {
     "pages": "Pages",
+    "layout": "Layout",
+    "image_weighting": "Weighting",
     "import_image": "Import image",
     "import_video": "Import video",
+    "placement": "Placement",
     "reuse_image": "Reuse image",
     "reuse_video": "Reuse video",
     "reuse_document": "Reuse document",
-    "settings_image": "Properties",
-    "settings_video": "Properties"
+    "weighting": "Weighting"
   },
   "images": {
     "upload": "Upload new image"
@@ -76,6 +78,7 @@
   },
   "notes": {
     "create_new_page": "",
+    "image_weighting": "Click on a sector to pin that part of the image in view, so for example if you click the bottom-left square then the top right part of the image will be lost when it is cropped.",
     "external_url": "Please give full web address including http:// or https:// prefix",
     "term_search_hint": "Type in a search term to see suggestions. Press enter to create a new tag.",
     "video_providers": "Videos can be embedded automatically from youtube, vimeo and most other providers. Just paste a URL or youtube ID here."
