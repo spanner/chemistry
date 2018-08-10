@@ -41,6 +41,10 @@ module Chemistry
       self.file_file_name = name
     end
 
+    def file_type=(content_type)
+      self.file_content_type = content_type
+    end
+
     def remote_url=(url)
       if url
         self.file = open(url)

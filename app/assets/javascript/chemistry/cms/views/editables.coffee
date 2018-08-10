@@ -57,6 +57,10 @@ class Cms.Views.EditableHtml extends Cms.View
     content = el.innerHTML
     el.innerHTML = "" if content is "<p>&#8203;</p>" or content is "<p><br></p>" or content is "<p>​</p>"  # there's a zwsp in that last string
 
+  # update is called when an embedded asset view triggers an 'update' event
+  onUpdate: =>
+    @$el.trigger 'input'
+
 
 class Cms.Views.EditableString extends Cms.View
   template: false
@@ -80,7 +84,6 @@ class Cms.Views.EditableBackground extends Cms.View
 
   initialize: ->
     super
-    @log "EditableBackground", @el
     @render()
 
   onRender: =>
@@ -90,5 +93,12 @@ class Cms.Views.EditableBackground extends Cms.View
       bg_el = $('<figure class="bg"></figure>').appendTo(@el)
     @addView new Cms.Views.Background
       el: bg_el
+
+  # Update is called when our embedded background view triggers an 'update' event
+  # Unlike most editables, our element is not a bound contenteditable so we can't just populate it and trigger 'input'
+  # We have to assume that it is the background_html attribute we should update, and do that directly.
+  #
+  onUpdate: =>
+    @model.set "background_html", @withoutControls(@$el.html())
 
 

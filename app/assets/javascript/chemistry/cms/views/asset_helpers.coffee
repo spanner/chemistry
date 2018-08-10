@@ -154,14 +154,12 @@ class Cms.Views.AssetEditor extends Cms.View
   ## Selection actions
   #
   setModel: (model) =>
-    @log "🤡 setModel", model
     @model = model
     if @model
       @trigger "select", @model
       @stickit()
 
   updateParent: =>
-    @log "🤡 updateParent"
     @trigger 'update'
 
 
@@ -280,6 +278,12 @@ class Cms.Views.ImagePicker extends Cms.Views.AssetPicker
 class Cms.Views.VideoPicker extends Cms.Views.AssetPicker
   template: "assets/video_picker"
   listView: "VideoList"
+
+  # passed back to the Asset view.
+  selectModel: (model) =>
+    window.vid = model
+    @close()
+    @trigger "select", model
 
 
 class Cms.Views.DocumentPicker extends Cms.Views.AssetPicker

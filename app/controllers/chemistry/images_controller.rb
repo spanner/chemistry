@@ -53,6 +53,7 @@ module Chemistry
       params.require(:image).permit(
         :file_data,
         :file_name,
+        :file_type,
         :caption,
         :remote_url
       )

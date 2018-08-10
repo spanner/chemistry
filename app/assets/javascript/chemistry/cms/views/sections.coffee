@@ -31,6 +31,10 @@ class Cms.Views.Section extends Cms.View
       observe: "secondary_html"
       updateMethod: "html"
       onSet: "withoutControls"
+    # '[data-cms-role="background"]':
+    #   observe: "background_html"
+    #   updateMethod: "html"
+    #   onSet: "withoutControls"
 
   initialize: (opts={}) =>
     super
@@ -38,10 +42,8 @@ class Cms.Views.Section extends Cms.View
     @model.on "change:section_type", @render
 
   onRender: =>
-    @log "🚜 onRender", @cid
     @makeEditable()
     @setPlaceholders()
-    @log "🚜 at binding time, these are contenteditable...", @$el.find('[contenteditable]')
     super
     @addEditors()
     @showContents()
@@ -62,7 +64,6 @@ class Cms.Views.Section extends Cms.View
 
   makeEditable: =>
     @bindUIElements()
-    @log "🚜 makeEditable", @cid, @ui.editable_string
     @ui.editable_string.attr('contenteditable', 'plaintext-only')
     @ui.editable_html.attr('contenteditable', true)
     @ui.editable.addClass('editing')
@@ -71,8 +72,6 @@ class Cms.Views.Section extends Cms.View
   # Wrap html and image editors around our bound elements to provide extra editing controls.
   #
   addEditors: =>
-    @log "🚜 addEditors", @cid, @ui.editable_string
-
     @ui.editable_string.each (i, el) =>
       @addView new Cms.Views.EditableString
         model: @model
@@ -83,7 +82,10 @@ class Cms.Views.Section extends Cms.View
         model: @model
         el: el
 
+    # background is not the usual contenteditable situation, but an asset view attached directly to the section.
+    # so we don't bind it, but instead let the editable populate the background_html attribute directly.
     @ui.editable_background.each (i, el) =>
+      $(el).html @model.get('background_html')
       @addView new Cms.Views.EditableBackground
         model: @model
         el: el
@@ -115,6 +117,9 @@ class Cms.Views.SectionRenderer extends Cms.Views.Section
       updateMethod: "html"
     '[data-cms-role="secondary"]':
       observe: "secondary_html"
+      updateMethod: "html"
+    '[data-cms-role="background"]':
+      observe: "background_html"
       updateMethod: "html"
 
   onRender: =>

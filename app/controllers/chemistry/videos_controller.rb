@@ -51,8 +51,9 @@ module Chemistry
 
     def video_params
       params.require(:video).permit(
-        :file,
+        :file_data,
         :file_name,
+        :file_type,
         :caption,
         :remote_url
       )

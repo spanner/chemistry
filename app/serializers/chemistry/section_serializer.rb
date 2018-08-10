@@ -13,6 +13,7 @@ class Chemistry::SectionSerializer
              :title,
              :primary_html,
              :secondary_html,
+             :background_html,
              :deleted_at
 
 end

@@ -44,6 +44,10 @@ module Chemistry
       self.file_file_name = name
     end
 
+    def file_type=(content_type)
+      self.file_content_type = content_type
+    end
+
 
     ## Serialization
     #
@@ -76,7 +80,7 @@ module Chemistry
     end
 
     def hero_url
-      thumbnail_large.presence || uploaded_file_url(:hero)
+      thumbnail_large.presence || uploaded_file_url(:full)
     end
 
     def original_url

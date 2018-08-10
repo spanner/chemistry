@@ -16,10 +16,14 @@ class Cms.View extends Backbone.Marionette.View
 
   addView: (view) =>
     @subviews.push view
+    view.on "update", @onUpdate
 
   onDestroy: =>
     if @subviews?.length
       subview.destroy() for subview in @subviews
+
+  onUpdate: =>
+    # noop here but view may want to attend to subview
 
 
   ## link helpers

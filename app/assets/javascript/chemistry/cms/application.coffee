@@ -95,7 +95,6 @@ class Cms.Application extends Backbone.Marionette.Application
   handleLinkClick: (e) ->
     $a = $(@)
     href = $a.attr("href")
-    _cms.log "link click", href, @
     if href and href isnt "#" and href.slice(0, 4) isnt 'http'
       e.preventDefault()
       has_target = _.includes(href, "#")

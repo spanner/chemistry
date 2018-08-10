@@ -133,7 +133,7 @@ module Chemistry
           :title,
           :primary_html,
           :secondary_html,
-          :section_type_id,
+          :background_html,
           :deleted_at
         ]
       )

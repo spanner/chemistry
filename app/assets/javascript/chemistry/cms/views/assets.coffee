@@ -154,10 +154,6 @@ class Cms.Views.Asset extends Cms.View
       @_editor.on 'update', @update
       @_editor.on 'select', @setModel
 
-  update: =>
-    @log "update", @$el.parent()
-    @$el.parent().trigger 'input'
-
   remove: () =>
     @$el.slideUp 'fast', =>
       @update()
@@ -168,7 +164,7 @@ class Cms.Views.Asset extends Cms.View
   setModel: (model) =>
     @model = model
     @stickit() if @model
-    @update()
+    @trigger 'update'
 
 
 ## Image assets
@@ -282,7 +278,7 @@ class Cms.Views.Background extends Cms.Views.Asset
         observe: "asset_type"
       ,
         name: "style",
-        observe: ["asset_type", "file_url", "file_data"]
+        observe: ["asset_type", "file_url"]
         onGet: "styleBackgroundIfImage"
       ]
     ".embed":
@@ -291,22 +287,14 @@ class Cms.Views.Background extends Cms.Views.Asset
       updateView: true
       updateMethod: "html"
     "video":
-      observe: ["asset_type", "file_url", "embed_code"]
+      observe: ["asset_type", "original_url", "embed_code"]
       visible: "ifUnembeddedVideo"
       attributes: [
         name: "poster"
-        observe: ["asset_type", "full_url"]
-        onGet: "thatIfThisIsVideo"
-      ]
-    "img":
-      attributes: [
+        observe: "file_url"
+      ,
         name: "src"
-        observe: "full_url"
-      ]
-    "source":
-      attributes: [
-        name: "src"
-        observe: "url"
+        observe: "original_url"
       ]
 
   wrap: =>
@@ -321,11 +309,14 @@ class Cms.Views.Background extends Cms.Views.Asset
   ifEmbeddedVideo: ([asset_type, embed_code]=[]) =>
     asset_type is "video" and embed_code
 
-  ifUnembeddedVideo: ([asset_type, file_url, embed_code]=[]) =>
-    asset_type is "video" and file_url and not embed_code
+  ifUnembeddedVideo: ([asset_type, original_url, embed_code]=[]) =>
+    asset_type is "video" and original_url and not embed_code
 
   styleBackgroundIfImage: ([asset_type, file_url, file_data]=[]) =>
-    @styleBackgroundImage([file_url, file_data]) if asset_type is "image"
+    if asset_type is "image"
+      @styleBackgroundImage([file_url, file_data])
+    else
+      ""
 
 
 ## Document assets
