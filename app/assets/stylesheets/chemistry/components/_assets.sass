@@ -37,6 +37,18 @@ figure
     bottom: 0
     right: 0
 
+  &.image
+    &.thumb
+      width: 180px
+      float: left
+      margin: 8px 12px 12px 0
+    &.full
+      margin: 0 0 1em 0
+    &.right
+      width: 46%
+      float: right
+      margin: 0.2em 0 12px 4%
+
   &.video
     video
       width: 100%
@@ -139,7 +151,7 @@ figure
       pointer-events: none
       a.control, label.control
         margin-bottom: 0
-      .picker, .importer, .uploader, .styler, .config, .weighter, .remover, .settings
+      .picker, .importer, .uploader, .styler, .config, .weighter, .remover, .layout
         display: block
         margin: 0 5px 0 0
         pointer-events: auto

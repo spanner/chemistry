@@ -151,7 +151,8 @@ class Cms.Views.Asset extends Cms.View
       @_editor.$el.appendTo @$el
       @_editor.render()
       @_editor.on 'remove', @remove
-      @_editor.on 'update', @update
+      @_editor.on 'update', @onUpdate
+      @_editor.on 'place', @onPlace
       @_editor.on 'select', @setModel
 
   remove: () =>
@@ -164,6 +165,16 @@ class Cms.Views.Asset extends Cms.View
   setModel: (model) =>
     @model = model
     @stickit() if @model
+    @onUpdate()
+
+  # relay update event from helpers up to containing editable
+  onUpdate: =>
+    @log "🚜 asset onUpdate"
+    @trigger 'update'
+
+  onPlace: (placement) =>
+    @log "🚜 onPlace", placement
+    @$el.removeClass('thumb full right').addClass(placement)
     @trigger 'update'
 
 

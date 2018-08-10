@@ -23,6 +23,7 @@ class Cms.View extends Backbone.Marionette.View
       subview.destroy() for subview in @subviews
 
   onUpdate: =>
+    @log "🚜 base onUpdate"
     # noop here but view may want to attend to subview
 
 

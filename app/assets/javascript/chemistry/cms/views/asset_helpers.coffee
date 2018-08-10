@@ -17,7 +17,8 @@ class Cms.Views.AssetInserter extends Cms.View
 
   initialize: (@options={}) ->
     @log "👉 init", @options
-    @_target_el = @options.target
+    @_target_view = @options.target
+    @_target_el = @_target_view.$el
     @_p = null
 
   onRender: () =>
@@ -78,11 +79,11 @@ class Cms.Views.AssetInserter extends Cms.View
     else
       @_target_el.append view.el
       @_target_el.append $("<p />")
-    view.render()
-    view.focus?()
-    # @_target_el.trigger 'input'
-    @log "👉 inserted", view.el
+    @_target_view.addView(view)
+    @_target_el.trigger 'input'
+    @log "🚜 inserted", view.el
     @hide()
+    view.focus?()
 
   place: ($el) =>
     position = $el.offset()
@@ -133,6 +134,7 @@ class Cms.Views.AssetEditor extends Cms.View
   onRender: =>
     @$el.attr('data-cms', true)
     @addHelpers()
+    @setModel(@model) if @model
 
   addHelpers: =>
     if helpers = @getOption('helpers')
@@ -146,7 +148,7 @@ class Cms.Views.AssetEditor extends Cms.View
           @_asset_helpers.push helper
           helper.on "select", @setModel
           helper.on "create", @updateParent
-          helper.on "styled", @setStyle
+          helper.on "place", @setPlacement
           helper.on "pick", => @closeHelpers()
           helper.on "open", => @closeOtherHelpers(helper)
 
@@ -164,6 +166,7 @@ class Cms.Views.AssetEditor extends Cms.View
       @stickit()
 
   updateParent: =>
+    @log "🚜 updateParent"
     @trigger 'update'
 
 
@@ -173,11 +176,11 @@ class Cms.Views.AssetEditor extends Cms.View
     @_size = size
     @stickit() if @model
 
-  setStyle: (style) =>
-    @$el.removeClass('right left full').addClass(style)
-    size = if style is "full" then "full" else "half"
+  setPlacement: (placement) =>
+    @log "🚜 setPlacement", placement
+    size = if placement is "full" then "full" else "half"
     @setSize size
-    @update()
+    @trigger "place", placement
 
 
   ## Menu management
@@ -442,7 +445,7 @@ class Cms.Views.PageAssetUploader extends Cms.View
 #
 class Cms.Views.AssetPlacement extends Cms.Views.MenuView
   tagName: "div"
-  className: "settings"
+  className: "layout"
   template: "assets/asset_placement"
 
   events: 
@@ -463,7 +466,9 @@ class Cms.Views.AssetPlacement extends Cms.Views.MenuView
 
   setPlacement: (e) =>
     e.preventDefault()
-    $el = $(e.target)
+    $el = $(e.currentTarget)
+    @log "🚜 setPlacement", $el.data('placement')
     if placement = $el.data('placement')
       @trigger "place", placement
+      @close()
 

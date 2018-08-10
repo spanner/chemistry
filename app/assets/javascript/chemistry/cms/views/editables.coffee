@@ -11,7 +11,6 @@ class Cms.Views.EditableHtml extends Cms.View
     @$el.attr('contenteditable', 'true')
     super
 
-  onReady: =>
     #TODO v2 moves contenteditable down to the block level element, manage that list.
     @$el.find('figure.image').each (i, el) =>
       @addView new Cms.Views.Image
@@ -34,7 +33,7 @@ class Cms.Views.EditableHtml extends Cms.View
     @_toolbar.render()
 
     @_inserter = new Cms.Views.AssetInserter
-      target: @$el
+      target: @
     @_inserter.render()
 
     @$el.on "focus", @ensureP
@@ -57,8 +56,9 @@ class Cms.Views.EditableHtml extends Cms.View
     content = el.innerHTML
     el.innerHTML = "" if content is "<p>&#8203;</p>" or content is "<p><br></p>" or content is "<p>​</p>"  # there's a zwsp in that last string
 
-  # update is called when an embedded asset view triggers an 'update' event
+  # called when an embedded asset view gives us an 'update' event
   onUpdate: =>
+    @log "🚜 html onUpdate"
     @$el.trigger 'input'
 
 
@@ -99,6 +99,7 @@ class Cms.Views.EditableBackground extends Cms.View
   # We have to assume that it is the background_html attribute we should update, and do that directly.
   #
   onUpdate: =>
+    @log "🚜 background onUpdate"
     @model.set "background_html", @withoutControls(@$el.html())
 
 
