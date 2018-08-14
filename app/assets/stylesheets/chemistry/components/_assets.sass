@@ -24,6 +24,7 @@ figure
   figcaption
     display: none
   img
+    display: block
     width: 100%
     height: auto
   img[src=""]
@@ -41,11 +42,13 @@ figure
     &.thumb
       width: 180px
       float: left
+      z-index: 1
       margin: 8px 12px 12px 0
     &.full
       margin: 0 0 1em 0
     &.right
       width: 46%
+      z-index: 1
       float: right
       margin: 0.2em 0 12px 4%
 

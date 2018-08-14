@@ -1,7 +1,7 @@
 # Bindings and editables are separate concerns here.
 # We bind based on `cms-role` declarations and edit based on `cms-editor` declarations.
 #
-# This makes ad-hoc variation more easy but it's hard to express rules like 'secondary html should have no asset inserter'
+# This makes ad-hoc variation more easy but it's hard to express rules like 'secondary html should have no asset inserter and only a formatting toolbar'
 #
 class Cms.Views.Section extends Cms.View
   tagName: "section"

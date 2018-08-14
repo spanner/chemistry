@@ -17,6 +17,7 @@
     "jquery": "^3.2.1",
     "jquery-date-range-picker": "^1.0.4",
     "medium-editor": "^5.23.2",
+    "medium-editor-phrase": "^1.0.2",
     "moment": "^2.18.1",
     "node-polyglot": "^2.2.2",
     "smartquotes": "^2.1.2",

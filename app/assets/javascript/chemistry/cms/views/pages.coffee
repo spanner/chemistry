@@ -114,7 +114,7 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
       ]
       classes: 
         unavailable:
-          observe: "published_at"
+          observe: "unpublished"
           onGet: "unReviewable"
 
   onRender: =>

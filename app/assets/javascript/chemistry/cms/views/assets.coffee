@@ -157,10 +157,10 @@ class Cms.Views.Asset extends Cms.View
 
   remove: () =>
     @$el.slideUp 'fast', =>
-      @update()
       p = $("<p />").insertBefore @$el
       @$el.remove()
       p.focus()
+      @onUpdate()
 
   setModel: (model) =>
     @model = model

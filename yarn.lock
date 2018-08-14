@@ -137,6 +137,10 @@ loose-envify@^1.0.0:
   dependencies:
     js-tokens "^3.0.0"
 
+medium-editor-phrase@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/medium-editor-phrase/-/medium-editor-phrase-1.0.2.tgz#ef54bd09d27bb5a07f01aabf9905357ebd59daa8"
+
 medium-editor@^5.23.2:
   version "5.23.3"
   resolved "https://registry.yarnpkg.com/medium-editor/-/medium-editor-5.23.3.tgz#6fb638759ae2fc76c423feb056f346d9c518d3b7"

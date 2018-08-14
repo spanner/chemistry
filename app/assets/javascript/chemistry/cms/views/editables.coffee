@@ -28,8 +28,10 @@ class Cms.Views.EditableHtml extends Cms.View
       @addView new Cms.Views.Note
         el: el
 
-    @_toolbar = new Cms.Views.Toolbar
-      target: @$el
+    toolbar = @$el.data('cms-toolbar') or ""
+    if toolbar_class = Cms.Views[toolbar.charAt(0).toUpperCase() + toolbar.slice(1) + "Toolbar"]
+      @_toolbar = new toolbar_class
+        target: @$el
     @_toolbar.render()
 
     if @$el.data('cms-assets')
