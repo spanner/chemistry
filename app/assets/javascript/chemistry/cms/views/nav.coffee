@@ -48,6 +48,10 @@ class Cms.Views.Nav extends Cms.View
           observe: ["changed", "valid", "unpublished"]
           onGet: "unReviewable"
 
+  initialize: =>
+    super
+    window.onbeforeunload = _cms.checkDeparture(@model)
+
   onRender: =>
     @getRegion('queue').show new Cms.Views.JobQueue
     @setModel(@model)
@@ -71,3 +75,4 @@ class Cms.Views.Nav extends Cms.View
   #
   unReviewable: ([changed, valid, unpublished]=[]) =>
     unpublished or !@unSaveable([changed, valid, unpublished]) or !@unPublishable([changed, valid, unpublished])
+

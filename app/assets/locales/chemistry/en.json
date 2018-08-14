@@ -18,7 +18,8 @@
   },
   "confirmations": {
     "delete": "Delete this?",
-    "delete_page": "Delete this page?"
+    "delete_page": "Delete this page?",
+    "depart": "'Are you sure you want to leave? There are unsaved changes to this page.'"
   },
   "conjunctions": {
     "between": " between ",

@@ -108,6 +108,14 @@ class Cms.Application extends Backbone.Marionette.Application
       trigger: trigger
       replace: replace
 
+  #TODO also warn in internal navigation eg to page tree.
+  checkDeparture: (model) =>
+    checker = (e) ->
+      if model?.get('changed')
+        prompt = t('confirmations.depart')
+        e.returnValue = prompt
+        prompt
+
 
   ## Overrides
   #

@@ -9,19 +9,19 @@ ul.pages
       color: $mid
       &:hover
         color: $dark
+    &.unpublished
+      a
+        color: $purple
+        +hover
+    &.unsaved
+      a
+        color: $blue
+        +hover
     &.new
       a
         color: $pale
         &:hover
           color: $green
-    &.url
-      a
-        color: $blue
-        +hover
-    &.file
-      a
-        color: $red
-        +hover
     span.indent
       display: inline-block
       float: left
@@ -44,9 +44,14 @@ ul.pages
         color: $green
       a.config
         color: $orange
+      a.save
+        color: $blue
+      a.publish
+        color: $purple
+      a.review
+        color: $mid
       a.unavailable
-        color: $pale
-        pointer-events: none
+        display: none
     svg.page, img.page_icon
       display: inline-block
       float: left

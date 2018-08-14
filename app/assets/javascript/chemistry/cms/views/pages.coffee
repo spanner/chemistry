@@ -56,17 +56,25 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
   ui:
     link: "a.page"
     deleter: "a.delete"
+    save_button: "a.save"
+    revert_button: "a.revert"
+    publish_button: "a.publish"
+    review_button: "a.review"
+    config_button: "a.config"
 
   triggers:
     "click a.config": "config"
     "click a.add.child": "beget"
 
+  events:
+    "click a.save": "save"
+    "click a.publish": "publishWithConfirmation"
+
   bindings:
     ":el":
-      attributes: [
-        name: "class"
-        observe: "content"
-      ]
+      classes:
+        unsaved: "changed"
+        unpublished: "unpublished"
     ".title":
       observe: "title"
       onGet: "shortTitle"
@@ -88,6 +96,26 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
     "a.delete":
       classes:
         unavailable: "home"
+    "a.save":
+      classes:
+        unavailable:
+          observe: ["changed", "valid"]
+          onGet: "unSaveable"
+    "a.publish":
+      classes: 
+        unavailable:
+          observe: ["changed", "valid", "unpublished"]
+          onGet: "unPublishable"
+    "a.review":
+      attributes: [
+        name: "href"
+        observe: "path"
+        onGet: "absolutePath"
+      ]
+      classes: 
+        unavailable:
+          observe: "published_at"
+          onGet: "unReviewable"
 
   onRender: =>
     super
@@ -120,10 +148,6 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
 
 class Cms.Views.TreePage extends Cms.Views.ListedPage
   template: "pages/page_in_tree"
-
-  triggers:
-    "click a.config": "config"
-    "click a.add.child": "beget"
 
   extraBindings:
     ".indent":
