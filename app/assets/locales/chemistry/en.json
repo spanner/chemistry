@@ -130,6 +130,10 @@
       "standard": {
         "primary": "The text of the main page block. While editing you can also add headings, lists, inline images, video, quotes and marginal annotations. Click the plus button on an empty line to see all the options."
       },
+      "home": {
+        "title": "Click or tap to put your welcome message here",
+        "secondary": "Click or tap to add optional extra messages and links here. Press return for a new column."
+      },
       "illuminated": {
         "primary": "The standfirst usually gives an introduction or summary of around 30-50 words.",
         "secondary": "Optional page notes or picture caption.",
@@ -140,8 +144,8 @@
         "secondary": "Optional page notes."
       },
       "statement": {
-        "primary": "Big noisy quote is expected to go here.",
-        "secondary": "With this optional footnote."
+        "title": "Click or tap to put a big loud message in here",
+        "secondary": "Click or tap to add optional extra messages and links here. Press return for a new column."
       },
       "title": {
         "title": "Page title"

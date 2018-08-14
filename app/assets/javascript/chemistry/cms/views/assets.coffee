@@ -294,10 +294,6 @@ class Cms.Views.Background extends Cms.Views.Asset
       ,
         name: "data-asset-type",
         observe: "asset_type"
-      ,
-        name: "style",
-        observe: ["asset_type", "file_url"]
-        onGet: "styleBackgroundIfImage"
       ]
     ".embed":
       observe: ["asset_type", "embed_code"]
@@ -313,6 +309,13 @@ class Cms.Views.Background extends Cms.Views.Asset
       ,
         name: "src"
         observe: "original_url"
+      ]
+    "img":
+      observe: "asset_type"
+      visible: "ifImage"
+      attributes: [
+        name: "src"
+        observe: "file_url"
       ]
 
   wrap: =>

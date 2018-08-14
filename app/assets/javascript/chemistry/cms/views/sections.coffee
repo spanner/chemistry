@@ -1,3 +1,8 @@
+# Bindings and editables are separate concerns here.
+# We bind based on `cms-role` declarations and edit based on `cms-editor` declarations.
+#
+# This makes ad-hoc variation more easy but it's hard to express rules like 'secondary html should have no asset inserter'
+#
 class Cms.Views.Section extends Cms.View
   tagName: "section"
   className: => @model?.get('section_type_slug')
@@ -31,10 +36,6 @@ class Cms.Views.Section extends Cms.View
       observe: "secondary_html"
       updateMethod: "html"
       onSet: "withoutControls"
-    # '[data-cms-role="background"]':
-    #   observe: "background_html"
-    #   updateMethod: "html"
-    #   onSet: "withoutControls"
 
   initialize: (opts={}) =>
     super
@@ -82,8 +83,8 @@ class Cms.Views.Section extends Cms.View
         model: @model
         el: el
 
-    # background is not the usual contenteditable situation, but an asset view attached directly to the section.
-    # so we don't bind it, but instead let the editable populate the background_html attribute directly.
+    # Background is not the usual contenteditable situation, but an asset view attached directly to the section.
+    # We don't bind it, but instead let the EditableBackground manage the background_html attribute directly.
     @ui.editable_background.each (i, el) =>
       $(el).html @model.get('background_html')
       @addView new Cms.Views.EditableBackground

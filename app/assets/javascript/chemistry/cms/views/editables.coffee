@@ -32,12 +32,13 @@ class Cms.Views.EditableHtml extends Cms.View
       target: @$el
     @_toolbar.render()
 
-    @_inserter = new Cms.Views.AssetInserter
-      target: @
-    @_inserter.render()
+    if @$el.data('cms-assets')
+      @_inserter = new Cms.Views.AssetInserter
+        target: @
+      @_inserter.render()
 
     @$el.on "focus", @ensureP
-    @$el.on "blur", @removeEmptyP
+    @$el.on "blur", @clearP
 
   ## Contenteditable helpers
   # Small interventions to make contenteditable behave in a slightly saner way,
@@ -53,12 +54,11 @@ class Cms.Views.EditableHtml extends Cms.View
 
   clearP: (e) =>
     el = e.target
-    content = el.innerHTML
-    el.innerHTML = "" if content is "<p>&#8203;</p>" or content is "<p><br></p>" or content is "<p>​</p>"  # there's a zwsp in that last string
+    content = el.innerText.trim()
+    el.innerHTML = "" if !content or content is "&#8203;" or content is "​"  # there's a zwsp in that
 
   # called when an embedded asset view gives us an 'update' event
   onUpdate: =>
-    @log "🚜 html onUpdate"
     @$el.trigger 'input'
 
 
@@ -71,6 +71,7 @@ class Cms.Views.EditableString extends Cms.View
 
   onRender: =>
     @$el.attr('contenteditable', 'true')
+    #todo formatting toolbar only
     @_toolbar = new Cms.Views.Toolbar
       target: @$el
     @_toolbar.render()
