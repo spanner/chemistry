@@ -24,11 +24,10 @@ class Cms.Views.BaseToolbar extends Cms.View
         targetCheckbox: false
       anchorPreview: false
       extensions:
-        footnote: new MediumEditorPhrase
+        footnote: new MediumEditorFootnote
            name: 'footnote'
            aria: 'footnote'
            contentDefault: '<svg><use xlink:href="#footnote_button"></use></svg>'
-           phraseClassList: ['footnoted']
       paste:
         forcePlainText: false
         cleanPastedHTML: true

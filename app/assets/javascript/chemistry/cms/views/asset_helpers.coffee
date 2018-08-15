@@ -16,18 +16,15 @@ class Cms.Views.AssetInserter extends Cms.View
     "click a.note": "addNote"
 
   initialize: (@options={}) ->
-    @log "👉 init", @options
     @_target_view = @options.target
     @_target_el = @_target_view.$el
     @_p = null
 
   onRender: () =>
-    @log "👉 render"
     @$el.appendTo _cms.el
     @_target_el.on "click keyup focus", @followCaret
 
   followCaret: (e)=>
-    @log "👉 followCaret"
     selection = @el.ownerDocument.getSelection()
     if !selection or selection.rangeCount is 0
       current = $(e.target)
@@ -37,10 +34,8 @@ class Cms.Views.AssetInserter extends Cms.View
     @_p = current.closest('p')
     text = @_p.text()
     if @_p.length and _.isBlank(text) or text is "​" # zwsp!
-      @log "showing", @el
       @show(@_p)
     else
-      @log "not showing:", @_p.text().length
       @hide()
 
   toggleButtons: (e) =>
@@ -140,7 +135,6 @@ class Cms.Views.AssetEditor extends Cms.View
     if helpers = @getOption('helpers')
       for helper in @getOption('helpers')
         if helper_class = Cms.Views[helper]
-          @log "helper", helper
           helper = new helper_class
             collection: @collectionForHelper(helper)
           helper.$el.appendTo @ui.buttons

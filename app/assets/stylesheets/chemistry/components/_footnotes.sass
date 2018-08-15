@@ -1,4 +1,16 @@
-.footnoted
+@keyframes highlight
+  0%
+    background: rgba(252,217,113, 0.5)
+  100%
+    background: none
+
+body
+  counter-reset: footnotelink footnote
+
+a.footnoted, a.footnoted:visited
+  color: currentColor
+
+a.footnoted
   display: inline-block
   &:hover
     background-color: rgba(252,217,113, 0.25)
@@ -7,5 +19,27 @@
     cursor: pointer
     border-radius: 4px
   &:after
-    content: "* "
+    content: "[" counter(footnotelink) "] "
     color: $link
+    counter-increment: footnotelink
+    position: relative
+    top: -0.5em
+  &:target
+    animation: highlight 3s
+    outline: none
+
+p.footnote
+  a
+    color: currentColor
+  &:before
+    content: "[" counter(footnote) "] "
+    counter-increment: footnote
+    position: absolute
+    width: 1.6em
+    margin-left: -2em
+    text-align: right
+    color: $link
+  &:target
+    animation: highlight 3s
+  &.highlight
+    background: rgba(252,217,113, 0.5)

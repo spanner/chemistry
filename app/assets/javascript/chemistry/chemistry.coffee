@@ -13,7 +13,7 @@
 #= require smartquotes/dist/smartquotes
 #= require balance-text/balancetext
 #= require medium-editor/dist/js/medium-editor
-#= require medium-editor-phrase/dist/medium-editor-phrase
+#= require ./medium-editor-footnote
 #= require ep-jquery-tokeninput/src/jquery.tokeninput
 #= require air-datepicker/dist/js/datepicker
 #= require air-datepicker/dist/js/i18n/datepicker.en

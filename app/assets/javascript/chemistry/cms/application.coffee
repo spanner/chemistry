@@ -62,6 +62,7 @@ class Cms.Application extends Backbone.Marionette.Application
           controller: @ui
         Backbone.history.start
           pushState: true
+          hashChange: false
           root: @config('mount_point')
         $(@el).on "click", "a:not([target])", @handleLinkClick
 
@@ -95,7 +96,7 @@ class Cms.Application extends Backbone.Marionette.Application
   handleLinkClick: (e) ->
     $a = $(@)
     href = $a.attr("href")
-    if href and href isnt "#" and href.slice(0, 4) isnt 'http'
+    if href and href[0] isnt "#" and href.slice(0, 4) isnt 'http'
       e.preventDefault()
       has_target = _.includes(href, "#")
       _cms.navigate href, trigger: !has_target
@@ -115,6 +116,10 @@ class Cms.Application extends Backbone.Marionette.Application
         prompt = t('confirmations.depart')
         e.returnValue = prompt
         prompt
+
+  broadcastPageUpdate: (model) =>
+    event = new Event('page_update')
+    document.dispatchEvent(event)
 
 
   ## Overrides

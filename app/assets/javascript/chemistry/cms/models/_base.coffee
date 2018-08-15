@@ -82,7 +82,6 @@ class Cms.Model extends Backbone.Model
     @_loaded.state() is 'resolved'
 
   load: =>
-    @log "load", @_loading, @_loaded
     unless @_loading or @isLoaded()
       @_loading = true
       @_loader = @fetch(error: @notLoaded).done(@loaded)
