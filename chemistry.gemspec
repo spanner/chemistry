@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'colorize'
   s.add_dependency 'settingslogic'
   s.add_dependency 'searchkick'
+  s.add_dependency "mail_form"
 
   # UI
   s.add_dependency "haml"

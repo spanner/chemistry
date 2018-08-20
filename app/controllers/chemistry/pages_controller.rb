@@ -6,25 +6,32 @@ module Chemistry
 
     load_and_authorize_resource except: [:published]
 
+
     # HTML routes
     #
-    # Only two: public front page and editing front page.
+    # public front page
     #
     def home
       @page = Page.home.first
       render template: "chemistry/pages/published"
     end
 
+    # Editing front page
+    #
     def editor
       render
     end
 
+    # Any page, in its published form.
+    #
     def published
       @path = params[:path] || ''
       @path = '/' if @path == ''
-      @page = Page.from_path(@path.strip).first
-      head :not_found unless @page
-      render
+      if @page = Page.from_published_path(@path.strip).first
+        render
+      else
+        page_not_found
+      end
     end
 
 
@@ -37,7 +44,8 @@ module Chemistry
     # Serialized collections do not include associates: the object must be fetched singly
     # to get eg. page sections or template placeholders.
     #
-    # TODO eventually we will need a real site object but for now, this shortcut.
+    # TODO eventually we will need a real Site object but for now this shortcut.
+    # API will be preserved, more or less.
     #
     def site
       render json: {
@@ -78,7 +86,7 @@ module Chemistry
     end
 
 
-    ## Standard responses
+    ## Standard API responses
 
     def return_pages
       render json: PageSerializer.new(@pages).serialized_json
@@ -91,6 +99,18 @@ module Chemistry
     def return_errors
       render json: { errors: @page.errors.to_a }, status: :unprocessable_entity
     end
+
+
+    ## Error pages
+
+    def page_not_found
+      if @page = Page.from_published_path("/404").first
+        render
+      else
+        render template: "pages/not_found"
+      end
+    end
+
 
 
     protected

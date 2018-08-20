@@ -20,6 +20,10 @@ Chemistry::Engine.routes.draw do
   resources :documents
   resources :terms
 
+  resources :enquiries do
+    post :enquire, on: :collection
+  end
+
   get "*path" => "pages#editor"
 
 end

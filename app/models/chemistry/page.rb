@@ -28,7 +28,7 @@ module Chemistry
 
     scope :home, -> { published.where(home: true).limit(1) }
     scope :nav, -> { published.where(nav: true) }
-    scope :from_path, -> path { published.where(path: path) }
+    scope :from_published_path, -> path { published.where(path: path) }
 
     def published?
       published_at?
