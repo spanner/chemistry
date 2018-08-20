@@ -1,13 +1,14 @@
 module Chemistry
   class EnquiriesController < ApplicationController
-    load_and_authorize_resource
+    load_and_authorize_resource except: [:enquire]
 
     # This is mostly here to create a distinctive path that can be exempted from authentication
     # on the application side, without making any guesses here about how that would work.
     #
     def enquire
+      @enquiry = Enquiry.new(enquiry_params)
       @enquiry.request = request
-      if @enquiry.update_attributes(enquiry_params)
+      if @enquiry.save
         return_enquiry
       else
         return_errors
@@ -19,7 +20,7 @@ module Chemistry
     def index
       limit = params[:limit].presence || 10
       @enquiries = paginated(@enquiries, limit)
-      respond_with @enquiries
+      return_enquiries
     end
 
     def show

@@ -9,6 +9,8 @@ class Chemistry::EnquirySerializer
              :name,
              :email,
              :message,
-             :closed
+             :created_at,
+             :seen_at,
+             :closed_at
 
 end

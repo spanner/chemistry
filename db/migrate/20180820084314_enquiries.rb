@@ -4,7 +4,8 @@ class Enquiries < ActiveRecord::Migration[5.2]
       t.string   :name
       t.string   :email
       t.text     :message
-      t.boolean  :closed, default: false
+      t.datetime :seen_at
+      t.datetime :closed_at
       t.timestamps
     end
 

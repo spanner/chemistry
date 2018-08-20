@@ -41,20 +41,26 @@ class Cms.Views.UI extends Cms.View
 
   collectionView: (base, params) =>
     @log "collectionView", base, params
-    if ['pages', 'templates', 'section_types', 'images', 'videos', 'documents'].indexOf(base) is -1
+    if ['pages', 'templates', 'section_types', 'images', 'videos', 'documents', 'enquiries'].indexOf(base) is -1
       _cms.complain "Unknown object type: #{base}"
     else
-      @_collection = _cms[base]
-      @_collection.setParams collection_params
-      view_class_name = base.charAt(0).toUpperCase() + base.slice(1)
-      view_class = Cms.Views["#{view_class_name}Index"] or Cms.Views[view_class_name]
-      collection_params = @collectionParams(params)
+      class_name = base.charAt(0).toUpperCase() + base.slice(1)
+      view_class = Cms.Views["#{class_name}Index"] or Cms.Views[class_name]
+      unless @_collection = _cms[base]
+        if collection_class = Cms.Collections[class_name]
+          @_collection = new collection_class
       if @_collection and view_class
-        @_collection.setParams collection_params
+        @_collection.setParams @collectionParams(params)
         # always rebuild?
         @showView new view_class
           collection: @_collection
         @clearNavModel()
+      else
+        if !@_collection
+          _cms.complain "Cannot initialize collection: #{base}"
+        else
+          _cms.complain "Cannot initialize view: #{base}"
+
 
   modelView: (base, action, id) =>
     @log "modelView", base, action

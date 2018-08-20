@@ -1,0 +1,60 @@
+ul.enquiries
+  list-style: none
+  padding: 0
+  li
+    margin-bottom: 1em
+    a
+      color: currentColor
+      &:hover
+        color: $hover
+        span.email, date
+          color: $hover
+    h3
+      margin: 0
+      font-weight: bold
+      span.email
+        color: $pale
+        font-weight: normal
+        +hover
+    p
+      margin: 0
+      date
+        color: $pale
+        display: block
+
+form.enquiry
+  margin: 1em 0
+
+section.enquiry
+  .confirmation
+    display: none
+
+#editor
+  section.enquiry
+    .confirmation
+      display: block
+      margin-top: 2em
+      &:before
+        display: block
+        font-weight: bold
+        content: "Confirmation:"
+      p
+        margin-top: 0
+
+p.onecol, p.twocol
+  margin: 0.75em 0
+  span.col
+    display: inline-block
+    vertical-align: top
+
+p.twocol
+  span.col
+    width: 47%
+    margin: 0 2% 0 0
+    &:last-child
+      margin-right: 0
+
+p.onecol
+  span.col
+    width: 96%
+

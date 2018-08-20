@@ -124,8 +124,18 @@ class Cms.View extends Backbone.Marionette.View
   providerClass: (provider) =>
     "yt" if provider is "YouTube"
 
+  niceDatetime: (mom) =>
+    now = moment()
+    if mom.isSame(now, 'day')
+      mom.format t('date_formats.today')
+    else if mom.isSame(now, 'month')
+      mom.format t('date_formats.this_month')
+    else if mom.isSame(now, 'year')
+      mom.format t('date_formats.this_year')
+    else
+      mom.format t('date_formats.time_on_date')
+
   justDate: (mom) =>
-    _amp.log "mom", mom
     mom.format("MMM Do YYYY") if mom
 
   justDateNoYear: (mom) =>

@@ -1,6 +1,7 @@
 module Chemistry
   class Enquiry < ApplicationRecord
-    include MailForm::Shim
+    define_model_callbacks :deliver
+
     include MailForm::Delivery
 
     attributes :robot, :captcha => true

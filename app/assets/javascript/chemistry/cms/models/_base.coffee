@@ -218,10 +218,12 @@ class Cms.Model extends Backbone.Model
     id_attribute = "#{object_attribute}_id"
     if object_id = @get(id_attribute)
       if collection
-        @set object_attribute, collection.findOrAdd(object_id), silent: true
+        unless foreign_object = collection.get(object_id)
+          console.error "Association error: #{@className()} #{@id} can find no #{object_attribute} for id #{object_id}"
+        @set object_attribute, foreign_object, silent: true
       else
-        object = new model_class({id: object_id})
-        @set object_attribute, object
+        new_object = new model_class({id: object_id})
+        @set object_attribute, new_object
 
     # For the unusual case where a whole nested object is sent down.
     else if object_data = @get(object_attribute)
