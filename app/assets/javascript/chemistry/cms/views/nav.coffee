@@ -13,6 +13,7 @@ class Cms.Views.Nav extends Cms.View
     nav: "nav.submenu"
     link: "a.collection"
     bg: "#navbg"
+    shortcuts: ".shortcuts"
     save_button: "a.save.shortcut"
     publish_button: "a.publish.shortcut"
     review_button: "a.review.shortcut"
@@ -60,19 +61,30 @@ class Cms.Views.Nav extends Cms.View
     @model = model
     if model
       @getRegion('controls').show new Cms.Views.Saver(model: model)
+      @ui.shortcuts.show()
       @stickit()
     else
-      @getRegion('controls').reset()
-      @unstickit()
+      @unsetModel()
+
+  unsetModel: =>
+    @getRegion('controls').reset()
+    @ui.shortcuts.hide()
+    @unstickit()
 
   hideAndGoto: (e) =>
     @trigger 'hide'
-    # allow event to continue
+    # allow navigation event to continue
 
   # The actions overlay has a preview button whenever it's possible to preview,
   # but here we only show the shortcut when neither save nor publish is appropriate
-  # (and if we have ever been published). Usual double negative :(
+  # (and if we have ever been published). Usual double negative :|
   #
   unReviewable: ([changed, valid, unpublished]=[]) =>
     unpublished or !@unSaveable([changed, valid, unpublished]) or !@unPublishable([changed, valid, unpublished])
+
+  hideShortcuts: =>
+    @ui.save_button.addClass('unavailable')
+    @ui.publish_button.addClass('unavailable')
+    @ui.review_button.addClass('unavailable')
+
 

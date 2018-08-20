@@ -101,7 +101,7 @@ class Cms.Views.UI extends Cms.View
     @_nav.setModel(model)
 
   clearNavModel: () =>
-    @_nav.setModel(null)
+    @_nav.unsetModel()
 
   toggleNav: =>
     if @ui.nav.hasClass('up')

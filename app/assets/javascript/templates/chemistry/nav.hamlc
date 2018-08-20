@@ -1,21 +1,23 @@
-#navbg
-
 %a.menu
   %svg.open
     %use{"xlink:href" => "#flask_symbol"}
   %svg.close
     %use{"xlink:href" => "#close_symbol"}
-%a.save.shortcut.unavailable{title: t("nav.tooltips.save_shortcut")}
-  %svg
-    %use{"xlink:href" => "#save_button_symbol"}
-%a.publish.shortcut.unavailable{title: t("nav.tooltips.publish_shortcut")}
-  %svg
-    %use{"xlink:href" => "#publish_button_symbol"}
-%a.review.shortcut.unavailable{title: t("nav.tooltips.review_shortcut"), target: "_blank"}
-  %svg
-    %use{"xlink:href" => "#show_button_symbol"}
+
+.shortcuts
+  %a.save.shortcut.unavailable{title: t("nav.tooltips.save_shortcut")}
+    %svg
+      %use{"xlink:href" => "#save_button_symbol"}
+  %a.publish.shortcut.unavailable{title: t("nav.tooltips.publish_shortcut")}
+    %svg
+      %use{"xlink:href" => "#publish_button_symbol"}
+  %a.review.shortcut.unavailable{title: t("nav.tooltips.review_shortcut"), target: "_blank"}
+    %svg
+      %use{"xlink:href" => "#show_button_symbol"}
 
 #queue
+
+#navbg
 
 %nav.submenu
   #cms-controls
@@ -28,31 +30,31 @@
         %span.label
           = t("nav.pages")
     %li
-      %a.collection{href: "templates"}
+      %a.collection{href: "/chemistry/templates"}
         %svg.icon
           %use{"xlink:href" => "#article_page_symbol"}
         %span.label
           = t("nav.templates")
     %li
-      %a.collection{href: "section_types"}
+      %a.collection{href: "/chemistry/section_types"}
         %svg.icon
           %use{"xlink:href" => "#hero_section_symbol"}
         %span.label
           = t("nav.section_types")
     %li
-      %a.collection{href: "images"}
+      %a.collection{href: "/chemistry/images"}
         %svg.icon
           %use{"xlink:href" => "#images_menu_symbol"}
         %span.label
           = t("nav.images")
     %li
-      %a.collection{href: "videos"}
+      %a.collection{href: "/chemistry/videos"}
         %svg.icon
           %use{"xlink:href" => "#videos_menu_symbol"}
         %span.label
           = t("nav.videos")
     %li
-      %a.collection{href: "documents"}
+      %a.collection{href: "/chemistry/documents"}
         %svg.icon
           %use{"xlink:href" => "#documents_menu_symbol"}
         %span.label
