@@ -34,6 +34,10 @@ class Cms.Views.Page extends Cms.View
     template.get('slug') if template
 
 
+class Cms.Views.PageEditor extends Cms.Views.Page
+  template: "pages/editor"
+
+
 class Cms.Views.PageRenderer extends Cms.Views.Page
   template: "pages/rendered_page"
 

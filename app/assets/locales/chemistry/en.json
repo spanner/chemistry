@@ -35,13 +35,21 @@
     "url": "Link"
   },
   "date_formats" : {
-    "time_on_date": "hh:mm [on] MMM Do YYYY",
-    "this_month": "hh:mm [on] dddd Do",
-    "this_year": "hh:mm [on] MMM Do",
+    "time_on_date": "h:mma [on] MMM Do YYYY",
+    "this_month": "h:mma [on] dddd Do",
+    "this_year": "h:mma [on] MMM Do",
     "time_today": "[Today at] h:mm"
   },
   "files": {
     "upload": "Upload new file"
+  },
+  "enquiries": {
+    "dismiss": "Dismiss",
+    "message": "Message",
+    "received_at": "Date",
+    "respond": "Respond",
+    "response_subject": "Re: VWL website enquiry",
+    "sent_by": "From"
   },
   "errors": {
     "page": "Could not save page"

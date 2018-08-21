@@ -11,37 +11,12 @@
   width: 100%
   min-height: 100%
   z-index: 100
-  #chemistry-management
-    width: 100%
-    padding: 80px 5% 0
-    box-sizing: border-box
-    margin: auto
-    display: flex
-    flex-flow: row nowrap
-    align-items: flex-start
-    justify-content: space-between
-    h1:first-child, h2:first-child, p:first-child
-      margin-top: 0
-    #chemistry-main
-      position: relative
-      width: 75%
-      min-height: 100vh
-      +clearfix
-      #chemistry-contents
-        width: 40em
-        max-width: 80%
-        float: right
-    #chemistry-margin
-      position: absolute
-      top: 0
-      right: 0
-      height: 100%
-      width: 25%
-      overflow: scroll
-    #chemistry-notes
-      min-height: 200px
-      max-width: 20em
-      margin: 20px
+  article.cms-admin
+    position: relative
+    width: 60%
+    margin: 0 25% 0 15%
+    min-height: 100vh
+
 #notices
   position: absolute
   bottom: 4%
@@ -51,6 +26,44 @@
 #page_help
   display: none
 
+p.onecol, p.twocol
+  margin: 0.75em 0
+  span.col
+    display: inline-block
+    vertical-align: top
+
+p.twocol
+  span.col
+    width: 47%
+    margin: 0 2% 0 0
+    &:last-child
+      margin-right: 0
+
+p.onecol
+  span.col
+    width: 96%
+
+[data-label]
+  display: block
+  &:before
+    display: block
+    float: left
+    content: attr(data-label)
+    margin: 0 8px 0 -90px
+    +cms-font-light
+    font-style: italic
+    font-size: 1rem
+    color: $pale
+    text-align: right
+    vertical-align: top
+
+h2[data-label]:before
+  margin-top: 0.6rem
+
+h1
+  a.backto
+    color: $mid
+    +hover
 
 @media (max-width: 750px)
   #main

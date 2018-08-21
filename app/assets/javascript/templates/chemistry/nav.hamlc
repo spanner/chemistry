@@ -4,20 +4,10 @@
   %svg.close
     %use{"xlink:href" => "#close_symbol"}
 
-.shortcuts
-  %a.save.shortcut.unavailable{title: t("nav.tooltips.save_shortcut")}
-    %svg
-      %use{"xlink:href" => "#save_button_symbol"}
-  %a.publish.shortcut.unavailable{title: t("nav.tooltips.publish_shortcut")}
-    %svg
-      %use{"xlink:href" => "#publish_button_symbol"}
-  %a.review.shortcut.unavailable{title: t("nav.tooltips.review_shortcut"), target: "_blank"}
-    %svg
-      %use{"xlink:href" => "#show_button_symbol"}
+#shortcuts
 
 #queue
 
-#navbg
 
 %nav.submenu
   #cms-controls
@@ -30,31 +20,31 @@
         %span.label
           = t("nav.pages")
     %li
-      %a.collection{href: "/templates"}
+      %a.collection.notyet{href: "/templates"}
         %svg.icon
           %use{"xlink:href" => "#article_page_symbol"}
         %span.label
           = t("nav.templates")
     %li
-      %a.collection{href: "/section_types"}
+      %a.collection.notyet{href: "/section_types"}
         %svg.icon
           %use{"xlink:href" => "#hero_section_symbol"}
         %span.label
           = t("nav.section_types")
     %li
-      %a.collection{href: "/images"}
+      %a.collection.notyet{href: "/images"}
         %svg.icon
           %use{"xlink:href" => "#images_menu_symbol"}
         %span.label
           = t("nav.images")
     %li
-      %a.collection{href: "/videos"}
+      %a.collection.notyet{href: "/videos"}
         %svg.icon
           %use{"xlink:href" => "#videos_menu_symbol"}
         %span.label
           = t("nav.videos")
     %li
-      %a.collection{href: "/documents"}
+      %a.collection.notyet{href: "/documents"}
         %svg.icon
           %use{"xlink:href" => "#documents_menu_symbol"}
         %span.label
@@ -65,3 +55,5 @@
           %use{"xlink:href" => "#enquiries_menu_symbol"}
         %span.label
           = t("nav.enquiries")
+
+  %footer#chemistry_version

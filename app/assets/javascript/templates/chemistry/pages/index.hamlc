@@ -1,36 +1,33 @@
-#chemistry-management
-  #chemistry-main
-    #chemistry-contents
-      %h1.pagetitle
-        = t('headings.pages')
+%h1.pagetitle
+  = t('headings.pages')
 
-      %ul.pages
-        %li.page.new
-          %a.new.page{href: "/page/edit/new"}
-            %svg.page
-              %use{"xlink:href" => "#new_page_symbol"}
-            %span.detail
-              %span.title
-                = t('pages.new_title')
+%ul.pages
+  %li.page.new
+    %a.new.page{href: "/page/edit/new"}
+      %svg.page
+        %use{"xlink:href" => "#new_page_symbol"}
+      %span.detail
+        %span.title
+          = t('pages.new_title')
 
-      #pages
+#pages
 
-  #page_help
-    %p
-      = t('introductions.chemistry')
-      %span.no_pages
-        = t('introductions.to_begin')
-      = t('introductions.safe_until_published')
-    %p
-      = t('introductions.template_explanation')
-      %a{href: "/templates"}
-        = t('links.templates')
-      = t('and')
-      %a.fullstop{href: "/section_types"}<
-        = t('links.section_types')
-    %p
-      For more navigation, tap the
-      %svg.inline
-        %use{"xlink:href" => "#flask_symbol"}
-      menu icon at top left.
+#page_help
+  %p
+    = t('introductions.chemistry')
+    %span.no_pages
+      = t('introductions.to_begin')
+    = t('introductions.safe_until_published')
+  %p
+    = t('introductions.template_explanation')
+    %a{href: "/templates"}
+      = t('links.templates')
+    = t('and')
+    %a.fullstop{href: "/section_types"}<
+      = t('links.section_types')
+  %p
+    For more navigation, tap the
+    %svg.inline
+      %use{"xlink:href" => "#flask_symbol"}
+    menu icon at top left.
 

@@ -1,8 +1,70 @@
+/* enquiry form construction. Styling is up to application css. */
+
+form.enquiry
+  margin: 1em 0
+
+section.enquiry
+  .confirmation
+    display: none
+
+/* enquiry form in edit-page view */
+
+#editor
+  section.enquiry
+    form.enquiry
+      input, textarea
+        opacity: 0.5
+        pointer-events: none
+    .confirmation
+      display: block
+      margin-top: 2em
+      &:before
+        display: block
+        font-weight: bold
+        content: "Confirmation:"
+      p
+        margin-top: 0
+
+/* enquiry summary in admin */
+
+div.enquiry
+  position: relative
+  a.dismiss
+    position: absolute
+    right: 0
+    margin-top: 0.4em
+    cursor: pointer
+    color: $reddish
+    &:hover
+      color: $red
+  a.email
+    margin-left: 0.25em
+    color: $pale
+    +hover
+  date
+    color: $pale
+    +cms-font-light
+    margin: 0 0 0.75em
+  .buttons
+    margin-top: 2em
+
+/* enquiry list in admin */
+
 ul.enquiries
   list-style: none
   padding: 0
   li
     margin-bottom: 1em
+    &.dismissed
+      color: $pale
+      h3
+        font-weight: lighter
+    &.seen
+      h3
+        font-weight: lighter
+    &:target
+      animation: highlight 3s
+      outline: none
     a
       color: currentColor
       &:hover
@@ -14,47 +76,10 @@ ul.enquiries
       font-weight: bold
       span.email
         color: $pale
-        font-weight: normal
-        +hover
+        font-weight: lighter
+        margin-left: 0.25em
     p
       margin: 0
       date
         color: $pale
         display: block
-
-form.enquiry
-  margin: 1em 0
-
-section.enquiry
-  .confirmation
-    display: none
-
-#editor
-  section.enquiry
-    .confirmation
-      display: block
-      margin-top: 2em
-      &:before
-        display: block
-        font-weight: bold
-        content: "Confirmation:"
-      p
-        margin-top: 0
-
-p.onecol, p.twocol
-  margin: 0.75em 0
-  span.col
-    display: inline-block
-    vertical-align: top
-
-p.twocol
-  span.col
-    width: 47%
-    margin: 0 2% 0 0
-    &:last-child
-      margin-right: 0
-
-p.onecol
-  span.col
-    width: 96%
-

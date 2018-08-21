@@ -24,5 +24,12 @@ module Chemistry
       }
     end
 
+    def closed=(value)
+      if value
+        self.closed_at ||= Time.now
+      else
+        self.closed_at ||= nil
+      end
+    end
   end
 end

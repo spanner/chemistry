@@ -41,58 +41,48 @@ class Cms.Views.UI extends Cms.View
 
   collectionView: (base, params) =>
     @log "collectionView", base, params
-    if ['pages', 'templates', 'section_types', 'images', 'videos', 'documents', 'enquiries'].indexOf(base) is -1
-      _cms.complain "Unknown object type: #{base}"
-    else
-      class_name = base.charAt(0).toUpperCase() + base.slice(1)
-      view_class = Cms.Views["#{class_name}Index"] or Cms.Views[class_name]
-      unless @_collection = _cms[base]
-        if collection_class = Cms.Collections[class_name]
-          @_collection = new collection_class
-      if @_collection and view_class
-        @_collection.setParams @collectionParams(params)
-        # always rebuild?
-        @showView new view_class
-          collection: @_collection
-        @clearNavModel()
-      else
-        if !@_collection
-          _cms.complain "Cannot initialize collection: #{base}"
-        else
-          _cms.complain "Cannot initialize view: #{base}"
-
+    @adminView(base, 'index', null, params)
 
   modelView: (base, action, id) =>
     @log "modelView", base, action
-    if ['page', 'template', 'section_type', 'image', 'video', 'document'].indexOf(base) is -1
-      _cms.complain "Unknown object type: #{base}"
-    else if ['edit'].indexOf(action) is -1
-      _cms.complain "Unknown action: #{action}"
+    if base is 'pages'
+      @pageView(id)
     else
-      model_name = base.charAt(0).toUpperCase() + base.slice(1)
-      action_name = action.charAt(0).toUpperCase() + action.slice(1)
-      model_class = Cms.Models[model_name]
-      view_class = Cms.Views[action_name + model_name] or Cms.Views[model_name]
-      if view_class and model_class
-        collection_name = model_name + 's'    # take that, ActiveSupport
-        collection_class = Cms.Collections[collection_name]
+      @adminView(base, action, id)
 
-        if id is 'new'
-          model = new model_class()
-        # try to get model from previous collection, eg when navigating from list to item
-        else if @_collection and @_collection instanceof collection_class
-          model = @_collection.get(id)
-        # try to get model from main application collection, eg when going straight to an item view
-        else if @_collection = _cms[collection_name.toLowerCase()]
-          model = @_collection.get(id)
-        # or we have to fetch a new copy of the model
-        unless model
-          model = new model_class({id: id})
-          model.fetch()
+  pageView: (id) =>
+    @log "pageView", id
+    page = _cms.pages.get(id) or new Cms.Models.Page({id: id})
+    page.loadAnd =>
+      @showView new Cms.Views.PageEditor
+        model: page
+      @setNavModel page
 
-        @showView new view_class
-          model: model
-        @setNavModel(model)
+  adminView: (base, action, id, params) =>
+    model_name = _cms.titlecase(_cms.singularize(base))
+    @log "adminView", base, action, id, params, model_name, Cms.Models[model_name]
+    if model_class = Cms.Models[model_name]
+      collection_name = _cms.pluralize(model_name)
+      collection_class = Cms.Collections[collection_name]
+      unless @_collection and @_collection instanceof collection_class
+        @_collection = _cms[collection_name.toLowerCase()] ? new collection_class
+
+      if action is 'index'
+        @log "-> index", @_collection
+        @clearNavModel()
+        @showView new Cms.Views.AdminCollectionView
+          collection: @_collection
+          params: params
+
+      else if id
+        model = @_collection?.get(id) ? new model_class({id: id})
+        @log "-> item", model
+        @clearNavModel()
+        model.loadAnd =>
+          @showView new Cms.Views.AdminItemView
+            model: model
+            action: action
+
 
   collectionParams: (params={}) =>
     _.pick params, ['p', 'pp', 'q', 's', 'o']
@@ -121,7 +111,55 @@ class Cms.Views.UI extends Cms.View
   showNav: (e) =>
     @ui.nav.addClass('up')
 
+
+  ## Modal overlays
+  #
+  # Child views call _cms.ui.floatView to put something here.
   # Floating region handles closure, masking, etc.
   #
   floatView: (view, options={}) =>
     @getRegion('floater').show view, options
+
+
+## Admin layouts
+#
+# are here to encapsulate the admin CRUD and keep it separate from page editing,
+# though at the moment their only role is to add an `article.admin` wrapper element.
+
+class Cms.Views.AdminItemView extends Cms.View
+  template: false
+  tagName: "article"
+  className: "cms-admin"
+
+  initialize: (opts={}) ->
+    @log "init"
+    if ['edit', 'show'].indexOf(opts.action) is -1
+      _cms.complain "Unknown admin action: #{@_action}"
+    else
+      @action = opts.action
+      super
+
+  onRender: =>
+    if @model and @action
+      model_name = @model.className()
+      action_name = _cms.titlecase @action
+      if view_class = Cms.Views[action_name + model_name] or Cms.Views[model_name]
+        view = new view_class
+          model: @model
+        view.$el.appendTo @$el
+        view.render()
+
+
+class Cms.Views.AdminCollectionView extends Cms.View
+  tagName: "article"
+  className: "cms-admin"
+
+  onRender: =>
+    if @collection
+      collection_name = @collection.className()
+      if view_class = Cms.Views["#{collection_name}Index"] ? Cms.Views[collection_name]
+        view = new view_class
+          collection: @collection
+        view.$el.appendTo @$el
+        view.render()
+

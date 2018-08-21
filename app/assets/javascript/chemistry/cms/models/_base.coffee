@@ -358,10 +358,10 @@ class Cms.Model extends Backbone.Model
     _.underscored @className()
 
   pluralName: =>
-    @singularName() + 's'      # well, it works.
+    _cms.pluralize @singularName()
 
-  is_a: (class_name) =>
-    @className() is class_name
+  isA: (class_name) =>
+    @_class_name is class_name
 
 
   ## Housekeeping
@@ -641,6 +641,7 @@ class Cms.Collection extends Backbone.Collection
   resetChanges: =>
     @setOriginalIds()
     @each (m) -> m.resetChanges()
+
 
   ## Selection
 

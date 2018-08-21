@@ -1,19 +1,28 @@
 # Enquiry view
 #
-class Cms.Views.Enquiry extends Cms.View
+class Cms.Views.Enquiry extends Cms.ItemView
   template: "enquiries/enquiry"
+  className: "enquiry"
 
   events:
-    "click a.complete": "completed"
+    "click a.dismiss": "dismiss"
 
   bindings:
     ":el":
       classes:
         unsaved: "changed"
         unpublished: "unpublished"
+    "a.dismiss":
+      observe: "closed_at"
+      visible: "untrue"
+    ".response":
+      observe: "closed_at"
+      visible: "untrue"
     ".name":
       observe: "name"
-      onGet: "shortName"
+    "date":
+      observe: "created_at"
+      onGet: "niceDatetime"
     ".email":
       observe: "email"
       attributes: [
@@ -23,11 +32,35 @@ class Cms.Views.Enquiry extends Cms.View
       ]
     ".message":
       observe: "message"
-      onGet: "shortMessage"
+      onGet: "simpleFormat"
+      updateMethod: "html"
+    "a.email":
+      attributes: [
+        name: "href"
+        observe: "email"
+        onGet: "mailtoWithSubject"
+      ]
 
-  completed: (e) =>
+  dismiss: (e) =>
     e?.preventDefault()
-    @model.completed()
+    @model.dismiss().done =>
+      _cms.navigate "/enquiries#enquiry_#{@model.get('id')}"
+
+  mailtoWithSubject: (email) =>
+    subject = encodeURIComponent(t("enquiries.response_subject"))
+    "mailto:#{email}?subject=#{subject}"
+
+  simpleFormat: (text) =>
+    cleaner = $('<div />')
+    paragraphs = text.split(/\n\n+/)
+    html = paragraphs.map (p) ->
+      p = cleaner.html(p).text().replace(/([^\n]\n)(?=[^\n])/g, '$1<br>')
+      "<p>#{p}</p>"
+    html.join("\n")
+
+  quoted: (text) =>
+    paragraphs = text.split(/\n\n+/).map (p) -> "> #{p}"
+    paragraphs.join("\n>\n")
 
 
 # Enquiry list
@@ -42,8 +75,13 @@ class Cms.Views.ListedEnquiry extends Cms.Views.ListedView
   bindings:
     ":el":
       classes:
-        unsaved: "changed"
-        unpublished: "unpublished"
+        dismissed: "closed_at"
+        seen: "seen_at"
+      attributes: [
+        name: "id"
+        observe: "id"
+        onGet: "enquiryId"
+      ]
     "a.enquiry":
       attributes: [
         name: "href"
@@ -62,15 +100,15 @@ class Cms.Views.ListedEnquiry extends Cms.Views.ListedView
       observe: "message"
       onGet: "shortMessage"
 
+  enquiryId: (id) =>
+    "enquiry_#{id}"
+
   #todo: sanitize
   shortName: (name) =>
     @shortAndClean(name, 48)
 
   shortMessage: (message) =>
     @shortAndClean(message, 96)
-
-  mailtoHref: (email) =>
-    "mailto:#{email}"
 
   completed: (e) =>
     e?.preventDefault()

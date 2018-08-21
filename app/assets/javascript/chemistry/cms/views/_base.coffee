@@ -31,12 +31,12 @@ class Cms.View extends Backbone.Marionette.View
   #
   editMeHref: (id) =>
     id ?= @model.get('id')
-    type = @model.label()
+    type = _cms.pluralize @model.label()
     "/#{type}/edit/#{id}"
 
   showMeHref: (id) =>
     id ?= @model.get('id')
-    type = @model.label()
+    type = _cms.pluralize @model.label()
     "/#{type}/show/#{id}"
 
   pageHref: ([id, content, external_url, file_url]=[]) =>
@@ -55,8 +55,12 @@ class Cms.View extends Backbone.Marionette.View
     else
       path
 
+  mailtoHref: (email) =>
+    "mailto:#{email}"
+
   absolutePath: (path) =>
-    if path[0] is '/' then path else "/#{path}"
+    if path
+      if path[0] is '/' then path else "/#{path}"
 
 
   ## onGet helpers
@@ -292,6 +296,16 @@ class Cms.Views.ListedView extends Cms.View
     if !confirmation or confirm(confirmation)
       @log "DESTROY"
       # @model.destroy()
+
+
+class Cms.ItemView extends Cms.View
+  onRender: =>
+    if @model
+      @addBinding null, _.result @, 'extraBindings'
+      @model.loadAnd =>
+        @stickit()
+        _.defer =>
+          @triggerMethod 'ready'
 
 
 class Cms.EditView extends Cms.View

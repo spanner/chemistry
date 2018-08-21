@@ -26,11 +26,15 @@ class Cms.Views.Saver extends Cms.View
           observe: "changed"
           onGet: "unRevertable"
     "a.publish":
+      observe: "path"
+      visible: true
       classes: 
         unavailable:
           observe: ["changed", "valid", "unpublished"]
           onGet: "unPublishable"
     "a.review":
+      observe: "path"
+      visible: true
       attributes: [
         name: "href"
         observe: "path"
@@ -43,13 +47,55 @@ class Cms.Views.Saver extends Cms.View
 
   onRender: =>
     super
-    @ui.publish_button.hide() unless @model.is_a('Page')
+    @ui.publish_button.hide() unless @model.isA('Page')
 
   floatConfig: (e) =>
     e?.preventDefault()
     config_page_view = new Cms.Views.ConfigPage
       model: @model
     _cms.ui.floatView config_page_view
+
+
+class Cms.Views.Shortcuts extends Cms.View
+  template: 'helpers/shortcuts'
+
+  ui:
+    save_button: "a.save.shortcut"
+    publish_button: "a.publish.shortcut"
+    review_button: "a.review.shortcut"
+
+  events:
+    "click @ui.save_button": "save"
+    "click @ui.publish_button": "publishWithConfirmation"
+
+  bindings:
+    "a.save":
+      classes:
+        unavailable:
+          observe: ["changed", "valid", "unpublished"]
+          onGet: "unSaveable"
+    "a.publish":
+      classes: 
+        unavailable:
+          observe: ["changed", "valid", "unpublished"]
+          onGet: "unPublishable"
+    "a.review":
+      attributes: [
+        name: "href"
+        observe: "path"
+        onGet: "absolutePath"
+      ]
+      classes: 
+        unavailable:
+          observe: ["changed", "valid", "unpublished"]
+          onGet: "unReviewable"
+
+  # The actions overlay shows a preview button whenever it's possible to preview,
+  # but here we override that to show the shortcut only when neither save nor publish is appropriate
+  # (and if we have ever been published).
+  #
+  unReviewable: ([changed, valid, unpublished]=[]) =>
+    unpublished or !@unSaveable([changed, valid, unpublished]) or !@unPublishable([changed, valid, unpublished])
 
 
 class Cms.Views.Confirmation extends Cms.View

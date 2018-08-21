@@ -2,7 +2,7 @@ class Cms.Models.Enquiry extends Cms.Model
   savedAttributes: ['name', 'email', 'message', 'closed', 'robot']
   uploadProgress: false
 
-  completed: (e) =>
+  dismiss: (e) =>
     @save
       closed: true
 

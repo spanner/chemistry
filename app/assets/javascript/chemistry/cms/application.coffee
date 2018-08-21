@@ -1,6 +1,6 @@
 Cms = {}
-Cms.version = '0.2.0'
-Cms.subtitle = "Beta 1"
+Cms.version = '0.4.0'
+Cms.subtitle = "Beta 2"
 
 Cms.Models = {}
 Cms.Collections = {}
@@ -19,9 +19,6 @@ class Cms.AppRouter extends Backbone.Marionette.AppRouter
     ":collection_name": "collectionView"
     ":collection_name(?:qs)": "collectionView"
     ":model_name/:action/:id": "modelView"
-
-  onRoute: (name, path, args) =>
-    _cms.log "onRoute", name, path
 
 
 # The Application is a supporting framework wrapped around the UI view.
@@ -84,6 +81,7 @@ class Cms.Application extends Backbone.Marionette.Application
       @_data_ready.resolve(data)
     @_data_ready.promise()
 
+
   ## State changes
   #
   # Application state is URL-driven. Every URL change is passed to the router,
@@ -96,7 +94,7 @@ class Cms.Application extends Backbone.Marionette.Application
   handleLinkClick: (e) ->
     $a = $(@)
     href = $a.attr("href")
-    if href and href[0] isnt "#" and href.slice(0, 4) isnt 'http'
+    if href and href[0] isnt "#" and href.slice(0, 4) isnt 'http' and href.slice(0, 6) isnt 'mailto'
       e.preventDefault()
       has_target = _.includes(href, "#")
       _cms.navigate href, trigger: !has_target
@@ -143,6 +141,7 @@ class Cms.Application extends Backbone.Marionette.Application
         model.finishProgress(true)
         original_success(data, status, request)
     @_original_backbone_sync method, model, opts
+
 
   # Render uses our hamlcoffee templates through JST
   #
@@ -259,3 +258,17 @@ class Cms.Application extends Backbone.Marionette.Application
 
   stopLogging: (level) =>
     @_log_level = null
+
+
+  ## Useful
+  # and pretty basic, but good enough for our class names. Avoid fish and sheep if possible.
+  #
+  pluralize: (base) =>
+    plural = base + 's'
+    plural.replace(/ys$/, 'ies')
+
+  singularize: (base) =>
+    base.replace(/ies$/, 'ys').slice(0, -1)
+
+  titlecase: (base) =>
+    base.charAt(0).toUpperCase() + base.slice(1)
