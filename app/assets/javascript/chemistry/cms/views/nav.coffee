@@ -37,7 +37,7 @@ class Cms.Views.Nav extends Cms.View
     @model = model
     if model
       @getRegion('controls').show new Cms.Views.Saver(model: model)
-      if model.isA('page')
+      if model.isA('Page')
         @getRegion('shortcuts').show new Cms.Views.Shortcuts(model: model)
       @stickit()
     else

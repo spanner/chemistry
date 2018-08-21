@@ -41,6 +41,10 @@ class Cms.Views.Enquiry extends Cms.ItemView
         onGet: "mailtoWithSubject"
       ]
 
+  onRender: =>
+    super
+    window.enq = @model
+
   dismiss: (e) =>
     e?.preventDefault()
     @model.dismiss().done =>

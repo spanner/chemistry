@@ -131,7 +131,7 @@ class Cms.View extends Backbone.Marionette.View
   niceDatetime: (mom) =>
     now = moment()
     if mom.isSame(now, 'day')
-      mom.format t('date_formats.today')
+      mom.format t('date_formats.time_today')
     else if mom.isSame(now, 'month')
       mom.format t('date_formats.this_month')
     else if mom.isSame(now, 'year')
