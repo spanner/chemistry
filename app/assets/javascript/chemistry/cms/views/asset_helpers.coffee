@@ -107,19 +107,11 @@ class Cms.Views.AssetEditor extends Cms.View
   helpers: []
 
   ui:
-    catcher: "img"
     buttons: ".cms-buttons"
     deleter: "a.delete"
 
   triggers:
     "click @ui.deleter": "remove"
-
-  events:
-    "click @ui.catcher": "closeHelpers"
-    "dragenter @ui.catcher": "lookAvailable"
-    "dragover @ui.catcher": "dragOver"
-    "dragleave @ui.catcher": "lookNormal"
-    "drop @ui.catcher": "catchFiles"
 
   initialize: (opts={}) =>
     @_size ?= _.result @, 'defaultSize'
@@ -133,18 +125,21 @@ class Cms.Views.AssetEditor extends Cms.View
 
   addHelpers: =>
     if helpers = @getOption('helpers')
-      for helper in @getOption('helpers')
-        if helper_class = Cms.Views[helper]
+      for helper_class_name in @getOption('helpers')
+        if helper_class = Cms.Views[helper_class_name]
           helper = new helper_class
             collection: @collectionForHelper(helper)
-          helper.$el.appendTo @ui.buttons
-          helper.render()
-          @_asset_helpers.push helper
-          helper.on "select", @setModel
-          helper.on "create", @updateParent
-          helper.on "place", @setPlacement
-          helper.on "pick", => @closeHelpers()
-          helper.on "open", => @closeOtherHelpers(helper)
+          do (helper) =>
+            helper.$el.appendTo @ui.buttons
+            helper.render()
+            @_asset_helpers.push helper
+            helper.on "select", @setModel
+            helper.on "create", @updateParent
+            helper.on "place", @setPlacement
+            helper.on "pick", => @closeHelpers()
+            helper.on "open", => 
+              @log "🚜 opened", helper
+              @closeOtherHelpers(helper)
 
   collectionForHelper: (helper) =>
     @collection
@@ -161,7 +156,6 @@ class Cms.Views.AssetEditor extends Cms.View
       @
 
   updateParent: =>
-    @log "🚜 updateParent"
     @trigger 'update'
 
 
@@ -172,7 +166,6 @@ class Cms.Views.AssetEditor extends Cms.View
     @stickit() if @model
 
   setPlacement: (placement) =>
-    @log "🚜 setPlacement", placement
     size = if placement is "full" then "full" else "half"
     @setSize size
     @trigger "place", placement
@@ -181,13 +174,16 @@ class Cms.Views.AssetEditor extends Cms.View
   ## Menu management
 
   closeHelpers: =>
+    @log "🍄 closeHelpers"
+    
     # event allowed through
-    _.each [@_picker, @_importer, @_styler], (h) ->
-      h?.close()
+    for h in @_asset_helpers
+      h?.close?()
 
   closeOtherHelpers: (helper) =>
-    _.each [@_picker, @_importer, @_styler], (h) ->
-      h?.close() unless h is helper
+    @log "🍄 closeOtherHelpers", helper
+    for h in _.without(@_asset_helpers, helper)
+      h?.close?()
 
 
 class Cms.Views.ImageEditor extends Cms.Views.AssetEditor

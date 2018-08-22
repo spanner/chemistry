@@ -126,6 +126,15 @@ class Cms.Views.Asset extends Cms.View
   tagName: "figure"
   editorView: "AssetEditor"
 
+  ui:
+    catcher: "erm"
+
+  # events:
+  #   "dragenter": "lookAvailable"
+  #   "dragover": "dragOver"
+  #   "dragleave": "lookNormal"
+  #   "drop": "catchFiles"
+
   initialize: (opts={}) =>
     @bindUIElements();
     @wrap() or @render()
@@ -176,6 +185,35 @@ class Cms.Views.Asset extends Cms.View
     @log "🚜 onPlace", placement
     @$el.removeClass('thumb full right').addClass(placement)
     @trigger 'update'
+
+  ## Dropped-file handlers
+  # Live here so as to be applied to the whole asset element.
+  # Dropped file is passed to our uploader for processing.
+  #
+  # dragOver: (e) =>
+  #   e?.preventDefault()
+  #   if e.originalEvent.dataTransfer
+  #     e.originalEvent.dataTransfer.dropEffect = 'copy'
+  #
+  # catchFiles: (e) =>
+  #   @lookNormal()
+  #   if e?.originalEvent.dataTransfer?.files.length
+  #     @containEvent(e)
+  #     @readFile e.originalEvent.dataTransfer.files
+  #   else
+  #     console.log "unreadable drop", e
+  #
+  # readFile: (files) =>
+  #   @_uploader.readLocalFile(files[0]) if @_uploader and files.length
+  #
+  # lookAvailable: (e) =>
+  #   e?.stopPropagation()
+  #   @$el.addClass('droppable')
+  #
+  # lookNormal: (e) =>
+  #   e?.stopPropagation()
+  #   @$el.removeClass('droppable')
+
 
 
 ## Image assets

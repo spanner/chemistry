@@ -370,6 +370,7 @@ class Cms.Views.MenuView extends Cms.View
     e?.preventDefault()
     @place()
     @$el.addClass('open')
+    @log "🍄 open", @$el
     @triggerMethod 'open'
     @trigger 'opened'
 
