@@ -1,6 +1,3 @@
-body
-  counter-reset: footnotelink footnote
-
 a.footnoted, a.footnoted:visited
   color: currentColor
 
@@ -12,12 +9,12 @@ a.footnoted
     margin: -2px -5px
     cursor: pointer
     border-radius: 4px
-  &:after
-    content: "[" counter(footnotelink) "] "
+  &[data-fn]:after
+    content: "[" attr(data-fn) "] "
     color: $link
-    counter-increment: footnotelink
     position: relative
     top: -0.5em
+    margin-right: 0.25em
   &:target
     animation: highlight 3s
     outline: none
@@ -25,11 +22,12 @@ a.footnoted
 p.footnote
   a
     color: currentColor
-  &:before
-    content: "[" counter(footnote) "] "
-    counter-increment: footnote
+  &[data-fn]:before
+    content: "[" attr(data-fn) "] "
     color: $link
   &:target
     animation: highlight 3s
   &.highlight
     background: rgba(252,217,113, 0.5)
+
+

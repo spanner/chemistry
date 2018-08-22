@@ -18,7 +18,10 @@ jQuery ($) ->
   class Footnote
     constructor: (element) ->
       $link = $(element)
+
       @_key = $link.attr('href').replace('#footnote-', '')
+      @_number = $('a[data-fn]').length + 1
+      $link.attr "data-fn", @_number
 
       @$article = $link.parents('article').first()
       @$editable = $link.parents('[contenteditable]').first()
@@ -32,6 +35,8 @@ jQuery ($) ->
       $link = $("#link-#{@_key}")
       $footnote = $("#footnote-#{@_key}")
 
+      $footnote.attr "data-fn", @_number
+
       link_offset = $link.position()
       if @$article.hasClass('wide')
         $footnote.css 'left', link_offset.left
@@ -40,7 +45,10 @@ jQuery ($) ->
         $footnote.css 'top', link_offset.top
 
 
-  ## Footnotes
+  window.FN = Footnote
+
+
+  ## Enquiry form
 
   $.fn.enquiry_form = ->
     @each ->
