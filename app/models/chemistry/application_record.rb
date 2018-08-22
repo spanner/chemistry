@@ -1,5 +1,5 @@
 module Chemistry
   class ApplicationRecord < ActiveRecord::Base
-    self.abstract_class = false
+    self.abstract_class = true
   end
 end
