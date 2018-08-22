@@ -1,0 +1,9 @@
+- excerpt ||= nil
+- page ||= excerpt || @page
+
+%h3
+  = link_to page.title, page.path
+%date
+  = l(page.published_at, format: :natural_full)
+%p
+  = truncate strip_tags(page.summary.presence || page.excerpt), length: 256

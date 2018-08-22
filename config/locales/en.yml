@@ -1,0 +1,6 @@
+en:
+  published: "published"
+  time:
+    formats:
+      natural: "%d %B"
+      natural_full: "%l:%M%P, %d %B %Y"

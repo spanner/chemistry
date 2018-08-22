@@ -37,7 +37,6 @@ figure
     position: absolute
     bottom: 0
     right: 0
-
   &.image
     &.thumb
       width: 180px
@@ -47,10 +46,10 @@ figure
     &.full
       margin: 0 0 1em 0
     &.right
-      width: 46%
-      z-index: 1
+      width: 60%
       float: right
-      margin: 0.2em 0 12px 4%
+      margin: 0.5em -10% 0.5em 10%
+
 
   &.video
     video
@@ -265,6 +264,21 @@ figure
   
 
 
+
+@media (min-width: 1020px)
+  figure.image
+    &.thumb
+      width: 180px
+      float: left
+      z-index: 1
+      margin: 8px 12px 12px 0
+    &.full
+      margin: 0 0 1em 0
+    &.right
+      width: 46%
+      z-index: 1
+      float: right
+      margin: 0.2em 0 12px 4%
 
 
 @media (max-width: 750px)

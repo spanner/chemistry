@@ -4,7 +4,7 @@ module Chemistry
   class PagesController < ApplicationController
     include Chemistry::Concerns::Searchable
 
-    load_and_authorize_resource except: [:published]
+    load_and_authorize_resource except: [:published, :latest]
 
 
     # HTML routes
@@ -27,7 +27,7 @@ module Chemistry
     def published
       @path = params[:path] || ''
       @path = '/' if @path == ''
-      if @page = Page.from_published_path(@path.strip).first
+      if @page = Page.published.with_path(@path.strip).first
         render
       else
         page_not_found
@@ -62,6 +62,20 @@ module Chemistry
 
     def show
       return_page
+    end
+
+    # `latest` returns html useful for populating sidebars and menus with 'latest update' type blocks
+    #
+    def latest
+      limit = params[:limit].presence || 1
+      @pages = Page.published.latest.limit(limit)
+
+      Rails.logger.warn "LATEST under path #{params[:parent]} with limit #{limit}"
+
+      if params[:parent] and parent_page = Page.where(path: params[:parent]).first
+        @pages = @pages.with_parent(parent_page)
+      end
+      render partial: "chemistry/pages/excerpt", collection: @pages
     end
 
     def create
@@ -104,10 +118,10 @@ module Chemistry
     ## Error pages
 
     def page_not_found
-      if @page = Page.from_published_path("/404").first
+      if @page = Page.published.with_path("/404").first
         render
       else
-        render template: "pages/not_found"
+        render template: "chemistry/pages/not_found"
       end
     end
 

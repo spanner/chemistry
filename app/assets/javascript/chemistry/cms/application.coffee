@@ -179,7 +179,7 @@ class Cms.Application extends Backbone.Marionette.Application
         message: complaint
     true if @config('trap_errors')
 
-  confirm: (message, duration=4000) =>
+  confirm: (message, duration=2000) =>
     @notify message, duration, 'confirmation'
 
   complain: (message, duration=10000) =>

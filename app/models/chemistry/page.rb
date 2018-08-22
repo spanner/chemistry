@@ -25,10 +25,13 @@ module Chemistry
 
     scope :undeleted, -> { where(deleted_at: nil) }
     scope :published, -> { undeleted.where.not(published_at: nil) }
+    scope :latest, -> { order(published_at: :desc) }
+    scope :with_parent, -> page { where(parent_id: page.id) }
 
     scope :home, -> { published.where(home: true).limit(1) }
     scope :nav, -> { published.where(nav: true) }
-    scope :from_published_path, -> path { published.where(path: path) }
+
+    scope :with_path, -> path { where(path: path) }
 
     def published?
       published_at?
