@@ -107,7 +107,7 @@ class Cms.Views.AssetEditor extends Cms.View
   helpers: []
 
   ui:
-    catcher: ".cms-dropmask"
+    catcher: "img"
     buttons: ".cms-buttons"
     deleter: "a.delete"
 
@@ -158,6 +158,7 @@ class Cms.Views.AssetEditor extends Cms.View
     if @model
       @trigger "select", @model
       @stickit()
+      @
 
   updateParent: =>
     @log "🚜 updateParent"
