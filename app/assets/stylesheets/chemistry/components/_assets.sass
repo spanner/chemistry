@@ -22,7 +22,7 @@ figure
     min-width: 1em
     box-sizing: border-box
   figcaption
-    display: none
+    font-style: italic
   img
     display: block
     width: 100%
@@ -71,26 +71,34 @@ figure
 
   &.quote
     blockquote
-      font-size: 1.2em
+      font-size: 1rem
+      font-style: italic
       text-align: center
       transition: font-size 0.5s ease-out
       width: 100%
       margin: 0
-      padding: 0 3em 0 2em
+      padding: 0 1em
+      color: $mid
+      margin-left: -0.5em
+      &:before
+        content: "“ "
+      &:after
+        content: "”"
     figcaption
       text-align: center
-      padding: 0 3em 0 2em
+      padding: 0 1em
+      color: $pale
     &.shortish
       blockquote
-        font-size: 1.5em
+        font-size: 1.25em
         line-height: 1.4
     &.short
       blockquote
-        font-size: 2em
+        font-size: 1.5em
         line-height: 1.3
     &.veryshort
       blockquote
-        font-size: 2.5em
+        font-size: 2em
         line-height: 1.2
 
   &.document
