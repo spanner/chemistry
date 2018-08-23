@@ -22,6 +22,8 @@ class Chemistry::PageSerializer
              :nav,
              :nav_name,
              :nav_position,
+             :image_id,
+             :video_id,
              :created_at,
              :updated_at,
              :published_at,

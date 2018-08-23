@@ -1,5 +1,5 @@
 class Cms.Models.Page extends Cms.Model
-  savedAttributes: ['template_id', 'parent_id', 'slug', 'title', 'slug', 'content', 'summary', 'external_url', 'document_id', 'keywords', 'home', 'nav', 'nav_name', 'nav_position', 'began_at', 'ended_at', 'rendered_html']
+  savedAttributes: ['template_id', 'parent_id', 'slug', 'title', 'slug', 'content', 'summary', 'external_url', 'document_id', 'keywords', 'home', 'nav', 'nav_name', 'nav_position', 'began_at', 'ended_at', 'rendered_html', 'image_id']
   savedAssociations: ['sections']
 
   defaults:
@@ -13,30 +13,21 @@ class Cms.Models.Page extends Cms.Model
     @hasMany 'sections'
     @setPublicationStatus()
     @on 'change:updated_at change:published_at', @setPublicationStatus
+    @on 'change:rendered_html', @extractMetadata
 
   published: () =>
     @get('published_at')?
 
-  # Publish is a special save that sends up our rendered html for composition and saving.
+  # Publish is just a save that sends up our rendered html.
   #
   render: =>
     @_renderer ?= new Cms.Views.PageRenderer 
       model: @
-    @_renderer.render() # sets our `rendered_html`
+    @_renderer.render() # sets our `rendered_html`, `excerpt` and `image`
 
   publish: () =>
     @render()
     @save().done(@publishSucceeded).fail(@publishFailed)
-    # data =
-    #   rendered_html: @get('rendered_html')
-    # @log "publishing", data
-    # $.ajax
-    #   url: @url() + "/publish"
-    #   method: "PUT"
-    #   data: data
-    #   dataType: "json"
-    #   success: @publishSucceeded
-    #   error: @publishFailed
 
   publishSucceeded: (response) =>
     attrs = @parse response
@@ -58,6 +49,52 @@ class Cms.Models.Page extends Cms.Model
 
   getChildren: =>
     new Cms.Collections.Pages(_cms.pages.where(parent_id: @id))
+
+    @extractMetadata()
+
+  extractMetadata: =>
+    html = @get('rendered_html')
+    title = ""
+    excerpt = ""
+    image_id = null
+    video_id = null
+    $holder = $('<div />')
+    $holder.html(html)
+
+    # retrieve page title as edited
+    $heading = $holder.find('h1')
+    if $heading.length
+      title = $heading.first().text()
+      $heading.remove()
+    @set('title', title) if title
+
+    # extract a bit of text from first content section
+    $main_section = $holder.find('section.standfirst, section.standard')
+    if $main_section.length
+      excerpt = $main_section.text().split(/\s+/).slice(0,64).join(' ')
+    else
+      excerpt = $holder.text().split(/\s+/).slice(0,64).join(' ')
+    @set('excerpt', excerpt) if excerpt
+
+    # grab image id from first image asset block (heroic or embedded)
+    $image_headers = $holder.find('[data-asset-type="image"]')
+    if $image_headers.length
+      image_id = $image_headers.first().attr('data-asset-id')
+    unless image_id
+      $image_blocks = $holder.find('[data-image]')
+      if $image_blocks.length
+        image_id = $image_blocks.first().attr('data-image')
+    @set('image_id', image_id) if image_id
+
+    # grab video id from first video asset block (heroic or embedded)
+    $video_headers = $holder.find('[data-asset-type="video"]')
+    if $video_headers.length
+      video_id = $video_headers.first().attr('data-asset-id')
+    unless video_id
+      $video_blocks = $holder.find('[data-video]')
+      if $video_blocks.length
+        video_id = $video_blocks.first().attr('data-video')
+    @set('video_id', video_id) if video_id
 
 
 class Cms.Collections.Pages extends Cms.Collection

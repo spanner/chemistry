@@ -1,4 +1,5 @@
 %a.page
   %span.detail
     %span.title
-    %span.summary.notes
+    %date.published
+    %span.summary

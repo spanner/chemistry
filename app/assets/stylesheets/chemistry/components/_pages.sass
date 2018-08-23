@@ -9,6 +9,15 @@ ul.pages, ul.contents
       color: $mid
       &:hover
         color: $dark
+    date
+      color: $pale
+      display: inline-block
+      vertical-align: top
+      font-style: italic
+      float: left
+      margin-right: 0.5em
+      padding-right: 0.5em
+      border-right: 1px solid $pale
     &.unpublished
       a
         color: $purple
@@ -71,6 +80,18 @@ ul.pages, ul.contents
       span.actions
         display: inline-block
         vertical-align: top
+
+section.contents
+  margin: 2em 0
+
+ul.contents
+  li.page
+    margin-bottom: 1em
+  a.page
+    span.notes
+      font-size: 1rem
+    span.title
+      display: block
 
 h2.page
   margin: 0

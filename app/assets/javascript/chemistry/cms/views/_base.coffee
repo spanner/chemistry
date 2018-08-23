@@ -139,6 +139,9 @@ class Cms.View extends Backbone.Marionette.View
     else
       mom.format t('date_formats.time_on_date')
 
+  publicationDate: (mom) =>
+    mom.format("LL") if mom
+
   justDate: (mom) =>
     mom.format("MMM Do YYYY") if mom
 

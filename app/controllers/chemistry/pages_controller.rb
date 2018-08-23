@@ -154,6 +154,8 @@ module Chemistry
         :summary,
         :excerpt,
         :rendered_html,
+        :image_id,
+        :video_id,
         :keywords,
         :began_at,
         :ended_at,

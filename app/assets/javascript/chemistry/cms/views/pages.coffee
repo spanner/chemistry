@@ -47,7 +47,6 @@ class Cms.Views.PageRenderer extends Cms.Views.Page
         page: @model
         collection: @model.sections
     rendered = @ui.sections.html()
-    @log "rendered", rendered
     @model.set 'rendered_html', rendered
 
 
@@ -91,6 +90,9 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
         observe: ["content", "template"]
         onGet: "templateSymbol"
       ]
+    "date.published":
+      observe: "published_at"
+      onGet: "publicationDate"
     "a.page":
       attributes: [
         name: "href"
@@ -201,6 +203,14 @@ class Cms.Views.ChildPages extends Cms.Views.Pages
   childView: Cms.Views.ContentsPage
   tagName: "ul"
   className: "contents"
+
+  filter: (model) =>
+    model.get('published_at')
+
+  viewComparator: (model) =>
+    mom = model.get('published_at')
+    epoch = mom?.unix() ? 0
+    -epoch
 
 
 class Cms.Views.PagesIndex extends Cms.Views.IndexView
