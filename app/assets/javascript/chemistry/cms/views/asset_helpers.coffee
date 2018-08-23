@@ -128,7 +128,7 @@ class Cms.Views.AssetEditor extends Cms.View
       for helper_class_name in @getOption('helpers')
         if helper_class = Cms.Views[helper_class_name]
           helper = new helper_class
-            collection: @collectionForHelper(helper)
+            collection: @collectionForHelper(helper_class_name)
           do (helper) =>
             helper.$el.appendTo @ui.buttons
             helper.render()
