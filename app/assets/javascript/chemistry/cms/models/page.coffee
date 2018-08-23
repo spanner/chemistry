@@ -14,6 +14,7 @@ class Cms.Models.Page extends Cms.Model
     @setPublicationStatus()
     @on 'change:updated_at change:published_at', @setPublicationStatus
     @on 'change:rendered_html', @extractMetadata
+    @on 'change:title', @setSlug
 
   published: () =>
     @get('published_at')?
@@ -49,6 +50,32 @@ class Cms.Models.Page extends Cms.Model
 
   getChildren: =>
     new Cms.Collections.Pages(_cms.pages.where(parent_id: @id))
+
+  setSlug: =>
+    new_title = @get('title')
+    previous_title = @previous('title')
+    previous_slug = @get('slug')
+    if !previous_slug or previous_slug is @slugify(previous_title)
+      @set 'slug', @slugify(new_title)
+
+  slugify: (title) =>
+    title.toString().toLowerCase()
+      .replace('&nbsp;', ' ')
+      .replace(/[åàáãäâ]/, 'a')
+      .replace(/[èéëê]/, 'e')
+      .replace(/[ìíïî]/, 'i')
+      .replace(/[òóöô]/, 'o')
+      .replace(/[ùúüû]/, 'u')
+      .replace(/ñ/, 'n')
+      .replace(/ç/, 'c')
+      .replace(/ß/, 'ss')
+      .replace(/\s+/g, '-')           # Replace spaces with -
+      .replace(/[^\w\-]+/g, '')       # Remove all non-word chars
+      .replace(/\-\-+/g, '-')         # Replace multiple - with single -
+      .replace(/^-+/, '')             # Trim - from start of text
+      .replace(/-+$/, '')             # Trim - from end of text
+      .trim()
+
 
   extractMetadata: =>
     html = @get('rendered_html')
