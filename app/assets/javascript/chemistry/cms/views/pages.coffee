@@ -91,7 +91,7 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
         onGet: "templateSymbol"
       ]
     "date.published":
-      observe: "published_at"
+      observe: ["date","published_at"]
       onGet: "publicationDate"
     "a.page":
       attributes: [
@@ -331,9 +331,12 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
 
   events:
     "click a.save": "saveAndClose"
+    "click a.show_detail": "toggleDetail"
 
   ui:
     "savebutton": "a.save"
+    "detail_link": "a.show_detail"
+    "detail": ".page_detail"
 
   bindings:
     "span.title":
@@ -342,8 +345,14 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
         valid:
           observe: "title"
           onGet: "ifPresent"
+    "span.slug":
+      observe: "slug"
+      onGet: "withoutHTML"
+      onSet: "withoutHTML"
     "span.summary":
       observe: "summary"
+      onGet: "withoutHTML"
+      onSet: "withoutHTML"
     "a.save":
       classes:
         available:
@@ -382,11 +391,22 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
     @model.save().done =>
       @trigger 'close'
 
+  toggleDetail: (e) =>
+    @log "toggleDetail", @ui.detail.hasClass('showing')
+    @containEvent(e)
+    if @ui.detail.hasClass('showing')
+      @ui.detail_link.removeClass('showing')
+      @ui.detail.removeClass('showing').slideUp()
+    else
+      @ui.detail_link.addClass('showing')
+      @ui.detail.addClass('showing').slideDown()
+
 
 class Cms.Views.NewPage extends Cms.Views.ConfigPage
   template: "pages/new_page"
   events:
     "click a.save": "saveAndEdit"
+    "click a.show_detail": "toggleDetail"
 
 
 class Cms.Views.NewHomePage extends Cms.Views.NewPage

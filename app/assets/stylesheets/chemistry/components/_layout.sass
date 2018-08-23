@@ -26,22 +26,24 @@
 #page_help
   display: none
 
-p.onecol, p.twocol
+.onecol, .twocol
   margin: 0.75em 0
   span.col
     display: inline-block
     vertical-align: top
 
-p.twocol
+.twocol
   span.col
-    width: 47%
+    width: 49%
     margin: 0 2% 0 0
+    input
+      width: 100%
     &:last-child
       margin-right: 0
 
-p.onecol
+.onecol
   span.col
-    width: 96%
+    width: 100%
 
 [data-label]
   display: block

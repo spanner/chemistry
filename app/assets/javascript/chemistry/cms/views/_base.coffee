@@ -139,8 +139,9 @@ class Cms.View extends Backbone.Marionette.View
     else
       mom.format t('date_formats.time_on_date')
 
-  publicationDate: (mom) =>
-    mom.format("LL") if mom
+  publicationDate: ([date, publication_date]=[]) =>
+    date or= publication_date
+    date.format("LL") if date
 
   justDate: (mom) =>
     mom.format("MMM Do YYYY") if mom
@@ -266,7 +267,7 @@ class Cms.View extends Backbone.Marionette.View
     @_cleaner ?= $('<div />')
     @_cleaner.html(html)
     @_cleaner.text().trim()
-  
+
 
   ## Utilities
   #
@@ -501,7 +502,7 @@ class Cms.Views.ModelOption extends Cms.View
         ]
 
   titleOrDefault: (title) =>
-    title or "Please select"
+    title or ""
 
   isSelected: (value) =>
     'selected' if value?.id is @model.id

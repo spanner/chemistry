@@ -99,50 +99,50 @@ class Cms.Views.DatesPicker extends Cms.View
   template: "helpers/pick_dates"
 
   ui:
-    dates: 'span.dates'
+    date: 'input.date'
+    to_date: 'input.to_date'
 
   bindings:
-    "span.dates":
-      observe: ["began_at", "ended_at"]
-      onGet: "describeDates"
+    "p.date":
+      classes:
+        absent:
+          observe: "date"
+          onGet: "ifAbsent"
+    "input.date":
+      observe: "date"
+      onGet: "simpleDate"
+    "p.to_date":
+      classes:
+        absent:
+          observe: "to_date"
+          onGet: "ifAbsent"
+    "input.to_date":
+      observe: "to_date"
+      onGet: "simpleDate"
 
   onRender: =>
     @stickit()
-    @ui.dates.datepicker
-      range: true
-      toggleSelected: false
-      autoClose: true
+    @initDatepicker @ui.date, 'date'
+    @initDatepicker @ui.to_date, 'to_date'
+
+  initDatepicker: ($el, attribute) =>
+    date = @model.get(attribute)?.toDate()
+    @log "initDatepicker", $el, attribute, date
+    $el.datepicker
       inline: false
-      language: "en"
+      autoClose: true
+      startDate: date
+      language: 'en'
       dateFormat: "d M yyyy"
-      onSelect: @onPickDates
+      multipleDates: false
+      onSelect: (fd, date) ->
+        $el.trigger 'input'
 
-  onPickDates: (fd, dates, picker) =>
-    @log "[adp] onPickDates", dates
-    if dates.length == 2
-      @model.set
-        began_at: moment(dates[0])
-        ended_at: moment(dates[1])
-      ,
-        from_picker: true
-
-  describeDates: ([began_at, ended_at]=[]) =>
-    console.log "[adp] describeDates", began_at, ended_at
-    parts = []
-    if ended_at
-      if began_at
-        if ended_at.isSame(began_at, 'day')
-          # we can omit date_from
-        else if ended_at.isSame(began_at, 'month')
-          parts.push began_at.format("D")
-        else if ended_at.isSame(began_at, 'year')
-          parts.push began_at.format("D MMM")
-        else
-          parts.push began_at.format("D MMM YYYY")
-      parts.push ended_at.format("D MMM YYYY")
-    else if began_at
-      parts.push began_at.format("D MMM YYYY")
-    parts.join t('conjunctions.to')
+  simpleDate: (mom) =>
+    if mom
+      mom.format("d MMM YYYY")
+    else
+      ""
 
 
 class Cms.Views.UrlPicker extends Cms.View

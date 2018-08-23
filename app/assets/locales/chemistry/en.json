@@ -40,8 +40,9 @@
     "this_year": "h:mma [on] MMM Do",
     "time_today": "[Today at] h:mma"
   },
-  "files": {
-    "upload": "Upload new file"
+  "detail": {
+    "hide": "Hide details",
+    "show": "Show details"
   },
   "enquiries": {
     "dismiss": "Dismiss",
@@ -53,6 +54,9 @@
   },
   "errors": {
     "page": "Could not save page"
+  },
+  "files": {
+    "upload": "Upload new file"
   },
   "gotno": {
     "pages": "No pages."
@@ -95,8 +99,11 @@
   },
   "notes": {
     "create_new_page": "",
+    "dates": "If no date is assigned here, we usually display the publication date.",
     "image_weighting": "Click on a sector to pin that part of the image in view, so for example if you click the bottom-left square then the top right part of the image will be lost when it is cropped.",
     "external_url": "Please give full web address including http:// or https:// prefix",
+    "page_summary": "If nothing is given here, we will use an excerpt from the page.",
+    "page_terms": "These are used to generate lists of relevant or adjacent pages.",
     "term_search_hint": "Type in a search term to see suggestions. Press enter to create a new tag.",
     "video_providers": "Videos can be embedded automatically from youtube, vimeo and most other providers. Just paste a URL or youtube ID here."
   },
@@ -121,9 +128,12 @@
       "remote_url": "From URL..."
     },
     "page": {
-      "dates": "Period (optional)",
+      "date": "Date",
+      "to_date": "Finish date",
       "parent": "Parent page",
+      "slug": "URL slug",
       "summary": "Summary",
+      "terms": "Add keyword",
       "title": "Page title",
       "url": "External URL"
     },

@@ -16,13 +16,30 @@
 
   %p
     %span.title.required{contenteditable: "true", data: {placeholder: t('placeholders.page.title')}}
-  %p
-    %span.summary{contenteditable: "true", data: {placeholder: t('placeholders.page.summary')}}
 
   .parent_picker
   .content_picker
-  .dates_picker
-  .terms_picker
+
+  %h3
+    %a.show_detail
+      %svg.icon
+        %use{"xlink:href" => "#more_symbol"}
+      %span.label.show
+        = t ('detail.show')
+      %span.label.hide
+        = t ('detail.hide')
+
+  .page_detail
+    %p
+      %span.slug{contenteditable: "plaintext-only", data: {placeholder: t('placeholders.page.slug')}}
+
+    %p
+      %span.summary{contenteditable: "plaintext-only", data: {placeholder: t('placeholders.page.summary')}}
+      %span.notes
+        = t ('notes.page_summary')
+
+    .dates_picker
+    .terms_picker
 
   .buttons
     %a.save.button

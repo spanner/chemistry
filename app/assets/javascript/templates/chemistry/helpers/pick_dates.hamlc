@@ -1,1 +1,12 @@
-%span.dates{contenteditable: "true", data: {placeholder: t('placeholders.page.dates')}}
+%p.col.date.inputlike>
+  %span.label.date
+    = t('placeholders.page.date')
+  %input.date{type: "text"}
+
+%p.col.to_date.inputlike>
+  %span.label.to_date
+    = t('placeholders.page.to_date')
+  %input.to_date{type: "text"}
+
+%p.notes
+  = t('notes.dates')

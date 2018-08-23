@@ -157,8 +157,8 @@ module Chemistry
         :image_id,
         :video_id,
         :keywords,
-        :began_at,
-        :ended_at,
+        :date,
+        :to_date,
         :nav,               # takes part in navigation?
         :nav_name,          # with this name
         :nav_position,      # in this position
