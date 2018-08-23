@@ -1,9 +1,10 @@
 module Chemistry
   class Page < ApplicationRecord
     acts_as_paranoid
-    belongs_to :parent, class_name: 'Chemistry::Page', optional: true
     belongs_to :template, optional: true
+    belongs_to :parent, class_name: 'Chemistry::Page', optional: true
 
+    has_many :child_pages, class_name: 'Chemistry::Page', foreign_key: :parent_id
     has_many :sections, -> {order(position: :asc)}, dependent: :destroy
     has_many :documents, -> {order(position: :asc)}, dependent: :destroy
     acts_as_list column: :nav_position

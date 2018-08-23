@@ -20,6 +20,10 @@ class Cms.Views.Page extends Cms.View
         name: "class"
         observe: "template"
         onGet: "templateSlug"
+      ,
+        name: "id"
+        observe: "id"
+        onGet: "pageId"
       ]
 
   onRender: =>
@@ -32,6 +36,9 @@ class Cms.Views.Page extends Cms.View
 
   templateSlug: (template) =>
     template.get('slug') if template
+
+  pageId: (id) =>
+    "page_#{id}"
 
 
 class Cms.Views.PageEditor extends Cms.Views.Page

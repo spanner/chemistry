@@ -29,6 +29,7 @@ Chemistry::Engine.routes.draw do
 
   scope defaults: { format: 'html' }, constraints: { format: 'html' } do
     get "latest/*parent" => "pages#latest"
+    get "contents/*parent" => "pages#children"
     get "*path" => "pages#editor"
   end
 end

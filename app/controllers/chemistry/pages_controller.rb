@@ -64,7 +64,8 @@ module Chemistry
       return_page
     end
 
-    # `latest` returns html useful for populating sidebars and menus with 'latest update' type blocks
+    # `latest` returns a list useful for populating sidebars and menus with 'latest update' type blocks
+    # optional `parent` param contains a path string, scopes the list to children of the page at that path.
     #
     def latest
       limit = params[:limit].presence || 1
@@ -75,6 +76,18 @@ module Chemistry
       if params[:parent] and parent_page = Page.where(path: params[:parent]).first
         @pages = @pages.with_parent(parent_page)
       end
+      render partial: "chemistry/pages/excerpt", collection: @pages
+    end
+
+    # `children` returns paginated lists of published pages under the given page path.
+    #
+    def children
+      limit = params[:limit].presence || 20
+      parent_page = Page.where(path: params[:parent]).first
+      @pages = parent_page.child_pages.published.order(published_at: :desc).limit(limit)
+
+      Rails.logger.warn "CHILDREN under path #{params[:parent]} with limit #{limit}"
+
       render partial: "chemistry/pages/excerpt", collection: @pages
     end
 

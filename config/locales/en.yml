@@ -2,5 +2,9 @@ en:
   published: "published"
   time:
     formats:
-      natural: "%d %B"
+      natural: "%d %B %Y"
+      natural_full: "%l:%M%P, %d %B %Y"
+  date:
+    formats:
+      natural: "%d %B %Y"
       natural_full: "%l:%M%P, %d %B %Y"

@@ -50,8 +50,6 @@ class Cms.Models.Page extends Cms.Model
   getChildren: =>
     new Cms.Collections.Pages(_cms.pages.where(parent_id: @id))
 
-    @extractMetadata()
-
   extractMetadata: =>
     html = @get('rendered_html')
     title = ""

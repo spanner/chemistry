@@ -111,10 +111,32 @@ jQuery ($) ->
       @$form.fadeOut =>
         @$confirmation.fadeIn()
 
-
     mumbleApologetically: () =>
+
+
+  ## Contents list
+
+  $.fn.contents_list = ->
+    @each ->
+      new ContentsList(@)
+
+
+  class ContentsList
+    constructor: (element) ->
+      @$container = $(element)
+      @_path = @$container.data('page') or window.location.pathName
+      @fetchPage()
+
+    #todo: pagination
+    fetchPage: =>
+      $.get("/chemistry/contents/#{@_path}").done (response) =>
+        @$container.html(response)
+
+
+
 
 
 $ ->
   $('section.enquiry').enquiry_form()
+  $('ul.contents').contents_list()
   $('a.footnoted').footnoted()
