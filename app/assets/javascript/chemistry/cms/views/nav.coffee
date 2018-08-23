@@ -18,11 +18,10 @@ class Cms.Views.Nav extends Cms.View
     version: "#chemistry_version"
 
   events:
-    "click @ui.link": "hideAndGoto"
+    "click": "hide"
 
   triggers:
     "click @ui.head": "toggle"
-    "click @ui.bg": "hide"
 
   initialize: =>
     super
@@ -48,6 +47,5 @@ class Cms.Views.Nav extends Cms.View
     @getRegion('shortcuts').reset()
     @unstickit()
 
-  hideAndGoto: (e) =>
+  hide: (e) =>
     @trigger 'hide'
-    # allow navigation event to continue

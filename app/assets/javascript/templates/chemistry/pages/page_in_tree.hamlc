@@ -4,6 +4,8 @@
     %svg.page
       %use.template{"xlink:href" => "#empty_page_symbol"}
     %span.title
+    %br
+    %span.path
   %span.actions
     %a.add.child
       %svg.icon

@@ -18,27 +18,14 @@ ul.pages, ul.contents
       margin-right: 0.5em
       padding-right: 0.5em
       border-right: 1px solid $pale
-    &.unpublished
-      a
-        color: $purple
-        +hover
-    &.unsaved
-      a
-        color: $blue
-        +hover
-    &.new
-      a
-        color: $pale
-        &:hover
-          color: $green
     span.indent
       display: inline-block
       float: left
       height: 48px
     span.actions
       display: none
-      padding-top: 2px
       margin-left: 10px
+      margin-top: -3px
       a
         width: 16px
         display: inline-block
@@ -46,7 +33,6 @@ ul.pages, ul.contents
         svg.icon
           width: 16px
           height: 16px
-          margin-top: 2px
       a.delete
         color: $red
       a.add
@@ -67,19 +53,37 @@ ul.pages, ul.contents
       width: 30px
       height: 40px
       margin-right: 10px
-    span.detail
-      span.title, span.description
-        line-height: 1.2
-      span.title
-        +cms-font-light
-        font-size: 1.75rem
-        margin: 0.25em 0
-      span.description
-        font-size: 0.9rem
+    span.title, span.path, span.description
+      line-height: 1.2
+    span.title
+      +cms-font-light
+      font-size: 1.75rem
+      margin: 0.25em 0
+    span.path
+      +cms-font-light
+      display: inline-block
+      color: $pale
+      margin: -0.1rem 0 0.25rem 0
+      font-size: 0.9rem
+    span.description
+      font-size: 0.9rem
     &:hover
       span.actions
         display: inline-block
         vertical-align: top
+    &.unpublished
+      span.path
+        color: $purple
+        +hover
+    &.unsaved
+      span.path
+        color: $blue
+        +hover
+    &.new
+      a
+        color: $pale
+        &:hover
+          color: $green
 
 section.contents
   margin: 2em 0

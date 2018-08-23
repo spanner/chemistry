@@ -88,6 +88,9 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
     ".title":
       observe: "title"
       onGet: "shortTitle"
+    ".path":
+      observe: "path"
+      onGet: "absolutePath"
     ".summary":
       observe: "summary"
       onGet: "shortSummary"
@@ -157,6 +160,9 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
 
   shortSummary: (summary) =>
     @shortAndClean(summary, 96)
+
+  absolutePath: (path) =>
+    if path[0] is "/" then path else "/#{path}"
 
 
 class Cms.Views.TreePage extends Cms.Views.ListedPage
