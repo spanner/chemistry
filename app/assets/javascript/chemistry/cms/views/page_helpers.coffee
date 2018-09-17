@@ -153,7 +153,7 @@ class Cms.Views.UrlPicker extends Cms.View
     "span.url": "external_url"
 
 
-class Cms.Views.PageAssetPicker extends Cms.CompositeView
+class Cms.Views.PageAssetPicker extends Cms.CollectionView
   template: "assets/pick_page_asset"
   childView: Cms.Views.ListedAsset
   emptyView: Cms.Views.NoAsset

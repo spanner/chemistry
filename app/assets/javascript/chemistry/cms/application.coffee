@@ -1,6 +1,6 @@
 Cms = {}
-Cms.version = '0.4.0'
-Cms.subtitle = "Beta 2"
+Cms.version = '0.5.0'
+Cms.subtitle = "Beta 4"
 
 Cms.Models = {}
 Cms.Collections = {}
@@ -10,23 +10,12 @@ root = window
 root.Cms = Cms
 
 
-# The AppRouter maps routes onto UI function calls and their arguments.
-# It is called on every change of window.location.
-#
-class Cms.AppRouter extends Backbone.Marionette.AppRouter
-  appRoutes:
-    "": "defaultView"
-    ":collection_name": "collectionView"
-    ":collection_name(?:qs)": "collectionView"
-    ":model_name/:action/:id": "modelView"
-
-
 # The Application is a supporting framework wrapped around the UI view.
 # It provides navigation, rendering and API-interfacing services, and
 # watches the window history stack. On every change of state it consults
 # the AppRouter to select a UI function and pass arguments to it.
 #
-class Cms.Application extends Backbone.Marionette.Application
+class Cms.Application extends Marionette.Application
   defaults: {}
 
   initialize: (opts={}) ->
@@ -46,7 +35,7 @@ class Cms.Application extends Backbone.Marionette.Application
     @_available_locales = {}
 
     Backbone.sync = @sync
-    Backbone.Marionette.Renderer.render = @render
+    Marionette.setRenderer  @render
     root.onerror = @reportError
     root._cms = @
 
@@ -55,8 +44,7 @@ class Cms.Application extends Backbone.Marionette.Application
       @setUILocale().done =>
         @ui = new Cms.Views.UI el: @el
         @ui.render()
-        @_router = new Cms.AppRouter
-          controller: @ui
+        @_router = new Cms.Router ui: @ui
         Backbone.history.start
           pushState: true
           hashChange: false

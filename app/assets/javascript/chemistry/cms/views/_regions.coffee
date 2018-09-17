@@ -1,7 +1,7 @@
 ## Floating overlays
 #  are handled by a custom region class that does the floating part.
 #
-class Cms.FloatingRegion extends Backbone.Marionette.Region
+class Cms.FloatingRegion extends Marionette.Region
 
   onShow: (region, view, options={}) =>
     @log "FloatingRegion onShow", options

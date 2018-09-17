@@ -1,3 +1,26 @@
+# The Router maps routes onto UI function calls and their arguments.
+# It is called on every change of window.location.
+#
+class Cms.Router extends Backbone.Router
+  routes:
+    "": "defaultView"
+    ":collection_name": "collectionView"
+    ":collection_name(?:qs)": "collectionView"
+    ":model_name/:action/:id": "modelView"
+
+  initialize: (opts) ->
+    @ui = opts.ui
+
+  defaultView: =>
+    @ui.defaultView()
+
+  collectionView: (base, qs) =>
+    @ui.collectionView(base, qs)
+
+  modelView: (base, action, id) =>
+    @ui.modelView(base, action, id)
+
+
 ## UI Construction
 #
 # We have only three types of view:

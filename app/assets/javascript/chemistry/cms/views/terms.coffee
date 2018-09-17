@@ -1,5 +1,4 @@
-
-# class Cms.Views.TermView extends Cms.CompositeView
+# class Cms.Views.TermView extends Cms.CollectionView
 #   template: "cms/term"
 #   childView: Cms.Views.ListedPageView
 #   childViewContainer: "#pages"
@@ -33,7 +32,7 @@
 #       ]
 #
 #
-# class Cms.Views.AttachedTerms extends Backbone.Marionette.CollectionView
+# class Cms.Views.AttachedTerms extends Marionette.CollectionView
 #   childView: Cms.Views.ListedTerm
 #   tagName: "ul"
 #   className: "terms"

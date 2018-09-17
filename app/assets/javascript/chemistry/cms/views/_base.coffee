@@ -1,7 +1,7 @@
 # Base classes with useful bits and pieces.
 # TODO we are going to need mixins to dry this up very soon.
 
-class Cms.View extends Backbone.Marionette.View
+class Cms.View extends Marionette.View
   template: false
 
   initialize: =>
@@ -409,7 +409,7 @@ class Cms.Views.MenuView extends Cms.View
 # Adds some conventional lifecycle and useful bindings to our various composite views:
 # map, directory, list of activities at venue or from organisation.
 
-class Cms.CollectionView extends Backbone.Marionette.CollectionView
+class Cms.CollectionView extends Marionette.CollectionView
 
   initialize: =>
     @render()
@@ -423,23 +423,6 @@ class Cms.Views.AttachedCollectionView extends Cms.CollectionView
   initialize: =>
     @collection.loadAnd =>
       @render()
-
-
-## Composite View
-#
-# Adds some conventional lifecycle and useful bindings to our various composite views:
-# map, directory, list of activities at venue or from organisation.
-
-class Cms.CompositeView extends Backbone.Marionette.CompositeView
-
-  initialize: =>
-    @render()
-
-  onRender: =>
-    @stickit() if @model
-
-  log: ->
-    _cms.log "[#{@constructor.name}]", arguments...
 
 
 ## Chooser views
