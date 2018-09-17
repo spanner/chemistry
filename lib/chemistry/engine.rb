@@ -5,6 +5,6 @@ module Chemistry
     isolate_namespace Chemistry
     config.generators.api_only = true
     config.assets.paths << Chemistry::Engine.root.join('node_modules')
-    config.assets.precompile += %w( chemistry/en.json )
+    config.assets.precompile += %w( chemistry/en.json chemistry/chemistry.css chemistry/chemistry.js chemistry/public.js)
   end
 end

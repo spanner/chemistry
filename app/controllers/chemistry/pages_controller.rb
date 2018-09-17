@@ -4,16 +4,18 @@ module Chemistry
   class PagesController < ApplicationController
     include Chemistry::Concerns::Searchable
 
-    load_and_authorize_resource except: [:published, :latest]
-
+    load_and_authorize_resource except: [:published, :latest, :home]
 
     # HTML routes
     #
     # public front page
     #
     def home
-      @page = Page.home.first
-      render template: "chemistry/pages/published"
+      if @page = Page.home.first
+        render template: "chemistry/pages/published"
+      else
+        render template: "chemistry/welcome", layout: "chemistry/application"
+      end
     end
 
     # Editing front page

@@ -26,7 +26,7 @@ class Metadata < ActiveRecord::Migration[5.1]
 
     add_column :chemistry_pages, :original_context, :text
     add_column :chemistry_pages, :began_at, :datetime
-    add_column :chemistry_pages, :ended_at :datetime
+    add_column :chemistry_pages, :ended_at, :datetime
 
   end
 end

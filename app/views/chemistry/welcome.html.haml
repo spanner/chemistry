@@ -1,0 +1,32 @@
+#cms-welcome
+  = link_to "/cms/" do
+    %header
+      %svg#logo
+        %use{"xlink:href" => "#chemistry_symbol"}
+
+    %article
+      %h1
+        You have chemistry
+      %p
+        Time to make some pages.
+
+  %footer
+    %ul.links
+      %li
+        %a{href: "https://github.io/spanner/chemistry"}
+          %svg.icon{viewBox: "0 0 100 100"}
+            %use{"xlink:href" => "#rocket_symbol"}
+          %span.label
+            Getting started
+      %li
+        %a{href: "https://github.io/spanner/chemistry"}
+          %svg.icon{viewBox: "0 0 100 100"}
+            %use{"xlink:href" => "#docs_symbol"}
+          %span.label
+            Documentation
+      %li
+        %a{href: "https://github.com/spanner/chemistry"}
+          %svg.icon{viewBox: "0 0 100 100"}
+            %use{"xlink:href" => "#github_symbol"}
+          %span.label
+            Github

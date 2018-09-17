@@ -1,7 +1,7 @@
 # Gem-provided JS
 #= require hamlcoffee
 
-# Node module JS
+# Node modules
 #= require jquery/dist/jquery
 #= require node-polyglot/build/polyglot
 #= require underscore/underscore

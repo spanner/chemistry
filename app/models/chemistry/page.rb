@@ -1,8 +1,11 @@
+require 'mustache'
+
 module Chemistry
   class Page < ApplicationRecord
     acts_as_paranoid
     belongs_to :template, optional: true
     belongs_to :parent, class_name: 'Chemistry::Page', optional: true
+    belongs_to :owner, polymorphic: true
 
     has_many :child_pages, class_name: 'Chemistry::Page', foreign_key: :parent_id
     has_many :sections, -> {order(position: :asc)}, dependent: :destroy
@@ -105,6 +108,41 @@ module Chemistry
     end
 
 
+    ## Interpolations
+    #  are provided globally by the main application or specificially by a page owner.
+    #
+    def interpolations
+      standard_interpolations.merge(owner_interpolations)
+    end
+
+    # override `standard_interpolations` to provide site-wide interpolations available on any page.
+    # These might include {{login_form}} or {{user_name}}.
+    #
+    def standard_interpolations
+      {}
+    end
+
+    # Add a `cms_interpolations` method to the owner class to provide model-specific interpolations.
+    #
+    def owner_interpolations
+      if owner && owner.respond_to?(:cms_interpolations)
+        owner.cms_interpolations
+      else
+        {}
+      end
+    end
+
+    # Render performs the interpolations by passing our attributes (usually blocks of html) and interpolation rules to mustache.
+    #
+    def render(attribute=:published_content)
+      if renderable_attributes.include? attribute
+        Mustache.render(read_attribute(attribute), interpolations)
+      else
+        ""
+      end
+    end
+
+
     ## Elasticsearch indexing
     #
     searchkick searchable: [:title, :content],
@@ -133,8 +171,19 @@ module Chemistry
       template.slug if template
     end
 
+    def slug_base
+      if owner && owner.respond_to?(:cms_slug_base)
+        owner.cms_slug_base(self).presence || title
+      else
+        title
+      end
+    end
 
     protected
+
+    def renderable_attributes
+      [:display_title, :rendered_html]
+    end
 
     def set_home_if_first
       if Page.all.empty?
@@ -144,7 +193,7 @@ module Chemistry
 
     def derive_slug
       unless slug?
-        slug = title.parameterize
+        slug = slug_base.parameterize
         stem = parent ? parent.path : ""
         addendum = 1
         while Chemistry::Page.find_by(path: stem + slug)

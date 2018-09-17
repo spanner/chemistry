@@ -2,7 +2,7 @@ Chemistry::Engine.routes.draw do
 
   match "*all" => "application#cors_check", :via => :options, :constraints => {:method => 'OPTIONS'}
 
-  root to: "pages#editor"
+  root to: "pages#editor", as: :home
 
   scope defaults: { format: 'json' }, constraints: { format: 'json' } do
     resources :pages do

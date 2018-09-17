@@ -9,6 +9,6 @@ class Enquiries < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    add_index :chemistry_enquiries, :closed
+    add_index :chemistry_enquiries, :closed_at
   end
 end

@@ -449,7 +449,7 @@
       this.isAlreadyApplied() ? this.setActive() : this.setInactive(); // update button state
       this.base.checkContentChanged(); // triggers 'editableInput' event
 
-      // and temporarily, we cheat with an archaic VWL-specific layout update call :()
+      //#TODO remove this temporary VWL-specific layout update call :(
       $('a.footnoted').footnoted()
 
     },
