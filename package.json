@@ -19,7 +19,7 @@
     "medium-editor": "^5.23.2",
     "medium-editor-phrase": "^1.0.2",
     "moment": "^2.22.2",
-    "node-polyglot": "^2.3.0",
+    "node-polyglot": "~2.0.0",
     "pikaday": "^1.7.0",
     "smartquotes": "^2.1.2",
     "underscore": "^1.9.1",
