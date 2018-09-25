@@ -133,7 +133,7 @@ class Cms.Views.NoSection extends Cms.View
   template: "no_section"
 
 
-class Cms.Views.Sections extends Cms.Views.AttachedCollectionView
+class Cms.Views.Sections extends Cms.CollectionView
   childView: Cms.Views.Section
   emptyView: Cms.Views.NoSection
   # nb AttachedCollectionView is self-loading and self-rendering

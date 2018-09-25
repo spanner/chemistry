@@ -3,7 +3,7 @@
 
 # Node modules
 #= require jquery/dist/jquery
-#= require node-polyglot/index
+#= require node-polyglot/build/polyglot
 #= require underscore/underscore
 #= require underscore.string/dist/underscore.string
 #= require backbone/backbone

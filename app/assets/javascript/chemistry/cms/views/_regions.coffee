@@ -11,9 +11,11 @@ class Cms.FloatingRegion extends Marionette.Region
         top: -20
         left: -20
       offset_offset = options.offset or default_adjustment
-      @$el.css
+      offset_css =
         top: offset.top + offset_offset.top
         left: offset.left + offset_offset.left
+      @log "Offsetting floater", $over.offsetParent(), @$el.offsetParent()
+      @$el.css offset_css
     view.on 'close', => @reset()
     @$el.addClass 'up'
 

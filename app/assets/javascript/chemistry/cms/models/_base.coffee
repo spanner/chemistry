@@ -373,8 +373,11 @@ class Cms.Model extends Backbone.Model
   isDestroyed: () =>
     @get('deleted_at')
 
+  sig: ->
+    "#{@constructor.name} • #{@cid}"
+
   log: ->
-    _cms.log "[#{@constructor.name}]", arguments...
+    _cms.log "[#{@sig()}]", arguments...
 
   confirm: ->
     _cms.confirm arguments...

@@ -13,6 +13,7 @@ module Chemistry
     mattr_accessor :layout,
                    :host,
                    :protocol,
+                   :ui_path,
                    :api_url,
                    :cookie_domain,
                    :production_host,       #

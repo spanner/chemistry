@@ -26,11 +26,10 @@ class Cms.Views.Page extends Cms.View
         onGet: "pageId"
       ]
 
-  onRender: =>
+  onReady: =>
     window.p = @model
-    @stickit()
     @model.sections.loadAnd =>
-      @getRegion('sections').show new Cms.Views.Sections
+      @showChildView 'sections', new Cms.Views.Sections
         page: @model
         collection: @model.sections
 
@@ -50,7 +49,7 @@ class Cms.Views.PageRenderer extends Cms.Views.Page
 
   onRender: =>
     @model.sections.loadAnd =>
-      @getRegion('sections').show new Cms.Views.RenderedSections
+      @showChildView 'sections', new Cms.Views.RenderedSections
         page: @model
         collection: @model.sections
     rendered = @ui.sections.html()
@@ -162,6 +161,7 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
     @shortAndClean(summary, 96)
 
   absolutePath: (path) =>
+    @log "absolutePath", path
     if path[0] is "/" then path else "/#{path}"
 
 
@@ -177,7 +177,7 @@ class Cms.Views.TreePage extends Cms.Views.ListedPage
       ]
 
   indentStyle: (depth) =>
-    "width: #{depth * 8}%"
+    "width: #{depth * 32}px"
 
 
 class Cms.Views.ContentsPage extends Cms.Views.ListedPage
@@ -201,10 +201,14 @@ class Cms.Views.Pages extends Cms.CollectionView
   tagName: "ul"
   className: "pages"
 
-  onChildviewConfig: (view) =>
+  childViewEvents:
+    config: "configChild"
+    beget: "begetChild"
+
+  configChild: (view) =>
     @trigger "config", view.model
 
-  onChildviewBeget: (view) =>
+  begetChild: (view) =>
     @trigger "beget", view.model
 
 
@@ -234,8 +238,8 @@ class Cms.Views.PagesIndex extends Cms.Views.IndexView
       el: "#pages"
 
   ui:
-    new_page_link: "li.new.page"
-    new_page_title: "span.title"
+    new_page_link: "a.new.page"
+    new_page_title: "span.heading"
     new_page_description: "span.description"
 
   events:
@@ -243,10 +247,13 @@ class Cms.Views.PagesIndex extends Cms.Views.IndexView
 
   onRender: =>
     super
+    @log "titling", @collection.size()
     if @collection.size()
       @ui.new_page_title.text t('pages.new_title')
+      @ui.new_page_description.text t('pages.new_description')
     else 
       @ui.new_page_title.text t('pages.new_home_title')
+      @ui.new_page_description.text t('pages.new_home_description')
 
     page_tree = new Cms.Views.PageTree
       collection: @collection
@@ -267,6 +274,7 @@ class Cms.Views.PagesIndex extends Cms.Views.IndexView
       over: @ui.new_page_link
 
   configPage: (model) =>
+    @log "configPage", model
     config_page_view = new Cms.Views.ConfigPage
       model: model
     _cms.ui.floatView config_page_view,
@@ -276,7 +284,7 @@ class Cms.Views.PagesIndex extends Cms.Views.IndexView
 # Page choosers
 #
 class Cms.Views.PageOption extends Cms.Views.ModelOption
-  template: false
+  template: ""
   tagName: "option"
 
   titleOrDefault: (title) =>
@@ -381,14 +389,10 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
 
   onRender: =>
     @stickit()
-    @getRegion('parent').show new Cms.Views.ParentPagePicker
-      model: @model
-    @getRegion('content').show new Cms.Views.ContentPicker
-      model: @model
-    @getRegion('keywords').show new Cms.Views.TermsPicker
-      model: @model
-    @getRegion('dates').show new Cms.Views.DatesPicker
-      model: @model
+    @showChildView 'keywords', new Cms.Views.TermsPicker(model: @model)
+    @showChildView 'dates', new Cms.Views.DatesPicker(model: @model)
+    @showChildView 'content', new Cms.Views.ContentPicker(model: @model)
+    @showChildView 'parent', new Cms.Views.ParentPagePicker(model: @model)
 
   saveAndEdit: (e) =>
     @containEvent(e)
@@ -405,7 +409,6 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
       @trigger 'close'
 
   toggleDetail: (e) =>
-    @log "toggleDetail", @ui.detail.hasClass('showing')
     @containEvent(e)
     if @ui.detail.hasClass('showing')
       @ui.detail_link.removeClass('showing')
@@ -422,6 +425,13 @@ class Cms.Views.NewPage extends Cms.Views.ConfigPage
     "click a.show_detail": "toggleDetail"
 
 
-class Cms.Views.NewHomePage extends Cms.Views.NewPage
+class Cms.Views.NewHomePage extends Cms.Views.ConfigPage
   template: "pages/new_home_page"
+
+  events:
+    "click a.save": "saveAndEdit"
+
+  onRender: =>
+    @stickit()
+    @showChildView 'content', new Cms.Views.ContentPicker(model: @model)
 

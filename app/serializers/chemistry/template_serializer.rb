@@ -8,7 +8,6 @@ class Chemistry::TemplateSerializer
   attributes :id,
              :title,
              :slug,
-             :position,
              :description,
              :created_at,
              :updated_at

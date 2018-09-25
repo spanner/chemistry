@@ -167,7 +167,7 @@ class Cms.Views.DeletionConfirmation extends Cms.Views.Confirmation
 
 
 class Cms.Views.Deleter extends Cms.View
-  template: false
+  template: ""
   tagName: "a"
 
   events:

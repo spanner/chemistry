@@ -3,7 +3,7 @@
 # Attaches a formatting toolbar to a DOM element.
 #
 class Cms.Views.BaseToolbar extends Cms.View
-  template: false
+  template: ""
   className: "ed-toolbar"
   buttons: []
 
@@ -41,7 +41,7 @@ class Cms.Views.BaseToolbar extends Cms.View
 
 
 class Cms.Views.Toolbar extends Cms.Views.BaseToolbar
-  template: false
+  template: ""
   className: "ed-toolbar"
   buttons: [
     name: 'bold'
@@ -59,7 +59,7 @@ class Cms.Views.Toolbar extends Cms.Views.BaseToolbar
 
 
 class Cms.Views.BlocksToolbar extends Cms.Views.BaseToolbar
-  template: false
+  template: ""
   className: "ed-toolbar"
   buttons: [
     name: 'bold'

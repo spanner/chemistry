@@ -14,10 +14,10 @@ namespace :chemistry do
 
 
   task :seed => :environment do
-    if File.exist? Rails.root + "db/import/v1/section_types.json"
-      path = Rails.root + "db/import/v1/section_types.json"
+    if File.exist? Rails.root + "db/import/chemistry/section_types.json"
+      path = Rails.root + "db/import/chemistry/section_types.json"
     else
-      path = File.expand_path('../../../db/import/v1/section_types.json', __FILE__)
+      path = File.expand_path('../../../db/import/chemistry/section_types.json', __FILE__)
     end
     section_types = JSON.parse(File.read(path))
     section_types.each do |st|
@@ -34,10 +34,10 @@ namespace :chemistry do
       end
     end
 
-    if File.exist? Rails.root + "db/import/v1/templates.json"
-      path = Rails.root + "db/import/v1/templates.json"
+    if File.exist? Rails.root + "db/import/chemistry/templates.json"
+      path = Rails.root + "db/import/chemistry/templates.json"
     else
-      path = File.expand_path('../../../db/import/v1/templates.json', __FILE__)
+      path = File.expand_path('../../../db/import/chemistry/templates.json', __FILE__)
     end
     templates = JSON.parse(File.read(path))
     templates.each do |t|

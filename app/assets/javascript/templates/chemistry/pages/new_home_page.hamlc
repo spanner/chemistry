@@ -1,23 +1,26 @@
+.mask
+
 %a.close
   %svg
     %use{"xlink:href" => "#close_symbol"}
 
-%h2.page
-  %svg.page
-    %use{"xlink:href" => "#new_page_symbol"}
-  %span.detail
-    %span.heading
-      = t('new_page.home_title')
-    %span.description
-      = t('new_page.home_description')
+.form
+  %h2.page
+    %svg.page
+      %use{"xlink:href" => "#new_page_symbol"}
+    %span.detail
+      %span.heading
+        = t('pages.new_home_title')
+      %span.description
+        = t('pages.new_home_description')
 
-%p
-  %span.title.large{contenteditable: "true", data: {placeholder: t('placeholders.home_page.title')}}
+  %p
+    %span.title.required{contenteditable: "true", data: {placeholder: t('placeholders.page.title')}}
 
-.template_picker
+  .content_picker
 
-.buttons
-  %a.save.button
-    = t('buttons.create_page')
-  %a.cancel.button
-    = t('buttons.cancel')
+  .buttons
+    %a.save.button
+      = t('buttons.create_page')
+    %a.cancel.button
+      = t('buttons.cancel')

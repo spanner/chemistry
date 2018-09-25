@@ -1,10 +1,3 @@
-.mask
-  position: fixed
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-  background-color: rgba(255,255,255,0.97)
 
 #floater
   position: absolute
@@ -17,6 +10,13 @@
   opacity: 0
   transition: opacity 0.5s ease-out
   pointer-events: none
+  .mask
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: rgba(255,255,255,0.97)
   a.close
     position: absolute
     z-index: 30

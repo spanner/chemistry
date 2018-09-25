@@ -51,8 +51,8 @@ class Cms.Views.UI extends Cms.View
     @_nav = new Cms.Views.Nav
     @_nav.on "toggle", @toggleNav
     @_nav.on "hide", @hideNav
-    @getRegion('nav').show @_nav
-    @getRegion('notices').show new Cms.Views.Notices
+    @showChildView 'nav', @_nav
+    @showChildView 'notices', new Cms.Views.Notices
       collection: _cms.notices
 
   reset: =>
@@ -77,13 +77,13 @@ class Cms.Views.UI extends Cms.View
     @log "pageView", id
     page = _cms.pages.get(id) or new Cms.Models.Page({id: id})
     page.loadAnd =>
-      @showView new Cms.Views.PageEditor
+      @showChildView 'main', new Cms.Views.PageEditor
         model: page
       @setNavModel page
 
   adminView: (base, action, id, params) =>
     model_name = _cms.titlecase(_cms.singularize(base))
-    @log "adminView", base, action, id, params, model_name, Cms.Models[model_name]
+    @log "adminView", base, action, id, params, model_name
     if model_class = Cms.Models[model_name]
       collection_name = _cms.pluralize(model_name)
       collection_class = Cms.Collections[collection_name]
@@ -93,7 +93,7 @@ class Cms.Views.UI extends Cms.View
       if action is 'index'
         @log "-> index", @_collection
         @clearNavModel()
-        @showView new Cms.Views.AdminCollectionView
+        @showChildView 'main', new Cms.Views.AdminCollectionView
           collection: @_collection
           params: params
 
@@ -102,7 +102,7 @@ class Cms.Views.UI extends Cms.View
         @log "-> item", model
         @clearNavModel()
         model.loadAnd =>
-          @showView new Cms.Views.AdminItemView
+          @showChildView 'main', new Cms.Views.AdminItemView
             model: model
             action: action
 
@@ -110,8 +110,6 @@ class Cms.Views.UI extends Cms.View
   collectionParams: (params={}) =>
     _.pick params, ['p', 'pp', 'q', 's', 'o']
 
-  showView: (view=@_view) =>
-    @getRegion('main').show view
 
   # Nav presents the save / revert / publish controls
   # and the main collection view navigation links.
@@ -141,7 +139,7 @@ class Cms.Views.UI extends Cms.View
   # Floating region handles closure, masking, etc.
   #
   floatView: (view, options={}) =>
-    @getRegion('floater').show view, options
+    @showChildView 'floater', view, options
 
 
 ## Admin layouts
@@ -150,7 +148,7 @@ class Cms.Views.UI extends Cms.View
 # though at the moment their only role is to add an `article.admin` wrapper element.
 
 class Cms.Views.AdminItemView extends Cms.View
-  template: false
+  template: ""
   tagName: "article"
   className: "cms-admin"
 
@@ -177,7 +175,13 @@ class Cms.Views.AdminCollectionView extends Cms.View
   tagName: "article"
   className: "cms-admin"
 
+  initialize: ->
+    @log "^ init", @getOption('template')
+    window.wtf = @
+    super
+
   onRender: =>
+    @log "-> onRender", @collection
     if @collection
       collection_name = @collection.className()
       if view_class = Cms.Views["#{collection_name}Index"] ? Cms.Views[collection_name]
@@ -185,4 +189,5 @@ class Cms.Views.AdminCollectionView extends Cms.View
           collection: @collection
         view.$el.appendTo @$el
         view.render()
+        @log "-> view in", view.$el
 

@@ -20,6 +20,11 @@ class Cms.Application extends Marionette.Application
 
   initialize: (opts={}) ->
     @_original_backbone_sync = Backbone.sync
+    Backbone.sync = @sync
+    Marionette.setRenderer  @render
+    root.onerror = @reportError
+    root._cms = @
+
     @options = _.extend @defaults, opts
     @el = @options.el
     @_locale_ready = $.Deferred()
@@ -34,10 +39,6 @@ class Cms.Application extends Marionette.Application
     @templates = new Cms.Collections.Templates
     @_available_locales = {}
 
-    Backbone.sync = @sync
-    Marionette.setRenderer  @render
-    root.onerror = @reportError
-    root._cms = @
 
   onStart: =>
     @preloadSite().done =>

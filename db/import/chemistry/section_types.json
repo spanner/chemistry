@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Title",
+    "slug": "title",
+    "description": "Plain page heading with no illustration.",
+    "template": "<h1 data-cms-role='title' data-cms-editor='string'></h1>"
+  },
+  {
+    "title": "Hero",
+    "slug": "hero",
+    "description": "Big bold header image with page title",
+    "template": "<div class='heroic' data-cms-editor='bg' data-cms-role='background'></div><div class='fg'><h1 class='pagetitle' data-cms-role='title' data-cms-editor='string'></h1></div>"
+  },
+  {
+    "title": "Statement",
+    "slug": "statement",
+    "description": "Big head with title and subtexts",
+    "template": "<div class='heroic' data-cms-editor='bg' data-cms-role='background'></div><div class='fg'><h1 class='pagetitle' data-cms-role='title' data-cms-editor='string'></h1><div class='qualifications' data-cms-role='secondary' data-cms-editor='html'></div></div>"
+  },
+  {
+    "title": "Standfirst",
+    "slug": "standfirst",
+    "description": "A useful page opener.",
+    "template": "<div class='standfirst' data-cms-role='primary' data-cms-editor='html'></div><aside class='metadata' data-cms-role='secondary' data-cms-editor='string'></aside>"
+  },
+  {
+    "title": "Standard",
+    "slug": "standard",
+    "description": "A column of html with optional heading. Can include images, video, quotes, marginalia, document links.",
+    "template": "<div class='main' data-cms-role='primary' data-cms-editor='html' data-cms-assets='true' data-cms-toolbar='blocks'></div>"
+  },
+  {
+    "title": "Contents",
+    "slug": "contents",
+    "description": "A list of the pages beneath this page.",
+    "template": "<div class='cms-contents'><h2 data-cms-role='title' data-cms-editor='string'></h2><ul class='contents' data-cms-role='contents'></ul><aside data-cms-role='secondary' data-cms-editor='string'></aside></div>"
+  },
+  {
+    "title": "Enquiry",
+    "slug": "enquiry",
+    "description": "A simple contact form hooked up to chemistry's enquiry machinery.",
+    "template": "<form class='enquiry'><fieldset><p class='twocol'><span class='col'><input type='text' name='name' placeholder='Your name' required></span><span class='col'><input type='email' name='email' placeholder='Contact email' required></span></p><p class='onecol'><span class='col'><textarea name='message' placeholder='Your message' required></textarea></p><p class='onecol'><input type='submit' value='Send message'></span></p></form><div class='confirmation' data-cms-role='secondary' data-cms-editor='html'></div>"
+  }
+]

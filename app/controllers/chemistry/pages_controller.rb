@@ -1,7 +1,7 @@
 require 'json'
 
 module Chemistry
-  class PagesController < ApplicationController
+  class PagesController < Chemistry::ApplicationController
     include Chemistry::Concerns::Searchable
 
     load_and_authorize_resource except: [:published, :latest, :home]

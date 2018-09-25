@@ -139,7 +139,6 @@ class Cms.Collections.Pages extends Cms.Collection
   # set depth in tree
   #
   buildTree: =>
-    @log "buildTree", @size()
     parentage = {}
     @each (model) =>
       key = model.get('parent_id') or "none"

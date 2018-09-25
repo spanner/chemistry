@@ -1,17 +1,13 @@
 # The EditableSomethings are wrapped around existing html content to overlay editing tools of various kinds.
 
 class Cms.Views.EditableHtml extends Cms.View
-  template: false
-
-  initialize: ->
-    super
-    @render()
+  template: ""
 
   onRender: =>
     @$el.attr('contenteditable', 'true')
     super
 
-    #TODO v2 moves contenteditable down to the block level element, manage that list.
+    #TODO v2 moves contenteditable property down to the block level element, manages that list.
     @$el.find('figure.image').each (i, el) =>
       @addView new Cms.Views.Image
         el: el
@@ -65,29 +61,20 @@ class Cms.Views.EditableHtml extends Cms.View
 
 
 class Cms.Views.EditableString extends Cms.View
-  template: false
-
-  initialize: ->
-    super
-    @render()
+  template: ""
 
   onRender: =>
     @$el.attr('contenteditable', 'true')
-    #todo formatting toolbar only
     @_toolbar = new Cms.Views.Toolbar
       target: @$el
     @_toolbar.render()
 
 
 class Cms.Views.EditableBackground extends Cms.View
-  template: false
+  template: ""
 
   ui:
     bg: "figure.bg"
-
-  initialize: ->
-    super
-    @render()
 
   onRender: =>
     if @ui.bg.length
@@ -99,7 +86,7 @@ class Cms.Views.EditableBackground extends Cms.View
 
   # Update is called when our embedded background view triggers an 'update' event
   # Unlike most editables, our element is not a bound contenteditable so we can't just populate it and trigger 'input'
-  # We have to assume that it is the background_html attribute we should update, and do that directly.
+  # We assume that it is the `background_html` attribute we should update, and do that directly.
   #
   onUpdate: =>
     @log "🚜 background onUpdate"

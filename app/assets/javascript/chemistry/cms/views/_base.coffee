@@ -1,13 +1,13 @@
 # Base classes with useful bits and pieces.
-# TODO we are going to need mixins to dry this up very soon.
-
+#
 class Cms.View extends Marionette.View
-  template: false
+  template: ""
 
   initialize: =>
     @subviews = []
 
   onRender: =>
+    @log "🚜 onRender", @model?.sig()
     if @model
       @addBinding null, _.result @, 'extraBindings'
       @stickit()
@@ -15,8 +15,10 @@ class Cms.View extends Marionette.View
         @triggerMethod 'ready'
 
   addView: (view) =>
+    @log "🚜 addView", view
     @subviews.push view
     view.on "update", @onUpdate
+    view.render()
 
   onDestroy: =>
     if @subviews?.length
@@ -411,9 +413,6 @@ class Cms.Views.MenuView extends Cms.View
 
 class Cms.CollectionView extends Marionette.CollectionView
 
-  initialize: =>
-    @render()
-
   log: ->
     _cms.log "[#{@constructor.name}]", arguments...
 
@@ -441,13 +440,15 @@ class Cms.Views.NoChoiceView extends Cms.View
 
 class Cms.Views.ChooserView extends Cms.CollectionView
 
-  onChildviewChoose: (view, e) =>
+  childViewEvents:
+    choose: "chooseChild"
+
+  chooseChild: (view, e) =>
     @choose view.model
     view.model.markAsChosen()
 
   choose: (model) =>
     #noop here
-
 
 
 ## Collection select
@@ -456,7 +457,7 @@ class Cms.Views.ChooserView extends Cms.CollectionView
 # usually in order to select an associate.
 #
 class Cms.Views.ModelOption extends Cms.View
-  template: false
+  template: ""
   tagName: "option"
 
   bindings:
@@ -495,7 +496,7 @@ class Cms.Views.ModelOption extends Cms.View
 
 
 class Cms.Views.CollectionSelect extends Cms.CollectionView
-  template: false
+  template: ""
   tagName: "select"
   childView: Cms.Views.ModelOption
 

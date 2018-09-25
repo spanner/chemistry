@@ -9,7 +9,6 @@ module Chemistry
 
     has_many :child_pages, class_name: 'Chemistry::Page', foreign_key: :parent_id
     has_many :sections, -> {order(position: :asc)}, dependent: :destroy
-    has_many :documents, -> {order(position: :asc)}, dependent: :destroy
     acts_as_list column: :nav_position
 
     has_many :page_terms
@@ -179,6 +178,10 @@ module Chemistry
       end
     end
 
+    def home?
+      !parent
+    end
+
     protected
 
     def renderable_attributes
@@ -193,14 +196,16 @@ module Chemistry
 
     def derive_slug
       unless slug?
-        slug = slug_base.parameterize
-        stem = parent ? parent.path : ""
-        addendum = 1
-        while Chemistry::Page.find_by(path: stem + slug)
-          slug = slug + addendum
-          addendum += 1
+        unless home?
+          slug = slug_base.parameterize
+          stem = parent ? parent.path : ""
+          addendum = 1
+          while Chemistry::Page.find_by(path: stem + slug)
+            slug = slug + addendum
+            addendum += 1
+          end
+          self.slug = slug
         end
-        self.slug = slug
       end
     end
 

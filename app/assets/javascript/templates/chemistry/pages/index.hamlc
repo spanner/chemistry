@@ -2,13 +2,15 @@
   = t('headings.pages')
 
 %ul.pages
-  %li.page.new
-    %a.new.page{href: "/page/edit/new"}
+  %a.new.page{href: "/page/edit/new"}
+    %h2.page
       %svg.page
         %use{"xlink:href" => "#new_page_symbol"}
       %span.detail
-        %span.title
+        %span.heading
           = t('pages.new_title')
+        %span.description
+          = t('pages.new_description')
 
 #pages
 
