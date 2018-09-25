@@ -172,6 +172,7 @@ class Cms.Views.Asset extends Cms.View
       @onUpdate()
 
   setModel: (model) =>
+    @log "setModel", model
     @model = model
     @stickit() if @model
     @onUpdate()

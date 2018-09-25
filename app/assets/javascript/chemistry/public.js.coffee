@@ -6,7 +6,7 @@
 # * contents lists
 # * footnote placement
 
-jQuery ($) ->
+$ ->
 
   ## Footnotes
 
@@ -43,9 +43,6 @@ jQuery ($) ->
 
       else if @$article.hasClass('long')
         $footnote.css 'top', link_offset.top
-
-
-  window.FN = Footnote
 
 
   ## Enquiry form
@@ -133,10 +130,6 @@ jQuery ($) ->
         @$container.html(response)
 
 
-
-
-
-$ ->
   $('section.enquiry').enquiry_form()
   $('ul.contents').contents_list()
   $('a.footnoted').footnoted()

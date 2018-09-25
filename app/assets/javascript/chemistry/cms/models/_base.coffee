@@ -299,6 +299,31 @@ class Cms.Model extends Backbone.Model
     json
 
 
+  ## Contenteditable helpers
+  #
+  # Small interventions to make contenteditable behave in a slightly saner way,
+  # eg. by definitely typing into an (apparently) empty <p> element.
+  #
+  ensureP: (e) =>
+    el = e.target
+    @log '🎺 ensureP', el, el.innerHTML
+    if el.innerHTML.trim() is ""
+      el.style.minHeight = el.offsetHeight + 'px'
+      p = document.createElement('p')
+      el.appendChild p
+      if ( document.selection amd document.body.createTextRange)
+        range = document.body.createTextRange()
+        range.setStart(p, 0)
+        range.select()
+
+
+  clearP: (e) =>
+    el = e.target
+    content = el.innerText.trim()
+    @log '🎺 clearP', el, content
+    el.innerHTML = "" unless content
+
+
   ## Change monitoring
   #
   changedIfSignificantlyChanged: =>

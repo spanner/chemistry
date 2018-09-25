@@ -7,7 +7,6 @@ class Cms.View extends Marionette.View
     @subviews = []
 
   onRender: =>
-    @log "🚜 onRender", @model?.sig()
     if @model
       @addBinding null, _.result @, 'extraBindings'
       @stickit()
@@ -26,7 +25,7 @@ class Cms.View extends Marionette.View
 
   onUpdate: =>
     @log "🚜 base onUpdate"
-    # noop here but view may want to attend to subview
+    # noop here but a view may want to attend to a subview
 
 
   ## link helpers

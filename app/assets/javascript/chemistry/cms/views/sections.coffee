@@ -8,6 +8,14 @@ class Cms.Views.Section extends Cms.View
   className: => @model?.get('section_type_slug')
   template: => @model?.getTemplate()
 
+  @shorterThan: (limit) ->
+    (value) -> 
+      value.length and value.length < limit
+
+  @longerThan: (limit) ->
+    (value) ->
+      value.length and value.length > limit
+
   ui:
     editable: '[data-cms-editor]'
     editable_background: '[data-cms-editor="bg"]'
@@ -28,6 +36,19 @@ class Cms.Views.Section extends Cms.View
       observe: "title"
       updateMethod: "html"
       onSet: "withoutHTML"
+      classes:
+        short:
+          observe: "title"
+          onGet: @shorterThan(14)
+        quiteshort:
+          observe: "title"
+          onGet: @shorterThan(24)
+        quitelong:
+          observe: "title"
+          onGet: @longerThan(34)
+        long:
+          observe: "title"
+          onGet: @longerThan(44)
     '[data-cms-role="primary"]':
       observe: "primary_html"
       updateMethod: "html"
@@ -43,13 +64,20 @@ class Cms.Views.Section extends Cms.View
     @model.on "change:section_type", @render
 
   onRender: =>
+    # add contenteditable property where needed
     @makeEditable()
+    # add data-placeholder attributes to contenteditables
     @setPlaceholders()
-    super
+    # base onRender adds extra bindings and calls stickit
+    @stickit()
+    @log "after sticking it", @$el.find('[data-cms-role="title"]').text()
+    # wrap editors around embedded assets
     @addEditors()
+    # mock up a contents list if relevant.
     @showContents()
 
-  sectionId: (id) -> 
+  sectionId: (id) ->
+    @log "sectionId", id
     "section_#{id}"
 
   setPlaceholders: =>
@@ -83,9 +111,11 @@ class Cms.Views.Section extends Cms.View
         model: @model
         el: el
 
+
     # Background is not the usual contenteditable situation, but an asset view attached directly to the section.
     # We don't bind it, but instead let the EditableBackground manage the background_html attribute directly.
     @ui.editable_background.each (i, el) =>
+      @log "background", el
       $(el).html @model.get('background_html')
       @addView new Cms.Views.EditableBackground
         model: @model

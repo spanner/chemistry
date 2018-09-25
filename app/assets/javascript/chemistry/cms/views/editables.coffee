@@ -1,13 +1,28 @@
 # The EditableSomethings are wrapped around existing html content to overlay editing tools of various kinds.
 
-class Cms.Views.EditableHtml extends Cms.View
-  template: ""
 
-  onRender: =>
+class Cms.Views.EditableHelper extends Cms.View
+  template: false
+
+  initialise: =>
+    @log "init", @el
     @$el.attr('contenteditable', 'true')
     super
 
-    #TODO v2 moves contenteditable property down to the block level element, manages that list.
+  # note whole render mechanism replaced here. Marionette no-ops render when template is false,
+  # while we want to reach a 'rendered' state without replacing any DOM elements.
+  #
+  render: =>
+    @log "render", @el, @model
+    @bindUIElements()
+    @triggerMethod 'render'
+
+
+class Cms.Views.EditableHtml extends Cms.Views.EditableHelper
+
+  onRender: =>
+    #TODO v2 will move contenteditable property down to the block level element, manage that list and observe its mutations.
+    @log "ready", @el
     @$el.find('figure.image').each (i, el) =>
       @addView new Cms.Views.Image
         el: el
@@ -35,48 +50,32 @@ class Cms.Views.EditableHtml extends Cms.View
         target: @
       @_inserter.render()
 
+    @$el.on "activate", @ensureP
     @$el.on "focus", @ensureP
     @$el.on "blur", @clearP
-
-  ## Contenteditable helpers
-  # Small interventions to make contenteditable behave in a slightly saner way,
-  # eg. by definitely typing into an (apparently) empty <p> element.
-  #
-  ensureP: (e) =>
-    el = e.target
-    if el.innerHTML is ""
-      el.style.minHeight = el.offsetHeight + 'px'
-      p = document.createElement('p')
-      p.innerHTML = "&#8203;"
-      el.appendChild p
-
-  clearP: (e) =>
-    el = e.target
-    content = el.innerText.trim()
-    el.innerHTML = "" if !content or content is "&#8203;" or content is "​"  # there's a zwsp in that
 
   # called when an embedded asset view gives us an 'update' event
   onUpdate: =>
     @$el.trigger 'input'
 
 
-class Cms.Views.EditableString extends Cms.View
-  template: ""
+class Cms.Views.EditableString extends Cms.Views.EditableHelper
+  template: false
 
   onRender: =>
-    @$el.attr('contenteditable', 'true')
     @_toolbar = new Cms.Views.Toolbar
       target: @$el
     @_toolbar.render()
 
 
-class Cms.Views.EditableBackground extends Cms.View
-  template: ""
+class Cms.Views.EditableBackground extends Cms.Views.EditableHelper
+  template: false
 
   ui:
     bg: "figure.bg"
 
   onRender: =>
+    @log "onReady", @ui.bg.length
     if @ui.bg.length
       bg_el = @ui.bg.first()
     else
