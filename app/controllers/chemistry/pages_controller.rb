@@ -11,7 +11,7 @@ module Chemistry
     # public front page
     #
     def home
-      if @page = Page.home.first
+      if @page = Chemistry::Page.home.first
         render template: "chemistry/pages/published"
       else
         render template: "chemistry/welcome", layout: "chemistry/application"
@@ -28,8 +28,9 @@ module Chemistry
     #
     def published
       @path = params[:path] || ''
-      @path = '/' if @path == ''
-      if @page = Page.published.with_path(@path.strip).first
+      @path.sub /\/$/, ''
+      @path.sub /^\//, ''
+      if @page = Chemistry::Page.published.with_path(@path.strip).first
         render
       else
         page_not_found
@@ -146,6 +147,7 @@ module Chemistry
   
     def create_page_params
       params.require(:page).permit(
+        :slug,
         :template_id,
         :parent_id,
         :content,

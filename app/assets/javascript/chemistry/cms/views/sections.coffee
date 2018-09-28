@@ -10,11 +10,11 @@ class Cms.Views.Section extends Cms.View
 
   @shorterThan: (limit) ->
     (value) -> 
-      value.length and value.length < limit
+      value?.length and value.length < limit
 
   @longerThan: (limit) ->
     (value) ->
-      value.length and value.length > limit
+      value?.length and value.length > limit
 
   ui:
     editable: '[data-cms-editor]'
@@ -128,7 +128,8 @@ class Cms.Views.Section extends Cms.View
         collection: @page.getChildren()
         el: el
 
-
+#todo: strip out data-cms attributes
+#
 class Cms.Views.SectionRenderer extends Cms.Views.Section
   tagName: "section"
 

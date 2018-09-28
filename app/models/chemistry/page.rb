@@ -31,8 +31,8 @@ module Chemistry
     scope :latest, -> { order(published_at: :desc) }
     scope :with_parent, -> page { where(parent_id: page.id) }
 
-    scope :home, -> { published.where(home: true).limit(1) }
-    scope :nav, -> { published.where(nav: true) }
+    scope :home, -> { where(home: true).limit(1) }
+    scope :nav, -> { where(nav: true) }
 
     scope :with_path, -> path { where(path: path) }
 
@@ -182,6 +182,10 @@ module Chemistry
       !parent
     end
 
+    def template_name
+      template.title if template
+    end
+
     protected
 
     def renderable_attributes
@@ -211,7 +215,7 @@ module Chemistry
 
     def derive_path
       if home?
-        self.path = "/"
+        self.path = ""
       elsif parent
         path_parts = []
         path_parts += parent.path.split(/\/+/).map(&:parameterize)
@@ -233,19 +237,23 @@ module Chemistry
       if template
         revised_sections = []
 
-        # populate in order dictated by template, reusing any existing sections
-        template.placeholders.each do |placeholder|
-          revised_sections << sections.other_than(revised_sections).first_or_create(section_type_id: placeholder.section_type_id)
+        # populate in order dictated by template, reusing any existing sections of matching type
+        template.placeholders.each.with_index do |placeholder, i|
+          section = sections.other_than(revised_sections).where(section_type_id: placeholder.section_type_id).first_or_create
+          section.update_column :position, i
+          if i == 0 && !section.title
+            section.update_column :title, title
+          end
+          revised_sections << section
         end
+
         # note leftovers
         leftover_sections = sections.other_than(revised_sections)
-        # assign sequence
-        revised_sections.each.with_index do |section, i|
-          section.update_column(:position, i)
-        end
+
         # detach (but keep) leftovers
         leftover_sections.update_all(position: nil, detached: true)
 
+        # assign new sections
         self.sections = revised_sections + leftover_sections
       end
     end

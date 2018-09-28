@@ -288,9 +288,11 @@ class Cms.Views.PageOption extends Cms.Views.ModelOption
   tagName: "option"
 
   titleOrDefault: (title) =>
+    @log "titleOrDefault", title
     depth = @model.get('depth')
     prefix = "&nbsp;&nbsp;&nbsp;&nbsp;".repeat depth
-    prefix + super
+    prefix + (title || "")
+
 
 
 class Cms.Views.PageSelect extends Cms.Views.CollectionSelect
@@ -326,7 +328,7 @@ class Cms.Views.ParentPagePicker extends Cms.View
 
   onRender: =>
     @stickit()
-    new Cms.Views.ParentPageSelect
+    @addView new Cms.Views.ParentPageSelect
       model: @model
       el: @ui.select
 
