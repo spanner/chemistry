@@ -467,31 +467,19 @@ class Cms.Views.ModelOption extends Cms.View
       attributes: [
         name: "value"
         observe: "id"
-      ,
-        name: "disabled"
-        observe: "title"
-        onGet: "isBlank"
       ]
 
-  initialize: (options={}) ->
-    @_attribute = @getOption 'attribute'
-    @_selecting_model = @getOption 'selecting'
-    if @_attribute and @_selecting_model
-      @addBinding @_selecting_model, ":el",
-        attributes: [
-          observe: @_attribute
-          name: "selected"
-          onGet: "isSelected"
-        ]
+  initialize: (opts={}) ->
+    super
+    @_selected = !!opts.selected
+
+  onRender: =>
+    @stickit()
+    if @_selected
+      @$el.attr 'selected', "selected"
 
   titleOrDefault: (title) =>
     title or ""
-
-  isSelected: (value) =>
-    'selected' if value?.id is @model.id
-
-  isBlank: (name) =>
-    !name
 
 
 class Cms.Views.CollectionSelect extends Cms.CollectionView
@@ -502,21 +490,21 @@ class Cms.Views.CollectionSelect extends Cms.CollectionView
   events:
     "change": "setSelection"
 
-  initialize: () ->
-    @_attribute = @getOption 'attribute'
-    @_allow_blank = @getOption 'allowBlank'
-    @log "init", @_attribute, @collection
-    @collection = @collection.clone()
-    @collection.add({}, {at: 0}) if @_allow_blank
+  initialize: ->
     super
+    @_attribute = @getOption 'attribute'
+    @_allow_blank = @getOption 'allow_blank'
 
-  onReady: =>
-    @collection.whenLoaded =>
-      @setSelection() unless @model.get(@_attribute)
+  onRender: =>
+    if @_allow_blank
+      blank_option = $('<option value=""><option>')
+      @$el.prepend blank_option
 
-  childViewOptions: (other_model) =>
-    selecting: @model
-    attribute: @_attribute
+  childViewOptions: (model) =>
+    {
+      model: model
+      selected: model is @model.get(@_attribute)
+    }
 
   setSelection: (e) =>
     @log "setSelection", @$el.val()

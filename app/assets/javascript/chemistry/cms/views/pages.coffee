@@ -263,7 +263,11 @@ class Cms.Views.PagesIndex extends Cms.Views.IndexView
 
   startNewPage: (e) =>
     @containEvent(e)
-    new_page_view = if @collection.size() then new Cms.Views.NewPage else new Cms.Views.NewHomePage
+    if @collection.size()
+      new_page_view = new Cms.Views.NewPage
+        parent: @collection.rootPage()
+    else
+      new_page_view = new Cms.Views.NewHomePage
     _cms.ui.floatView new_page_view,
       over: @ui.new_page_link
 
@@ -288,11 +292,9 @@ class Cms.Views.PageOption extends Cms.Views.ModelOption
   tagName: "option"
 
   titleOrDefault: (title) =>
-    @log "titleOrDefault", title
     depth = @model.get('depth')
     prefix = "&nbsp;&nbsp;&nbsp;&nbsp;".repeat depth
     prefix + (title || "")
-
 
 
 class Cms.Views.PageSelect extends Cms.Views.CollectionSelect
@@ -301,13 +303,13 @@ class Cms.Views.PageSelect extends Cms.Views.CollectionSelect
   childView: Cms.Views.PageOption
 
   initialize: ->
-    @collection = _cms.pages.clone()
+    @collection = _cms.pages#.clone()
     super
 
 
 class Cms.Views.ParentPageSelect extends Cms.Views.PageSelect
   attribute: "parent"
-  allowBlank: true
+  allow_blank: true
 
 
 class Cms.Views.ParentPagePicker extends Cms.View

@@ -59,7 +59,6 @@ class Cms.Views.UI extends Cms.View
     Backbone.history.loadUrl(Backbone.history.fragment)
 
   defaultView: =>
-    # we might want to redirect this instead.
     @collectionView 'pages'
 
   collectionView: (base, params) =>

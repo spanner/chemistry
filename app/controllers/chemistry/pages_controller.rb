@@ -18,6 +18,10 @@ module Chemistry
       end
     end
 
+    def welcome
+      render template: "chemistry/welcome", layout: "chemistry/application"
+    end
+
     # Editing front page
     #
     def editor

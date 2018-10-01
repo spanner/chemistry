@@ -1,7 +1,7 @@
 # Gem-provided JS
 #= require hamlcoffee
 
-# Node modules
+# Framework
 #= require jquery/dist/jquery
 #= require node-polyglot/build/polyglot
 #= require underscore/underscore
@@ -12,6 +12,8 @@
 #= require moment/moment
 #= require smartquotes/dist/smartquotes
 #= require balance-text/balancetext
+
+# UI helpers
 #= require medium-editor/dist/js/medium-editor
 #= require ./medium-editor-footnote
 #= require ep-jquery-tokeninput/src/jquery.tokeninput

@@ -2,7 +2,7 @@ Chemistry::Engine.routes.draw do
 
   match "*all" => "application#cors_check", :via => :options, :constraints => {:method => 'OPTIONS'}
 
-  root to: "pages#home", as: :home
+  root to: "pages#welcome", as: :welcome
 
   scope :api, defaults: { format: 'json' }, constraints: { format: 'json' } do
     resources :pages do
@@ -27,8 +27,7 @@ Chemistry::Engine.routes.draw do
   end
 
   scope defaults: { format: 'html' }, constraints: { format: 'html' } do
-    get "pages" => "pages#editor"
-    get "home" => "pages#home"
+    get "editor" => "pages#editor", as: :editor
     get "latest/*parent" => "pages#latest"
     get "contents/*parent" => "pages#children"
     get "*path" => "pages#editor"

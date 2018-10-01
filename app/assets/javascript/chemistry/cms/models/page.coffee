@@ -132,6 +132,9 @@ class Cms.Collections.Pages extends Cms.Collection
       @buildTree()
       @on 'add remove reset change:parent_id', _.debounce @buildTree, 100
 
+  rootPage: =>
+    @findWhere home: true
+
   ## Page tree
   # This is only for display purposes and there is no need to maintains parent/child relations.
   # For each page we only need to
