@@ -84,6 +84,8 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
       classes:
         unsaved: "changed"
         unpublished: "unpublished"
+        concealed: "concealed"
+        collapsed: "collapsed"
     ".title":
       observe: "title"
       onGet: "shortTitle"
@@ -161,7 +163,6 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
     @shortAndClean(summary, 96)
 
   absolutePath: (path) =>
-    @log "absolutePath", path
     if path[0] is "/" then path else "/#{path}"
 
 
@@ -169,6 +170,9 @@ class Cms.Views.TreePage extends Cms.Views.ListedPage
   template: "pages/page_in_tree"
 
   extraBindings:
+    "a.toggle":
+      observe: "parental"
+      visible: true
     ".indent":
       attributes: [
         name: "style"
@@ -176,8 +180,18 @@ class Cms.Views.TreePage extends Cms.Views.ListedPage
         onGet: "indentStyle"
       ]
 
+  events:
+    "click a.save": "save"
+    "click a.publish": "publishWithConfirmation"
+    "click a.toggle": "toggleChildren"
+
   indentStyle: (depth) =>
     "width: #{depth * 32}px"
+
+  toggleChildren: (e) =>
+    e?.preventDefault()
+    @log "toggleChildren"
+    @model.toggleChildren()
 
 
 class Cms.Views.ContentsPage extends Cms.Views.ListedPage

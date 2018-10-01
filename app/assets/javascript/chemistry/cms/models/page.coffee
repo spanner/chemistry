@@ -5,6 +5,9 @@ class Cms.Models.Page extends Cms.Model
   defaults:
     nav: false
     home: false
+    parental: false
+    collapsed: false     # my children are hidden in tree
+    concealed: false        # I am hidden in tree
     content: 'page'
 
   build: =>
@@ -47,9 +50,6 @@ class Cms.Models.Page extends Cms.Model
 
   confirmSave: =>
     @confirm t('reassurances.page_saved')
-
-  getChildren: =>
-    new Cms.Collections.Pages(_cms.pages.where(parent_id: @id))
 
   setSlug: =>
     new_title = @get('title')
@@ -121,6 +121,36 @@ class Cms.Models.Page extends Cms.Model
         video_id = $video_blocks.first().attr('data-video')
     @set('video_id', video_id) if video_id
 
+  children: =>
+    @collection.where(parent_id: @id)
+
+  getChildren: =>
+    new Cms.Collections.Pages @children()
+
+  toggleChildren: =>
+    if @get('collapsed')
+      @revealChildren()
+      @set 'collapsed', false
+    else
+      @concealChildren()
+      @set 'collapsed', true
+
+  revealChildren: =>
+    @children().forEach (p) -> p.reveal()
+
+  concealChildren: =>
+    @children().forEach (p) -> p.conceal()
+
+  reveal: =>
+    @log "reveal"
+    @set 'concealed', false, stickitChange: true
+    @revealChildren() unless @get('collapsed')
+
+  conceal: =>
+    @log "conceal"
+    @set 'concealed', true, stickitChange: true
+    @concealChildren()
+
 
 class Cms.Collections.Pages extends Cms.Collection
   model: Cms.Models.Page
@@ -136,14 +166,20 @@ class Cms.Collections.Pages extends Cms.Collection
     @findWhere home: true
 
   ## Page tree
-  # This is only for display purposes and there is no need to maintains parent/child relations.
+  # This is only for display purposes and there is no need to maintain parent/child relations.
   # For each page we only need to
   # set overall position
   # set depth in tree
+  # note parenting status
+  # and depth would be nice
   #
   buildTree: =>
     parentage = {}
+    @forEach (m) ->
+      m.set parental: false
     @each (model) =>
+      if parent = model.get('parent')
+        parent.set parental: true
       key = model.get('parent_id') or "none"
       parentage[key] ?= []
       parentage[key].push model
@@ -153,6 +189,8 @@ class Cms.Collections.Pages extends Cms.Collection
       final_pos = @buildBranch root, pos, depth, parentage
     @sort()
 
+  # walk tree to set depth and position of each page
+  #
   buildBranch: (stem, pos, depth, parentage) =>
     stem.set
       depth: depth
