@@ -14,8 +14,7 @@ module Chemistry
     has_many :page_terms
     has_many :terms, through: :page_terms
 
-    before_validation :derive_slug
-    before_validation :derive_path
+    before_validation :derive_slug_and_path
     before_validation :get_excerpt
     before_validation :set_home_if_first
 
@@ -25,6 +24,7 @@ module Chemistry
     after_create :init_sections
     before_update :note_publication_date
     after_update :reinit_sections_if_changed
+    after_save :update_owner
 
     scope :undeleted, -> { where(deleted_at: nil) }
     scope :published, -> { undeleted.where.not(published_at: nil) }
@@ -172,14 +172,21 @@ module Chemistry
 
     def slug_base
       if owner && owner.respond_to?(:cms_slug_base)
-        owner.cms_slug_base(self).presence || title
+        owner.cms_slug_base(self)
       else
         title
       end
     end
 
-    def home?
-      !parent
+    def path_base
+      path_parts = if parent
+        parent.path.split(/\/+/)
+      elsif owner
+        owner.cms_path_base.split(/\/+/)
+      else
+        []
+      end
+      path_parts.map(&:presence).compact.map(&:parameterize)
     end
 
     def template_name
@@ -198,30 +205,26 @@ module Chemistry
       end
     end
 
-    def derive_slug
-      unless slug?
-        unless home?
-          slug = slug_base.parameterize
-          stem = parent ? parent.path : ""
-          addendum = 1
-          while Chemistry::Page.find_by(path: stem + slug)
-            slug = slug + addendum
-            addendum += 1
-          end
-          self.slug = slug
-        end
+    def derive_slug_and_path
+      if home?
+        self.slug = ""
+        self.path = ""
+      elsif !slug? or !path?
+        stem = path_base.join("/")
+        slug ||= add_suffix_if_taken(slug_base.parameterize, stem)
+        self.slug = slug
+        self.path = [stem, slug].join("/")
       end
     end
 
-    def derive_path
-      if home?
-        self.path = ""
-      elsif parent
-        path_parts = []
-        path_parts += parent.path.split(/\/+/).map(&:parameterize)
-        path_parts.push slug
-        self.path = path_parts.compact.join('/')
+    def add_suffix_if_taken(slug_base, path)
+      slug = slug_base
+      addendum = 1
+      while Chemistry::Page.find_by(path: [path, slug].join('/'))
+        slug = slug_base + addendum
+        addendum += 1
       end
+      slug
     end
 
     def get_excerpt
@@ -260,6 +263,14 @@ module Chemistry
 
     def reinit_sections_if_changed
       init_sections if template && (sections.empty? || saved_change_to_template_id?)
+    end
+
+    protected
+
+    def update_owner
+      if owner and owner.respond_to? :update_from_page
+        owner.update_from_page
+      end
     end
 
   end
