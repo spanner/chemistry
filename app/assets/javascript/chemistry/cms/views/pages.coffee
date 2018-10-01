@@ -83,6 +83,7 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
     ":el":
       classes:
         unsaved: "changed"
+        outofdate: "outofdate"
         unpublished: "unpublished"
         concealed: "concealed"
         collapsed: "collapsed"

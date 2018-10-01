@@ -10,6 +10,9 @@ ul.pages, ul.contents
       color: $mid
       &:hover
         color: $dark
+      &.new
+        color: $green
+        +hover
     date
       color: $pale
       display: inline-block
@@ -81,19 +84,18 @@ ul.pages, ul.contents
       span.actions
         display: inline-block
         vertical-align: top
-    &.unpublished
-      span.path
+    &.outofdate
+      a
         color: $purple
         +hover
-    &.unsaved
-      span.path
-        color: $blue
-        +hover
-    &.new
+    &.unpublished
       a
         color: $pale
-        &:hover
-          color: $green
+        +hover
+    &.unsaved
+      a
+        color: $blue
+        +hover
     &.concealed
       height: 0
       min-height: 0

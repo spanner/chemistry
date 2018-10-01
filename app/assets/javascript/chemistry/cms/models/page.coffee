@@ -42,7 +42,12 @@ class Cms.Models.Page extends Cms.Model
     @complain("Error #{request.status}: #{request.responseText}")
 
   setPublicationStatus: =>
-    @set 'unpublished', !@get('published_at') or @get('updated_at') > @get('published_at')
+    if !@get('published_at')
+      @set 'unpublished', true
+      @set 'outofdate', false
+    else
+      @set 'unpublished', false
+      @set 'outofdate', @get('updated_at') > @get('published_at')
 
   revert: =>
     @reload()
