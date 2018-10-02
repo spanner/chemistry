@@ -9,13 +9,16 @@ module Chemistry::Concerns::HasPage
     #
     # Specifying a cms path will create, where necessary, an 'anchor' page and above it a lineage of empty placeholder pages.
     #
-    attr_accessor :cms_path_base
+    attr_accessor :cms_path_base, :cms_template_slug
 
     def has_one_page(opts={})
       has_one :page, class_name: "Chemistry::Page", as: :owner
-      after_save :ensure_one_page
+      after_save :update_page
       if opts[:base].present?
         self.cms_path_base = opts[:base]
+      end
+      if opts[:template].present?
+        self.cms_template_slug = opts[:template]
       end
     end
 
@@ -23,10 +26,40 @@ module Chemistry::Concerns::HasPage
       #TODO linking class that we might want to work :through
     end
 
+    # cms_base_path can be string, proc or method name (as symbol)
+    # so we only store it here, and will find or create pages at runtime.
+    #
     def cms_path_base=(path)
       Rails.logger.warn "#{self.class.to_s}.cms_path_base=: #{path}"
-      Chemistry::Page.add_anchor_path path.sub(/^\//, '').sub(/\/$/, '')
       @cms_path_base = path
+    end
+
+    def anchor_page_path(owner)
+      path = case @cms_path_base
+      when String
+        # we were given a path
+        @cms_path_base
+      when Proc
+        # we were given a proc to call
+        @cms_path_base.call(owner)
+      when Symbol
+        # we were given the name of a method to call on the owner object
+        Rails.logger.warn "calling #{@cms_path_base.inspect} on #{owner.inspect}"
+        owner.send @cms_path_base
+      end
+      path.sub(/^\//, '').sub(/\/$/, '')
+    end
+
+    def anchor_page_for(owner)
+      if path = anchor_page_path(owner)
+        Chemistry::Page.find_or_create_anchor_page(path)
+      end
+    end
+
+    #TODO so we take different argument types here too?
+    def page_template
+      template_slug = @cms_template_slug.presence || self.to_s.underscore
+      Chemistry::Template.find_by(slug: template_slug)
     end
   end
 
@@ -75,14 +108,32 @@ module Chemistry::Concerns::HasPage
     }
   end
 
-  protected
 
-  def ensure_one_page
-    self.create_page unless self.page
+  def properties_for_page
+    {}
   end
 
+  def properties_from_page
+    {}
+  end
+
+  protected
+
   def update_page
-    # noop here
+    if self.page
+      self.page.update_attributes(properties_for_page)
+    else
+      self.create_page(properties_for_page.merge({
+        parent: self.class.anchor_page_for(self),
+        template: self.class.page_template
+      }))
+    end
+  end
+
+  def update_from_page
+    if self.page
+      self.update_attributes(properties_from_page)
+    end
   end
 
 end

@@ -116,11 +116,19 @@ module Chemistry
     def self.add_anchor_path(path)
       @@owner_anchors ||= []
       @@owner_anchors.push path
-      create_anchor_page(path.split('/'))
     end
 
-    def self.create_anchor_page(path_parts)
-      path = path_parts.join('/')
+    # then at runtime, owner-page creation involves a call to here.
+    #
+    def self.find_or_create_anchor_page(path)
+      where(path: path).first or create_anchor_page(path)
+    end
+
+    # which on first run will end up here, working backwards down the branch originally specified in a :base argument
+    # finding or creating the pages needed to build a tree out to there.
+    #
+    def self.create_anchor_page(path)
+      path_parts = path.split('/')
       slug = path_parts.pop
       page = where(path: path).first_or_create({
         content: "none",
@@ -128,18 +136,12 @@ module Chemistry
         slug: slug,
         path: path
       })
-      Rails.logger.warn "Page created? #{page.persisted?.inspect}. Errors: #{page.errors.to_a.inspect}"
+      Rails.logger.warn "Page created? #{page.path}: #{page.persisted?.inspect}. Errors: #{page.errors.to_a.inspect}"
       if path_parts.any?
-        page.parent = create_anchor_page(path_parts)
-        page.save if page.changed?
+        parent_page = create_anchor_page(path_parts.join('/'))
+        page.update_column :parent_id, parent_page.id
       end
       page
-    end
-
-    # For serialization
-    #
-    def anchor
-      Chemistry::Page.owner_anchors.include?(path)
     end
 
 
@@ -218,7 +220,7 @@ module Chemistry
       path_parts = if parent
         parent.path.split(/\/+/)
       elsif owner
-        owner.cms_path_base.split(/\/+/)
+        owner.anchor_page_path.split(/\/+/)
       else
         []
       end
@@ -254,11 +256,11 @@ module Chemistry
       end
     end
 
-    def add_suffix_if_taken(slug_base, path)
-      slug = slug_base
+    def add_suffix_if_taken(base, path)
+      slug = base
       addendum = 1
       while Chemistry::Page.find_by(path: [path, slug].join('/'))
-        slug = slug_base + addendum
+        slug = base + addendum
         addendum += 1
       end
       slug

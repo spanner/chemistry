@@ -176,8 +176,7 @@ class Cms.Collections.Pages extends Cms.Collection
   # For each page we only need to
   # set overall position
   # set depth in tree
-  # note parenting status
-  # and depth would be nice
+  # note parenting status and depth
   #
   buildTree: =>
     parentage = {}
@@ -202,6 +201,7 @@ class Cms.Collections.Pages extends Cms.Collection
       depth: depth
       position: pos
     if parentage[stem.id]
-      _.each parentage[stem.id], (child) =>
+      children = _.sortBy parentage[stem.id], (p) -> p.get('title')
+      _.each children, (child) =>
         pos = @buildBranch child, pos + 1, depth + 1, parentage
     pos

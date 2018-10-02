@@ -19,7 +19,6 @@ class Chemistry::PageSerializer
              :date,
              :to_date,
              :home,
-             :anchor,
              :nav,
              :nav_name,
              :nav_position,
