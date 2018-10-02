@@ -7,8 +7,7 @@ module Chemistry::Concerns::HasPage
     # For a a more complex site you will want the list of refrigerators in /refrigerators and the current list of cheeses
     # in /cheeses/current.
     #
-    # Note that this is an arbitrary value that does not necessarily create a page at the given path, or its parents
-    # If a page should exist at the given path, its child pages will mingle with ours and receive the same validation-protection from path collisions.
+    # Specifying a cms path will create, where necessary, an 'anchor' page and above it a lineage of empty placeholder pages.
     #
     attr_accessor :cms_path_base
 
@@ -23,7 +22,13 @@ module Chemistry::Concerns::HasPage
     def has_many_pages
       #TODO linking class that we might want to work :through
     end
-   end
+
+    def cms_path_base=(path)
+      Rails.logger.warn "#{self.class.to_s}.cms_path_base=: #{path}"
+      Chemistry::Page.add_anchor_path path.sub(/^\//, '').sub(/\/$/, '')
+      @cms_path_base = path
+    end
+  end
 
 
   ## Integration

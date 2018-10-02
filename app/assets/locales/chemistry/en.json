@@ -28,8 +28,9 @@
     "to": " to "
   },
   "content": {
-    "file": "Document",
+    "file": "File",
     "image": "Image",
+    "empty": "None",
     "page": "Page",
     "video": "Video",
     "url": "Link"
@@ -104,6 +105,7 @@
     "external_url": "Please give full web address including http:// or https:// prefix",
     "page_summary": "If nothing is given here, we will use an excerpt from the page.",
     "page_terms": "These are used to generate lists of relevant or adjacent pages.",
+    "empty_pages": "'None' signifies an empty placeholder page. These are used to create a page tree without publishing all the branch pages. Usually this is because content is coming from somewhere else; either an external resource overrides this page, or we have a family of pages coming from somewhere else that would like to join the tree.",
     "term_search_hint": "Type in a search term to see suggestions. Press enter to create a new tag.",
     "video_providers": "Videos can be embedded automatically from youtube, vimeo and most other providers. Just paste a URL or youtube ID here."
   },

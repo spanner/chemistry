@@ -8,6 +8,9 @@ class Cms.Views.ContentPicker extends Cms.View
     video: ".video_picker"
     url: ".url_picker"
 
+  @contentMatches: (value) ->
+    (content) -> content is value
+
   bindings:
     'input[name="content"]':
       observe: "content"
@@ -26,6 +29,9 @@ class Cms.Views.ContentPicker extends Cms.View
     '.if_url':
       observe: "content"
       visible:  (content) -> content is 'url'
+    '.if_empty':
+      observe: "content"
+      visible:  (content) -> content is 'empty'
 
   onRender: =>
     @stickit()

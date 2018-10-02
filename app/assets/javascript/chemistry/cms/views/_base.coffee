@@ -45,6 +45,8 @@ class Cms.View extends Marionette.View
       external_url
     else if content is 'file'
       file_url
+    else if content is 'empty'
+      ''
     else
       @editMeHref(id)
 
@@ -53,6 +55,8 @@ class Cms.View extends Marionette.View
       external_url
     else if content is 'file'
       file_url
+    else if content is 'empty'
+      ''
     else
       path
 
@@ -204,8 +208,8 @@ class Cms.View extends Marionette.View
   # page is publishable if it has no unsaved changes,
   # and the current publication is out of date.
   #
-  unPublishable: ([changed, valid, unpublished]=[]) =>
-    changed or !valid or !unpublished
+  unPublishable: ([content, changed, valid, unpublished]=[]) =>
+    changed or !valid or !unpublished or content is 'empty'
 
   save: (e) =>
     e?.preventDefault()

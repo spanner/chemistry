@@ -6,6 +6,7 @@ module Chemistry
     belongs_to :template, optional: true
     belongs_to :parent, class_name: 'Chemistry::Page', optional: true
     belongs_to :owner, polymorphic: true
+    cattr_accessor :owner_anchors
 
     has_many :child_pages, class_name: 'Chemistry::Page', foreign_key: :parent_id
     has_many :sections, -> {order(position: :asc)}, dependent: :destroy
@@ -107,6 +108,41 @@ module Chemistry
     end
 
 
+    ## Ownership
+    #
+    # When it is declared that a class owns pages, a path can be given that places them in the page tree.
+    # Here we stash the knowledge of those anchor pages and if necessary, create placeholders for tree-drawing purposes.
+    #
+    def self.add_anchor_path(path)
+      @@owner_anchors ||= []
+      @@owner_anchors.push path
+      create_anchor_page(path.split('/'))
+    end
+
+    def self.create_anchor_page(path_parts)
+      path = path_parts.join('/')
+      slug = path_parts.pop
+      page = where(path: path).first_or_create({
+        content: "none",
+        title: slug.titlecase,
+        slug: slug,
+        path: path
+      })
+      Rails.logger.warn "Page created? #{page.persisted?.inspect}. Errors: #{page.errors.to_a.inspect}"
+      if path_parts.any?
+        page.parent = create_anchor_page(path_parts)
+        page.save if page.changed?
+      end
+      page
+    end
+
+    # For serialization
+    #
+    def anchor
+      Chemistry::Page.owner_anchors.include?(path)
+    end
+
+
     ## Interpolations
     #  are provided globally by the main application or specificially by a page owner.
     #
@@ -192,6 +228,7 @@ module Chemistry
     def template_name
       template.title if template
     end
+
 
     protected
 

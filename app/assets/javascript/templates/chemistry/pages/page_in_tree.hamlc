@@ -2,6 +2,7 @@
 %a.toggle
   %svg.icon
     %use{"xlink:href" => "#more_symbol"}
+
 %span.detail
   %a.page
     %svg.page
@@ -9,6 +10,7 @@
     %span.title
     %br
     %span.path
+
   %span.actions
     %a.add.child
       %svg.icon

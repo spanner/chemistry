@@ -110,6 +110,9 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
         name: "href"
         observe: ["id", "content", "external_url", "file_url"]
         onGet: "pageHref"
+      ,
+        name: "class"
+        observe: "content"
       ]
     "a.delete":
       classes:
@@ -122,7 +125,7 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
     "a.publish":
       classes: 
         unavailable:
-          observe: ["changed", "valid", "unpublished"]
+          observe: ["content", "changed", "valid", "unpublished"]
           onGet: "unPublishable"
     "a.review":
       attributes: [

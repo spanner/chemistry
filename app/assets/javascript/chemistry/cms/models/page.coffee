@@ -132,6 +132,7 @@ class Cms.Models.Page extends Cms.Model
   getChildren: =>
     new Cms.Collections.Pages @children()
 
+  #TODO stash this locally for resumption.
   toggleChildren: =>
     if @get('collapsed')
       @revealChildren()

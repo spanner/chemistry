@@ -19,6 +19,7 @@ class Chemistry::PageSerializer
              :date,
              :to_date,
              :home,
+             :anchor,
              :nav,
              :nav_name,
              :nav_position,
@@ -28,5 +29,6 @@ class Chemistry::PageSerializer
              :updated_at,
              :published_at,
              :deleted_at
+
 
 end

@@ -19,9 +19,18 @@
     %input.content#content_url{type: "radio", name: "content", value: "url"}
     %label{for: "content_url"}
       = t('content.url')
+  %span.radio
+    %input.content#content_empty{type: "radio", name: "content", value: "empty"}
+    %label{for: "content_empty"}
+      = t('content.empty')
 
 .template_picker.if_page
 .file_picker.if_file
 .image_picker.if_image
 .video_picker.if_video
 .url_picker.if_url
+.if_empty
+  %p.notes
+    = t('notes.empty_pages')
+
+
