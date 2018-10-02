@@ -2,6 +2,7 @@ require "open-uri"
 module Chemistry
   class Image < ApplicationRecord
     acts_as_paranoid
+    belongs_to :user, class_name: Chemistry.user_class
 
     has_attached_file :file,
       preserve_files: true,

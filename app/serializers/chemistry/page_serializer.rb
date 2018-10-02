@@ -12,6 +12,7 @@ class Chemistry::PageSerializer
              :content,
              :external_url,
              :template_id,
+             :prefix,
              :title,
              :summary,
              :excerpt,

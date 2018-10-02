@@ -19,7 +19,8 @@ module Chemistry
                    :production_host,       #
                    :staging_host,          # for feature detection in UI
                    :dev_host,              #
-                   :ui_locales
+                   :ui_locales,
+                   :user_class
 
     self.layout = "application"
     self.api_url = "/chemistry"

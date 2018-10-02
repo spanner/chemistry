@@ -3,6 +3,7 @@ require 'mustache'
 module Chemistry
   class Page < ApplicationRecord
     acts_as_paranoid
+
     belongs_to :template, optional: true
     belongs_to :parent, class_name: 'Chemistry::Page', optional: true
     belongs_to :owner, polymorphic: true

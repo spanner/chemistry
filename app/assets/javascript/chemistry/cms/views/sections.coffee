@@ -142,6 +142,9 @@ class Cms.Views.SectionRenderer extends Cms.Views.Section
         observe: "id"
         onGet: "sectionId"
       ]
+    '[data-cms-role="prefix"]':
+      observe: "prefix"
+      updateMethod: "html"
     '[data-cms-role="title"]':
       observe: "title"
       updateMethod: "html"

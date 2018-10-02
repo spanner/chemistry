@@ -3,6 +3,7 @@ require 'video_info'
 module Chemistry
   class Video < ApplicationRecord
     acts_as_paranoid
+    belongs_to :user, class_name: Chemistry.user_class
 
     has_attached_file :file,
       preserve_files: true,

@@ -2,7 +2,7 @@
 # so that we can offer a nice simple save and publish workflow.
 #
 class Cms.Models.Section extends Cms.Model
-  savedAttributes: ["id", "page_id", "section_type_id", "title", "primary_html", "secondary_html", "background_html", "position", "deleted_at"]
+  savedAttributes: ["id", "page_id", "section_type_id", "prefix", "title", "primary_html", "secondary_html", "background_html", "position", "deleted_at"]
 
   defaults:
     title: ""
