@@ -42,6 +42,14 @@ module Chemistry
       published_at?
     end
 
+    def populated?
+      sections.where("primary_html IS NOT NULL or secondary_html IS NOT NULL").any?
+    end
+
+    def empty
+      !populated?
+    end
+
     ## Sections
     #
     # It's not pretty, but it's a lot nicer than accepts_nested_attributes_for.

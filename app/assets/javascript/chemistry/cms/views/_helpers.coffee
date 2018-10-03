@@ -30,7 +30,7 @@ class Cms.Views.Saver extends Cms.View
       visible: true
       classes: 
         unavailable:
-          observe: ["changed", "valid", "outofdate"]
+          observe: ["content", "empty", "changed", "valid", "outofdate"]
           onGet: "unPublishable"
     "a.review":
       observe: "path"
@@ -77,7 +77,7 @@ class Cms.Views.Shortcuts extends Cms.View
     "a.publish":
       classes: 
         unavailable:
-          observe: ["content", "changed", "valid", "outofdate"]
+          observe: ["content", "empty", "changed", "valid", "outofdate"]
           onGet: "unPublishable"
     "a.review":
       attributes: [
@@ -87,7 +87,7 @@ class Cms.Views.Shortcuts extends Cms.View
       ]
       classes: 
         unavailable:
-          observe: ["changed", "valid", "outofdate", "unpublished"]
+          observe: ["content", "empty", "changed", "valid", "outofdate", "unpublished"]
           onGet: "unReviewable"
 
   # The actions overlay shows a preview button if anything exists to view (ie the page has ever been published)
@@ -95,8 +95,8 @@ class Cms.Views.Shortcuts extends Cms.View
   # (and if we have ever been published).
   # These double negatives are quite tiring.
   #
-  unReviewable: ([changed, valid, outofdate, unpublished]=[]) =>
-    unpublished or !@unSaveable([changed, valid]) or !@unPublishable([changed, valid, outofdate])
+  unReviewable: ([content, empty, changed, valid, outofdate, unpublished]=[]) =>
+    unpublished or !@unSaveable([changed, valid]) or !@unPublishable([content, empty, changed, valid, outofdate])
 
 
 class Cms.Views.Confirmation extends Cms.View

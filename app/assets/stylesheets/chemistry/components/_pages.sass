@@ -6,7 +6,7 @@ ul.pages, ul.contents
     min-height: 48px
     margin-bottom: 0.5em
     transition: min-height 0.25s ease-out, margin-bottom 0.25s ease-out
-    a
+    a.page
       color: $mid
       &:hover
         color: $dark
@@ -89,15 +89,19 @@ ul.pages, ul.contents
         vertical-align: top
     &.outofdate
       a
-        color: $purple
+        color: $darkpurple
         +hover
     &.unpublished
       a
-        color: $pale
+        color: $darkred
         +hover
     &.unsaved
       a
-        color: $blue
+        color: $darkblue
+        +hover
+    &.empty
+      a
+        color: $pale
         +hover
     &.concealed
       height: 0

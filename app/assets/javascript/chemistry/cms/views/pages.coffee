@@ -82,6 +82,7 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
   bindings:
     ":el":
       classes:
+        empty: "empty"
         unsaved: "changed"
         outofdate: "outofdate"
         unpublished: "unpublished"
@@ -125,7 +126,7 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
     "a.publish":
       classes: 
         unavailable:
-          observe: ["content", "changed", "valid", "unpublished"]
+          observe: ["content", "empty", "changed", "valid", "unpublished"]
           onGet: "unPublishable"
     "a.review":
       attributes: [
@@ -193,7 +194,6 @@ class Cms.Views.TreePage extends Cms.Views.ListedPage
 
   toggleCollapse: (e) =>
     e?.preventDefault()
-    @log "toggleChildren"
     @model.toggleCollapse()
 
 
@@ -233,10 +233,8 @@ class Cms.Views.PageTree extends Cms.Views.Pages
   childView: Cms.Views.TreePage
 
   onRender: =>
-    collapses = localStorage.getItem('collapsed_pages')?.split(',')
-    @log "collapses:", collapses
+    collapses = localStorage.getItem('collapsed_pages')?.split(',') || []
     collapses.forEach (page_id) =>
-      @log "#{page_id} is collapsed", @collection.get(parseInt(page_id, 10))
       @collection.get(parseInt(page_id, 10))?.collapse()
 
 

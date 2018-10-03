@@ -28,7 +28,8 @@ class Chemistry::PageSerializer
              :created_at,
              :updated_at,
              :published_at,
-             :deleted_at
+             :deleted_at,
+             :empty
 
 
 end

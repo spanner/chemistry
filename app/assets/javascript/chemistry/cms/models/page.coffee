@@ -13,7 +13,10 @@ class Cms.Models.Page extends Cms.Model
   build: =>
     @belongsTo 'template'
     @belongsTo 'parent'
+
     @hasMany 'sections'
+    @sections.on 'add remove reset change:primary_html change:secondary_html', @checkPopulatedness              # don't set on load: is passed down
+
     @setPublicationStatus()
     @on 'change:updated_at change:published_at', @setPublicationStatus
     @on 'change:rendered_html', @extractMetadata
@@ -21,18 +24,19 @@ class Cms.Models.Page extends Cms.Model
     @on 'change:collapsed', @storeDisplayState
 
   published: () =>
-    @get('published_at')?
+    !@get('unpublished')
 
-  # Publish is just a save that sends up rendered html.
+  # The basic rule here is that work in progress is stord in section html attributes while the published page is stored in a single rendered block.
+  # `Publish` is just a save that assembles and sends up the rendered html.
   #
+  publish: () =>
+    @render()
+    @save().done(@publishSucceeded).fail(@publishFailed)
+
   render: =>
     @_renderer ?= new Cms.Views.PageRenderer 
       model: @
     @_renderer.render() # sets our `rendered_html`, `excerpt`, `image`, `video`. May also set title and prefix if those have changed.
-
-  publish: () =>
-    @render()
-    @save().done(@publishSucceeded).fail(@publishFailed)
 
   publishSucceeded: (response) =>
     attrs = @parse response
@@ -50,6 +54,12 @@ class Cms.Models.Page extends Cms.Model
       @set 'unpublished', false
       @set 'outofdate', @get('updated_at') > @get('published_at')
 
+  checkPopulatedness: =>
+    populated = @sections.some (s) =>
+      s.get("primary_html") or s.get("secondary_html")
+    @log "checkPopulatedness", populated
+    @set 'empty', !populated
+
   revert: =>
     @reload()
     @sections.reload()
@@ -66,21 +76,21 @@ class Cms.Models.Page extends Cms.Model
 
   slugify: (title) =>
     title.toString().toLowerCase()
-      .replace('&nbsp;', ' ')
-      .replace(/[åàáãäâ]/, 'a')
-      .replace(/[èéëê]/, 'e')
-      .replace(/[ìíïî]/, 'i')
-      .replace(/[òóöô]/, 'o')
-      .replace(/[ùúüû]/, 'u')
-      .replace(/ñ/, 'n')
-      .replace(/ç/, 'c')
-      .replace(/ß/, 'ss')
+      .replace('&nbsp;', ' ')         # remove contenteditable space-holders
+      .replace(/[åàáãäâ]/, 'a')       #
+      .replace(/[èéëê]/, 'e')         #
+      .replace(/[ìíïî]/, 'i')         #
+      .replace(/[òóöô]/, 'o')         # flatten accented characters
+      .replace(/[ùúüû]/, 'u')         #
+      .replace(/ñ/, 'n')              #
+      .replace(/ç/, 'c')              #
+      .replace(/ß/, 'ss')             #
       .replace(/\s+/g, '-')           # Replace spaces with -
       .replace(/[^\w\-]+/g, '')       # Remove all non-word chars
       .replace(/\-\-+/g, '-')         # Replace multiple - with single -
       .replace(/^-+/, '')             # Trim - from start of text
       .replace(/-+$/, '')             # Trim - from end of text
-      .trim()
+      .trim()                         # Remove leading and trailing spaces
 
 
   extractMetadata: =>
@@ -174,11 +184,12 @@ class Cms.Models.Page extends Cms.Model
   #
   storeDisplayState: =>
     collapses = localStorage.getItem('collapsed_pages')?.split(',') || []
+    page_id = @id.toString()
     if @get('collapsed')
-      localStorage.setItem 'collapsed_pages', _.union(collapses, [@id]).join(',')
+      collapses.push page_id
     else
-      localStorage.setItem 'collapsed_pages', _.without(collapses, @id).join(',')
-
+      collapses = _.without(collapses, page_id)
+    localStorage.setItem 'collapsed_pages', _.compact(_.uniq(collapses)).join(',')
 
 class Cms.Collections.Pages extends Cms.Collection
   model: Cms.Models.Page
