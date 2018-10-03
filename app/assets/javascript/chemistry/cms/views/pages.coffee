@@ -147,7 +147,6 @@ class Cms.Views.ListedPage extends Cms.Views.ListedView
 
   onReady: =>
     @bindUIElements()
-    balanceText('span.title')
     if @model.get('content') is 'page'
       @ui.link.removeAttr('target')
     else
@@ -187,15 +186,15 @@ class Cms.Views.TreePage extends Cms.Views.ListedPage
   events:
     "click a.save": "save"
     "click a.publish": "publishWithConfirmation"
-    "click a.toggle": "toggleChildren"
+    "click a.toggle": "toggleCollapse"
 
   indentStyle: (depth) =>
     "width: #{depth * 32}px"
 
-  toggleChildren: (e) =>
+  toggleCollapse: (e) =>
     e?.preventDefault()
     @log "toggleChildren"
-    @model.toggleChildren()
+    @model.toggleCollapse()
 
 
 class Cms.Views.ContentsPage extends Cms.Views.ListedPage
@@ -232,6 +231,13 @@ class Cms.Views.Pages extends Cms.CollectionView
 
 class Cms.Views.PageTree extends Cms.Views.Pages
   childView: Cms.Views.TreePage
+
+  onRender: =>
+    collapses = localStorage.getItem('collapsed_pages')?.split(',')
+    @log "collapses:", collapses
+    collapses.forEach (page_id) =>
+      @log "#{page_id} is collapsed", @collection.get(parseInt(page_id, 10))
+      @collection.get(parseInt(page_id, 10))?.collapse()
 
 
 class Cms.Views.ChildPages extends Cms.Views.Pages

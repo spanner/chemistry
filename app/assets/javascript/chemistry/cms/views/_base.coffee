@@ -10,8 +10,7 @@ class Cms.View extends Marionette.View
     if @model
       @addBinding null, _.result @, 'extraBindings'
       @stickit()
-      _.defer =>
-        @triggerMethod 'ready'
+      @triggerMethod 'ready'
 
   addView: (view) =>
     @log "🚜 addView", view
@@ -313,8 +312,7 @@ class Cms.ItemView extends Cms.View
       @addBinding null, _.result @, 'extraBindings'
       @model.loadAnd =>
         @stickit()
-        _.defer =>
-          @triggerMethod 'ready'
+        @triggerMethod 'ready'
 
 
 class Cms.EditView extends Cms.View
@@ -349,9 +347,8 @@ class Cms.EditView extends Cms.View
     e?.preventDefault()
     @model.saveAnd =>
       @_saved = true
-      _.defer =>
-        _cms.log "post-save navigate to", @showMeHref(@model.get('id'))
-        _cms.navigate @showMeHref(@model.get('id'))
+      _cms.log "post-save navigate to", @showMeHref(@model.get('id'))
+      _cms.navigate @showMeHref(@model.get('id'))
 
 
 # The menu view has a head and a toggled body.

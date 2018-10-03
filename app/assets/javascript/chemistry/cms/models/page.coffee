@@ -18,6 +18,7 @@ class Cms.Models.Page extends Cms.Model
     @on 'change:updated_at change:published_at', @setPublicationStatus
     @on 'change:rendered_html', @extractMetadata
     @on 'change:title', @setSlug
+    @on 'change:collapsed', @storeDisplayState
 
   published: () =>
     @get('published_at')?
@@ -139,30 +140,44 @@ class Cms.Models.Page extends Cms.Model
   getChildren: =>
     new Cms.Collections.Pages @children()
 
-  #TODO stash this locally for resumption.
-  toggleChildren: =>
-    if @get('collapsed')
-      @revealChildren()
-      @set 'collapsed', false
-    else
-      @concealChildren()
-      @set 'collapsed', true
+  # a collapsed item remains visible in the tree but its children are concealed.
+  #
+  toggleCollapse: =>
+    if @get('collapsed') then @uncollapse() else @collapse()
 
-  revealChildren: =>
-    @children().forEach (p) -> p.reveal()
+  collapse: =>
+    @concealChildren()
+    @set 'collapsed', true
+
+  uncollapse: =>
+    @revealChildren()
+    @set 'collapsed', false
 
   concealChildren: =>
     @children().forEach (p) -> p.conceal()
 
+  revealChildren: =>
+    @children().forEach (p) -> p.reveal()
+
+  # a concealed item is hidden in the tree
+  #
+  conceal: =>
+    @set 'concealed', true, stickitChange: true
+    @concealChildren()
+
   reveal: =>
-    @log "reveal"
     @set 'concealed', false, stickitChange: true
     @revealChildren() unless @get('collapsed')
 
-  conceal: =>
-    @log "conceal"
-    @set 'concealed', true, stickitChange: true
-    @concealChildren()
+  # called on change:collapsed to persist tree state in this browser.
+  # stored values are read directly by the page tree view so that tree state can be restored in a single pass.
+  #
+  storeDisplayState: =>
+    collapses = localStorage.getItem('collapsed_pages')?.split(',') || []
+    if @get('collapsed')
+      localStorage.setItem 'collapsed_pages', _.union(collapses, [@id]).join(',')
+    else
+      localStorage.setItem 'collapsed_pages', _.without(collapses, @id).join(',')
 
 
 class Cms.Collections.Pages extends Cms.Collection
@@ -171,12 +186,13 @@ class Cms.Collections.Pages extends Cms.Collection
 
   initialize: =>
     super
-    _.defer =>
-      @buildTree()
-      @on 'add remove reset change:parent_id', _.debounce @buildTree, 100
+    treeMaintenance = _.debounce @buildTree, 100, true
+    @on 'add remove reset change:parent_id', treeMaintenance
+    treeMaintenance()
 
   rootPage: =>
     @findWhere home: true
+
 
   ## Page tree
   # This is only for display purposes and there is no need to maintain parent/child relations.
@@ -186,6 +202,7 @@ class Cms.Collections.Pages extends Cms.Collection
   # note parenting status and depth
   #
   buildTree: =>
+    @log "buildTree"
     parentage = {}
     @forEach (m) ->
       m.set parental: false
