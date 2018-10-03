@@ -22,12 +22,12 @@ class Cms.Models.Page extends Cms.Model
   published: () =>
     @get('published_at')?
 
-  # Publish is just a save that sends up our rendered html.
+  # Publish is just a save that sends up rendered html.
   #
   render: =>
     @_renderer ?= new Cms.Views.PageRenderer 
       model: @
-    @_renderer.render() # sets our `rendered_html`, `excerpt` and `image`
+    @_renderer.render() # sets our `rendered_html`, `excerpt`, `image`, `video`. May also set title and prefix if those have changed.
 
   publish: () =>
     @render()
@@ -44,7 +44,7 @@ class Cms.Models.Page extends Cms.Model
   setPublicationStatus: =>
     if !@get('published_at')
       @set 'unpublished', true
-      @set 'outofdate', false
+      @set 'outofdate', true
     else
       @set 'unpublished', false
       @set 'outofdate', @get('updated_at') > @get('published_at')
@@ -91,32 +91,39 @@ class Cms.Models.Page extends Cms.Model
     $holder = $('<div />')
     $holder.html(html)
 
-    # retrieve page title as edited
-    $heading = $holder.find('h1')
-    if $heading.length
-      title = $heading.first().text()
-      $heading.remove()
+    # retrieve page title and prefix that were previously given to the first section and may have been edited since.
+    #NB this restates bindings in a way that is meant to be general, but should we side-effect it during render or update instead?
+    heading = $holder.find('h1')
+    if heading.length
+      prefix_span = heading.find('span.prefix')
+      if prefix_span.length
+        prefix = prefix_span.first().text()
+      title_span = heading.find('span.title')
+      if title_span.length
+        title = title_span.first().text()
+      else
+        title = heading.first().text()
+      heading.remove()
+    @set('prefix', prefix) if prefix
     @set('title', title) if title
 
     # extract a bit of text from first content section
-    $main_section = $holder.find('section.standfirst, section.standard')
-    if $main_section.length
-      excerpt = $main_section.text().split(/\s+/).slice(0,64).join(' ')
-    else
-      excerpt = $holder.text().split(/\s+/).slice(0,64).join(' ')
-    @set('excerpt', excerpt) if excerpt
+    excerpt = $holder.text().split(/\s+/).slice(0,64).join(' ')
+    @set('excerpt', excerpt)
 
-    # grab image id from first image asset block (heroic or embedded)
+    # grab image id from first image asset block of any kind
+    # heroic...
     $image_headers = $holder.find('[data-asset-type="image"]')
     if $image_headers.length
       image_id = $image_headers.first().attr('data-asset-id')
     unless image_id
+      # or embedded
       $image_blocks = $holder.find('[data-image]')
       if $image_blocks.length
         image_id = $image_blocks.first().attr('data-image')
     @set('image_id', image_id) if image_id
 
-    # grab video id from first video asset block (heroic or embedded)
+    # grab video id from first video asset block (also could be heroic or embedded)
     $video_headers = $holder.find('[data-asset-type="video"]')
     if $video_headers.length
       video_id = $video_headers.first().attr('data-asset-id')

@@ -6,5 +6,6 @@ class AssetOwners < ActiveRecord::Migration[5.2]
     add_index :chemistry_videos, :user_id
 
     add_column :chemistry_pages, :prefix, :string
+    add_column :chemistry_sections, :prefix, :string
   end
 end

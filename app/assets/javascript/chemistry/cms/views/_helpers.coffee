@@ -30,7 +30,7 @@ class Cms.Views.Saver extends Cms.View
       visible: true
       classes: 
         unavailable:
-          observe: ["changed", "valid", "unpublished"]
+          observe: ["changed", "valid", "outofdate"]
           onGet: "unPublishable"
     "a.review":
       observe: "path"
@@ -42,7 +42,7 @@ class Cms.Views.Saver extends Cms.View
       ]
       classes: 
         unavailable:
-          observe: "published_at"
+          observe: "unpublished"
           onGet: "unReviewable"
 
   onRender: =>
@@ -72,12 +72,12 @@ class Cms.Views.Shortcuts extends Cms.View
     "a.save":
       classes:
         unavailable:
-          observe: ["changed", "valid", "unpublished"]
+          observe: ["changed", "valid"]
           onGet: "unSaveable"
     "a.publish":
       classes: 
         unavailable:
-          observe: ["changed", "valid", "unpublished"]
+          observe: ["content", "changed", "valid", "outofdate"]
           onGet: "unPublishable"
     "a.review":
       attributes: [
@@ -87,15 +87,16 @@ class Cms.Views.Shortcuts extends Cms.View
       ]
       classes: 
         unavailable:
-          observe: ["changed", "valid", "unpublished"]
+          observe: ["changed", "valid", "outofdate", "unpublished"]
           onGet: "unReviewable"
 
-  # The actions overlay shows a preview button whenever it's possible to preview,
-  # but here we override that to show the shortcut only when neither save nor publish is appropriate
+  # The actions overlay shows a preview button if anything exists to view (ie the page has ever been published)
+  # but here we only want one button, so we override that to show the shortcut only when neither save nor publish is appropriate
   # (and if we have ever been published).
+  # These double negatives are quite tiring.
   #
-  unReviewable: ([changed, valid, unpublished]=[]) =>
-    unpublished or !@unSaveable([changed, valid, unpublished]) or !@unPublishable([changed, valid, unpublished])
+  unReviewable: ([changed, valid, outofdate, unpublished]=[]) =>
+    unpublished or !@unSaveable([changed, valid]) or !@unPublishable([changed, valid, outofdate])
 
 
 class Cms.Views.Confirmation extends Cms.View

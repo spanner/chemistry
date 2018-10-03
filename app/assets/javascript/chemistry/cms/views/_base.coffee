@@ -192,7 +192,7 @@ class Cms.View extends Marionette.View
   #
   # Object is saveable if it is valid and has significant changes.
   #
-  unSaveable: ([changed, valid, unpublished]=[]) =>
+  unSaveable: ([changed, valid]=[]) =>
     !changed or !valid
 
   # Object is revertable if it has significant changes.
@@ -208,8 +208,8 @@ class Cms.View extends Marionette.View
   # page is publishable if it has no unsaved changes,
   # and the current publication is out of date.
   #
-  unPublishable: ([content, changed, valid, unpublished]=[]) =>
-    changed or !valid or !unpublished or content is 'empty'
+  unPublishable: ([content, changed, valid, outofdate]=[]) =>
+    changed or !valid or !outofdate or content is 'empty'
 
   save: (e) =>
     e?.preventDefault()

@@ -10,6 +10,7 @@ class Chemistry::SectionSerializer
              :position,
              :section_type_id,
              :section_type_slug,
+             :prefix,
              :title,
              :primary_html,
              :secondary_html,

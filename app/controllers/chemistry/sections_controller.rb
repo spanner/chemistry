@@ -54,6 +54,7 @@ module Chemistry
       params.permit(
         :position,
         :section_type_id,
+        :prefix,
         :title,
         :primary_html,
         :secondary_html,

@@ -213,7 +213,7 @@ module Chemistry
       if owner && owner.respond_to?(:cms_slug_base)
         owner.cms_slug_base(self)
       else
-        title
+        [prefix, title].map(&:presence).compact.join(" ")
       end
     end
 

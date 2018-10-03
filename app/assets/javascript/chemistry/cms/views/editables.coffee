@@ -62,11 +62,6 @@ class Cms.Views.EditableHtml extends Cms.Views.EditableHelper
 class Cms.Views.EditableString extends Cms.Views.EditableHelper
   template: false
 
-  onRender: =>
-    @_toolbar = new Cms.Views.Toolbar
-      target: @$el
-    @_toolbar.render()
-
 
 class Cms.Views.EditableBackground extends Cms.Views.EditableHelper
   template: false

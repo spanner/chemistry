@@ -178,7 +178,9 @@
       },
       "title": {
         "title": "Page title"
-      }
+      },
+      "prefix": "Place",
+      "title": "Title"
     },
     "tooltips": {
       "save_shortcut": "save page",

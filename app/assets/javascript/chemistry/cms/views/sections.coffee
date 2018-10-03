@@ -32,9 +32,11 @@ class Cms.Views.Section extends Cms.View
         observe: "id"
         onGet: "sectionId"
       ]
+    '[data-cms-role="prefix"]':
+      observe: "prefix"
+      onSet: "withoutHTML"
     '[data-cms-role="title"]':
       observe: "title"
-      updateMethod: "html"
       onSet: "withoutHTML"
       classes:
         short:
@@ -82,7 +84,7 @@ class Cms.Views.Section extends Cms.View
 
   setPlaceholders: =>
     if slug = @model.get('section_type_slug')
-      for att in ['title', 'primary', 'secondary', 'caption']
+      for att in ['prefix', 'title', 'primary', 'secondary', 'caption']
         ph = null
         if _cms.translationAvailable("placeholders.sections.#{slug}.#{att}")
           ph = t("placeholders.sections.#{slug}.#{att}")
