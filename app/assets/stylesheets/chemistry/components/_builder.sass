@@ -16,54 +16,69 @@
 #builder
   width: 86%
   margin: 4em auto
-  height: 90vh
-  +flex_centered
+  box-sizing: border-box
+  padding-top: 8vh
   div.section
     position: relative
     width: 60%
-    input[type="text"]
-      display: block
-      -webkit-appearance: none
-      background-color: none
-      border: none
-      outline: none
-      border-bottom: 1px solid $pale
-      padding: 10px 0
-      font-size: 2rem
-      color: $dark
-      width: 100%
+    margin: 4em 20%
+    display: inline-block
+    overflow: hidden
+    float: left
+    h2.step
       margin: 1em 0
-    a.continue
+    .editing
+      input[type="text"]
+        display: block
+        -webkit-appearance: none
+        background-color: none
+        border: none
+        outline: none
+        border-bottom: 1px solid $pale
+        padding: 10px 0
+        font-size: 2rem
+        color: $dark
+        width: 100%
+        margin: 5em 0 1em 0
+      figure
+        height: 0
+        overflow: hidden
+        padding-bottom: 56.25%
+      .body
+        background-color: $coolgrey00
+        padding: 0.25em
+        min-height: 10em
+    a.back, a.continue
       -webkit-appearance: none
       background-color: none
       border: none
-      padding: 10px 0 10px 10px
       font-size: 2rem
-      color: $link
-      float: right
       cursor: pointer
+    a.back
+      padding: 10px 10px 10px 0
+      float: left
+      color: $pale
       &:hover
         color: $hover
-    .image_box
-      width: 100%
-      padding-bottom: 56.25%
-      background: radial-gradient(lighten($mid, 15), $mid)
-      label
-        position: absolute
-        display: block
-        width: 100%
-        height: 100%
-        cursor: pointer
-        overflow: hidden
-      input[type="file"]
-        position: absolute
-        top: -100px
-      .safe_area, .unsafe_area
-        position: absolute
-        width: 100%
-        height: 100%
-        color: white
-        font-size: 1rem
-        +flex_centered
-      .unsafe_area
-        box-shadow: inset 0 0 25% rgba(255,255,255,0.25)
+    a.continue
+      padding: 10px 0 10px 10px
+      float: right
+      color: $link
+      &:hover
+        color: $hover
+    div.notes
+      clear: both
+      padding-top: 2em
+      ul.key
+        float: left
+        padding: 0
+        margin: 0 1em 0 0
+        color: $mid
+        list-style: none
+        li
+          margin: 0.5em 0
+          color: $pale
+      p.notes
+        clear: both
+        padding: 2em 0
+        color: $mid

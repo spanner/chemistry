@@ -1,6 +1,7 @@
 {
   "and": "and",
   "buttons": {
+    "back": "Back",
     "cancel": "Cancel",
     "create_page": "Create and edit page",
     "continue": "Continue",
@@ -64,7 +65,13 @@
     "pages": "No pages."
   },
   "headings": {
-    "builder": "Page builder",
+    "builder": {
+      "asset": "2. Attach header image or video",
+      "body": "3. Write or paste in some text",
+      "default": "Page builder",
+      "social": "",
+      "title": "1. Edit page title"
+    },
     "enquiries": "Enquiries",
     "pages": "Pages",
     "layout": "Layout",
@@ -101,6 +108,12 @@
     "videos": "Videos"
   },
   "notes": {
+    "builder": {
+      "asset": "You can add more images and video to the body of your page, which is coming up next. Everything that you upload remains available for reuse.",
+      "body": "",
+      "social": "",
+      "title": "This text is used in lists and links as well as at the head of the page."
+    },
     "create_new_page": "",
     "dates": "If no date is assigned here, we usually display the publication date.",
     "image_weighting": "Click on a sector to pin that part of the image in view, so for example if you click the bottom-left square then the top right part of the image will be lost when it is cropped.",

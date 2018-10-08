@@ -1,0 +1,53 @@
+%h2.step
+  = t('headings.builder.asset')
+
+.editing
+
+%a.continue
+  %span.label
+    = t('buttons.continue')
+  %svg.suffix
+    %use{"xlink:href" => "#forward_symbol"}
+
+%a.back{href: "title"}
+  %svg.prefix
+    %use{"xlink:href" => "#backward_symbol"}
+  %span.label
+    = t('buttons.back')
+
+.notes
+  %ul.key
+    %li.choose
+      %svg.icon
+        %use{"xlink:href" => "#image_button_symbol"}
+      %span.label
+        Choose an image you've used before
+    %li.import
+      %svg.icon
+        %use{"xlink:href" => "#import_image_symbol"}
+      %span.label
+        Import an image from the web
+    %li.upload
+      %svg.icon
+        %use{"xlink:href" => "#upload_image_symbol"}
+      %span.label
+        Upload an image
+  %ul.key
+    %li.choose
+      %svg.icon
+        %use{"xlink:href" => "#video_button_symbol"}
+      %span.label
+        Choose a video that you've used before
+    %li.import
+      %svg.icon
+        %use{"xlink:href" => "#import_video_symbol"}
+      %span.label
+        Embed a video from youtube
+    %li.upload
+      %svg.icon
+        %use{"xlink:href" => "#upload_video_symbol"}
+      %span.label
+        Upload a video file
+
+  %p.notes
+    = t('notes.builder.asset')

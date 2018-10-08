@@ -40,10 +40,14 @@ class Cms.Views.EditableHtml extends Cms.Views.EditableHelper
         el: el
 
     toolbar = @$el.data('cms-toolbar') or ""
+    @log "toolbar", toolbar, @el
+
     if toolbar_class = Cms.Views[toolbar.charAt(0).toUpperCase() + toolbar.slice(1) + "Toolbar"]
       @_toolbar = new toolbar_class
         target: @$el
-    @_toolbar.render()
+      @_toolbar.render()
+
+    @log "assets", toolbar, @$el.data('cms-assets')
 
     if @$el.data('cms-assets')
       @_inserter = new Cms.Views.AssetInserter

@@ -49,3 +49,4 @@ class Cms.FadingRegion extends Marionette.Region
     view.$el.fadeOut 'slow', =>
       @destroyView(view)
       @currentView.$el.fadeIn() if @currentView
+

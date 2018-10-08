@@ -16,7 +16,7 @@ class Cms.Views.PageBuilderView extends Cms.ItemView
 
   initialize: (opts={}) ->
     super
-    @_default_title = opts.title or t('headings.builder')
+    @_default_title = opts.title or t('headings.builder.default')
     @_backto = opts.backto
 
   onSubmit: (e) =>
@@ -50,11 +50,19 @@ class Cms.Views.PageBuilderView extends Cms.ItemView
         model: @section
       @showChildView 'builder', @editor
       @editor?.on "continue", @saveAndMoveOn
+      @editor?.on "goback", @saveAndGoBack
+
+  saveAndGoBack: =>
+    @log "saveAndGoBack"
+    @model.save().done =>
+      if prev_step = _.result @, 'previousStep'
+        _cms.navigate prev_step
+      else
+        _cms.navigate @_backto
 
   saveAndMoveOn: =>
     @log "saveAndMoveOn"
     @model.save().done =>
-      #todo: get some swishy transition in here?
       if next_step = _.result @, 'nextStep'
         _cms.navigate next_step
       else
@@ -63,22 +71,25 @@ class Cms.Views.PageBuilderView extends Cms.ItemView
 
 class Cms.Views.PageBuilderTitle extends Cms.Views.PageBuilderView
   sectionEditor: "SectionTitle"
-  nextStep: "image"
+  nextStep: "asset"
 
 
-class Cms.Views.PageBuilderImage extends Cms.Views.PageBuilderView
-  sectionEditor: "SectionImage"
+class Cms.Views.PageBuilderAsset extends Cms.Views.PageBuilderView
+  sectionEditor: "SectionAsset"
+  previousStep: "title"
   nextStep: "body"
 
 
 class Cms.Views.PageBuilderBody extends Cms.Views.PageBuilderView
   sectionEditor: "SectionBody"
   sectionType: "standard"
+  previousStep: "asset"
   nextStep: "social"
 
 
 class Cms.Views.PageBuilderSocial extends Cms.Views.PageBuilderView
   template: "builder/social"
+  previousStep: "body"
 
 
 class Cms.Views.PageBuilderSectionView extends Cms.ItemView
@@ -87,6 +98,7 @@ class Cms.Views.PageBuilderSectionView extends Cms.ItemView
 
   triggers:
     "click a.continue": "continue"
+    "click a.back": "goback"
 
   onRender: =>
     @stickit()
@@ -98,14 +110,32 @@ class Cms.Views.SectionTitle extends Cms.Views.PageBuilderSectionView
     ".title": "title"
 
 
-class Cms.Views.SectionImage extends Cms.Views.PageBuilderSectionView
-  template: "builder/image"
+class Cms.Views.SectionAsset extends Cms.Views.PageBuilderSectionView
+  template: "builder/asset"
+
+  ui:
+    asset_holder: ".editing"
+
   onRender: =>
-    # get me the bg view in here
+    @ui.asset_holder.html @model.get('background_html')
+    @addView new Cms.Views.EditableBackground
+      model: @model
+      el: @ui.asset_holder
 
 
 class Cms.Views.SectionBody extends Cms.Views.PageBuilderSectionView
   template: "builder/body"
   bindings:
-    ".body": "primary_html"
+    ".body":
+      observe: "primary_html"
+      updateMethod: "html"
+      onSet: "withoutControls"
 
+  ui:
+    section_body: ".body"
+
+  onRender: =>
+    @stickit()
+    @addView new Cms.Views.EditableHtml
+      model: @model
+      el: @ui.section_body

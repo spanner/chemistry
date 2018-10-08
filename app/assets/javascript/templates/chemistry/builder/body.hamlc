@@ -1,13 +1,22 @@
-.body{contenteditable: true, data: {placeholder: t('placeholders.builder.body')}}
+%h2.step
+  = t('headings.builder.body')
 
-%a.back
-  %svg.prefix
-    %use{"xlink:href" => "#backward_symbol"}
-  %span.label
-    = t('buttons.back')
+.editing
+  .body{contenteditable: true, data: {placeholder: t('placeholders.builder.body'), cms_toolbar: "blocks", cms_assets: "true"}}
 
 %a.continue
   %span.label
     = t('buttons.continue')
   %svg.suffix
     %use{"xlink:href" => "#forward_symbol"}
+
+%a.back{href: "asset"}
+  %svg.prefix
+    %use{"xlink:href" => "#backward_symbol"}
+  %span.label
+    = t('buttons.back')
+
+.notes
+  %p.notes
+    = t('notes.builder.body')
+

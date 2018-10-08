@@ -1,6 +1,22 @@
-%input.title{type: "text", placeholder: t('placeholders.builder.title'), autofocus: true}
+%h2.step
+  = t('headings.builder.title')
+
+.editing
+  %input.title{type: "text", placeholder: t('placeholders.builder.title'), autofocus: true}
+
+%a.back{href: "title"}
+  %svg.prefix
+    %use{"xlink:href" => "#backward_symbol"}
+  %span.label
+    = t('buttons.back')
+
 %a.continue
   %span.label
     = t('buttons.continue')
   %svg.suffix
     %use{"xlink:href" => "#forward_symbol"}
+
+.notes
+  %p.notes
+    = t('notes.builder.title')
+
