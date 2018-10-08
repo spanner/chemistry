@@ -36,6 +36,34 @@ $ ->
     @each ->
       args = _.extend options,
         el: @
-      new Cms.Application(args).start()
+      new Cms.SiteEditor(args).start()
 
-  $('#chemistry').chemistry()
+  $.fn.chemistry_page = (options={}) ->
+    @each ->
+      args = _.extend options,
+        el: @
+      new Cms.PageEditor(args).start()
+
+  $.fn.chemistry_section = (options={}) ->
+    @each ->
+      args = _.extend options,
+        el: @
+      new Cms.SectionEditor(args).start()
+
+  $.fn.chemistry_social = (options={}) ->
+    @each ->
+      args = _.extend options,
+        el: @
+      new Cms.SocialEditor(args).start()
+
+  $.fn.chemistry_page_preview = (options={}) ->
+    @each ->
+      args = _.extend options,
+        el: @
+      new Cms.PagePreview(args).start()
+
+  $('#chemistry.site').chemistry()
+  $('#chemistry.page').chemistry_page()
+  $('#chemistry.section').chemistry_section()
+  $('#chemistry.social').chemistry_social()
+  $('#chemistry.page_preview').chemistry_page_preview()

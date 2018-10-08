@@ -6,15 +6,25 @@ module Chemistry
 
     belongs_to :template, optional: true
     belongs_to :parent, class_name: 'Chemistry::Page', optional: true
+
     belongs_to :owner, polymorphic: true
     cattr_accessor :owner_anchors
 
-    has_many :child_pages, class_name: 'Chemistry::Page', foreign_key: :parent_id
+    # page content
     has_many :sections, -> {order(position: :asc)}, dependent: :destroy
-    acts_as_list column: :nav_position
 
+    # tree-building is very lightweight here but we do need the association
+    has_many :child_pages, class_name: 'Chemistry::Page', foreign_key: :parent_id
+
+    # metadata
     has_many :page_terms
     has_many :terms, through: :page_terms
+
+    # content associations extracted for convenience
+    belongs_to :image
+    belongs_to :video
+
+    acts_as_list column: :nav_position
 
     before_validation :derive_slug_and_path
     before_validation :get_excerpt

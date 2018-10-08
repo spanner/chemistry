@@ -117,16 +117,20 @@ module Chemistry::Concerns::HasPage
     {}
   end
 
+  def init_page
+    self.page || self.create_page(properties_for_page.merge({
+      parent: self.class.anchor_page_for(self),
+      template: self.class.page_template
+    }))
+  end
+
   protected
 
   def update_page
     if self.page
       self.page.update_attributes(properties_for_page)
     else
-      self.create_page(properties_for_page.merge({
-        parent: self.class.anchor_page_for(self),
-        template: self.class.page_template
-      }))
+      init_page
     end
   end
 

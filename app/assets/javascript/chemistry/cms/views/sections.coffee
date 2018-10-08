@@ -130,6 +130,11 @@ class Cms.Views.Section extends Cms.View
         collection: @page.getChildren()
         el: el
 
+
+class Cms.Views.SectionEditor extends Cms.Views.Section
+  template: "sections/editor"
+
+
 #todo: strip out data-cms attributes
 #
 class Cms.Views.SectionRenderer extends Cms.Views.Section

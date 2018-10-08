@@ -1,6 +1,6 @@
 Cms = {}
-Cms.version = '0.5.0'
-Cms.subtitle = "Beta 4"
+Cms.version = '0.6.0'
+Cms.subtitle = "Beta 5"
 
 Cms.Models = {}
 Cms.Collections = {}
@@ -261,3 +261,60 @@ class Cms.Application extends Marionette.Application
 
   titlecase: (base) =>
     base.charAt(0).toUpperCase() + base.slice(1)
+
+
+
+class Cms.SiteEditor extends Cms.Application
+  # nothing to see yet. We're keeping this as a place to put behaviour not helpful in the single-item applications
+
+
+
+# The page editor is a very cut-down version of the site editor, expecting only to display the single-page composer.
+# No routing, no page configuration, just html editing.
+#
+class Cms.PageEditor extends Cms.Application
+  defaults: {}
+
+  onStart: =>
+    @preloadSite().done =>
+      @setUILocale().done =>
+        @ui = new Cms.Views.OnePageUI el: @el
+        @ui.render()
+
+
+# The section editor allows us to present one formatted html block for editing, while also dropping it into a page later.
+#
+class Cms.SectionEditor extends Cms.Application
+  defaults: {}
+
+  onStart: =>
+    @preloadSite().done =>
+      @setUILocale().done =>
+        @ui = new Cms.Views.OneSectionUI el: @el
+        @ui.render()
+
+
+# The social editor allows us to present separately the selection of social entity links associated with a page.
+#
+class Cms.SocialEditor extends Cms.Application
+  defaults: {}
+
+  onStart: =>
+    @preloadSite().done =>
+      @setUILocale().done =>
+        @ui = new Cms.Views.OnePageSocialUI el: @el
+        @ui.render()
+
+
+# The page editor is a very cut-down version of the site editor, expecting only to display the single-page composer.
+# No routing, no page configuration, just html editing.
+#
+class Cms.PagePreview extends Cms.Application
+  defaults: {}
+
+  onStart: =>
+    @preloadSite().done =>
+      @setUILocale().done =>
+        @ui = new Cms.Views.PagePreviewUI el: @el
+        @ui.render()
+

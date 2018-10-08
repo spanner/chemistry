@@ -36,7 +36,8 @@ class Cms.Models.Page extends Cms.Model
   render: =>
     @_renderer ?= new Cms.Views.PageRenderer 
       model: @
-    @_renderer.render() # sets our `rendered_html`, `excerpt`, `image`, `video`. May also set title and prefix if those have changed.
+    @_renderer.render()
+    @model.set 'rendered_html', @_renderer.getRenderedHtml()
 
   publishSucceeded: (response) =>
     attrs = @parse response

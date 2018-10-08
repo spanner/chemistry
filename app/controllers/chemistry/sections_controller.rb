@@ -4,6 +4,7 @@ module Chemistry
     load_and_authorize_resource through: :page
 
     def index
+      @sections = @sections.undetached
       return_sections
     end
   

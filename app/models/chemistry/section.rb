@@ -13,6 +13,9 @@ module Chemistry
       where.not(id: sections.map(&:id))
     }
 
+    scope :undetached, -> {
+      where(detached: false)
+    }
 
     # for serialization
 

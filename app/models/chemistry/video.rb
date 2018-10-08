@@ -17,7 +17,6 @@ module Chemistry
     validates_attachment_content_type :file, :content_type => /\Avideo/
     before_validation :get_metadata
 
-
     def uploaded_file_url(style=:full, decache=true)
       if file?
         url = file.url(style, decache)
@@ -91,7 +90,11 @@ module Chemistry
     protected
   
     def get_metadata
+      Rails.logger.warn "fetching metadata for remote_url #{remote_url}"
       if remote_url?
+        # unless remote_url =~ /^http/
+        #   remote_url = "http://www.youtube.com/watch?v=#{remote_url}"
+        # end
         if video = VideoInfo.new(remote_url)
           self.title = video.title
           self.provider = video.provider
