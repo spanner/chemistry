@@ -3,6 +3,7 @@
   "buttons": {
     "cancel": "Cancel",
     "create_page": "Create and edit page",
+    "continue": "Continue",
     "delete": "Delete",
     "import": "Import",
     "no_not_really": "No, not really",
@@ -63,6 +64,7 @@
     "pages": "No pages."
   },
   "headings": {
+    "builder": "Page builder",
     "enquiries": "Enquiries",
     "pages": "Pages",
     "layout": "Layout",
@@ -118,6 +120,11 @@
     "new_title": "Create new page"
   },
   "placeholders": {
+    "builder": {
+      "asset": "2. Click or drop to upload an image or video, or use the menus to choose an existing file.",
+      "body": "3. Edit your main page text here. A single paragraph will do fine as a starting point, but please give as much background information as you can.",
+      "title": "1. Formal title for use in lists and page headings"
+    },
     "document": {
       "file": "No file attached"
     },

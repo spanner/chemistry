@@ -62,8 +62,17 @@ $ ->
         el: @
       new Cms.PagePreview(args).start()
 
+  $.fn.chemistry_page_builder = (options={}) ->
+    @each ->
+      console.log "chemistry_page_builder", @
+      args = _.extend options,
+        el: @
+      new Cms.PageBuilder(args).start()
+
+
   $('#chemistry.site').chemistry()
   $('#chemistry.page').chemistry_page()
   $('#chemistry.section').chemistry_section()
   $('#chemistry.social').chemistry_social()
   $('#chemistry.page_preview').chemistry_page_preview()
+  $('#chemistry.page_builder').chemistry_page_builder()

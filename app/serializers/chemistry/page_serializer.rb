@@ -31,5 +31,4 @@ class Chemistry::PageSerializer
              :deleted_at,
              :empty
 
-
 end

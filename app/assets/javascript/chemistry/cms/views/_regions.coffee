@@ -35,3 +35,17 @@ class Cms.Views.FloatingView extends Cms.View
   triggers:
     "click a.close": "close"
     "click a.cancel": "close"
+
+
+class Cms.FadingRegion extends Marionette.Region
+
+  attachHtml: (view) =>
+    view.$el
+      .css({display: 'none'})
+      .appendTo(@$el)
+    view.$el.fadeIn() unless @isSwappingView()
+
+  removeView: (view) =>
+    view.$el.fadeOut 'slow', =>
+      @destroyView(view)
+      @currentView.$el.fadeIn() if @currentView

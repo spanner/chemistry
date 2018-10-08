@@ -1,24 +1,3 @@
-# The Router maps routes onto UI function calls and their arguments.
-# It is called on every change of window.location.
-#
-class Cms.Router extends Backbone.Router
-  routes:
-    "": "defaultView"
-    ":collection_name": "collectionView"
-    ":collection_name(?:qs)": "collectionView"
-    ":model_name/:action/:id": "modelView"
-
-  initialize: (opts) ->
-    @ui = opts.ui
-
-  defaultView: =>
-    @ui.defaultView()
-
-  collectionView: (base, qs) =>
-    @ui.collectionView(base, qs)
-
-  modelView: (base, action, id) =>
-    @ui.modelView(base, action, id)
 
 
 ## UI Construction
@@ -141,68 +120,6 @@ class Cms.Views.UI extends Cms.View
     @showChildView 'floater', view, options
 
 
-## Single-page editing
-#
-# Usually presented to non-admin users who own one or two pages and should not see all the machinery.
-
-class Cms.Views.OnePageUI extends Cms.Views.UI
-  template: "ui/one_page"
-
-  regions:
-    notices: "#notices"
-    main: "#main"
-
-  onRender: =>
-    if page_id = @$el.data('cms-id')
-      @model = _cms.pages.get(page_id) or new Cms.Models.Page({id: page_id})
-      @model.loadAnd =>
-        @showChildView 'main', new Cms.Views.PageEditor
-          model: @model
-
-
-class Cms.Views.PageSocialUI extends Cms.Views.UI
-  template: "ui/page_social"
-
-  regions:
-    main: "#main"
-
-  onRender: =>
-    if page_id = @$el.data('cms-id')
-      @model = _cms.pages.get(page_id) or new Cms.Models.Page({id: page_id})
-      @model.loadAnd =>
-        @showChildView 'main', new Cms.Views.PageSocial
-          model: @model
-
-
-class Cms.Views.PagePreviewUI extends Cms.Views.UI
-  template: "ui/page_preview"
-
-  regions:
-    main: "#main"
-
-  onRender: =>
-    if page_id = @$el.data('cms-id')
-      @model = _cms.pages.get(page_id) or new Cms.Models.Page({id: page_id})
-      @model.loadAnd =>
-        @showChildView 'main', new Cms.Views.PageRenderer
-          model: @model
-
-
-class Cms.Views.OneSectionUI extends Cms.Views.UI
-  template: "ui/one_section"
-
-  regions:
-    notices: "#notices"
-    main: "#main"
-
-  onRender: =>
-    if section_id = @$el.data('cms-id')
-      @model = new Cms.Models.Section({id: section_id})
-      @model.loadAnd =>
-        @showChildView 'main', new Cms.Views.SectionEditor
-          model: @model
-
-
 ## Admin layouts
 #
 # are here to encapsulate the admin CRUD and keep it separate from page editing,
@@ -251,4 +168,94 @@ class Cms.Views.AdminCollectionView extends Cms.View
         view.$el.appendTo @$el
         view.render()
         @log "-> view in", view.$el
+
+
+
+## Single-page editing
+#
+# Usually presented to non-admin users who own one or two pages and should not see all the machinery.
+
+
+class Cms.Views.PageBuilderUI extends Cms.Views.UI
+  template: "ui/single_item"
+
+  regions:
+    notices: "#notices"
+    main: "#main"
+
+  onRender: =>
+    if page_id = @$el.data('cms-id')
+      @model = _cms.pages.get(page_id) or new Cms.Models.Page({id: page_id})
+
+  stepView: (step) =>
+    step ?= 'title'
+    step_name = step[0].toUpperCase() + step.slice(1)
+    if step_view_class = Cms.Views["PageBuilder#{step_name}"]
+      @model.loadAnd =>
+        step_view = new step_view_class
+          model: @model
+          title: @$el.data('cms-title')
+          backto: @$el.data('cms-backto')
+        @showChildView 'main', step_view
+
+
+class Cms.Views.OnePageUI extends Cms.Views.UI
+  template: "ui/single_item"
+
+  regions:
+    notices: "#notices"
+    main: "#main"
+
+  onRender: =>
+    if page_id = @$el.data('cms-id')
+      @model = _cms.pages.get(page_id) or new Cms.Models.Page({id: page_id})
+      @model.loadAnd =>
+        @showChildView 'main', new Cms.Views.PageEditor
+          model: @model
+
+
+class Cms.Views.OneSectionUI extends Cms.Views.UI
+  template: "ui/single_item"
+
+  regions:
+    notices: "#notices"
+    main: "#main"
+
+  onRender: =>
+    if section_id = @$el.data('cms-id')
+      @model = new Cms.Models.Section({id: section_id})
+      @model.loadAnd =>
+        @showChildView 'main', new Cms.Views.SectionEditor
+          model: @model
+
+
+class Cms.Views.PageSocialUI extends Cms.Views.UI
+  template: "ui/page_social"
+
+  regions:
+    main: "#main"
+
+  onRender: =>
+    if page_id = @$el.data('cms-id')
+      @model = _cms.pages.get(page_id) or new Cms.Models.Page({id: page_id})
+      @model.loadAnd =>
+        @showChildView 'main', new Cms.Views.PageSocial
+          model: @model
+
+
+class Cms.Views.PagePreviewUI extends Cms.Views.UI
+  template: "ui/page_preview"
+
+  regions:
+    main: "#main"
+
+  onRender: =>
+    if page_id = @$el.data('cms-id')
+      @model = _cms.pages.get(page_id) or new Cms.Models.Page({id: page_id})
+      @model.loadAnd =>
+        @showChildView 'main', new Cms.Views.PageRenderer
+          model: @model
+
+
+
 

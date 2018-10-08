@@ -1,0 +1,13 @@
+.body{contenteditable: true, data: {placeholder: t('placeholders.builder.body')}}
+
+%a.back
+  %svg.prefix
+    %use{"xlink:href" => "#backward_symbol"}
+  %span.label
+    = t('buttons.back')
+
+%a.continue
+  %span.label
+    = t('buttons.continue')
+  %svg.suffix
+    %use{"xlink:href" => "#forward_symbol"}

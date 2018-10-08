@@ -6,7 +6,7 @@ class Cms.Models.Page extends Cms.Model
     nav: false
     home: false
     parental: false
-    collapsed: false     # my children are hidden in tree
+    collapsed: false        # my children are hidden in tree
     concealed: false        # I am hidden in tree
     content: 'page'
 
@@ -26,8 +26,8 @@ class Cms.Models.Page extends Cms.Model
   published: () =>
     !@get('unpublished')
 
-  # The basic rule here is that work in progress is stord in section html attributes while the published page is stored in a single rendered block.
-  # `Publish` is just a save that assembles and sends up the rendered html.
+  # The basic rule here is that work in progress is stord in composable section attributes while the published page is stored in a single rendered block.
+  # `Publish` is just a save that assembles, cleans and sends up the rendered html.
   #
   publish: () =>
     @render()

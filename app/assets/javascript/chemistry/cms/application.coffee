@@ -9,6 +9,38 @@ Cms.Views = {}
 root = window
 root.Cms = Cms
 
+# The Router maps routes onto UI function calls and their arguments.
+# It is called on every change of window.location.
+#
+class Cms.Router extends Backbone.Router
+  routes:
+    "": "defaultView"
+    ":collection_name": "collectionView"
+    ":collection_name(?:qs)": "collectionView"
+    ":model_name/:action/:id": "modelView"
+
+  initialize: (opts) ->
+    @ui = opts.ui
+
+  defaultView: =>
+    @ui.defaultView()
+
+  collectionView: (base, qs) =>
+    @ui.collectionView(base, qs)
+
+  modelView: (base, action, id) =>
+    @ui.modelView(base, action, id)
+
+
+class Cms.BuilderRouter extends Cms.Router
+  routes:
+    "": "stepView"
+    ":step": "stepView"
+
+  stepView: (step) =>
+    console.log "BuilderRouter stepView", step
+    @ui.stepView(step)
+
 
 # The Application is a supporting framework wrapped around the UI view.
 # It provides navigation, rendering and API-interfacing services, and
@@ -268,6 +300,24 @@ class Cms.SiteEditor extends Cms.Application
   # nothing to see yet. We're keeping this as a place to put behaviour not helpful in the single-item applications
 
 
+
+# The page builder is a stepwise wizard-style page composer suitable for people who don't know html.
+# It presents a series of minimal single-property forms.
+#
+class Cms.PageBuilder extends Cms.Application
+  defaults: {}
+
+  onStart: =>
+    @preloadSite().done =>
+      @setUILocale().done =>
+        @ui = new Cms.Views.PageBuilderUI el: @el
+        @ui.render()
+        @_router = new Cms.BuilderRouter ui: @ui
+        mount_point = window.location.pathname.replace(/build(\/.*)/, 'build')
+        Backbone.history.start
+          pushState: true
+          hashChange: false
+          root: mount_point
 
 # The page editor is a very cut-down version of the site editor, expecting only to display the single-page composer.
 # No routing, no page configuration, just html editing.
