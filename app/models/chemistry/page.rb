@@ -250,6 +250,13 @@ module Chemistry
       template.title if template
     end
 
+    # Checked after_save to rebuild the section stack for a new template,
+    # and on serialization to warn the UI that sections need reloading.
+    #
+    def template_has_changed?
+      saved_change_to_template_id?
+    end
+    alias :template_has_changed :template_has_changed?  # for serializer
 
     protected
 
@@ -299,12 +306,27 @@ module Chemistry
         revised_sections = []
 
         # populate in order dictated by template, reusing any existing sections of matching type
-        template.placeholders.each.with_index do |placeholder, i|
+        existing_sections = sections.to_a
+        header_section = existing_sections.shift
+
+        section_placeholders = template.placeholders.to_a
+        header_section_placeholder = section_placeholders.shift
+          
+        if header_section && header_section_placeholder && header_section.section_type_id != header_section_placeholder.section_type_id
+          # header section: change type in situ
+          header_section.section_type_id = header_section_placeholder.section_type_id
+          # and a bit of housekeeping
+          header_section.position = 0
+          header_section.prefix = prefix unless header_section.prefix?
+          header_section.title = title unless header_section.title?
+          header_section.save
+          revised_sections.push(header_section)
+        end
+
+        # remaining sections: shuffle into new order, adding new sections where none of that type is available.
+        section_placeholders.each.with_index do |placeholder, i|
           section = sections.other_than(revised_sections).where(section_type_id: placeholder.section_type_id).first_or_create
-          section.update_column :position, i
-          if i == 0 && !section.title
-            section.update_column :title, title
-          end
+          section.update_attributes(position: i + 1)
           revised_sections << section
         end
 
@@ -314,16 +336,14 @@ module Chemistry
         # detach (but keep) leftovers
         leftover_sections.update_all(position: nil, detached: true)
 
-        # assign new sections
+        # assign new sections (which should give them position in their present order)
         self.sections = revised_sections + leftover_sections
       end
     end
 
     def reinit_sections_if_changed
-      init_sections if template && (sections.empty? || saved_change_to_template_id?)
+      init_sections if template && (sections.empty? || template_has_changed?)
     end
-
-    protected
 
     def update_owner
       if owner and owner.respond_to? :update_from_page

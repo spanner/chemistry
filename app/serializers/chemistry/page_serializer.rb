@@ -29,6 +29,8 @@ class Chemistry::PageSerializer
              :updated_at,
              :published_at,
              :deleted_at,
-             :empty
+             # and some signals for the UI
+             :empty,
+             :template_has_changed
 
 end

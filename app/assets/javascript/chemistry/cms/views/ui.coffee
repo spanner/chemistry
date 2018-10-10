@@ -11,7 +11,7 @@
 # Collection views receive query string parameters to support searching, pagination and sorting.
 #
 class Cms.Views.UI extends Cms.View  
-  template: "ui"
+  template: "ui/ui"
 
   regions:
     nav: "#cms-nav"

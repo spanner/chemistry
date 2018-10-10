@@ -22,6 +22,7 @@ class Cms.Models.Page extends Cms.Model
     @on 'change:rendered_html', @extractMetadata
     @on 'change:title', @setSlug
     @on 'change:collapsed', @storeDisplayState
+    @on 'change:template_has_changed', @reloadSectionsIfTemplateChanged
 
   published: () =>
     !@get('unpublished')
@@ -37,7 +38,7 @@ class Cms.Models.Page extends Cms.Model
     @_renderer ?= new Cms.Views.PageRenderer 
       model: @
     @_renderer.render()
-    @model.set 'rendered_html', @_renderer.getRenderedHtml()
+    @set 'rendered_html', @_renderer.getRenderedHtml()
 
   publishSucceeded: (response) =>
     attrs = @parse response
@@ -92,7 +93,6 @@ class Cms.Models.Page extends Cms.Model
       .replace(/^-+/, '')             # Trim - from start of text
       .replace(/-+$/, '')             # Trim - from end of text
       .trim()                         # Remove leading and trailing spaces
-
 
   extractMetadata: =>
     html = @get('rendered_html')
@@ -191,6 +191,12 @@ class Cms.Models.Page extends Cms.Model
     else
       collapses = _.without(collapses, page_id)
     localStorage.setItem 'collapsed_pages', _.compact(_.uniq(collapses)).join(',')
+
+  reloadSectionsIfTemplateChanged: =>
+    if @get('template_has_changed')
+      @sections.reload()
+      @unset 'template_has_changed', silent: true
+
 
 class Cms.Collections.Pages extends Cms.Collection
   model: Cms.Models.Page
