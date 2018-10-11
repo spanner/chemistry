@@ -1,1 +1,2 @@
-.cms-sections#editor
+#page
+  .cms-sections#editor

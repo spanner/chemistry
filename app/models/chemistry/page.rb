@@ -11,7 +11,7 @@ module Chemistry
     cattr_accessor :owner_anchors
 
     # page content
-    has_many :sections, -> {order(position: :asc)}, dependent: :destroy
+    has_many :sections, dependent: :destroy
 
     # tree-building is very lightweight here but we do need the association
     has_many :child_pages, class_name: 'Chemistry::Page', foreign_key: :parent_id
@@ -307,26 +307,29 @@ module Chemistry
 
         # populate in order dictated by template, reusing any existing sections of matching type
         existing_sections = sections.to_a
-        header_section = existing_sections.shift
-
         section_placeholders = template.placeholders.to_a
-        header_section_placeholder = section_placeholders.shift
-          
-        if header_section && header_section_placeholder && header_section.section_type_id != header_section_placeholder.section_type_id
-          # header section: change type in situ
-          header_section.section_type_id = header_section_placeholder.section_type_id
-          # and a bit of housekeeping
-          header_section.position = 0
-          header_section.prefix = prefix unless header_section.prefix?
-          header_section.title = title unless header_section.title?
-          header_section.save
+        pos_base = 1
+
+        # existing header section: change type in situ
+        if existing_sections.any? && section_placeholders.any?
+          header_section = existing_sections.shift
+          header_section_placeholder = section_placeholders.shift
+          if header_section.section_type_id != header_section_placeholder.section_type_id
+            header_section.section_type_id = header_section_placeholder.section_type_id
+            header_section.move_to_top
+            pos_base += 1
+          end
           revised_sections.push(header_section)
         end
 
-        # remaining sections: shuffle into new order, adding new sections where none of that type is available.
+        # everything else: shuffle into order, adding new sections where none of that type is available.
         section_placeholders.each.with_index do |placeholder, i|
           section = sections.other_than(revised_sections).where(section_type_id: placeholder.section_type_id).first_or_create
-          section.update_attributes(position: i + 1)
+          section.update_attributes({
+            detached: false,
+            position: i + pos_base
+          })
+          section.save
           revised_sections << section
         end
 
@@ -335,6 +338,13 @@ module Chemistry
 
         # detach (but keep) leftovers
         leftover_sections.update_all(position: nil, detached: true)
+
+        # and a bit of prep/housekeeping
+        if header_section = revised_sections.first
+          header_section.prefix = prefix unless header_section.prefix?
+          header_section.title = title unless header_section.title?
+          header_section.save if header_section.changed?
+        end
 
         # assign new sections (which should give them position in their present order)
         self.sections = revised_sections + leftover_sections

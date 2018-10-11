@@ -32,7 +32,7 @@ $ ->
   _.mixin(s.exports())
   document.execCommand('defaultParagraphSeparator', false, 'p')
 
-  $.fn.chemistry = (options={}) ->
+  $.fn.chemistry_site = (options={}) ->
     @each ->
       args = _.extend options,
         el: @
@@ -70,7 +70,7 @@ $ ->
       new Cms.PageBuilder(args).start()
 
 
-  $('#chemistry.site_editor').chemistry()
+  $('#chemistry.site_editor').chemistry_site()
   $('#chemistry.page_editor').chemistry_page()
   $('#chemistry.section_editor').chemistry_section()
   $('#chemistry.social_editor').chemistry_social()
