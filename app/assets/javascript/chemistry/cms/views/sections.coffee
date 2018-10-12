@@ -22,6 +22,7 @@ class Cms.Views.Section extends Cms.View
     editable_html: '[data-cms-editor="html"]'
     editable_string: '[data-cms-editor="string"]'
     contents_list: '[data-cms-role="contents"]'
+    socials_list: '[data-cms-role="socials"]'
 
   bindings:
     ":el":
@@ -113,7 +114,6 @@ class Cms.Views.Section extends Cms.View
         model: @model
         el: el
 
-
     # Background is not the usual contenteditable situation, but an asset view attached directly to the section.
     # We don't bind it, but instead let the EditableBackground manage the background_html attribute directly.
     @ui.editable_background.each (i, el) =>
@@ -129,6 +129,15 @@ class Cms.Views.Section extends Cms.View
       @addView new Cms.Views.ChildPages
         collection: @page.getChildren()
         el: el
+
+
+  # TODO: allow section template to have its own display structure, populate list of socials with editable or rendered form...
+  #
+  showSocials: =>
+    @model.socials.loadAnd =>
+      @showChildView 'socials', new Cms.Views.Socials
+        page: @model
+        collection: @model.socials
 
 
 class Cms.Views.SectionEditor extends Cms.Views.Section

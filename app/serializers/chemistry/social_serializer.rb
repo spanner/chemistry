@@ -6,7 +6,8 @@ class Chemistry::SocialSerializer
   set_type :social
 
   attributes :id,
-             :serial_id,
+             :page_id,
+             :position,
              :platform,
              :name,
              :url,

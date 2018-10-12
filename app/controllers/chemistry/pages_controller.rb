@@ -185,6 +185,7 @@ module Chemistry
         :date,
         :to_date,
         socials_data: [    # + nested socials data
+          :position,
           :platform,
           :name,
           :reference,
