@@ -1,0 +1,9 @@
+- link ||= nil
+- social_link ||= link
+- platform = social_link.platform
+
+%a{class: "social #{platform}", href: social_link.normalized_url}
+  %svg.icon
+    %use{"xlink:href" => "##{platform}_symbol"}
+  %span.label
+    = social_link.name.presence || social_link.url

@@ -178,12 +178,18 @@ module Chemistry
         :rendered_html,
         :image_id,
         :video_id,
-        :keywords,
-        :date,
-        :to_date,
         :nav,               # takes part in navigation?
         :nav_name,          # with this name
         :nav_position,      # in this position
+        :keywords,
+        :date,
+        :to_date,
+        socials_data: [    # + nested socials data
+          :platform,
+          :name,
+          :reference,
+          :url
+        ],
         sections_data: [    # + nested section data
           :id,
           :section_type_id,

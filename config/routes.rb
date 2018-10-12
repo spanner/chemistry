@@ -7,6 +7,7 @@ Chemistry::Engine.routes.draw do
   scope :api, defaults: { format: 'json' }, constraints: { format: 'json' } do
     resources :pages do
       resources :sections
+      resources :socials
       get :latest, on: :collection
       get :site, on: :collection
     end

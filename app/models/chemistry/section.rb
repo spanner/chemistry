@@ -6,6 +6,7 @@ module Chemistry
     acts_as_list scope: :page_id
 
     belongs_to :section_type
+
     validates :page, presence: true
     validates :section_type, presence: true
 
@@ -21,6 +22,12 @@ module Chemistry
 
     def section_type_slug
       section_type.slug if section_type
+    end
+
+    protected
+
+    def touch_page
+      page.touch
     end
 
   end

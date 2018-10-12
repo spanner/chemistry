@@ -1,0 +1,19 @@
+- fields ||= nil
+- serial ||= @serial || Serial.new
+- social_link ||= fields || serial.social_links.build
+- fields_counter ||= nil
+
+= fields_for :serial, serial do |af|
+  = af.fields_for :social_links, social_link, :child_index => fields_counter ? fields_counter : "field_counter" do |f|
+    .social_link
+      %fieldset.repeating{data: {role: "social"}}
+        %p.threecol
+          %span.col.first>
+            = f.select :social_link_type_id, SocialLinkType.select_options, {selected: social_link.social_link_type_id}, {data: {role: "social_link_type_id"}}
+          %span.col>
+            = f.text_field :name, data: {role: "name"}, :placeholder => t("placeholders.social_link.name")
+          %span.col.last>
+            = f.text_field :url, data: {role: "url"}, :placeholder => t("placeholders.social_link.url")
+            %a.remove{data: {action: "remove_fields", holder: ".social_link"}}
+              %svg.icon
+                %use{"xlink:href" => "#cross_button_symbol"}
