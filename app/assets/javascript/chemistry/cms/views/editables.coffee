@@ -5,7 +5,6 @@ class Cms.Views.EditableHelper extends Cms.View
   template: false
 
   initialise: =>
-    @log "init", @el
     @$el.attr('contenteditable', 'true')
     super
 
@@ -13,7 +12,6 @@ class Cms.Views.EditableHelper extends Cms.View
   # while we want to reach a 'rendered' state without replacing any DOM elements.
   #
   render: =>
-    @log "render", @el, @model
     @bindUIElements()
     @triggerMethod 'render'
 
@@ -22,7 +20,6 @@ class Cms.Views.EditableHtml extends Cms.Views.EditableHelper
 
   onRender: =>
     #TODO v2 will move contenteditable property down to the block level element, manage that list and observe its mutations.
-    @log "ready", @el
     @$el.find('figure.image').each (i, el) =>
       @addView new Cms.Views.Image
         el: el
@@ -40,14 +37,10 @@ class Cms.Views.EditableHtml extends Cms.Views.EditableHelper
         el: el
 
     toolbar = @$el.data('cms-toolbar') or ""
-    @log "toolbar", toolbar, @el
-
     if toolbar_class = Cms.Views[toolbar.charAt(0).toUpperCase() + toolbar.slice(1) + "Toolbar"]
       @_toolbar = new toolbar_class
         target: @$el
       @_toolbar.render()
-
-    @log "assets", toolbar, @$el.data('cms-assets')
 
     if @$el.data('cms-assets')
       @_inserter = new Cms.Views.AssetInserter
@@ -74,7 +67,6 @@ class Cms.Views.EditableBackground extends Cms.Views.EditableHelper
     bg: "figure.bg"
 
   onRender: =>
-    @log "onReady", @ui.bg.length
     if @ui.bg.length
       bg_el = @ui.bg.first()
     else
@@ -87,7 +79,6 @@ class Cms.Views.EditableBackground extends Cms.Views.EditableHelper
   # We assume that it is the `background_html` attribute we should update, and do that directly.
   #
   onUpdate: =>
-    @log "🚜 background onUpdate"
     @model.set "background_html", @withoutControls(@$el.html())
 
 

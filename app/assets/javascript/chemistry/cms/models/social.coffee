@@ -3,7 +3,6 @@
 #
 class Cms.Models.Social extends Cms.Model
   savedAttributes: ["id", "serial_id", "platform", "name", "url"]
-
   defaults:
     platform: "web"
 

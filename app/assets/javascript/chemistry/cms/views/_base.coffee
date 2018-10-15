@@ -13,7 +13,6 @@ class Cms.View extends Marionette.View
       @triggerMethod 'ready'
 
   addView: (view) =>
-    @log "🚜 addView", view
     @subviews.push view
     view.on "update", @onUpdate
     view.render()

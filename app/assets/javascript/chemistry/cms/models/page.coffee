@@ -1,6 +1,6 @@
 class Cms.Models.Page extends Cms.Model
   savedAttributes: ['template_id', 'parent_id', 'slug', 'title', 'slug', 'content', 'summary', 'external_url', 'document_id', 'keywords', 'home', 'nav', 'nav_name', 'nav_position', 'date', 'to_date', 'rendered_html', 'image_id']
-  savedAssociations: ['sections']
+  savedAssociations: ['sections', 'socials']
 
   defaults:
     nav: false
@@ -13,7 +13,7 @@ class Cms.Models.Page extends Cms.Model
   build: =>
     @belongsTo 'template'
     @belongsTo 'parent'
-
+    @hasMany 'socials'
     @hasMany 'sections'
     @sections.on 'add remove reset change:primary_html change:secondary_html', @checkPopulatedness              # don't set on load: is passed down
 
@@ -59,7 +59,6 @@ class Cms.Models.Page extends Cms.Model
   checkPopulatedness: =>
     populated = @sections.some (s) =>
       s.get("primary_html") or s.get("secondary_html")
-    @log "checkPopulatedness", populated
     @set 'empty', !populated
 
   revert: =>

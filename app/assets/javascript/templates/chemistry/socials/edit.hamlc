@@ -1,0 +1,11 @@
+%span.prompt
+  %svg.icon
+    %use.platform{"xlink:href" => "#social_symbol"}
+  %span.name{contenteditable: true}
+  %span.social_buttons
+    %a.remove
+      %svg.icon
+        %use{"xlink:href" => "#cross_symbol"}
+    %a.add
+      %svg.icon
+        %use{"xlink:href" => "#plus_symbol"}

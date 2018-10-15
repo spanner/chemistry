@@ -60,7 +60,10 @@ class Cms.Model extends Backbone.Model
   # The loaded promise is resolved when we are fetched either individually or in a collection.
   #
   urlRoot: () =>
-    [_cms.config('api_url'), @pluralName()].join('/')
+    if @collection
+      @collection.url()
+    else
+      [_cms.config('api_url'), @pluralName()].join('/')
 
   prepareLoader: =>
     @_loader?.cancel()
@@ -117,6 +120,7 @@ class Cms.Model extends Backbone.Model
   # Here we override save to wrap a promise around it and attach callbacks.
   # In application.js we also override sync to add progress handlers.
   #
+
   prepareSaver: =>
     @_saved = $.Deferred()
     @_saved.resolve() unless @isNew()
@@ -584,7 +588,10 @@ class Cms.Collection extends Backbone.Collection
     @_loading = false
 
   url: =>
-    @baseUrl() + "?" + @urlParams()
+    base = @baseUrl()
+    if params = @urlParams()
+      base += "?" + params
+    base
 
   baseUrl: () =>
     if @_nested

@@ -6,11 +6,11 @@ module Chemistry
     def index
       return_socials
     end
-  
+
     def show
       return_social
     end
-  
+
     def create
       if @social.update_attributes(social_params)
         return_social
@@ -51,7 +51,7 @@ module Chemistry
     protected
 
     def social_params
-      params.permit(
+      params.require(:social).permit(
         :page_id,
         :position,
         :platform,

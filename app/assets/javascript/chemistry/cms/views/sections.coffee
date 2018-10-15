@@ -24,6 +24,9 @@ class Cms.Views.Section extends Cms.View
     contents_list: '[data-cms-role="contents"]'
     socials_list: '[data-cms-role="socials"]'
 
+  events:
+    "click a.popup": "popMeUp"
+
   bindings:
     ":el":
       class:
@@ -76,8 +79,10 @@ class Cms.Views.Section extends Cms.View
     @log "after sticking it", @$el.find('[data-cms-role="title"]').text()
     # wrap editors around embedded assets
     @addEditors()
-    # mock up a contents list if relevant.
+    # mock up a contents list if holder found on section template
     @showContents()
+    # show socials-list editor if holder found on section template
+    @showSocials()
 
   sectionId: (id) ->
     @log "sectionId", id
@@ -130,14 +135,29 @@ class Cms.Views.Section extends Cms.View
         collection: @page.getChildren()
         el: el
 
-
-  # TODO: allow section template to have its own display structure, populate list of socials with editable or rendered form...
-  #
   showSocials: =>
-    @model.socials.loadAnd =>
-      @showChildView 'socials', new Cms.Views.Socials
-        page: @model
-        collection: @model.socials
+    if @ui.socials_list.length
+      for platform in ['twitter', 'facebook', 'instagram']
+        listView = new Cms.Views.SocialsManager
+          collection: @page.socials
+          platform: platform
+        @ui.socials_list.append listView.el
+        listView.render()
+
+
+  #TODO: This is way out of place and needs to be made general or binned, but it is convenient here.
+  # called on click a.popup
+  #
+  popMeUp: (e) =>
+    e?.preventDefault()
+    if target = e?.target
+      $link = $(target)
+      $popup = $link.siblings('.popup')
+      $popup.addClass('up')
+      $link.addClass('up')
+      $popup.find('a.close').click =>
+        $popup.removeClass('up')
+        $link.removeClass('up')
 
 
 class Cms.Views.SectionEditor extends Cms.Views.Section

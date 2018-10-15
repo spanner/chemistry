@@ -1,7 +1,7 @@
 require 'mustache'
 
 module Chemistry
-  class Page < ApplicationRecord
+  class Page < Chemistry::ApplicationRecord
     acts_as_paranoid
 
     belongs_to :template, optional: true
@@ -12,6 +12,11 @@ module Chemistry
 
     # page content
     has_many :sections, dependent: :destroy
+    accepts_collected_attributes_for :sections
+
+    # page links list
+    has_many :socials, dependent: :destroy, class_name: 'Chemistry::Social'
+    accepts_collected_attributes_for :socials
 
     # tree-building is very lightweight here but we do need the association
     has_many :child_pages, class_name: 'Chemistry::Page', foreign_key: :parent_id
@@ -58,43 +63,6 @@ module Chemistry
 
     def empty
       !populated?
-    end
-
-    ## Sections
-    #
-    # It's not pretty, but it's a lot nicer than accepts_nested_attributes_for.
-    #
-    def sections_data=(section_data=nil)
-      if section_data
-        old_section_ids = sections.map(&:id)
-        new_section_ids = []
-        updated_section_ids = []
-        section_data.each do |data|
-          section_id = data.delete(:id)
-          if section_id
-            if section = sections.find(section_id)
-              section.update_attributes(data)
-              new_section_ids.push section_id
-            else
-              # raise not found
-            end
-          elsif !data[:deleted_at]
-            if new_section = sections.create(data)
-              new_section_ids.push new_section.id
-            else
-              # raise not valid
-            end
-          end
-        end
-        deleted_section_ids = old_section_ids - new_section_ids
-        deleted_section_ids.each do |did|
-          sections.find(did).destroy
-        end
-        sections.reload
-      else
-        # so, delete them all?
-      end
-      self.touch
     end
 
 
