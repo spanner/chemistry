@@ -1,0 +1,4 @@
+%a.social
+  %svg.icon
+    %use.platform{"xlink:href" => "#social_symbol"}
+  %span.name

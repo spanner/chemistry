@@ -33,4 +33,7 @@ class Chemistry::PageSerializer
              :empty,
              :template_has_changed
 
+  # todo: parse properly in UI
+  # has_many :sections
+  # has_many :socials
 end

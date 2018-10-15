@@ -139,6 +139,7 @@ class Cms.Model extends Backbone.Model
     @_saved.resolve(data)
     @confirmSave()
     @resetChanges()
+    @reloadAssociations()
 
   confirmSave: =>
     @confirm t('reassurances.saved')
@@ -360,6 +361,9 @@ class Cms.Model extends Backbone.Model
   significantChangedAssociations: () =>
     _.filter @savedAssociations, (k) => @[k].hasAnyChanges()
 
+  # TODO unpack jasonapi properly, then serialise associations. 
+  reloadAssociations: =>
+    _.each @savedAssociations, (k) => @[k].debouncedReload()
 
   ## Validation
   #

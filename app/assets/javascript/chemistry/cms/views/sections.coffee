@@ -197,6 +197,11 @@ class Cms.Views.SectionRenderer extends Cms.Views.Section
   onRender: =>
     @stickit()
     @ui.contents_list.attr('data-page', @page.get('path'))
+    if @ui.socials_list.length
+      listView = new Cms.Views.SocialsList
+        collection: @page.socials
+      @ui.socials_list.append listView.el
+      listView.render()
 
 
 class Cms.Views.NoSection extends Cms.View

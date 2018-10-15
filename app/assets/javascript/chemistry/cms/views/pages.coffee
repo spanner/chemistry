@@ -24,10 +24,13 @@ class Cms.Views.Page extends Cms.View
         name: "id"
         observe: "id"
         onGet: "pageId"
+      ,
+        name: "data-page-id"
+        observe: "id"
+        onGet: "pageId"
       ]
 
   onReady: =>
-    window.p = @model
     @model.sections.loadAnd =>
       @showChildView 'sections', new Cms.Views.Sections
         page: @model
@@ -49,12 +52,13 @@ class Cms.Views.PageRenderer extends Cms.Views.Page
 
   onReady: =>
     @model.sections.loadAnd =>
-      @showChildView 'sections', new Cms.Views.RenderedSections
+      @_section_stack = new Cms.Views.RenderedSections
         page: @model
         collection: @model.sections
+      @showChildView 'sections', @_section_stack
 
   getRenderedHtml: =>
-    @ui.sections.html()
+    @_section_stack.$el.html()
 
 
 # Main page list

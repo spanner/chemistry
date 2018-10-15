@@ -73,6 +73,32 @@ class Cms.Views.Social extends Cms.View
       platform: @_platform
 
 
+class Cms.Views.SocialLink extends Cms.Views.Social
+  template: 'socials/link'
+  tagName: "li"
+
+  bindings:
+    "a":
+      attributes: [
+        name: "class",
+        observe: "platform"
+      ,
+        name: "href"
+        observe: "normalized_url"
+      ]
+    "use.platform":
+      attributes: [
+        name: "xlink:href"
+        observe: "platform"
+        onGet: "platformSymbol"
+      ]
+    "span.name":
+      observe: "url"
+
+  onRender: =>
+    @stickit()
+
+
 class Cms.Views.AddSocial extends Cms.Views.Social
   template: 'socials/add'
   tagName: "li"
@@ -96,7 +122,8 @@ class Cms.Views.AddSocial extends Cms.Views.Social
 class Cms.Views.SocialsManager extends Cms.CollectionView
   childView: Cms.Views.Social
   emptyView: Cms.Views.AddSocial
-  tagName: "span"
+  tagName: "ul"
+  className: "socials"
 
   initialize: (opts={}) ->
     super
@@ -111,3 +138,11 @@ class Cms.Views.SocialsManager extends Cms.CollectionView
     platform: @_platform
     collection: @collection
 
+
+class Cms.Views.SocialsList extends Cms.CollectionView
+  childView: Cms.Views.SocialLink
+  tagName: "ul"
+  className: "links"
+
+  viewFilter: (child) =>
+    child.model.get('id') and child.model.get('url')
