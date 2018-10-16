@@ -72,6 +72,7 @@ class Cms.Views.PageBuilderView extends Cms.ItemView
 class Cms.Views.PageBuilderTitle extends Cms.Views.PageBuilderView
   sectionEditor: "SectionTitle"
   nextStep: "asset"
+  sectionTitle: "1. Edit page title"
 
 
 class Cms.Views.PageBuilderAsset extends Cms.Views.PageBuilderView

@@ -1,6 +1,3 @@
-%h2.step
-  = t('headings.builder.title')
-
 .editing
   %input.title{type: "text", placeholder: t('placeholders.builder.title'), autofocus: true}
 
