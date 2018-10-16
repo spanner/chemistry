@@ -126,14 +126,33 @@ class Cms.Views.Confirmation extends Cms.View
 
   onRender: () =>
     @log "render", @el, @link
-    position = @link.offset()
     @$el.appendTo(_cms.el)
-    @$el.css
-      left: position.left + @link.width()
-      top: position.top
+    @place()
     @ui.message.text(@message) if @message
     @stickit()
     @$el.fadeIn('fast')
+
+  place: =>
+    w = @$el.width()
+    ww = $(window).width()
+    lw = @link.width()
+    h = @$el.height()
+    ww = $(window).width()
+    lh = @link.height()
+    offset = @link.offset()
+
+    # if dialog would extend offscreen, swap to touch @link at the other corner
+    l = offset.left + lw - 20
+    t = offset.top + 10 - h
+    if l + w > ww
+      l = offset.left - w - 10
+    if t - h < 0
+      t = offset.top + lh - 10
+
+    @log "placing on", @link, 'at', l, t, lw, lh
+    @$el.css
+      left: l
+      top: t
 
   cancel: (e) =>
     e.preventDefault() if e

@@ -177,7 +177,6 @@ class Cms.Views.PageBuilderEditor extends Cms.View
     "click a.back": "goBack"
 
   onRender: =>
-    window.bv = @
     @model.sections.loadAnd =>
       @model.socials.loadAnd =>
         @ui.editor.addClass @model.get('template_slug')
@@ -192,7 +191,7 @@ class Cms.Views.PageBuilderEditor extends Cms.View
 
 
 ## Builder edit views
-#  usually choose a section attribute to bind, but may load another editor instead.
+#  usually choose one section attribute to bind, but may delegate to another editor instead.
 #
 class Cms.Views.PageBuilderSubView extends Cms.ItemView
   tagName: "div"

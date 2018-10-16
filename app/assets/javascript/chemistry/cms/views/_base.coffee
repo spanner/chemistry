@@ -261,9 +261,13 @@ class Cms.View extends Marionette.View
   withoutControls: (html) =>
     @_cleaner ?= $('<div />')
     @_cleaner.html(html)
-    @_cleaner.find('[data-cms]').remove()
     @_cleaner.find('[contenteditable]').removeAttr('contenteditable')
+    @_cleaner.find('[data-cms]').remove()
     @_cleaner.find('[data-placeholder]').removeAttr('data-placeholder')
+    @_cleaner.find('[data-cms-role]').removeAttr('data-cms-role')
+    @_cleaner.find('[data-cms-editor]').removeAttr('data-cms-editor')
+    @_cleaner.find('[data-asset-id]').removeAttr('data-asset-id')
+    @_cleaner.find('[data-asset-type]').removeAttr('data-asset-type')
     @_cleaner.html()
 
   withoutHTML: (html) =>

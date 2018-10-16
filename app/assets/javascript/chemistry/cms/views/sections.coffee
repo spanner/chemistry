@@ -178,9 +178,11 @@ class Cms.Views.SectionRenderer extends Cms.Views.Section
     '[data-cms-role="prefix"]':
       observe: "prefix"
       updateMethod: "html"
+      onSet: "withoutHTML"
     '[data-cms-role="title"]':
       observe: "title"
       updateMethod: "html"
+      onSet: "withoutHTML"
     '[data-cms-role="primary"]':
       observe: "primary_html"
       updateMethod: "html"

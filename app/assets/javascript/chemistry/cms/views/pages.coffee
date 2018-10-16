@@ -58,7 +58,7 @@ class Cms.Views.PageRenderer extends Cms.Views.Page
       @showChildView 'sections', @_section_stack
 
   getRenderedHtml: =>
-    @_section_stack.$el.html()
+    @withoutControls @_section_stack.$el.html()
 
 
 # Main page list
