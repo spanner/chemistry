@@ -126,8 +126,16 @@ class Cms.Views.PageBuilderPreview extends Cms.View
     "click a.publish": "publish"
     "click a.back": "goBack"
 
+  bindings:
+    ".previewed":
+      observe: "outofdate"
+      visible: true
+    ".published":
+      observe: "outofdate"
+      visible: "untrue"
+
   onRender: =>
-    window.bv = @
+    @stickit()
     @model.sections.loadAnd =>
       @model.socials.loadAnd =>
         @ui.preview.addClass @model.get('template_slug')
@@ -142,14 +150,45 @@ class Cms.Views.PageBuilderPreview extends Cms.View
 
   publish: (e) =>
     e?.preventDefault()
+    @ui.publish.addClass('waiting')
     @model.publish().done @confirm
 
   confirm: =>
     @ui.goto.attr('href', "/" + @model.get('path'))
-    @ui.publish.hide()
+    @ui.publish.removeClass('waiting').hide()
     @ui.confirmation.slideDown()
 
 
+class Cms.Views.PageBuilderEditor extends Cms.View
+  template: "builder/editor"
+  className: "builder"
+
+  regions:
+    buttons: ".buttons"
+    editor:
+      el: "#editor"
+      regionClass: Cms.FadingRegion
+
+  ui:
+    editor: "#editor"
+    buttons: ".buttons"
+
+  events:
+    "click a.back": "goBack"
+
+  onRender: =>
+    window.bv = @
+    @model.sections.loadAnd =>
+      @model.socials.loadAnd =>
+        @ui.editor.addClass @model.get('template_slug')
+        @showChildView 'editor', new Cms.Views.PageEditor
+          model: @model
+        @showChildView 'buttons', new Cms.Views.MiniSaver
+          model: @model
+
+  goBack: (e) =>
+    e?.preventDefault()
+    _cms.navigate ""
 
 
 ## Builder edit views

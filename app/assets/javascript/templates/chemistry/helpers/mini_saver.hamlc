@@ -18,12 +18,6 @@
       %span.label
         = t("buttons.publish")
   %li
-    %a.config.available{title: t("tooltips.config")}
-      %svg.icon
-        %use{"xlink:href" => "#config_button_symbol"}
-      %span.label
-        = t("buttons.config")
-  %li
     %a.review{target: "_published", title: t("tooltips.review")}
       %svg.icon
         %use{"xlink:href" => "#show_button_symbol"}

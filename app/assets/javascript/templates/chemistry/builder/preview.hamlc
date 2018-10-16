@@ -1,15 +1,19 @@
 #preview
 
 #controls
-  %p
-    Your page is previewed here.
-    If you are happy with it, press
+  .published
+    %h2
+      Your page has been published.
 
-  %a.publish
-    %span.label
-      = t('buttons.builder.publish')
-    %svg.suffix
-      %use{"xlink:href" => "#forward_symbol"}
+  .previewed
+    %p
+      Your page is previewed here.
+      If you are happy with it, press
+    %a.publish
+      %span.label
+        = t('buttons.builder.publish')
+      %svg.suffix
+        %use{"xlink:href" => "#forward_symbol"}
 
   .confirmation
     %a.page{target: "_published"}
@@ -31,3 +35,8 @@
 
     %a.back{href: "social"}
       = t('buttons.builder.socials') + '.'
+
+  %p
+    If you are confident with HTML you can also work more directly in the
+    %a.back{href: "editor"}
+      full page editor.

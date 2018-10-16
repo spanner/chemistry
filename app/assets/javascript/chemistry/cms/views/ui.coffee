@@ -188,7 +188,7 @@ class Cms.Views.PageBuilderUI extends Cms.Views.UI
       @model = _cms.pages.get(page_id) or new Cms.Models.Page({id: page_id})
 
   stepView: (step) =>
-    step ?= 'title'
+    step ?= @defaultStep()
     step_name = step[0].toUpperCase() + step.slice(1)
     if step_view_class = Cms.Views["PageBuilder#{step_name}"]
       @model.loadAnd =>
@@ -197,6 +197,12 @@ class Cms.Views.PageBuilderUI extends Cms.Views.UI
           title: @$el.data('cms-title')
           backto: @$el.data('cms-backto')
         @showChildView 'main', step_view
+
+  defaultStep: () =>
+    if @model.published()
+      'preview'
+    else
+      'title'
 
 
 class Cms.Views.OnePageUI extends Cms.Views.UI

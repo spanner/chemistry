@@ -13,6 +13,7 @@
       width: 48px
       height: 48px
 
+  #edit
   #preview
 
   #controls
@@ -26,6 +27,8 @@
     box-shadow: 0 1px 6px rgba(0,0,0,0.6)
     border-radius: 6px
     padding: 10px
+    ul.control_buttons
+      font-size: 1rem
     .confirmation
       display: none
       margin: 1em
@@ -33,34 +36,42 @@
       a
         color: $green
         +hover
+    h2
+      margin-top: 0
     p
-      margin: 0
+      margin-top: 0
       clear: both
+      &:last-child
+        margin-bottom: 0
     a.back
       color: $pale
-    a.publish
-      padding: 10px 0 10px 10px
-      float: right
-      color: $link
-      font-size: 1.5rem
-      cursor: pointer
-      position: relative
-      &:hover
-        color: $hover
-      &.waiting
-        color: $pale
-        pointer-events: none
-        &:before
-          content: ""
-          background:
-            position: center center
-            size: cover
-            repeat: no-repeat
-            image: image_url('chemistry/spinner.svg')
-          width: 30px
-          height: 30px
-          float: left
-          margin: 6px 8px 0 -36px
+    .previewed
+      a.save, a.publish
+        padding: 10px 0 10px 10px
+        float: right
+        font-size: 1.5rem
+        cursor: pointer
+        position: relative
+        &:hover
+          color: $hover
+        &.waiting
+          color: $pale
+          pointer-events: none
+          &:before
+            content: ""
+            background:
+              position: center center
+              size: cover
+              repeat: no-repeat
+              image: image_url('chemistry/spinner.svg')
+            width: 30px
+            height: 30px
+            float: left
+            margin: 6px 8px 0 -36px
+      a.save
+        color: $blue
+      a.publish
+        color: $purple
 
   #builder
     width: 86%

@@ -147,33 +147,6 @@ header#cms-nav
     width: 30vw
     &:empty
       display: none
-    ul.buttons
-      list-style: none
-      font-size: 1.5rem
-      li
-        margin: 0.5em 0
-    a
-      transition: color 0.25s ease-out
-      cursor: pointer
-      svg
-        width: 32px
-        height: 32px
-      &:hover
-        opacity: 1
-      &.save
-        color: $green
-      &.revert
-        color: $red
-      &.publish
-        color: $purple
-      &.review
-        color: $blue
-      &.config
-        color: $orange
-      &.unavailable
-        cursor: text
-        pointer-events: none
-        color: $pale
 
   #queue
     position: absolute
@@ -193,6 +166,33 @@ header#cms-nav
     &.up
       pointer-events: auto
 
+ul.control_buttons
+  list-style: none
+  font-size: 1.5rem
+  li
+    margin: 0.5em 0
+a
+  transition: color 0.25s ease-out
+  cursor: pointer
+  svg
+    width: 32px
+    height: 32px
+  &:hover
+    opacity: 1
+  &.save
+    color: $green
+  &.revert
+    color: $red
+  &.publish
+    color: $purple
+  &.review
+    color: $blue
+  &.config
+    color: $orange
+  &.unavailable
+    cursor: text
+    pointer-events: none
+    color: $pale
 
 @media (max-width: 750px)
   header#cms-nav

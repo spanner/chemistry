@@ -5,6 +5,7 @@
       "asset": "main image",
       "back": "Back",
       "body": "body text",
+      "builder": "Return to the page builder",
       "continue": "Continue",
       "socials": "social links",
       "title": "page title",
@@ -232,11 +233,17 @@
     "by_name": "Name"
   },
   "tooltips": {
+    "insert_document": "Refer to a document here",
     "insert_something": "Place something here",
     "insert_image": "Place an image",
     "insert_video": "Place a video",
     "insert_quote": "Place a quote",
-    "insert_note": "Place an annotation"
+    "insert_note": "Place an annotation",
+    "save": "Click to save changes",
+    "revert": "Click to revert to last saved version",
+    "publish": "Click to publish this version",
+    "config": "Click to change page settings",
+    "review": "Click to see the currently published page in another tab"
   },
   "videos": {
     "upload": "Upload new video",

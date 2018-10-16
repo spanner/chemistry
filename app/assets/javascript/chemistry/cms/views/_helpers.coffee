@@ -56,6 +56,10 @@ class Cms.Views.Saver extends Cms.View
     _cms.ui.floatView config_page_view
 
 
+class Cms.Views.MiniSaver extends Cms.Views.Saver
+  template: 'helpers/mini_saver'
+
+
 class Cms.Views.Shortcuts extends Cms.View
   template: 'helpers/shortcuts'
 
