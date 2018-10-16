@@ -13,39 +13,91 @@
       width: 48px
       height: 48px
 
-#builder
-  width: 86%
-  margin: 4em auto
-  box-sizing: border-box
-  padding-top: 8vh
-  div.section
-    position: relative
-    width: 60%
-    margin: 4em 20%
-    display: inline-block
-    overflow: hidden
-    float: left
-    h2.step
-      margin: 1em 0
-    .editing
-      input[type="text"]
-        display: block
-        -webkit-appearance: none
-        background-color: none
-        border: none
-        outline: none
-        border-bottom: 1px solid $pale
-        padding: 10px 0
-        font-size: 2rem
-        color: $dark
-        width: 100%
-        margin: 5em 0 1em 0
-      .body
-        background-color: $coolgrey00
-        padding: 0.25em
-        min-height: 10em
-    a.back, a.continue
+  #preview
+
+  #controls
+    position: fixed
+    top: 80px
+    right: 30px
+    width: 300px
+    height: auto
+    +clearfix
+    background-color: rgba(255,255,255,0.95)
+    box-shadow: 0 1px 6px rgba(0,0,0,0.6)
+    border-radius: 6px
+    padding: 10px
+    .confirmation
+      display: none
+      margin: 1em
+      font-size: 1.5rem
+      a
+        color: $green
+        +hover
+    p
+      margin: 0
+      clear: both
+    a.back
+      color: $pale
+    a.publish
+      padding: 10px 0 10px 10px
+      float: right
+      color: $link
+      font-size: 1.5rem
+      cursor: pointer
+      position: relative
+      &:hover
+        color: $hover
+      &.waiting
+        color: $pale
+        pointer-events: none
+        &:before
+          content: ""
+          background:
+            position: center center
+            size: cover
+            repeat: no-repeat
+            image: image_url('chemistry/spinner.svg')
+          width: 30px
+          height: 30px
+          float: left
+          margin: 6px 8px 0 -36px
+
+  #builder
+    width: 86%
+    margin: 4em auto
+    box-sizing: border-box
+    padding-top: 8vh
+    div.section
+      position: relative
+      width: 60%
+      margin: 4em 20%
+      display: inline-block
+      overflow: hidden
+      float: left
+      h2.step
+        margin: 1em 0
+      .editing
+        input[type="text"]
+          display: block
+          -webkit-appearance: none
+          background-color: none
+          border: none
+          outline: none
+          border-bottom: 1px solid $pale
+          padding: 10px 0
+          font-size: 2rem
+          color: $dark
+          width: 100%
+          margin: 5em 0 1em 0
+        .body
+          background-color: $coolgrey00
+          padding: 0.25em
+          min-height: 10em
+
+  #builder
+    a.back, a.continue, a.publish
       -webkit-appearance: none
+      display: block
       background-color: none
       border: none
       font-size: 1.25rem
@@ -53,15 +105,18 @@
     a.back
       padding: 10px 10px 10px 0
       float: left
+      clear: left
       color: $pale
       &:hover
         color: $hover
-    a.continue
+    a.continue, a.publish
       padding: 10px 0 10px 10px
       float: right
       color: $link
       &:hover
         color: $hover
+    a.publish
+      color: $hover
     div.notes
       clear: both
       padding-top: 2em
@@ -78,3 +133,4 @@
         clear: both
         padding: 2em 0
         color: $mid
+

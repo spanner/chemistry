@@ -47,37 +47,45 @@ class Cms.Views.PageBuilderView extends Cms.ItemView
       @editor = new editor_class
         model: @edited_model
       @showChildView 'builder', @editor
+      @editor?.on "publish", @publishAndFinish
       @editor?.on "continue", @saveAndMoveOn
       @editor?.on "goback", @saveAndGoBack
 
-  saveAndGoBack: =>
+  saveAndGoBack: (view, e) =>
+    prev_step = e?.target.getAttribute('href') or _.result(@, 'previousStep')
     @model.save().done =>
-      if prev_step = _.result @, 'previousStep'
+      if prev_step
         _cms.navigate prev_step
       else
         window.location.href = @_backto
 
-  saveAndMoveOn: =>
+  saveAndMoveOn: (view, e) =>
+    next_step = e?.target.getAttribute('href') or _.result(@, 'nextStep')
     @model.save().done =>
-      if next_step = _.result @, 'nextStep'
+      if next_step
         _cms.navigate next_step
       else
         window.location.href = @_backto
 
+  publishAndFinish: (e) =>
+    @model.publish().done =>
+      @log "OK THEN"
 
+
+## Builder steps
+#  each declare a step title and edit view.
+#
 class Cms.Views.PageBuilderTitle extends Cms.Views.PageBuilderView
   sectionEditor: "SectionTitle"
   nextStep: "asset"
-  sectionTitle: =>
-    t('headings.builder.title')
+  sectionTitle: => 'headings.builder.title'
 
 
 class Cms.Views.PageBuilderAsset extends Cms.Views.PageBuilderView
   sectionEditor: "SectionAsset"
   previousStep: "title"
   nextStep: "body"
-  sectionTitle: =>
-    t('headings.builder.asset')
+  sectionTitle: 'headings.builder.asset'
 
 
 class Cms.Views.PageBuilderBody extends Cms.Views.PageBuilderView
@@ -85,35 +93,68 @@ class Cms.Views.PageBuilderBody extends Cms.Views.PageBuilderView
   sectionType: "standard"
   previousStep: "asset"
   nextStep: "social"
-  sectionTitle: =>
-    t('headings.builder.body')
+  sectionTitle: 'headings.builder.body'
 
 
 class Cms.Views.PageBuilderSocial extends Cms.Views.PageBuilderView
   sectionEditor: "PageSocials"
   previousStep: "body"
   nextStep: "preview"
-  sectionEditor: "PageSocials"
 
-  sectionTitle: =>
-    t('headings.builder.social')
+  sectionTitle: 'headings.builder.social'
 
   chooseModel: =>
     @edited_model = @model
 
 
-class Cms.Views.PageBuilderPreview extends Cms.Views.PageBuilderView
-  sectionEditor: "PagePreview"
-  previousStep: "social"
-  sectionEditor: "PageSocials"
+class Cms.Views.PageBuilderPreview extends Cms.View
+  template: "builder/preview"
+  className: "builder"
 
-  sectionTitle: =>
-    t('headings.builder.preview')
+  regions:
+    preview:
+      el: "#preview"
+      regionClass: Cms.FadingRegion
 
-  chooseModel: =>
-    @edited_model = @model
+  ui:
+    preview: "#preview"
+    publish: "a.publish"
+    confirmation: ".confirmation"
+    goto: "a.page"
+
+  events:
+    "click a.publish": "publish"
+    "click a.back": "goBack"
+
+  onRender: =>
+    window.bv = @
+    @model.sections.loadAnd =>
+      @model.socials.loadAnd =>
+        @ui.preview.addClass @model.get('template_slug')
+        @preview = new Cms.Views.PageRenderer
+          model: @model
+        @showChildView 'preview', @preview
+
+  goBack: (e) =>
+    e?.preventDefault()
+    if next_step = e?.target.getAttribute('href')
+      _cms.navigate next_step
+
+  publish: (e) =>
+    e?.preventDefault()
+    @model.publish().done @confirm
+
+  confirm: =>
+    @ui.goto.attr('href', "/" + @model.get('path'))
+    @ui.publish.hide()
+    @ui.confirmation.slideDown()
 
 
+
+
+## Builder edit views
+#  usually choose a section attribute to bind, but may load another editor instead.
+#
 class Cms.Views.PageBuilderSubView extends Cms.ItemView
   tagName: "div"
   className: "section"
@@ -122,6 +163,7 @@ class Cms.Views.PageBuilderSubView extends Cms.ItemView
     holder: ".editing"
 
   triggers:
+    "click a.publish": "publish"
     "click a.continue": "continue"
     "click a.back": "goback"
 
@@ -174,4 +216,5 @@ class Cms.Views.PageSocials extends Cms.Views.PageBuilderSubView
     @addView new Cms.Views.SocialsManager
       model: @model
       el: @ui.socials
+
 

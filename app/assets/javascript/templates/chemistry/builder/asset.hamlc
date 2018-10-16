@@ -1,8 +1,8 @@
 .editing
 
-%a.continue
+%a.continue{href: "body"}
   %span.label
-    = t('buttons.continue')
+    = t('buttons.builder.continue')
   %svg.suffix
     %use{"xlink:href" => "#forward_symbol"}
 
@@ -10,7 +10,7 @@
   %svg.prefix
     %use{"xlink:href" => "#backward_symbol"}
   %span.label
-    = t('buttons.back')
+    = t('buttons.builder.back')
 
 .notes
   %ul.key

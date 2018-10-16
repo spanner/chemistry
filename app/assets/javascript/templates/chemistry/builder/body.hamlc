@@ -1,9 +1,9 @@
 .editing
   .body{contenteditable: true, data: {placeholder: t('placeholders.builder.body'), cms_toolbar: "blocks", cms_assets: "true"}}
 
-%a.continue
+%a.continue{href: "socials"}
   %span.label
-    = t('buttons.continue')
+    = t('buttons.builder.continue')
   %svg.suffix
     %use{"xlink:href" => "#forward_symbol"}
 
@@ -11,7 +11,7 @@
   %svg.prefix
     %use{"xlink:href" => "#backward_symbol"}
   %span.label
-    = t('buttons.back')
+    = t('buttons.builder.back')
 
 .notes
   %p.notes

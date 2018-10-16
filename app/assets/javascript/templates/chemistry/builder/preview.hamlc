@@ -1,20 +1,33 @@
-.editing
-  .socialist
+#preview
 
+#controls
+  %p
+    Your page is previewed here.
+    If you are happy with it, press
 
-%a.continue
-  %span.label
-    = t('buttons.continue')
-  %svg.suffix
-    %use{"xlink:href" => "#forward_symbol"}
+  %a.publish
+    %span.label
+      = t('buttons.builder.publish')
+    %svg.suffix
+      %use{"xlink:href" => "#forward_symbol"}
 
-%a.back{href: "asset"}
-  %svg.prefix
-    %use{"xlink:href" => "#backward_symbol"}
-  %span.label
-    = t('buttons.back')
+  .confirmation
+    %a.page{target: "_published"}
+      Thank you. Your page has been published. Click here to see the real thing.
 
-.notes
-  %p.notes
-    = t('notes.builder.socials')
+  %p
+    If you would like to make any changes you can go back to
 
+    %a.back{href: "title"}
+      = t('buttons.builder.title') + ','
+
+    %a.back{href: "asset"}
+      = t('buttons.builder.asset') + ','
+
+    %a.back{href: "body"}
+      = t('buttons.builder.body')
+
+    or
+
+    %a.back{href: "social"}
+      = t('buttons.builder.socials') + '.'

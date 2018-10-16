@@ -1,10 +1,17 @@
 {
   "and": "and",
   "buttons": {
-    "back": "Back",
+    "builder": {
+      "asset": "main image",
+      "back": "Back",
+      "body": "body text",
+      "continue": "Continue",
+      "socials": "social links",
+      "title": "page title",
+      "publish": "Publish"
+    },
     "cancel": "Cancel",
     "create_page": "Create and edit page",
-    "continue": "Continue",
     "delete": "Delete",
     "import": "Import",
     "no_not_really": "No, not really",
@@ -112,6 +119,7 @@
     "builder": {
       "asset": "You can add more images and video to the body of your page, which is coming up next. Everything that you upload remains available for reuse.",
       "body": "All you need to get started here is a friendly and interesting paragraph of text. Once you can add more, please do, and use the plus button to add images, video, quotes and anything else you would like to show people. It's your page.",
+      "preview": "Your page is shown above as it will appear in different devices. If you are happy with it, press 'publish' to finish and move on. If not, press one of the 'edit' links to go back and make changes.",
       "socials": "Social links are optional but a very good idea. The procession is a great way to build engagement, and the Show app will make sure your social media links are in front of people as you go by. Click on any of the lines above to add a link, then if you like you can click the plus button to add another of that type.",
       "title": "This text is used in lists and links as well as at the head of the page."
     },

@@ -1,14 +1,14 @@
 .editing
   %input.title{type: "text", placeholder: t('placeholders.builder.title'), autofocus: true}
 
-%a.back{href: "title"}
+%a.back
   %svg.prefix
     %use{"xlink:href" => "#backward_symbol"}
   %span.label
-    = t('buttons.back')
+    = t('buttons.builder.back')
 
-%a.continue
+%a.continue{href: "asset"}
   %span.label
-    = t('buttons.continue')
+    = t('buttons.builder.continue')
   %svg.suffix
     %use{"xlink:href" => "#forward_symbol"}
