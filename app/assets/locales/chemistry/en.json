@@ -69,7 +69,8 @@
       "asset": "2. Attach header image or video",
       "body": "3. Write or paste in some text",
       "default": "Page builder",
-      "social": "",
+      "preview": "Check your page",
+      "social": "4. Social and web links",
       "title": "1. Edit page title"
     },
     "enquiries": "Enquiries",
@@ -110,17 +111,17 @@
   "notes": {
     "builder": {
       "asset": "You can add more images and video to the body of your page, which is coming up next. Everything that you upload remains available for reuse.",
-      "body": "",
-      "social": "",
+      "body": "All you need to get started here is a friendly and interesting paragraph of text. Once you can add more, please do, and use the plus button to add images, video, quotes and anything else you would like to show people. It's your page.",
+      "socials": "Social links are optional but a very good idea. The procession is a great way to build engagement, and the Show app will make sure your social media links are in front of people as you go by. Click on any of the lines above to add a link, then if you like you can click the plus button to add another of that type.",
       "title": "This text is used in lists and links as well as at the head of the page."
     },
     "create_new_page": "",
     "dates": "If no date is assigned here, we usually display the publication date.",
     "image_weighting": "Click on a sector to pin that part of the image in view, so for example if you click the bottom-left square then the top right part of the image will be lost when it is cropped.",
+    "empty_pages": "'None' signifies an empty placeholder page. These are used to create a page tree without publishing all the branch pages. Usually this is because content is coming from somewhere else; either an external resource overrides this page, or we have a family of pages coming from somewhere else that would like to join the tree.",
     "external_url": "Please give full web address including http:// or https:// prefix",
     "page_summary": "If nothing is given here, we will use an excerpt from the page.",
     "page_terms": "These are used to generate lists of relevant or adjacent pages.",
-    "empty_pages": "'None' signifies an empty placeholder page. These are used to create a page tree without publishing all the branch pages. Usually this is because content is coming from somewhere else; either an external resource overrides this page, or we have a family of pages coming from somewhere else that would like to join the tree.",
     "term_search_hint": "Type in a search term to see suggestions. Press enter to create a new tag.",
     "video_providers": "Videos can be embedded automatically from youtube, vimeo and most other providers. Just paste a URL or youtube ID here."
   },

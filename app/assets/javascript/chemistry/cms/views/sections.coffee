@@ -136,13 +136,10 @@ class Cms.Views.Section extends Cms.View
         el: el
 
   showSocials: =>
-    if @ui.socials_list.length
-      for platform in ['twitter', 'facebook', 'instagram']
-        listView = new Cms.Views.SocialsManager
-          collection: @page.socials
-          platform: platform
-        @ui.socials_list.append listView.el
-        listView.render()
+    @ui.socials_list.each (i, el) =>
+      @addView new Cms.Views.SocialsManager
+        model: @page
+        el: el
 
 
   #TODO: This is way out of place and needs to be made general or binned, but it is convenient here.
@@ -198,7 +195,7 @@ class Cms.Views.SectionRenderer extends Cms.Views.Section
     @stickit()
     @ui.contents_list.attr('data-page', @page.get('path'))
     if @ui.socials_list.length
-      listView = new Cms.Views.SocialsList
+      listView = new Cms.Views.SocialsLinkList
         collection: @page.socials
       @ui.socials_list.append listView.el
       listView.render()

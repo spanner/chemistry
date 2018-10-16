@@ -12,8 +12,3 @@
     = t('buttons.continue')
   %svg.suffix
     %use{"xlink:href" => "#forward_symbol"}
-
-.notes
-  %p.notes
-    = t('notes.builder.title')
-

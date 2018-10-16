@@ -28,6 +28,8 @@ class Cms.Views.Social extends Cms.View
       ]
     "span.name":
       observe: "url"
+      onSet: "withoutHTML"
+      onGet: "withoutHTML"
       classes:
         editing: "editing"
     "a.add":
@@ -119,7 +121,26 @@ class Cms.Views.AddSocial extends Cms.Views.Social
     new_social.trigger 'focus'
 
 
-class Cms.Views.SocialsManager extends Cms.CollectionView
+class Cms.Views.SocialsManager extends Cms.View
+  tagName: "div"
+  className: "socials"
+
+  initialize: ->
+    @collection = @model.socials
+    super
+
+  onRender: =>
+    @log "render", @collection
+    @collection.loadAnd =>
+      for platform in ['twitter', 'facebook', 'instagram', 'web']
+        listView = new Cms.Views.SocialsEditList
+          collection: @model.socials
+          platform: platform
+        @$el.append listView.el
+        listView.render()
+
+
+class Cms.Views.SocialsEditList extends Cms.CollectionView
   childView: Cms.Views.Social
   emptyView: Cms.Views.AddSocial
   tagName: "ul"
@@ -130,8 +151,6 @@ class Cms.Views.SocialsManager extends Cms.CollectionView
     @_platform = opts.platform
     @viewFilter =
       platform: @_platform
-    @collection.loadAnd =>
-      @render()
 
   childViewOptions: (model) =>
     model: model
@@ -139,7 +158,7 @@ class Cms.Views.SocialsManager extends Cms.CollectionView
     collection: @collection
 
 
-class Cms.Views.SocialsList extends Cms.CollectionView
+class Cms.Views.SocialsLinkList extends Cms.CollectionView
   childView: Cms.Views.SocialLink
   tagName: "ul"
   className: "links"

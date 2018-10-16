@@ -1,5 +1,6 @@
 .editing
-  .body{contenteditable: true, data: {placeholder: t('placeholders.builder.body'), cms_toolbar: "blocks", cms_assets: "true"}}
+  .socialist
+
 
 %a.continue
   %span.label
@@ -15,5 +16,5 @@
 
 .notes
   %p.notes
-    = t('notes.builder.body')
+    = t('notes.builder.socials')
 
