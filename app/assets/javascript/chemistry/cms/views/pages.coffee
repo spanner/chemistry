@@ -31,6 +31,7 @@ class Cms.Views.Page extends Cms.View
       ]
 
   onReady: =>
+    window.p = @model
     @model.sections.loadAnd =>
       @showChildView 'sections', new Cms.Views.Sections
         page: @model

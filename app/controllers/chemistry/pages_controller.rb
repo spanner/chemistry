@@ -108,6 +108,7 @@ module Chemistry
 
     def update
       if @page.update_attributes(update_page_params)
+        @page.touch
         return_page
       else
         return_errors

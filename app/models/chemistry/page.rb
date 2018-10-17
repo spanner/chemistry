@@ -65,6 +65,10 @@ module Chemistry
       !populated?
     end
 
+    def absolute_path
+      #TODO: mount point, by way of public_page_url(page)?
+      "/" + path
+    end
 
     ## Terms
     #
@@ -189,6 +193,14 @@ module Chemistry
 
     def clean_rendered_html
       ActionController::Base.helpers.strip_tags(rendered_html)
+    end
+
+    def image_url
+      image.file_url(:hero) if image
+    end
+
+    def icon_url
+      image.file_url(:thumb) if image
     end
 
     def template_slug
