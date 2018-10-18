@@ -28,7 +28,7 @@ Chemistry::Engine.routes.draw do
   end
 
   scope defaults: { format: 'html' }, constraints: { format: 'html' } do
-    get "editor" => "pages#editor", as: :editor
+    get "pages" => "pages#editor", as: :editor
     get "latest/*parent" => "pages#latest"
     get "contents/*parent" => "pages#children"
     get "*path" => "pages#editor"

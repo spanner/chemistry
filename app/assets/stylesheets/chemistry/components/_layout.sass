@@ -19,6 +19,22 @@
     margin: 0 25% 0 15%
     min-height: 100vh
 
+#waiter
+  position: relative
+  margin: 0
+  width: 100vw
+  height: 100vh
+  display: none
+  align-items: center
+  justify-content: center
+  flex-flow: column nowrap
+  color: $pale
+  &.waiting
+    display: flex
+  p
+    font-size: 2rem
+    font-weight: lighter
+
 #notices
   position: absolute
   bottom: 4%

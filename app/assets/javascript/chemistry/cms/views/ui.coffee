@@ -23,6 +23,7 @@ class Cms.Views.UI extends Cms.View
 
   ui:
     nav: "#cms-nav"
+    waiter: "#waiter"
 
   onRender: =>
     @_view = null
@@ -30,6 +31,7 @@ class Cms.Views.UI extends Cms.View
     @_nav = new Cms.Views.Nav
     @_nav.on "toggle", @toggleNav
     @_nav.on "hide", @hideNav
+    @ui.waiter.addClass('waiting')
     @showChildView 'nav', @_nav
     @showChildView 'notices', new Cms.Views.Notices
       collection: _cms.notices
@@ -55,6 +57,7 @@ class Cms.Views.UI extends Cms.View
     @log "pageView", id
     page = _cms.pages.get(id) or new Cms.Models.Page({id: id})
     page.loadAnd =>
+      @ui.waiter.removeClass('waiting')
       @showChildView 'main', new Cms.Views.PageEditor
         model: page
       @setNavModel page
@@ -71,6 +74,7 @@ class Cms.Views.UI extends Cms.View
       if action is 'index'
         @log "-> index", @_collection
         @clearNavModel()
+        @ui.waiter.removeClass('waiting')
         @showChildView 'main', new Cms.Views.AdminCollectionView
           collection: @_collection
           params: params
@@ -80,6 +84,7 @@ class Cms.Views.UI extends Cms.View
         @log "-> item", model
         @clearNavModel()
         model.loadAnd =>
+          @ui.waiter.removeClass('waiting')
           @showChildView 'main', new Cms.Views.AdminItemView
             model: model
             action: action
