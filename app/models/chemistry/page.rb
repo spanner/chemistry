@@ -266,7 +266,7 @@ module Chemistry
       slug = base
       addendum = 1
       while Chemistry::Page.find_by(path: [path, slug].join('/'))
-        slug = base + addendum
+        slug = base + '_' + addendum.to_s
         addendum += 1
       end
       slug
