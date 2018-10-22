@@ -71,7 +71,7 @@ module Chemistry
     #
     def bundle
       if latest_page = Page.published.latest.limit(1).first
-        if stale(etag: latest_page, last_modified: latest_page.published_at, public: true)
+        if stale?(etag: latest_page, last_modified: latest_page.published_at, public: true)
           @pages = Page.published
           return_pages_with_everything
         end
@@ -83,7 +83,7 @@ module Chemistry
     end
 
     def show
-      return_page if stale(etag: @page, last_modified: @page.published_at, public: true)
+      return_page if stale?(etag: @page, last_modified: @page.published_at, public: true)
     end
 
     # `latest` returns a list useful for populating sidebars and menus with 'latest update' type blocks
