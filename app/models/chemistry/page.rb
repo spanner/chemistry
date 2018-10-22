@@ -226,9 +226,13 @@ module Chemistry
       path_parts.map(&:presence).compact.map(&:parameterize)
     end
 
+
+    ## Serializer helpers
+    #
     def template_name
       template.title if template
     end
+
 
     # Checked after_save to rebuild the section stack for a new template,
     # and on serialization to warn the UI that sections need reloading.

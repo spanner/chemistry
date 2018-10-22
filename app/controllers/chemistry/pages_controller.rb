@@ -4,7 +4,8 @@ module Chemistry
   class PagesController < Chemistry::ApplicationController
     include Chemistry::Concerns::Searchable
 
-    load_and_authorize_resource except: [:published, :latest, :home]
+    # specially-named page routes make it easier to skip authentication
+    load_and_authorize_resource except: [:published, :latest, :home, :bundle]
 
     # HTML routes
     #
@@ -51,7 +52,7 @@ module Chemistry
     # Serialized collections do not include associates: the object must be fetched singly
     # to get eg. page sections or template placeholders.
     #
-    # TODO eventually we will need a real Site object but for now this shortcut.
+    # TODO soon we will need a real Site object but for now this shortcut.
     # API will be preserved, more or less.
     #
     def site
@@ -63,12 +64,26 @@ module Chemistry
       }
     end
 
+    # `bundle` is a package of all published pages suitable for presentation in eg. an app.
+    # etag / cache metadata v important because though the package not expensive to build,
+    # it is bulky and likely to be delivered over mobile data.
+    # TODO soon to be another view of the Site object.
+    #
+    def bundle
+      if latest_page = Page.published.latest.limit(1).first
+        if stale(etag: latest_page, last_modified: latest_page.published_at, public: true)
+          @pages = Page.published
+          return_pages_with_everything
+        end
+      end
+    end
+
     def index
       return_pages
     end
 
     def show
-      return_page
+      return_page if stale(etag: @page, last_modified: @page.published_at, public: true)
     end
 
     # `latest` returns a list useful for populating sidebars and menus with 'latest update' type blocks
@@ -125,6 +140,10 @@ module Chemistry
 
     def return_pages
       render json: PageSerializer.new(@pages).serialized_json
+    end
+
+    def return_pages_with_everything
+      render json: PublicPageSerializer.new(@pages, include: [:sections, :socials, :image, :video]).serialized_json
     end
 
     def return_page

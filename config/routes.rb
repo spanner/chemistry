@@ -8,8 +8,11 @@ Chemistry::Engine.routes.draw do
     resources :pages do
       resources :sections
       resources :socials
-      get :latest, on: :collection
-      get :site, on: :collection
+      collection do
+        get :bundle
+        get :latest
+        get :site
+      end
     end
 
     resources :templates do

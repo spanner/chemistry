@@ -4,7 +4,7 @@ module Chemistry
 
     def initialize(user)
 
-      can [:home, :published], Chemistry::Page
+      can [:index, :home, :published, :latest], Chemistry::Page
       can :create, Chemistry::Enquiry
 
       if user && user.persisted?
