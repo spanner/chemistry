@@ -52,27 +52,36 @@ module Chemistry
     # Serialized collections do not include associates: the object must be fetched singly
     # to get eg. page sections or template placeholders.
     #
-    # TODO soon we will need a real Site object but for now this shortcut.
+    # TODO soon we will need a real Site object but for now, this shortcut.
     # API will be preserved, more or less.
     #
     def site
+      if current_user.respond_to?(:can?) && current_user.can?(:manage, Chemistry::Page)
+        @pages = Page.all
+        @templates = Template.all
+        @section_types = SectionType.all
+      elsif current_user.respond_to?(:pages)
+        @pages = current_user.pages.includes(:template, sections: [:section_type])
+        @templates = @pages.map(&:template).compact.uniq
+        @section_types = @pages.map(&:sections).flatten.map(&:section_type).flatten.compact.uniq
+      end
       render json: {
-        pages: PageSerializer.new(Page.all).serializable_hash,
-        templates: TemplateSerializer.new(Template.all).serializable_hash,
-        section_types: SectionTypeSerializer.new(SectionType.all).serializable_hash,
+        pages: PageSerializer.new(@pages).serializable_hash,
+        templates: TemplateSerializer.new(@templates).serializable_hash,
+        section_types: SectionTypeSerializer.new(@section_types).serializable_hash,
         locales: Chemistry.locale_urls
       }
     end
 
     # `bundle` is a package of all published pages suitable for presentation in eg. an app.
-    # etag / cache metadata v important because though the package not expensive to build,
+    # etag / cache metadata very important because while the package not expensive to build,
     # it is bulky and likely to be delivered over mobile data.
     # TODO soon to be another view of the Site object.
     #
     def bundle
       if latest_page = Page.published.latest.limit(1).first
         if stale?(etag: latest_page, last_modified: latest_page.published_at, public: true)
-          @pages = Page.published
+          @pages = Page.published.includes(:sections, :socials, :image, :video)
           return_pages_with_everything
         end
       end

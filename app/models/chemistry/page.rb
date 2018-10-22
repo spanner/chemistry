@@ -53,6 +53,15 @@ module Chemistry
 
     scope :with_path, -> path { where(path: path) }
 
+    def self.owned_by(owners=[])
+      owners = [owners].flatten
+      results = where("1=0")
+      owners.each do |o|
+        results = results.or(where(owner_type: o.class.to_s, owner_id: o.id))
+      end
+      results
+    end
+
     def published?
       published_at?
     end
