@@ -21,6 +21,11 @@ module Chemistry
 
     validates_attachment_content_type :file, :content_type => /\Aimage/
 
+    scope :created_by, -> users {
+      users = [users].flatten
+      where(user_id: users.map(&:id))
+    }
+
     def file_url(style=:full, decache=true)
       if file?
         url = file.url(style, decache)

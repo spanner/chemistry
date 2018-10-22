@@ -17,6 +17,11 @@ module Chemistry
     validates_attachment_content_type :file, :content_type => /\Avideo/
     before_validation :get_metadata
 
+    scope :created_by, -> users {
+      users = [users].flatten
+      where(user_id: users.map(&:id))
+    }
+
     def uploaded_file_url(style=:full, decache=true)
       if file?
         url = file.url(style, decache)
@@ -25,7 +30,6 @@ module Chemistry
         ""
       end
     end
-
 
     ## Upload
     #

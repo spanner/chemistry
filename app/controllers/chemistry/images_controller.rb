@@ -1,17 +1,23 @@
 module Chemistry
   class ImagesController < ApplicationController
-    load_and_authorize_resource
+    load_and_authorize_resource except: [:index]
 
     def index
+      Rails.logger.warn "☀️ index"
+      if current_user.respond_to?(:images)
+        @images = current_user.images
+      else
+        @images = Image.all
+      end
       return_images
     end
-  
+
     def show
       return_image
     end
-  
+
     def create
-      if @image.update_attributes(image_params)
+      if @image.update_attributes(image_params.merge(user_id: current_user.id))
         return_image
       else
         return_errors
