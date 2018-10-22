@@ -340,8 +340,10 @@ module Chemistry
     end
 
     def update_owner
-      if owner and owner.respond_to? :update_from_page
-        owner.update_from_page
+      if owner
+        if owner.respond_to? :update_from_page
+          owner.update_from_page
+        end
       end
     end
 

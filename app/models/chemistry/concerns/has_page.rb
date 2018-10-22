@@ -140,4 +140,7 @@ module Chemistry::Concerns::HasPage
     end
   end
 
+  def update_when_published
+    self.touch
+  end
 end
