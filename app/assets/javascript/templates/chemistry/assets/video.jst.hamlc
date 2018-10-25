@@ -1,4 +1,4 @@
 %video{autoplay: true, loop: true, muted: 'muted', preload: 'auto', controls: "false"}
   %source
 .embed
-%figcaption{contenteditable: "plaintext-only", data: {placeholder: t('placeholders.video.caption')}}<
+%figcaption

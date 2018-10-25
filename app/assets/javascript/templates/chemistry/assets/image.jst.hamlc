@@ -1,2 +1,2 @@
 %img{src: ""}
-%figcaption{contenteditable: "plaintext-only", data: {placeholder: t('placeholders.image.caption')}}<
+%figcaption

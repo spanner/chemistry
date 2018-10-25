@@ -154,6 +154,7 @@ class Cms.Views.Asset extends Cms.View
 
   onWrap: =>
     @addEditor()
+    @setPlaceholders()
 
   addEditor: =>
     if editor_view_class = Cms.Views[@getOption('editorView')]
@@ -165,6 +166,9 @@ class Cms.Views.Asset extends Cms.View
       @_editor.on 'update', @onUpdate
       @_editor.on 'place', @onPlace
       @_editor.on 'select', @setModel
+
+  setPlaceholders: =>
+    #
 
   remove: () =>
     @$el.slideUp 'fast', =>
@@ -253,6 +257,11 @@ class Cms.Views.Image extends Cms.Views.Asset
     @model ?= new Cms.Models.Image
     super
 
+  setPlaceholders: =>
+    @$el.find('figcaption')
+      .attr('contenteditable', 'true')
+      .attr('data-placeholder', t("placeholders.caption"))
+
 
 ## Video assets
 #
@@ -302,6 +311,11 @@ class Cms.Views.Video extends Cms.Views.Asset
   onRender: =>
     @model ?= new Cms.Models.Video
     super
+
+  setPlaceholders: =>
+    @$el.find('figcaption')
+      .attr('contenteditable', 'true')
+      .attr('data-placeholder', t("placeholders.caption"))
 
   unlessEmbedded: (embed_code) =>
     !embed_code

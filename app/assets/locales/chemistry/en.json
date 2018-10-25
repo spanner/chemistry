@@ -148,6 +148,7 @@
       "body": "3. Edit your main page text here. A single paragraph will do fine as a starting point, but please give as much background information as you can.",
       "title": "1. Formal title for use in lists and page headings"
     },
+    "caption": "Optional caption",
     "document": {
       "file": "No file attached"
     },
