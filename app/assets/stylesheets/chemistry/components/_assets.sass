@@ -24,6 +24,8 @@ figure
   figcaption
     font-style: italic
     line-height: 1.35
+    text-align: center
+    color: $mid
   img
     display: block
     width: 100%
@@ -145,6 +147,13 @@ figure
         color: $pale
 
 .editing
+  figure.image
+    video, div.embed
+      display: none
+  figure.video
+    img
+      display: none
+
   figure
     position: relative
     width: 100%
@@ -164,8 +173,6 @@ figure
       height: 100%
       object-fit: cover
       font-family: 'object-fit: cover;'
-      &[src=""], &:not([src])
-        display: none
       iframe
         width: 100%
         height: 100%
@@ -296,12 +303,10 @@ figure
         background-color: $pale
         &:hover
           backround-color: $mid
-  
-
 
 
 @media (min-width: 1020px)
-  figure.image
+  figure.image, figure.video
     &.thumb
       width: 180px
       float: left
@@ -309,9 +314,9 @@ figure
       margin: 8px 12px 12px 0
     &.full
       margin: 0 0 1em 0
-      img
+      img, video, div.embed
         width: 100%
-        margin: 2em 0
+        margin: 2em 0 1em 0
     &.right
       width: 46%
       z-index: 1

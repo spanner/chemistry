@@ -137,7 +137,9 @@ class Cms.Views.Asset extends Cms.View
 
   initialize: (opts={}) =>
     @bindUIElements();
-    @wrap() or @render()
+
+  render: =>
+    @wrap() or super
 
   # Previously embedded assets come back to us in HTML form.
   # Each subclass performs its own value extraction to decompose that into model + template.
@@ -172,7 +174,6 @@ class Cms.Views.Asset extends Cms.View
       @onUpdate()
 
   setModel: (model) =>
-    @log "setModel", model
     @model = model
     @stickit() if @model
     @onUpdate()
@@ -239,12 +240,16 @@ class Cms.Views.Image extends Cms.Views.Asset
       ]
 
   wrap: =>
+    @log "🎁 Wrapping", @$el.html()
     if image_id = @$el.data('image')
       @model = new Cms.Models.Image(id: image_id)
       @model.load()
       @triggerMethod 'wrap'
+      true
 
   onRender: =>
+    debugger
+    @log "🎁 Rendering", @$el.html()
     @model ?= new Cms.Models.Image
     super
 
