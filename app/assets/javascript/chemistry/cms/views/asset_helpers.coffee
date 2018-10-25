@@ -174,14 +174,11 @@ class Cms.Views.AssetEditor extends Cms.View
   ## Menu management
 
   closeHelpers: =>
-    @log "🍄 closeHelpers"
-    
     # event allowed through
     for h in @_asset_helpers
       h?.close?()
 
   closeOtherHelpers: (helper) =>
-    @log "🍄 closeOtherHelpers", helper
     for h in _.without(@_asset_helpers, helper)
       h?.close?()
 
@@ -197,7 +194,7 @@ class Cms.Views.ImageEditor extends Cms.Views.AssetEditor
 
 class Cms.Views.VideoEditor extends Cms.Views.AssetEditor
   template: "assets/video_editor"
-  helpers: ["VideoPicker", "VideoImporter", "VideoUploader"]
+  helpers: ["VideoPicker", "VideoImporter", "VideoUploader", "AssetPlacement"]
 
   initialize: ->
     @collection ?= new Cms.Collections.Videos

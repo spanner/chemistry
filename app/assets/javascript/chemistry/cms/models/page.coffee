@@ -1,5 +1,5 @@
 class Cms.Models.Page extends Cms.Model
-  savedAttributes: ['template_id', 'parent_id', 'slug', 'title', 'slug', 'content', 'summary', 'external_url', 'document_id', 'keywords', 'home', 'nav', 'nav_name', 'nav_position', 'date', 'to_date', 'rendered_html', 'image_id']
+  savedAttributes: ['template_id', 'parent_id', 'slug', 'title', 'slug', 'content', 'summary', 'excerpt', 'external_url', 'document_id', 'keywords', 'home', 'nav', 'nav_name', 'nav_position', 'date', 'to_date', 'rendered_html', 'image_id']
   savedAssociations: ['sections', 'socials']
 
   defaults:
@@ -94,6 +94,7 @@ class Cms.Models.Page extends Cms.Model
       .trim()                         # Remove leading and trailing spaces
 
   extractMetadata: =>
+    @log "extractMetadata"
     html = @get('rendered_html')
     title = ""
     excerpt = ""
@@ -103,7 +104,8 @@ class Cms.Models.Page extends Cms.Model
     $holder.html(html)
 
     # retrieve page title and prefix that were previously given to the first section and may have been edited since.
-    #NB this restates bindings in a way that is meant to be general, but should we side-effect it during render or update instead?
+    # NB this restates bindings in a way that is meant to be general, but should we side-effect it during render or update instead?
+    #
     heading = $holder.find('h1')
     if heading.length
       prefix_span = heading.find('span.prefix')
@@ -119,8 +121,10 @@ class Cms.Models.Page extends Cms.Model
     @set('title', title) if title
 
     # extract a bit of text from first content section
-    excerpt = $holder.text().split(/\s+/).slice(0,64).join(' ')
+    $content_sections = $holder.find('section.standfirst, section.standard')
+    excerpt = $content_sections.text().split(/\s+/).slice(0,64).join(' ')
     @set('excerpt', excerpt)
+    @log "-> excerpt", excerpt
 
     # grab image id from first image asset block of any kind
     # heroic...
