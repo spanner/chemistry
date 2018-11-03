@@ -80,6 +80,7 @@ module Chemistry
     #
     def bundle
       if latest_page = Page.published_and_placeholders.latest.limit(1).first
+        expires_in(1.hour, public: true)
         if stale?(etag: latest_page, last_modified: latest_page.published_at, public: true)
           @pages = Page.published_and_placeholders.includes(:sections, :socials, :image, :video)
           return_pages_with_everything

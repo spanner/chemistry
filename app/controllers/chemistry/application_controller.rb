@@ -5,7 +5,6 @@ module Chemistry
     skip_before_action :verify_authenticity_token
 
     def cors_check
-      set_access_control_headers
       head :ok
     end
 
@@ -29,5 +28,8 @@ module Chemistry
       end
     end
 
+    def chemistry_controller?
+      true
+    end
   end
 end

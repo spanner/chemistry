@@ -12,4 +12,4 @@
       %span.label 
         = t('headings.reuse_document')
 
-    .pick
+    .pick.list
