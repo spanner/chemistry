@@ -32,6 +32,7 @@ $ ->
   document.execCommand('defaultParagraphSeparator', false, 'p')
 
   $.fn.chemistry_site = (options={}) ->
+    console.log "chemistry_site", options, @
     @each ->
       args = _.extend options,
         el: @

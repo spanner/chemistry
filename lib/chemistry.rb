@@ -23,7 +23,7 @@ module Chemistry
                    :user_class
 
     self.layout = "application"
-    self.api_url = "/chemistry"
+    self.api_url = "/cms"
     self.ui_locales = ['en']
   end
 

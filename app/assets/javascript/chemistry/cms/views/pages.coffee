@@ -249,11 +249,11 @@ class Cms.Views.ChildPages extends Cms.Views.Pages
   tagName: "ul"
   className: "contents"
 
-  filter: (model) =>
-    model.get('published_at')
+  viewFilter: (view, index, children) =>
+    view.model?.get('published_at')
 
-  viewComparator: (model) =>
-    mom = model.get('published_at')
+  viewComparator: (view) =>
+    mom = view.model.get('published_at')
     epoch = mom?.unix() ? 0
     -epoch
 

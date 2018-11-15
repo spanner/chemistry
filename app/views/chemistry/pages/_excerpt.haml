@@ -2,9 +2,11 @@
 - page ||= excerpt || @page
 
 %li.page
-  %h3
-    = link_to page.title, page.path
-  %date
-    = l(page.date.presence || page.published_at, format: :natural)
-  %p
-    = truncate strip_tags(page.summary.presence || page.excerpt), length: 256
+  %a.page{href: page.path}
+    %span.detail
+      %span.title
+        = page.title
+      %date
+        = l(page.date.presence || page.published_at, format: :natural)
+      %span.summary
+        = truncate strip_tags(page.summary.presence || page.excerpt), length: 256

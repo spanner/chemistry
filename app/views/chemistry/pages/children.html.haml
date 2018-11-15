@@ -1,0 +1,14 @@
+.cms-sorts
+  - %w{published_at date title}.each do |s|
+    - if @sort == s
+      - o = @order == 'asc' ? 'desc' : 'asc'
+      %a.fetch.here{href: "?sort=#{s}&order=#{o}", class: @order}
+        = t("sorts.#{s}")
+    - else
+      %a.fetch{href: "?sort=#{s}"}
+        = t("sorts.#{s}")
+
+%ul.contents
+  = render partial: "chemistry/pages/excerpt", collection: @pages
+
+= paginate @pages

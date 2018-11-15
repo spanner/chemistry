@@ -102,25 +102,34 @@ module Chemistry
     def latest
       limit = params[:limit].presence || 1
       @pages = Page.published.latest.limit(limit)
-
-      Rails.logger.warn "LATEST under path #{params[:parent]} with limit #{limit}"
-
-      if params[:parent] and parent_page = Page.where(path: params[:parent]).first
-        @pages = @pages.with_parent(parent_page)
+      if params[:parent] and @page = Page.where(path: params[:parent]).first
+        @pages = @pages.with_parent(@page)
       end
-      render partial: "chemistry/pages/excerpt", collection: @pages
+      render layout: false
     end
 
     # `children` returns paginated lists of published pages under the given page path.
+    # TODO: search index!
     #
     def children
-      limit = params[:limit].presence || 20
-      parent_page = Page.where(path: params[:parent]).first
-      @pages = parent_page.child_pages.published.order(published_at: :desc).limit(limit)
+      if @page = Page.where(path: params[:parent]).first
+        @pages = @page.child_pages.published
 
-      Rails.logger.warn "CHILDREN under path #{params[:parent]} with limit #{limit}"
+        # sort
+        @sort = params[:sort] if ["published_at", "date", "title"].include?(params[:sort])
+        @sort ||= "published_at"
+        @order = params[:order] || (@sort == 'title' ? "asc" : "desc")
+        Rails.logger.warn "children: sort #{@sort}, order #{@order}: #{{@sort => @order}.inspect}"
+        @pages = @pages.order(@sort => @order)
 
-      render partial: "chemistry/pages/excerpt", collection: @pages
+        # paginate
+        @p = params[:p] || 1
+        @pp = params[:limit] || 5
+        @pages = @pages.page(@p).per(@pp)
+        render layout: false
+      else
+        head :no_content
+      end
     end
 
     def create

@@ -87,7 +87,8 @@ $ ->
     doForm: (e) =>
       e?.preventDefault()
       @$submit.addClass('waiting')
-      action = @$form.attr('action') or "/chemistry/enquiries/enquire"
+      action = @$form.attr('action') or "/cms/api/enquiries/enquire"
+      console.log "doForm", action
       name = @$name.val()
       email = @$email.val()
       message = @$message.val()
@@ -113,23 +114,70 @@ $ ->
 
   ## Contents list
 
-  $.fn.contents_list = ->
+  $.fn.contents_list = (path) ->
     @each ->
-      new ContentsList(@)
+      new ContentsList(@, path)
 
 
   class ContentsList
-    constructor: (element) ->
+    constructor: (element, path, limit) ->
       @$container = $(element)
-      @_path = @$container.data('page') or window.location.pathName
+      @_page_path = path or @$container.data('contents') or window.location.pathName
+      @_page_size = limit or @$container.data('limit')
       @fetchPage()
 
-    #todo: pagination
     fetchPage: =>
-      $.get("/chemistry/contents/#{@_path}").done (response) =>
-        @$container.html(response)
+      url = new URL(window.location.href)
+      params = new URLSearchParams(url.search)
+      api_path = "/cms/contents/#{@_page_path}"
+      params.set('limit', @_page_size) if @_page_size and not params.get('limit')
+      if qs = params.toString()
+        api_path += '?' + qs
+      waiter = $('<li class="waiter">Loading pages</li>')
+      @$container.append waiter
+      $.get(api_path).done @display
+
+    display: (response) =>
+      @$container.find('.waiter').fadeOut 'fast', =>
+        @$container.html(response).fadeIn()
+        @$container.find('a.fetch').click @refetch
+
+    refetch: (e) =>
+      if e
+        e.preventDefault()
+        if a = e.target
+          #TODO this is a bit clunky. We should have one place where we work out the new URL and enact it.
+          href = a.href.replace('/cms/contents', '')
+          a_href = new URL(href)
+          window.history.pushState {}, "", decodeURIComponent(a_href)
+          @fetchPage()
+
+
+
+  $.fn.latest_list = (path, limit) ->
+    @each ->
+      new LatestList(@, path)
+
+  class LatestList
+    constructor: (element, path, limit) ->
+      @$container = $(element)
+      @_page_path = path or @$container.data('page') or window.location.pathName
+      @_page_size = limit or @$container.data('limit')
+      @fetchPage()
+
+    fetchPage: =>
+      api_path = "/cms/latest/#{@_page_path}"
+      api_path += "?limit=#{@_page_size}" if @_page_size
+      waiter = $('<li class="waiter">Loading pages</li>')
+      @$container.append waiter
+      $.get(api_path).done @display
+
+    display: (response) =>
+      @$container.find('.waiter').fadeOut 'fast', =>
+        @$container.html(response).fadeIn()
+
 
 
   $('section.enquiry').enquiry_form()
-  $('ul.contents').contents_list()
+  $('[data-contents]').contents_list()
   $('a.footnoted').footnoted()

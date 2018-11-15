@@ -252,7 +252,6 @@ class Cms.Views.Image extends Cms.Views.Asset
       true
 
   onRender: =>
-    debugger
     @log "🎁 Rendering", @$el.html()
     @model ?= new Cms.Models.Image
     super

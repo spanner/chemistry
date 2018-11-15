@@ -7,7 +7,7 @@ module Chemistry
     belongs_to :template, optional: true
     belongs_to :parent, class_name: 'Chemistry::Page', optional: true
 
-    belongs_to :owner, polymorphic: true
+    belongs_to :owner, polymorphic: true, optional: true
     cattr_accessor :owner_anchors
 
     # page content
@@ -26,8 +26,8 @@ module Chemistry
     has_many :terms, through: :page_terms
 
     # content associations extracted for convenience
-    belongs_to :image
-    belongs_to :video
+    belongs_to :image, optional: true
+    belongs_to :video, optional: true
 
     acts_as_list column: :nav_position
 
@@ -45,7 +45,7 @@ module Chemistry
 
     scope :undeleted, -> { where(deleted_at: nil) }
     scope :published, -> { undeleted.where.not(published_at: nil) }
-    scope :latest, -> { order(published_at: :desc) }
+    scope :latest, -> { order(created_at: :desc) }
     scope :with_parent, -> page { where(parent_id: page.id) }
     scope :placeholders, -> { where.not(content: 'empty') }
     scope :published_and_placeholders, -> { published.or(placeholders) }

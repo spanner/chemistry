@@ -130,7 +130,7 @@ class Cms.Views.Section extends Cms.View
 
   showContents: =>
     @ui.contents_list.each (i, el) =>
-      $(el).attr('data-page', @page.get('path'))
+      $(el).attr('data-contents', @page.get('path'))
       @addView new Cms.Views.ChildPages
         collection: @page.getChildren()
         el: el

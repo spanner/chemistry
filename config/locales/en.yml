@@ -1,16 +1,20 @@
 en:
   chemistry: "Chemistry"
   published: "published"
+  date:
+    formats:
+      natural: "%d %B %Y"
+      natural_full: "%l:%M%P, %d %B %Y"
+  sorts:
+    date: "By original date"
+    published_at: "By publication date"
+    title: "By title"
+  time:
+    formats:
+      natural: "%d %B %Y"
+      natural_full: "%l:%M%P, %d %B %Y"
   welcome:
     title: "You have Chemistry"
     body: "Time to make something."
     pages: "Page tree"
     templates: "Templates"
-  time:
-    formats:
-      natural: "%d %B %Y"
-      natural_full: "%l:%M%P, %d %B %Y"
-  date:
-    formats:
-      natural: "%d %B %Y"
-      natural_full: "%l:%M%P, %d %B %Y"
