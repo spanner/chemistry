@@ -5,7 +5,7 @@ module Chemistry
     include Chemistry::Concerns::Searchable
 
     # specially-named page routes make it easier to skip authentication
-    load_and_authorize_resource except: [:published, :latest, :contents, :home, :bundle]
+    load_and_authorize_resource except: [:published, :latest, :children, :home, :bundle]
 
     # HTML routes
     #
