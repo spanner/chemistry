@@ -11,6 +11,7 @@ require 'haml_coffee_assets'
 module Chemistry
   class << self
     mattr_accessor :layout,
+                   :public_layout,
                    :host,
                    :protocol,
                    :ui_path,
@@ -22,8 +23,9 @@ module Chemistry
                    :ui_locales,
                    :user_class
 
-    self.layout = "application"
-    self.api_url = "/cms"
+    self.layout = "chemistry/application"
+    self.public_layout = "application"
+    self.api_url = "/cms/api"
     self.ui_locales = ['en']
   end
 

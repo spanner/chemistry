@@ -13,7 +13,7 @@ module Chemistry
     #
     def home
       if @page = Chemistry::Page.home.first
-        render template: "chemistry/pages/published"
+        render template: "chemistry/pages/published", layout: Chemistry.public_layout
       else
         render template: "chemistry/welcome", layout: "chemistry/application"
       end
@@ -36,7 +36,7 @@ module Chemistry
       @path.sub /\/$/, ''
       @path.sub /^\//, ''
       if @page = Chemistry::Page.published.with_path(@path.strip).first
-        render
+        render layout: Chemistry.public_layout
       else
         page_not_found
       end
