@@ -10,6 +10,23 @@ $ ->
 
   ## Footnotes
 
+  $.fn.editControls = ->
+    @each ->
+      new EditControls(@)
+
+
+  class EditControls
+    constructor: (element) ->
+      $link = $(element)
+
+      @_key = $link.attr('href').replace('#footnote-', '')
+      @_number = $('a[data-fn]').length + 1
+      $link.attr "data-fn", @_number
+
+
+
+  ## Footnotes
+
   $.fn.footnoted = ->
     @each ->
       new Footnote(@)
