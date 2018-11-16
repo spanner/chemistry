@@ -21,12 +21,14 @@ module Chemistry
                    :staging_host,          # for feature detection in UI
                    :dev_host,              #
                    :ui_locales,
-                   :user_class
+                   :user_class.
+                   :default_per_page
 
     self.layout = "chemistry/application"
     self.public_layout = "application"
     self.api_url = "/cms/api"
     self.ui_locales = ['en']
+    self.default_per_page = 10
   end
 
   def self.configure

@@ -124,7 +124,7 @@ module Chemistry
 
         # paginate
         @p = params[:p] || 1
-        @pp = params[:limit] || 5
+        @pp = params[:limit] || Chemistry.default_per_page
         @pages = @pages.page(@p).per(@pp)
         render layout: false
       else
