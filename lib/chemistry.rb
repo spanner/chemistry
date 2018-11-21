@@ -21,7 +21,7 @@ module Chemistry
                    :staging_host,          # for feature detection in UI
                    :dev_host,              #
                    :ui_locales,
-                   :user_class.
+                   :user_class,
                    :default_per_page
 
     self.layout = "chemistry/application"
