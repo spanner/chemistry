@@ -37,8 +37,8 @@ class Cms.Config
     @_settings = _.defaults options, @[@_environment], @defaults
 
   guessEnvironment: () ->
-    stag = new RegExp(/<%= Chemistry.staging_host %>/)
-    dev = new RegExp(/<%= Chemistry.dev_host %>/)
+    stag = new RegExp(/<%= Chemistry.staging_host || "staging_host_not_configured" %>/)
+    dev = new RegExp(/<%= Chemistry.dev_host || "dev_host_not_configured" %>/)
     href = window.location.href
     if stag.test(href)
       "staging"

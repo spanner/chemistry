@@ -9,8 +9,11 @@ require "paranoia"
 require 'haml_coffee_assets'
 
 module Chemistry
+  class Error < StandardError; end
+
   class << self
-    mattr_accessor :layout,
+    mattr_accessor :configured,
+                   :layout,
                    :public_layout,
                    :host,
                    :protocol,
@@ -21,7 +24,7 @@ module Chemistry
                    :staging_host,          # for feature detection in UI
                    :dev_host,              #
                    :ui_locales,
-                   :user_class.
+                   :user_class,
                    :default_per_page
 
     self.layout = "chemistry/application"
@@ -33,6 +36,7 @@ module Chemistry
 
   def self.configure
     yield self
+    self.configured = true
   end
 
   # Never call this method from an asset, unless you like stacking.

@@ -316,7 +316,7 @@ class Cms.Model extends Backbone.Model
       el.style.minHeight = el.offsetHeight + 'px'
       p = document.createElement('p')
       el.appendChild p
-      if ( document.selection amd document.body.createTextRange)
+      if ( document.selection and document.body.createTextRange)
         range = document.body.createTextRange()
         range.setStart(p, 0)
         range.select()

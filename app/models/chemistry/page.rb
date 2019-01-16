@@ -220,10 +220,12 @@ module Chemistry
 
     def slug_base
       if owner && owner.respond_to?(:cms_slug_base)
-        owner.cms_slug_base(self)
+        base = owner.cms_slug_base(self)
       else
-        [prefix, title].map(&:presence).compact.join(" ")
+        base = [prefix, title].map(&:presence).compact.join(" ")
       end
+      raise Chemistry::Error, "cannot derive slug: page owner responds to cms_slug_base but returned value is nil" unless base
+      base
     end
 
     def path_base
@@ -297,6 +299,7 @@ module Chemistry
     end
 
     def init_sections
+      Rails.logger.warn "init_sections"
       if template
         revised_sections = []
 
@@ -351,6 +354,7 @@ module Chemistry
     end
 
     def update_owner
+      Rails.logger.warn "update_owner"
       if owner
         if owner.respond_to? :update_from_page
           owner.update_from_page

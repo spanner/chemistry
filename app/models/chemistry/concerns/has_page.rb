@@ -30,7 +30,6 @@ module Chemistry::Concerns::HasPage
     # so we only store it here, and will find or create pages at runtime.
     #
     def cms_path_base=(path)
-      Rails.logger.warn "#{self.class.to_s}.cms_path_base=: #{path}"
       @cms_path_base = path
     end
 
@@ -64,11 +63,19 @@ module Chemistry::Concerns::HasPage
   end
 
 
+  def page?
+    !!page
+  end
+
+  def page_id
+    page.id if page
+  end
+
   ## Integration
   # The page slug is usually derived from its title, but you can override this method to supply a different base value.
   # The Chemistry page is provided in case you still want to include the title or some other page attribute.
   #
-  def cms_slug_base(page)
+  def cms_slug_base(page=nil)
     self.class.to_s
   end
 
@@ -118,10 +125,20 @@ module Chemistry::Concerns::HasPage
   end
 
   def init_page
-    self.page || self.create_page(properties_for_page.merge({
+    self.page || self.create_page(initial_page_properties)
+  end
+
+  def try_init_page
+    init_page
+  rescue => e
+    debugger
+  end
+
+  def initial_page_properties
+    properties_for_page.merge({
       parent: self.class.anchor_page_for(self),
       template: self.class.page_template
-    }))
+    })
   end
 
   protected

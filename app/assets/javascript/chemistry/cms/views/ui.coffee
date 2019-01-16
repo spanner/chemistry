@@ -218,6 +218,7 @@ class Cms.Views.OnePageUI extends Cms.Views.UI
     main: "#main"
 
   onRender: =>
+    @log "onRender", @$el.data('cms-id')
     if page_id = @$el.data('cms-id')
       @model = _cms.pages.get(page_id) or new Cms.Models.Page({id: page_id})
       @model.loadAnd =>
