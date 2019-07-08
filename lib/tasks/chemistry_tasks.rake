@@ -42,7 +42,7 @@ namespace :chemistry do
     templates = JSON.parse(File.read(path))
     templates.each do |t|
       begin
-        if template = Chemistry::Template.find_by(title: t['title'])
+        if template = Chemistry::Template.find_by(slug: t['slug'])
           template.update_attributes(t)
           puts "- Template #{t['title']} updated".colorize(:light_green)
         else
