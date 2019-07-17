@@ -6,7 +6,6 @@ class Chemistry::DocumentSerializer
   set_type :document
 
   attributes :id,
-             :page_id,
              :title,
              :caption,
              :file_name,

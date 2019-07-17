@@ -24,6 +24,7 @@ module Chemistry
           end
         end
       end
+      pages.each{|p| p.send(:init_sections)}
     end
 
     # TODO modify to act only if section list has changed

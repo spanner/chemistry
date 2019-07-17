@@ -2,7 +2,7 @@
 
 
 class Cms.Views.EditableHelper extends Cms.View
-  template: false
+  template: ""
 
   initialise: =>
     @$el.attr('contenteditable', 'true')
@@ -57,16 +57,17 @@ class Cms.Views.EditableHtml extends Cms.Views.EditableHelper
 
 
 class Cms.Views.EditableString extends Cms.Views.EditableHelper
-  template: false
+  template: ""
 
 
 class Cms.Views.EditableBackground extends Cms.Views.EditableHelper
-  template: false
+  template: ""
 
   ui:
     bg: "figure.bg"
 
   onRender: =>
+    @log "onRender"
     if @ui.bg.length
       bg_el = @ui.bg.first()
     else
@@ -79,6 +80,7 @@ class Cms.Views.EditableBackground extends Cms.Views.EditableHelper
   # We assume that it is the `background_html` attribute we should update, and do that directly.
   #
   onUpdate: =>
+    @log "onUpdate"
     @model.set "background_html", @withoutControls(@$el.html())
 
 

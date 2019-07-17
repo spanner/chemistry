@@ -11,7 +11,7 @@ module Chemistry
     cattr_accessor :owner_anchors
 
     # page content
-    has_many :sections, dependent: :destroy
+    has_many :sections, -> {order(position: :asc)}, dependent: :destroy
     accepts_collected_attributes_for :sections
 
     # page links list
