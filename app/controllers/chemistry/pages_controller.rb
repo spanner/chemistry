@@ -178,9 +178,9 @@ module Chemistry
 
     def page_not_found
       if @page = Page.published.with_path("/404").first
-        render
+        render layout: Chemistry.public_layout
       else
-        render template: "chemistry/pages/not_found"
+        render template: "chemistry/pages/not_found", layout: Chemistry.public_layout
       end
     end
 

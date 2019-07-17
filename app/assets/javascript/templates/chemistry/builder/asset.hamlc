@@ -13,6 +13,11 @@
     = t('buttons.builder.back')
 
 .notes
+  %p
+    = t('notes.builder.asset')
+    
+  %h3
+    Key
   %ul.key
     %li.choose
       %svg.icon
@@ -45,6 +50,3 @@
         %use{"xlink:href" => "#upload_video_symbol"}
       %span.label
         Upload a video file
-
-  %p.notes
-    = t('notes.builder.asset')
