@@ -15,9 +15,9 @@ root.Cms = Cms
 class Cms.Router extends Backbone.Router
   routes:
     "": "defaultView"
+    ":model_name/:action/:id": "modelView"
     ":collection_name": "collectionView"
     ":collection_name(?:qs)": "collectionView"
-    ":model_name/:action/:id": "modelView"
 
   initialize: (opts) ->
     @ui = opts.ui

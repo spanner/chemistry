@@ -32,47 +32,17 @@ $ ->
   document.execCommand('defaultParagraphSeparator', false, 'p')
 
   $.fn.chemistry_site = (options={}) ->
-    console.log "chemistry_site", options, @
     @each ->
       args = _.extend options,
         el: @
       new Cms.SiteEditor(args).start()
 
-  $.fn.chemistry_page = (options={}) ->
-    @each ->
-      args = _.extend options,
-        el: @
-      new Cms.PageEditor(args).start()
-
-  $.fn.chemistry_section = (options={}) ->
-    @each ->
-      args = _.extend options,
-        el: @
-      new Cms.SectionEditor(args).start()
-
-  $.fn.chemistry_social = (options={}) ->
-    @each ->
-      args = _.extend options,
-        el: @
-      new Cms.SocialEditor(args).start()
-
-  $.fn.chemistry_page_preview = (options={}) ->
-    @each ->
-      args = _.extend options,
-        el: @
-      new Cms.PagePreview(args).start()
-
   $.fn.chemistry_page_builder = (options={}) ->
     @each ->
-      console.log "chemistry_page_builder", @
       args = _.extend options,
         el: @
       new Cms.PageBuilder(args).start()
 
 
   $('#chemistry.site_editor').chemistry_site()
-  $('#chemistry.page_editor').chemistry_page()
-  $('#chemistry.section_editor').chemistry_section()
-  $('#chemistry.social_editor').chemistry_social()
-  $('#chemistry.page_preview').chemistry_page_preview()
   $('#chemistry.page_builder').chemistry_page_builder()

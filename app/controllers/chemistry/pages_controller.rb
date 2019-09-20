@@ -61,12 +61,12 @@ module Chemistry
     #
     def new
       @page = Chemistry::Page.new(new_page_params)
-      render
+      render template: "chemistry/pages/editor"
     end
 
     def edit
       if @page
-        render
+        render template: "chemistry/pages/editor"
       else
         raise ActiveRecord::RecordNotFound
       end
