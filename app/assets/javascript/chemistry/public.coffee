@@ -1,6 +1,6 @@
 ## Standard public js
 #
-# A very minimal collection of JS sprinkles required to bring chemistry pages to life:
+# A small collection of JS sprinkles required to bring chemistry pages to life:
 # * cms overlay when signed in
 # * enquiry forms
 # * contents lists
@@ -8,21 +8,15 @@
 
 $ ->
 
-  ## Footnotes
-
-  $.fn.editControls = ->
+  $.fn.cms_menu = ->
     @each ->
-      new EditControls(@)
-
-
-  class EditControls
-    constructor: (element) ->
-      $link = $(element)
-
-      @_key = $link.attr('href').replace('#footnote-', '')
-      @_number = $('a[data-fn]').length + 1
-      $link.attr "data-fn", @_number
-
+      $article = $(@)
+      path = $article.data('page')
+      fetcher = $.ajax
+        method: "get"
+        url: "/cms/page_controls/#{path}"
+      fetcher.done (response) =>
+        $article.prepend response
 
 
   ## Footnotes
@@ -195,6 +189,7 @@ $ ->
 
 
 
+  $('article[data-page]').cms_menu()
   $('section.enquiry').enquiry_form()
   $('[data-contents]').contents_list()
   $('a.footnoted').footnoted()

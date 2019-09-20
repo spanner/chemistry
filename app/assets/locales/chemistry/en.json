@@ -140,7 +140,8 @@
     "new_description": "Please choose a template and parent page.",
     "new_home_title": "Create home page",
     "new_home_description": "Please choose a title and template for your first page",
-    "new_title": "Create new page"
+    "new_title": "Create new page",
+    "private": "Private page (visible to signed in users only)"
   },
   "placeholders": {
     "builder": {

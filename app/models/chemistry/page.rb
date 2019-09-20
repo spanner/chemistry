@@ -64,12 +64,20 @@ module Chemistry
       results
     end
 
+    def self.published_page_at(path)
+      where(path: path).where.not(published_at: nil).first
+    end
+
     def published?
       published_at?
     end
 
     def populated?
       sections.where("primary_html IS NOT NULL or secondary_html IS NOT NULL").any?
+    end
+
+    def public?
+      !private?
     end
 
     def empty
@@ -80,6 +88,11 @@ module Chemistry
       #TODO: mount point, by way of public_page_url(page)?
       "/" + path
     end
+
+    def summary_or_excerpt
+      summary.presence || excerpt
+    end
+
 
     ## Terms
     #
@@ -254,6 +267,7 @@ module Chemistry
       saved_change_to_template_id?
     end
     alias :template_has_changed :template_has_changed?  # for serializer
+
 
     protected
 

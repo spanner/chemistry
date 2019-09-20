@@ -16,8 +16,14 @@
 
   %p
     %span.title.required{contenteditable: "true", data: {placeholder: t('placeholders.page.title')}}
-
   .parent_picker
+
+  %p
+    %span.checkbox
+      %input.private#private_page{type: "checkbox", name: "private"}
+      %label{for: "private_page"}
+        = t('pages.private')
+
   .content_picker
 
   %h3

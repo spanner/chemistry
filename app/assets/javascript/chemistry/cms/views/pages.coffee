@@ -32,6 +32,7 @@ class Cms.Views.Page extends Cms.View
 
   onReady: =>
     window.p = @model
+    @log "loading sections"
     @model.sections.loadAnd =>
       @showChildView 'sections', new Cms.Views.Sections
         page: @model
@@ -392,6 +393,8 @@ class Cms.Views.ConfigPage extends Cms.Views.FloatingView
     "detail": ".page_detail"
 
   bindings:
+    "input.private":
+      observe: "private"
     "span.title":
       observe: "title"
       classes:

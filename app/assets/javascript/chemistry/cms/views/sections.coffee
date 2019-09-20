@@ -216,8 +216,8 @@ class Cms.Views.Sections extends Cms.CollectionView
     page: @page
 
   initialize: (opts={}) =>
+    super()
     @page = opts.page
-    super
 
 
 class Cms.Views.RenderedSections extends Cms.Views.Sections

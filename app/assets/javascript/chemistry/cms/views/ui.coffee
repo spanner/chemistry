@@ -23,7 +23,6 @@ class Cms.Views.UI extends Cms.View
 
   ui:
     nav: "#cms-nav"
-    waiter: "#waiter"
 
   onRender: =>
     @_view = null
@@ -31,7 +30,6 @@ class Cms.Views.UI extends Cms.View
     @_nav = new Cms.Views.Nav
     @_nav.on "toggle", @toggleNav
     @_nav.on "hide", @hideNav
-    @ui.waiter.addClass('waiting')
     @showChildView 'nav', @_nav
     @showChildView 'notices', new Cms.Views.Notices
       collection: _cms.notices
@@ -57,7 +55,6 @@ class Cms.Views.UI extends Cms.View
     @log "pageView", id
     page = _cms.pages.get(id) or new Cms.Models.Page({id: id})
     page.loadAnd =>
-      @ui.waiter.removeClass('waiting')
       @showChildView 'main', new Cms.Views.PageEditor
         model: page
       @setNavModel page
@@ -74,7 +71,6 @@ class Cms.Views.UI extends Cms.View
       if action is 'index'
         @log "-> index", @_collection
         @clearNavModel()
-        @ui.waiter.removeClass('waiting')
         @showChildView 'main', new Cms.Views.AdminCollectionView
           collection: @_collection
           params: params
@@ -84,7 +80,6 @@ class Cms.Views.UI extends Cms.View
         @log "-> item", model
         @clearNavModel()
         model.loadAnd =>
-          @ui.waiter.removeClass('waiting')
           @showChildView 'main', new Cms.Views.AdminItemView
             model: model
             action: action
@@ -208,66 +203,4 @@ class Cms.Views.PageBuilderUI extends Cms.Views.UI
       'preview'
     else
       'title'
-
-
-class Cms.Views.OnePageUI extends Cms.Views.UI
-  template: "ui/single_item"
-
-  regions:
-    notices: "#notices"
-    main: "#main"
-
-  onRender: =>
-    @log "onRender", @$el.data('cms-id')
-    if page_id = @$el.data('cms-id')
-      @model = _cms.pages.get(page_id) or new Cms.Models.Page({id: page_id})
-      @model.loadAnd =>
-        @showChildView 'main', new Cms.Views.PageEditor
-          model: @model
-
-
-class Cms.Views.OneSectionUI extends Cms.Views.UI
-  template: "ui/single_item"
-
-  regions:
-    notices: "#notices"
-    main: "#main"
-
-  onRender: =>
-    if section_id = @$el.data('cms-id')
-      @model = new Cms.Models.Section({id: section_id})
-      @model.loadAnd =>
-        @showChildView 'main', new Cms.Views.SectionEditor
-          model: @model
-
-
-class Cms.Views.PageSocialUI extends Cms.Views.UI
-  template: "ui/page_social"
-
-  regions:
-    main: "#main"
-
-  onRender: =>
-    if page_id = @$el.data('cms-id')
-      @model = _cms.pages.get(page_id) or new Cms.Models.Page({id: page_id})
-      @model.loadAnd =>
-        @showChildView 'main', new Cms.Views.PageSocial
-          model: @model
-
-
-class Cms.Views.PagePreviewUI extends Cms.Views.UI
-  template: "ui/page_preview"
-
-  regions:
-    main: "#main"
-
-  onRender: =>
-    if page_id = @$el.data('cms-id')
-      @model = _cms.pages.get(page_id) or new Cms.Models.Page({id: page_id})
-      @model.loadAnd =>
-        @showChildView 'main', new Cms.Views.PageRenderer
-          model: @model
-
-
-
 

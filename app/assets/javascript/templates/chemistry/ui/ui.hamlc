@@ -1,9 +1,4 @@
 %header#cms-nav
-#waiter
-  %svg#logo
-    %use{"xlink:href" => "#chemistry_symbol"}
-  %p
-    Loading
 %main#main
 #notices
 #floater

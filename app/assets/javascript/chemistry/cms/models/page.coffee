@@ -1,5 +1,5 @@
 class Cms.Models.Page extends Cms.Model
-  savedAttributes: ['template_id', 'parent_id', 'title', 'slug', 'content', 'summary', 'excerpt', 'external_url', 'document_id', 'keywords', 'home', 'nav', 'nav_name', 'nav_position', 'date', 'to_date', 'rendered_html', 'image_id']
+  savedAttributes: ['template_id', 'parent_id', 'title', 'slug', 'private', 'content', 'summary', 'excerpt', 'external_url', 'document_id', 'keywords', 'home', 'nav', 'nav_name', 'nav_position', 'date', 'to_date', 'rendered_html', 'image_id']
   savedAssociations: ['sections', 'socials']
 
   defaults:
@@ -9,6 +9,7 @@ class Cms.Models.Page extends Cms.Model
     collapsed: false        # my children are hidden in tree
     concealed: false        # I am hidden in tree
     content: 'page'
+    private: false
 
   build: =>
     @belongsTo 'template'
@@ -124,7 +125,6 @@ class Cms.Models.Page extends Cms.Model
     $content_sections = $holder.find('section.standfirst, section.standard')
     excerpt = $content_sections.text().split(/\s+/).slice(0,64).join(' ')
     @set('excerpt', excerpt)
-    @log "-> excerpt", excerpt
 
     # grab image id from first image asset block of any kind
     # heroic...

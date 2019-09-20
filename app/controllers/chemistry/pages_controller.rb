@@ -5,11 +5,12 @@ module Chemistry
     include Chemistry::Concerns::Searchable
 
     # specially-named page routes make it easier to skip authentication
-    load_and_authorize_resource except: [:published, :latest, :children, :home, :bundle]
+    load_and_authorize_resource except: [:published, :latest, :children, :home, :bundle, :new]
+
 
     # HTML routes
     #
-    # public front page
+    # Public front page
     #
     def home
       if @page = Chemistry::Page.home.first
@@ -19,40 +20,99 @@ module Chemistry
       end
     end
 
-    def welcome
-      render template: "chemistry/welcome", layout: "chemistry/application"
-    end
-
-    # Editing front page
-    #
-    def editor
-      render
-    end
-
-    # Any page, in its published form.
+    # Any page in its published form.
     #
     def published
-      @path = params[:path] || ''
+      @path = params[:id] || ''
       @path.sub /\/$/, ''
       @path.sub /^\//, ''
-      if @page = Chemistry::Page.published.with_path(@path.strip).first
+      @page = Chemistry::Page.published.with_path(@path.strip).first
+      if @page && (@page.public? || user_signed_in?)
         render layout: Chemistry.public_layout
       else
         page_not_found
       end
     end
 
+    def controls
+      if params[:path].present?
+        @page = Chemistry::Page.find_by(path: params[:path])
+      end
+      if @page && can?(:edit, @page)
+        render layout: false
+      else
+        head :no_content
+      end
+    end
 
-    # API routes
+    # Welcome to empty site
+    #
+    def welcome
+      render template: "chemistry/welcome", layout: "chemistry/application"
+    end
+
+    # Editing front page is an index view
+    #
+    def editor
+      render
+    end
+
+    # New and edit are shortcuts to views within the SPA editor.
+    #
+    def new
+      @page = Chemistry::Page.new(new_page_params)
+      render
+    end
+
+    def edit
+      if @page
+        render
+      else
+        raise ActiveRecord::RecordNotFound
+      end
+    end
+
+
+    ## API routes
     #
     # Support the editing UI and a few public functions like list pagination.
     #
+    def index
+      return_pages
+    end
+
+    def show
+      return_page if stale?(etag: @page, last_modified: @page.published_at, public: true)
+    end
+
+    def create
+      if @page.update_attributes(create_page_params)
+        return_page
+      else
+        return_errors
+      end
+    end
+
+    def update
+      if @page.update_attributes(update_page_params)
+        @page.touch
+        return_page
+      else
+        return_errors
+      end
+    end
+
+    def destroy
+      @page.destroy
+      head :no_content
+    end
+
     # `site` is an init package for the editing UI.
     #
     # Serialized collections do not include associates: the object must be fetched singly
     # to get eg. page sections or template placeholders.
     #
-    # TODO soon we will need a real Site object but for now, this shortcut.
+    # TODO soon we will need a real Site object but for now, this bundle.
     # API will be preserved, more or less.
     #
     def site
@@ -86,14 +146,6 @@ module Chemistry
           return_pages_with_everything
         end
       end
-    end
-
-    def index
-      return_pages
-    end
-
-    def show
-      return_page if stale?(etag: @page, last_modified: @page.published_at, public: true)
     end
 
     # `latest` returns a list useful for populating sidebars and menus with 'latest update' type blocks
@@ -132,28 +184,6 @@ module Chemistry
       end
     end
 
-    def create
-      if @page.update_attributes(create_page_params)
-        return_page
-      else
-        return_errors
-      end
-    end
-
-    def update
-      if @page.update_attributes(update_page_params)
-        @page.touch
-        return_page
-      else
-        return_errors
-      end
-    end
-
-    def destroy
-      @page.destroy
-      head :no_content
-    end
-
 
     ## Standard API responses
 
@@ -185,9 +215,23 @@ module Chemistry
     end
 
 
-
     protected
   
+    ## Permitted parameters
+    #
+    # New-page link can set basic properties
+    #
+    def new_page_params
+      params.permit(
+        :path,
+        :private,
+        :title
+      )
+    end
+  
+    # Page creation is a preparatory ste
+    # to make our associations a bit easier to manage.
+    #
     def create_page_params
       params.require(:page).permit(
         :slug,
@@ -196,6 +240,7 @@ module Chemistry
         :content,
         :keywords,
         :external_url,
+        :private,
         :title
       )
     end
@@ -204,6 +249,7 @@ module Chemistry
       params.require(:page).permit(
         :id,
         :slug,
+        :private,
         :home,
         :template_id,
         :parent_id,

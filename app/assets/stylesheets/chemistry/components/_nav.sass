@@ -7,6 +7,7 @@ header#cms-nav
   background-color: rgba(255, 255, 255, 0)
   pointer-events: none
   transition: background-color 0.25s ease-out
+  z-index: 1000
   #shortcuts
     opacity: 1
     transition: opacity 0.25s ease-out
@@ -16,19 +17,29 @@ header#cms-nav
     pointer-events: auto
     display: block
     position: absolute
-    top: 10px
-    left: 72px
-    width: 32px
+    bottom: 0
+    right: 72px
     height: 32px
-    border-radius: 16px
+    border-top-left-radius: 16px
+    border-top-right-radius: 16px
+    padding: 12px
     background-color: white
     border: 1px solid white
+    box-shadow: 0 -1px 12px $shadow
     svg
       width: 32px
       height: 32px
+      display: inline-block
+      vertical-align: middle
+    span.label
+      white-space: nowrap
+      display: inline-block
+      margin-left: 0.5em
     &.unavailable
       display: none
     &.save
+      color: $blue
+    &.edit
       color: $blue
     &.publish
       color: $purple
@@ -64,7 +75,7 @@ header#cms-nav
 
   a.menu
     position: absolute
-    top: -64px
+    bottom: -64px
     left: -64px
     width: 128px
     height: 128px
@@ -73,7 +84,7 @@ header#cms-nav
     transition: color 0.1s ease-out
     cursor: pointer
     pointer-events: auto
-    background-color: $control_bg
+    background-color: $pale
     color: white
     &:hover
       background-color: $rubine
@@ -82,14 +93,14 @@ header#cms-nav
       width: 24px
       height: 24px
       position: absolute
-      bottom: 25px
+      top: 25px
       right: 27px
     svg.close
       display: none
       width: 36px
       height: 36px
       position: absolute
-      bottom: 18px
+      top: 18px
       right: 20px
 
   .shortcuts
