@@ -16,6 +16,7 @@ class Cms.Views.PageBuilderView extends Cms.ItemView
 
   initialize: (opts={}) ->
     super
+    window.p = @model
     @_default_title = opts.title or t('headings.builder.default')
     @_backto = opts.backto
 
@@ -25,7 +26,9 @@ class Cms.Views.PageBuilderView extends Cms.ItemView
   onRender: =>
     @showTitle()
     @ui.closer.attr 'href', @_backto
+    @log "onRender with page", @model.id, @model.cid
     @model.sections.loadAnd =>
+      @log "and sections", @model.sections.map((s) -> s.cid)
       @chooseModel()
       @showEditor()
 
@@ -40,6 +43,8 @@ class Cms.Views.PageBuilderView extends Cms.ItemView
       @edited_model = @model.sections.findWhere(section_type_slug: section_type_slug)
     else
       @edited_model = @model.sections.first()
+    @log "@edited_model", @edited_model.cid
+    @edited_model
 
   showEditor: =>
     editor = _.result @, 'sectionEditor'
@@ -90,7 +95,7 @@ class Cms.Views.PageBuilderAsset extends Cms.Views.PageBuilderView
 
 class Cms.Views.PageBuilderBody extends Cms.Views.PageBuilderView
   sectionEditor: "SectionBody"
-  sectionType: "standard"
+  sectionType: "standard"     # we edit first standard section on page
   previousStep: "asset"
   nextStep: "social"
   sectionTitle: 'headings.builder.body'
@@ -220,6 +225,7 @@ class Cms.Views.SectionAsset extends Cms.Views.PageBuilderSubView
   template: "builder/asset"
 
   onRender: =>
+    @log "onRender with editable model", @model.cid
     @ui.holder.html @model.get('background_html')
     @addView new Cms.Views.EditableBackground
       model: @model

@@ -67,7 +67,7 @@ class Cms.Views.EditableBackground extends Cms.Views.EditableHelper
     bg: "figure.bg"
 
   onRender: =>
-    @log "onRender"
+    @log "onRender with model", @model.id, @model.cid
     if @ui.bg.length
       bg_el = @ui.bg.first()
     else
@@ -80,7 +80,8 @@ class Cms.Views.EditableBackground extends Cms.Views.EditableHelper
   # We assume that it is the `background_html` attribute we should update, and do that directly.
   #
   onUpdate: =>
-    @log "onUpdate"
-    @model.set "background_html", @withoutControls(@$el.html())
+    html = @withoutControls(@$el.html())
+    @log "onUpdate", @model.id, @model.cid, html
+    @model.set "background_html", html
 
 

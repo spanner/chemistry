@@ -1,5 +1,3 @@
-
-
 ## UI Construction
 #
 # We have only three types of view:

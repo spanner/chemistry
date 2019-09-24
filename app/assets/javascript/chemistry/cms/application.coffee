@@ -38,7 +38,6 @@ class Cms.BuilderRouter extends Cms.Router
     ":step": "stepView"
 
   stepView: (step) =>
-    console.log "BuilderRouter stepView", step
     @ui.stepView(step)
 
 

@@ -139,7 +139,7 @@ class Cms.Model extends Backbone.Model
     @_saved.resolve(data)
     @confirmSave()
     @resetChanges()
-    @reloadAssociations()
+    # @reloadAssociations()
 
   confirmSave: =>
     @confirm t('reassurances.saved')

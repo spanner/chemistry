@@ -40,7 +40,6 @@ class Cms.Views.Social extends Cms.View
     super
     @_platform = opts.platform
     @_collection = opts.collection
-    @log "init", @_platform
 
   onRender: =>
     @model.on 'focus', @onFocus
