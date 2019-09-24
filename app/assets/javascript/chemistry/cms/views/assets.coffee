@@ -281,7 +281,7 @@ class Cms.Views.Video extends Cms.Views.Asset
       updateMethod: "html"
       classes:
         visible:
-          observe: "file_url"
+          observe: "mp4_url"
           onGet: "untrue"
     "video":
       observe: ["file_url", "embed_code"]
