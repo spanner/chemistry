@@ -9,6 +9,7 @@ module Chemistry
       preserve_files: true,
       processors: [:transcoder],
       styles: {
+        mp4: { format: "mp4"},
         thumb: { geometry: "48x48#", format: 'png', time: 0 },
         half: { geometry: "540x304<", format: 'jpg', time: 0 },
         full: { geometry: "1120x630<", format: 'jpg', time: 0 }
@@ -89,6 +90,10 @@ module Chemistry
 
     def original_url
       remote_url.presence || uploaded_file_url(:original)
+    end
+
+    def mp4_url
+      uploaded_file_url(:mp4)
     end
 
     protected

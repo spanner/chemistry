@@ -22,6 +22,7 @@ class Chemistry::VideoSerializer
              :thumb_url,
              :half_url,
              :hero_url,
-             :original_url
+             :original_url,
+             :mp4_url
 
 end

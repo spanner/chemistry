@@ -279,6 +279,10 @@ class Cms.Views.Video extends Cms.Views.Asset
     ".embed":
       observe: "embed_code"
       updateMethod: "html"
+      classes:
+        visible:
+          observe: "file_url"
+          onGet: "untrue"
     "video":
       observe: ["file_url", "embed_code"]
       visible: "thisButNotThat"
@@ -288,17 +292,17 @@ class Cms.Views.Video extends Cms.Views.Asset
         onGet: "videoId"
       ,
         name: "poster"
-        observe: "full_url"
+        observe: "hero_url"
       ]
     "img":
       attributes: [
         name: "src"
-        observe: "full_url"
+        observe: "hero_url"
       ]
     "source":
       attributes: [
         name: "src"
-        observe: "url"
+        observe: "mp4_url"
       ]
 
   wrap: =>
