@@ -195,7 +195,6 @@ class Cms.Collection extends Backbone.Collection
     @_loaded.promise()
 
   reload: =>
-    debugger
     @prepareLoader()
     @load()
 
