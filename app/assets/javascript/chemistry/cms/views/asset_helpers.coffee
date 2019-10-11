@@ -12,6 +12,7 @@ class Cms.Views.AssetInserter extends Cms.View
     "click a.image": "addImage"
     "click a.video": "addVideo"
     "click a.document": "addDocument"
+    "click a.linkbutton": "addButton"
     "click a.quote": "addQuote"
     "click a.note": "addNote"
 
@@ -58,6 +59,10 @@ class Cms.Views.AssetInserter extends Cms.View
   addDocument: (e) =>
     e?.preventDefault()
     @insert new Cms.Views.Document
+
+  addButton: (e) =>
+    e?.preventDefault()
+    @insert new Cms.Views.LinkButton
 
   addQuote: (e) =>
     e?.preventDefault()
@@ -229,6 +234,8 @@ class Cms.Views.DocumentEditor extends Cms.Views.AssetEditor
 class Cms.Views.QuoteEditor extends Cms.Views.AssetEditor
   template: "assets/quote_editor"
 
+class Cms.Views.LinkButtonEditor extends Cms.Views.AssetEditor
+  template: "assets/linkbutton_editor"
 
 class Cms.Views.NoteEditor extends Cms.Views.AssetEditor
   template: "assets/note_editor"

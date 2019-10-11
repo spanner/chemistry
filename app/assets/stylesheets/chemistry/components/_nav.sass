@@ -39,12 +39,20 @@ header#cms-nav
       display: none
     &.save
       color: $blue
+      &:visited
+        color: $blue
     &.edit
       color: $blue
+      &:visited
+        color: $blue
     &.publish
       color: $purple
+      &:visited
+        color: $purple
     &.review
       color: $mid
+      &:visited
+        color: $mid
 
   &.up
     background-color: $control_bg
@@ -192,18 +200,30 @@ a
     opacity: 1
   &.save
     color: $green
+    &:visited
+      color: $green
   &.revert
     color: $red
+    &:visited
+      color: $red
   &.publish
     color: $purple
+    &:visited
+      color: $purple
   &.review
     color: $blue
+    &:visited
+      color: $blue
   &.config
     color: $orange
+    &:visited
+      color: $orange
   &.unavailable
     cursor: text
     pointer-events: none
     color: $pale
+    &:visited
+      color: $pale
 
 @media (max-width: 750px)
   header#cms-nav

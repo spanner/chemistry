@@ -14,6 +14,9 @@
   %a.control.add.quote{title: t("tooltips.insert_quote")}>
     %svg.icon
       %use{"xlink:href" => "#quote_symbol"}
+  %a.control.add.linkbutton{title: t("tooltips.insert_button")}>
+    %svg.icon
+      %use{"xlink:href" => "#linkbutton_symbol"}
   %a.control.add.note{title: t("tooltips.insert_note")}>
     %svg.icon
       %use{"xlink:href" => "#note_symbol"}

@@ -146,7 +146,7 @@ class Cms.Views.SocialsEditList extends Cms.CollectionView
   className: "socials"
 
   initialize: (opts={}) ->
-    super
+    super()
     @_platform = opts.platform
     @viewFilter =
       platform: @_platform

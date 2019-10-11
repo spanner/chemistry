@@ -1,0 +1,6 @@
+.dosomething
+  %a.linkbutton<
+    %span.label{contenteditable: "plaintext-only", data: {placeholder: t('placeholders.linkbutton.label')}}
+    %svg.suffix
+      %use{"xlink:href" => "#forward_symbol"}
+  %span.href{contenteditable: "plaintext-only", data: {placeholder: t('placeholders.linkbutton.href'), cms: "true"}}<

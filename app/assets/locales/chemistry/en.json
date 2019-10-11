@@ -2,13 +2,13 @@
   "and": "and",
   "buttons": {
     "builder": {
-      "asset": "main image",
+      "asset": "Main image",
       "back": "Back",
-      "body": "body text",
+      "body": "Body text",
       "builder": "Return to the page builder",
       "continue": "Continue",
-      "socials": "social links",
-      "title": "page title",
+      "socials": "Social links",
+      "title": "Page title",
       "publish": "Publish"
     },
     "cancel": "Cancel",
@@ -118,7 +118,7 @@
   },
   "notes": {
     "builder": {
-      "asset": "This is the big image or video that will appear in the masthead of your page. You can add more images and video to the body of your page, which is coming up next. Everything that you upload remains available for reuse.",
+      "asset": "This is the big image or video that will appear in the masthead of your page. It always has roughly this shape, with minor variations on different device screens, so we generally recommend using an image rather than a video here. You can add more images and video to the body of your page, which is coming up next.",
       "body": "All you need to get started here is a friendly and interesting paragraph of text. Once you can add more, please do, and use the plus button to add images, video, quotes and anything else you would like to show people. It's your page.",
       "preview": "Your page is shown above as it will appear in different devices. If you are happy with it, press 'publish' to finish and move on. If not, press one of the 'edit' links to go back and make changes.",
       "socials": "Social links are optional but a very good idea. The procession is a great way to build engagement, and the Show app will make sure your social media links are in front of people as you go by. Click on any of the lines above to add a link, then if you like you can click the plus button to add another of that type.",
@@ -170,6 +170,11 @@
       "terms": "Add keyword",
       "title": "Page title",
       "url": "External URL"
+    },
+    "linkbutton": {
+      "label": "Button text",
+      "href": "https://full.address.please",
+      "caption": "Optional caption"
     },
     "note": {
       "heading": "Optional heading",
@@ -241,6 +246,7 @@
     "insert_video": "Place a video",
     "insert_quote": "Place a quote",
     "insert_note": "Place an annotation",
+    "insert_linkbutton": "Place a link button",
     "save": "Click to save changes",
     "revert": "Click to revert to last saved version",
     "publish": "Click to publish this version",

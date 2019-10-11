@@ -29,6 +29,9 @@ class Cms.Views.EditableHtml extends Cms.Views.EditableHelper
     @$el.find('figure.quote').each (i, el) =>
       @addView new Cms.Views.Quote
         el: el
+    @$el.find('figure.linkbutton').each (i, el) =>
+      @addView new Cms.Views.LinkButton
+        el: el
     @$el.find('figure.document').each (i, el) =>
       @addView new Cms.Views.Document
         el: el

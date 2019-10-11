@@ -1,18 +1,18 @@
-.editing
+.editing.page_socials
   .socialist
 
+.controls
+  %a.continue{href: "preview"}
+    %span.label
+      = t('buttons.builder.continue')
+    %svg.suffix
+      %use{"xlink:href" => "#forward_symbol"}
 
-%a.continue{href: "preview"}
-  %span.label
-    = t('buttons.builder.continue')
-  %svg.suffix
-    %use{"xlink:href" => "#forward_symbol"}
-
-%a.back{href: "body"}
-  %svg.prefix
-    %use{"xlink:href" => "#backward_symbol"}
-  %span.label
-    = t('buttons.builder.back')
+  %a.back{href: "body"}
+    %svg.prefix
+      %use{"xlink:href" => "#backward_symbol"}
+    %span.label
+      = t('buttons.builder.back')
 
 .notes
   %p.notes

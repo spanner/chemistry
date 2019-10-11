@@ -1,6 +1,2 @@
-%a.close
-  %svg
-    %use{"xlink:href" => "#close_symbol"}
-
 %h1.builder
 #builder

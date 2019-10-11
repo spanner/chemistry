@@ -15,7 +15,7 @@ class Cms.Views.PageBuilderView extends Cms.ItemView
     builder: "#builder"
 
   initialize: (opts={}) ->
-    super
+    super()
     window.p = @model
     @_default_title = opts.title or t('headings.builder.default')
     @_backto = opts.backto
@@ -124,12 +124,14 @@ class Cms.Views.PageBuilderPreview extends Cms.View
   ui:
     preview: "#preview"
     publish: "a.publish"
-    confirmation: ".confirmation"
+    published: ".published"
+    previewed: ".previewed"
     goto: "a.page"
 
   events:
     "click a.publish": "publish"
-    "click a.back": "goBack"
+    "click a.builder": "goStep"
+    "click a.editor": "goStep"
 
   bindings:
     ".previewed":
@@ -148,7 +150,7 @@ class Cms.Views.PageBuilderPreview extends Cms.View
           model: @model
         @showChildView 'preview', @preview
 
-  goBack: (e) =>
+  goStep: (e) =>
     e?.preventDefault()
     if next_step = e?.target.getAttribute('href')
       _cms.navigate next_step
@@ -160,8 +162,9 @@ class Cms.Views.PageBuilderPreview extends Cms.View
 
   confirm: =>
     @ui.goto.attr('href', "/" + @model.get('path'))
-    @ui.publish.removeClass('waiting').hide()
-    @ui.confirmation.slideDown()
+    @ui.publish.removeClass('waiting')
+    @ui.previewed.slideUp()
+    @ui.published.slideDown()
 
 
 class Cms.Views.PageBuilderEditor extends Cms.View
@@ -217,15 +220,17 @@ class Cms.Views.PageBuilderSubView extends Cms.ItemView
 
 class Cms.Views.SectionTitle extends Cms.Views.PageBuilderSubView
   template: "builder/title"
+  className: "section page_title"
+
   bindings:
     ".title": "title"
 
 
 class Cms.Views.SectionAsset extends Cms.Views.PageBuilderSubView
   template: "builder/asset"
+  className: "section page_asset"
 
   onRender: =>
-    @log "onRender with editable model", @model.cid
     @ui.holder.html @model.get('background_html')
     @addView new Cms.Views.EditableBackground
       model: @model
@@ -234,14 +239,16 @@ class Cms.Views.SectionAsset extends Cms.Views.PageBuilderSubView
 
 class Cms.Views.SectionBody extends Cms.Views.PageBuilderSubView
   template: "builder/body"
+  className: "section page_body"
+
+  ui:
+    section_body: ".body"
+
   bindings:
     ".body":
       observe: "primary_html"
       updateMethod: "html"
       onSet: "withoutControls"
-
-  ui:
-    section_body: ".body"
 
   onRender: =>
     @stickit()
@@ -252,6 +259,7 @@ class Cms.Views.SectionBody extends Cms.Views.PageBuilderSubView
 
 class Cms.Views.PageSocials extends Cms.Views.PageBuilderSubView
   template: "builder/socials"
+  className: "section page_socials"
 
   ui:
     socials: "div.socialist"

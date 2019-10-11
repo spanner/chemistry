@@ -1,19 +1,20 @@
-.editing
+.editing.page_body
   .body{contenteditable: true, data: {placeholder: t('placeholders.builder.body'), cms_toolbar: "blocks", cms_assets: "true"}}
 
-%a.continue{href: "socials"}
-  %span.label
-    = t('buttons.builder.continue')
-  %svg.suffix
-    %use{"xlink:href" => "#forward_symbol"}
+.controls
+  %a.continue{href: "socials"}
+    %span.label
+      = t('buttons.builder.continue')
+    %svg.suffix
+      %use{"xlink:href" => "#forward_symbol"}
 
-%a.back{href: "asset"}
-  %svg.prefix
-    %use{"xlink:href" => "#backward_symbol"}
-  %span.label
-    = t('buttons.builder.back')
+  %a.back{href: "asset"}
+    %svg.prefix
+      %use{"xlink:href" => "#backward_symbol"}
+    %span.label
+      = t('buttons.builder.back')
 
-.notes
-  %p.notes
-    = t('notes.builder.body')
+  .notes
+    %p.notes
+      = t('notes.builder.body')
 

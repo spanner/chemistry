@@ -1,42 +1,47 @@
 #preview
 
 #controls
+
   .published
-    %h2
-      Your page has been published.
+    %p.confirm
+      %a.page{target: "_published"}
+        %svg.icon
+          %use{href: "#tick_button_symbol"}
+        %span.label
+          Your page has been published.
+          Click here to see the public version.
+    %p
+      To make changes:
 
   .previewed
     %p
       Your page is previewed here.
       If you are happy with it, press
+
     %a.publish
       %span.label
         = t('buttons.builder.publish')
       %svg.suffix
         %use{"xlink:href" => "#forward_symbol"}
 
-  .confirmation
-    %a.page{target: "_published"}
-      Thank you. Your page has been published. Click here to see the real thing.
+    %p
+      Or to continue editing:
 
-  %p
-    If you would like to make any changes you can go back to
-
-    %a.back{href: "title"}
-      = t('buttons.builder.title') + ','
-
-    %a.back{href: "asset"}
-      = t('buttons.builder.asset') + ','
-
-    %a.back{href: "body"}
-      = t('buttons.builder.body')
-
-    or
-
-    %a.back{href: "social"}
-      = t('buttons.builder.socials') + '.'
+  %ul.steps
+    %li
+      %a.builder{href: "title"}
+        = t('buttons.builder.title')
+    %li
+      %a.builder{href: "asset"}
+        = t('buttons.builder.asset')
+    %li
+      %a.builder{href: "body"}
+        = t('buttons.builder.body')
+    %li
+      %a.builder{href: "social"}
+        = t('buttons.builder.socials')
 
   %p
     If you are confident with HTML you can also work more directly in the
-    %a.back{href: "editor"}
+    %a.editor{href: "editor"}
       full page editor.

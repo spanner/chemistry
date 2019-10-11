@@ -1,4 +1,4 @@
-.editing
+.editing.page_title
   %input.title{type: "text", placeholder: t('placeholders.builder.title'), autofocus: true}
 
 %a.continue{href: "asset"}

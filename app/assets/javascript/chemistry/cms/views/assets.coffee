@@ -136,7 +136,7 @@ class Cms.Views.Asset extends Cms.View
   #   "drop": "catchFiles"
 
   initialize: (opts={}) =>
-    @bindUIElements();
+    @bindUIElements()
 
   render: =>
     @wrap() or super
@@ -503,6 +503,46 @@ class Cms.Views.Quote extends Cms.Views.Asset
       "shortish"
     else
       ""
+
+
+## Button pseudo-assets
+#
+# Just html, with no reference to an external asset, but editable and stylable like an embedded object.
+#
+class Cms.Views.LinkButton extends Cms.Views.Asset
+  editorView: "LinkButtonEditor"
+  template: "assets/linkbutton"
+  className: "linkbutton full"
+  defaultSize: "full"
+
+  ui:
+    button: "a.linkbutton"
+
+  bindings:
+    "a.linkbutton":
+      attributes: [
+        name: "href"
+        observe: "url"
+      ]
+    "span.href":
+      observe: "url"
+    "span.caption":
+      observe: "caption"
+    "span.label":
+      observe: "label"
+
+  wrap: =>
+    @model = new Cms.Models.LinkButton
+      url: @ui.button.attr('href')
+      label: @ui.button.text()
+      caption: @$el.find('.caption').text()
+    @log "→ wrapped button", @el, _.clone(@model.attributes)
+    window.lb = @model
+    window.lbv = @
+    @triggerMethod 'wrap'
+
+  focus: =>
+    @ui.button.focus()
 
 
 ## Annotation (Note) pseudo-assets
