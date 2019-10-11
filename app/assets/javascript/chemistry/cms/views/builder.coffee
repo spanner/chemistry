@@ -140,6 +140,9 @@ class Cms.Views.PageBuilderPreview extends Cms.View
     ".published":
       observe: "outofdate"
       visible: "untrue"
+    "a.publish":
+      observe: "outofdate"
+      visible: true
 
   onRender: =>
     @stickit()
@@ -165,6 +168,7 @@ class Cms.Views.PageBuilderPreview extends Cms.View
     @ui.publish.removeClass('waiting')
     @ui.previewed.slideUp()
     @ui.published.slideDown()
+    @ui.publish.hide()
 
 
 class Cms.Views.PageBuilderEditor extends Cms.View

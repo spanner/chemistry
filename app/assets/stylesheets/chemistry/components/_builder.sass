@@ -42,15 +42,11 @@
       list-style: none
       a.builder:before
         content: "↤ "
-    a.back
-      color: $pale
     .previewed
-      a.save, a.publish
+      a.save, a.publish, a.back
         padding: 10px 0 10px 10px
         display: block
-        width: 30%
         position: relative
-        margin: 0.5em auto
         cursor: pointer
         &:hover
           color: $hover
@@ -71,6 +67,11 @@
             height: 30px
             float: left
             margin: 6px 8px 0 -36px
+    .builderbuttons
+      display: flex
+      padding: 1em
+      align-items: center
+      justify-content: space-evenly
       a.save
         color: $blue
       a.publish

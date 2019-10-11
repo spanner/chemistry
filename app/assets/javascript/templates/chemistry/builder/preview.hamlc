@@ -10,36 +10,23 @@
         %span.label
           Your page has been published.
           Click here to see the public version.
-    %p
-      To make changes:
 
   .previewed
     %p
       Your page is previewed here.
-      If you are happy with it, press
+      If you are happy with it, press publish to update the public version.
 
+  .builderbuttons
+    %a.back{href: "title"}
+      %svg.prefix
+        %use{"xlink:href" => "#backward_symbol"}
+      %span.label
+        = t('buttons.builder.edit')
     %a.publish
       %span.label
         = t('buttons.builder.publish')
       %svg.suffix
         %use{"xlink:href" => "#forward_symbol"}
-
-    %p
-      Or to continue editing:
-
-  %ul.steps
-    %li
-      %a.builder{href: "title"}
-        = t('buttons.builder.title')
-    %li
-      %a.builder{href: "asset"}
-        = t('buttons.builder.asset')
-    %li
-      %a.builder{href: "body"}
-        = t('buttons.builder.body')
-    %li
-      %a.builder{href: "social"}
-        = t('buttons.builder.socials')
 
   %p
     If you are confident with HTML you can also work more directly in the
