@@ -4,7 +4,7 @@ module Chemistry
   class PagesController < Chemistry::ApplicationController
     include Chemistry::Concerns::Searchable
 
-    # specially-named page routes make it easier to skip authentication
+    skip_before_action :authenticate_user!, only: [:published, :latest, :bundle], raise: false
     load_and_authorize_resource except: [:published, :latest, :children, :home, :bundle, :new]
 
 

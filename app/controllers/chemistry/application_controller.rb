@@ -2,7 +2,7 @@ module Chemistry
   class ApplicationController < ::ApplicationController
     layout :chemistry_layout
     before_action :set_access_control_headers
-    skip_before_action :verify_authenticity_token
+    skip_before_action :verify_authenticity_token, raise: false
 
     def cors_check
       head :ok
