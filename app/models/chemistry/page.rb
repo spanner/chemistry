@@ -47,7 +47,7 @@ module Chemistry
     scope :published, -> { undeleted.where.not(published_at: nil) }
     scope :latest, -> { order(created_at: :desc) }
     scope :with_parent, -> page { where(parent_id: page.id) }
-    scope :placeholders, -> { where.not(content: 'empty') }
+    scope :placeholders, -> { where(content: 'empty') }
     scope :published_and_placeholders, -> { published.or(placeholders) }
 
     scope :home, -> { where(home: true).limit(1) }
