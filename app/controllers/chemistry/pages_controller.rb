@@ -37,6 +37,8 @@ module Chemistry
     def controls
       if params[:path].present?
         @page = Chemistry::Page.find_by(path: params[:path])
+      else
+        @page = Chemistry::Page.home.first
       end
       if @page && can?(:edit, @page)
         render layout: false
