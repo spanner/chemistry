@@ -15,11 +15,11 @@ module Chemistry
     accepts_collected_attributes_for :sections
 
     # page links list
-    has_many :socials, dependent: :destroy, class_name: 'Chemistry::Social'
+    has_many :socials, class_name: 'Chemistry::Social', dependent: :destroy
     accepts_collected_attributes_for :socials
 
     # tree-building is very lightweight here but we do need the association
-    has_many :child_pages, class_name: 'Chemistry::Page', foreign_key: :parent_id
+    has_many :child_pages, class_name: 'Chemistry::Page', foreign_key: :parent_id, dependent: :destroy
 
     # metadata
     has_many :page_terms
