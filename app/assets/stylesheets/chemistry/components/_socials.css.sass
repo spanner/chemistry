@@ -17,10 +17,36 @@
     li
       position: relative
       margin: 0.5em 0
-      opacity: 0.5
+      opacity: 0.66
       transition: opacity 0.5s ease-out
-      color: $pale
-      &.populated
+      svg.icon
+        width: 20px
+        height: 20px
+        cursor: pointer
+      a.save
+        color: $green
+      a.cancel
+        color: $mid
+      a.remove
+        color: $red
+      a.add
+        color: $green
+      span.input
+        display: inline-block
+        width: calc(100% - 30px)
+      span.name, span.url
+        display: inline-block
+        white-space: nowrap
+        width: auto
+        &:empty:before
+          content: attr(data-placeholder)
+      span.if_web
+        display: none
+        margin: 0
+      &.editing
+        span.name, span.url
+          border-bottom: 1px solid currentColor
+          margin-right: 5px
         opacity: 1
       &.facebook
         color: $facebook
@@ -28,32 +54,15 @@
         color: $twitter
       &.instagram
         color: $instagram
-  span.prompt
-    cursor: pointer
-    outline: none
-    span.name
-      display: inline-block
-      width: auto
-      margin-right: 10px
-      &.editing
-        width: 150px
-        border-bottom: 1px solid currentColor
-      &:empty:not(.editing):before
-        content: attr(placeholder)
-    &.confirmed
-      animation: highlight 3s
+      &.web
+        color: $mid
+        .if_web
+          display: inline-block
+        span.url, span.name
+          display: inline-block
+          min-width: 32px
+
   .social_buttons
     float: right
     a
       display: inline-block
-    svg.icon
-      width: 20px
-      height: 20px
-    a.save
-      color: $green
-    a.cancel
-      color: $mid
-    a.remove
-      color: $red
-    a.add
-      color: $green

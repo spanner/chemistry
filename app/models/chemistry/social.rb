@@ -102,7 +102,7 @@ module Chemistry
     end
 
     def self.normalize_url(url="")
-      url = "http://#{url}" unless url.blank? or url =~ /^https?:\/\//
+      url = "https://#{url}" unless url.blank? or url =~ /^https?:\/\//
       url.strip
     end
 
