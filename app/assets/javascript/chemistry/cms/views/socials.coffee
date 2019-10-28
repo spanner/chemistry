@@ -5,6 +5,7 @@ class Cms.Views.Social extends Cms.View
   ui:
     prompt: 'span.prompt'
     name: 'span.name'
+    url: 'span.url'
     save: 'a.save'
     cancel: 'a.cancel'
     add: 'a.add'
@@ -20,6 +21,7 @@ class Cms.Views.Social extends Cms.View
       classes:
         persisted: "id"
         populated: "url"
+        editing: "editing"
     "use.platform":
       attributes: [
         name: "xlink:href"
@@ -27,11 +29,13 @@ class Cms.Views.Social extends Cms.View
         onGet: "platformSymbol"
       ]
     "span.name":
+      observe: "name"
+      onSet: "withoutHTML"
+      onGet: "withoutHTML"
+    "span.url":
       observe: "url"
       onSet: "withoutHTML"
       onGet: "withoutHTML"
-      classes:
-        editing: "editing"
     "a.add":
       observe: "url"
       visible: true
@@ -45,12 +49,13 @@ class Cms.Views.Social extends Cms.View
     @model.on 'focus', @onFocus
     @stickit()
     @$el.addClass(@_platform)
-    @ui.name.attr "placeholder", @defaultName()
+    @ui.url.attr "data-placeholder", @defaultUrl()
+    @ui.name.attr "data-placeholder", @defaultName()
 
   platformSymbol: (platform) =>
     "##{platform}_symbol"
 
-  defaultName: (platform) =>
+  defaultUrl: (platform) =>
     #todo: i18n
     platform ?= @model.get("platform")
     switch platform
@@ -60,9 +65,20 @@ class Cms.Views.Social extends Cms.View
         "Twitter handle"
       when "instagram"
         "Instagram handle"
+      when "web"
+        "Web URL"
+
+  defaultName: (platform) =>
+    platform ?= @model.get("platform")
+    switch platform
+      when "web"
+        "Link label"
 
   onFocus: (e) =>
-    @ui.name.focus()
+    if @ui.name.is(':visible')
+      @ui.name.focus()
+    else
+      @ui.url.focus()
     @model.set 'editing', true
 
   remove: =>
@@ -73,7 +89,12 @@ class Cms.Views.Social extends Cms.View
     @collection.add
       platform: @_platform
 
+  ifWeb: (platform) =>
+    platform is 'web'
 
+
+# Published view
+#
 class Cms.Views.SocialLink extends Cms.Views.Social
   template: 'socials/link'
   tagName: "li"
@@ -94,12 +115,15 @@ class Cms.Views.SocialLink extends Cms.Views.Social
         onGet: "platformSymbol"
       ]
     "span.name":
-      observe: "url"
+      observe: ["name", "url"]
+      onGet: "thisOrThat"
 
   onRender: =>
     @stickit()
 
 
+# EmptyView is an add button.
+#
 class Cms.Views.AddSocial extends Cms.Views.Social
   template: 'socials/add'
   tagName: "li"
@@ -107,16 +131,21 @@ class Cms.Views.AddSocial extends Cms.Views.Social
     "click": "addSocial"
 
   ui:
-    prompt: "span.name"
+    name: "span.name"
+    url: "span.url"
     symbol: "use.platform"
 
   onRender: =>
+    # NB no model so nothing to stick to.
     @$el.addClass(@_platform)
-    @ui.prompt.text @defaultName(@_platform)
-    @ui.symbol.attr "xlink:href", @platformSymbol(@_platform)
+    @ui.symbol.attr('href', "##{@_platform}_symbol")
+    @ui.name.text @defaultName(@_platform)
+    @ui.url.text @defaultUrl(@_platform)
 
   addSocial: =>
+    # cause this view to disappear and a list item to appear ready for editing
     new_social = @_collection.add(platform: @_platform)
+    # activate the list item and focus its first visible input
     new_social.trigger 'focus'
 
 

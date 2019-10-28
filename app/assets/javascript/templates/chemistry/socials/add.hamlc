@@ -1,4 +1,8 @@
-%span.prompt
-  %svg.icon
-    %use.platform{"xlink:href" => "#social_symbol"}
-  %span.name
+%svg.icon
+  %use.platform{"xlink:href" => "#social_symbol"}
+%span.input
+  %span.if_web
+    %span.name
+    %svg.inline
+      %use{"xlink:href" => "#goto_symbol"}
+  %span.url
