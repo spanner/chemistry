@@ -127,6 +127,7 @@ class Cms.Views.AssetEditor extends Cms.View
     @$el.attr('data-cms', true)
     @addHelpers()
     @setModel(@model) if @model
+    @log "rendered", @model, @ui.buttons
 
   addHelpers: =>
     if helpers = @getOption('helpers')
@@ -211,6 +212,7 @@ class Cms.Views.ImageOrVideoEditor extends Cms.Views.AssetEditor
   helpers: ["ImagePicker", "ImageImporter", "ImageUploader", "VideoPicker", "VideoImporter", "VideoUploader"]
 
   initialize: ->
+    @log "ImageOrVideoEditor init"
     @image_collection ?= new Cms.Collections.Images
     @video_collection ?= new Cms.Collections.Videos
     super

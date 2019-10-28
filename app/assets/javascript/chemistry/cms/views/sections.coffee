@@ -6,7 +6,8 @@
 class Cms.Views.Section extends Cms.View
   tagName: "section"
   className: => @model?.get('section_type_slug')
-  template: => @model?.getTemplate()
+  template: => 
+    @model?.getTemplate()
 
   @shorterThan: (limit) ->
     (value) -> 
@@ -110,11 +111,13 @@ class Cms.Views.Section extends Cms.View
   #
   addEditors: =>
     @ui.editable_string.each (i, el) =>
+      @log "editable_string", el
       @addView new Cms.Views.EditableString
         model: @model
         el: el
 
     @ui.editable_html.each (i, el) =>
+      @log "editable_html", el
       @addView new Cms.Views.EditableHtml
         model: @model
         el: el
@@ -122,7 +125,7 @@ class Cms.Views.Section extends Cms.View
     # Background is not the usual contenteditable situation, but an asset view attached directly to the section.
     # We don't bind it, but instead let the EditableBackground manage the background_html attribute directly.
     @ui.editable_background.each (i, el) =>
-      @log "background", el
+      @log "editable_background", el
       $(el).html @model.get('background_html')
       @addView new Cms.Views.EditableBackground
         model: @model
@@ -210,7 +213,6 @@ class Cms.Views.NoSection extends Cms.View
 class Cms.Views.Sections extends Cms.CollectionView
   childView: Cms.Views.Section
   emptyView: Cms.Views.NoSection
-  # nb AttachedCollectionView is self-loading and self-rendering
 
   childViewOptions: (model) =>
     page: @page

@@ -6,6 +6,6 @@
       %svg.prefix
         %use{"xlink:href" => "#backward_symbol"}
       %span.label
-        = t('buttons.builder.builder')
+        = t('buttons.builder.return')
 
   .buttons

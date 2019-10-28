@@ -5,12 +5,12 @@
       "asset": "Main image",
       "back": "Back",
       "body": "Body text",
-      "builder": "Return to the page builder",
       "continue": "Continue",
       "edit": "Edit",
+      "publish": "Publish",
+      "return": "Return to the page builder",
       "socials": "Social links",
-      "title": "Page title",
-      "publish": "Publish"
+      "title": "Page title"
     },
     "cancel": "Cancel",
     "create_page": "Create and edit page",

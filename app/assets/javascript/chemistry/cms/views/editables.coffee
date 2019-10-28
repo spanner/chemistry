@@ -70,7 +70,7 @@ class Cms.Views.EditableBackground extends Cms.Views.EditableHelper
     bg: "figure.bg"
 
   onRender: =>
-    @log "onRender with model", @model.id, @model.cid
+    @log "onRender with bg", @ui.bg
     if @ui.bg.length
       bg_el = @ui.bg.first()
     else

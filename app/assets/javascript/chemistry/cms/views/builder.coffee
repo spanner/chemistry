@@ -199,7 +199,7 @@ class Cms.Views.PageBuilderEditor extends Cms.View
 
   goBack: (e) =>
     e?.preventDefault()
-    _cms.navigate ""
+    _cms.navigate "title"
 
 
 ## Builder edit views
