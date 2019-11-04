@@ -16,6 +16,7 @@ class Chemistry::PublicPageSerializer
              :title,
              :summary,
              :excerpt,
+             :rendered_html,
              :keywords,
              :date,
              :to_date,
@@ -24,9 +25,9 @@ class Chemistry::PublicPageSerializer
              :published_at,
              :deleted_at
 
-  has_many :sections
   has_many :socials
-  has_many :terms
   belongs_to :image
   belongs_to :video
+
+
 end
