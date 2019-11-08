@@ -189,7 +189,7 @@ $ ->
 
 
 
-  $('article[data-page]').cms_menu()
+  # $('article[data-page]').cms_menu()
   $('section.enquiry').enquiry_form()
   $('[data-contents]').contents_list()
   $('a.footnoted').footnoted()
