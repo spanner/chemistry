@@ -10,13 +10,13 @@ Gem::Specification.new do |s|
   s.authors     = ["Will Ross"]
   s.email       = ["will@spanner.org"]
   s.homepage    = "https://spanner.org/os/chemistry"
-  s.summary     = "A compact and pluggable single-site CMS engine."
+  s.summary     = "A compact and modern content management system."
   s.description = "Add chemistry to your site for a modern and lightweight page-editing toolkit."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "rails", ">= 5.1"
+  s.add_dependency "rails", ">= 5.2"
   s.add_dependency 'cancancan'
   s.add_dependency 'paperclip', "~> 6.0"
   s.add_dependency "paperclip-av-transcoder"
@@ -29,8 +29,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'colorize'
   s.add_dependency 'settingslogic'
   s.add_dependency 'searchkick'
-  s.add_dependency "mail_form"
-  s.add_dependency "mustache"
 
   # UI
   s.add_dependency "haml"

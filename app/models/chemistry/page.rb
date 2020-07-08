@@ -3,33 +3,28 @@ require 'mustache'
 module Chemistry
   class Page < Chemistry::ApplicationRecord
     acts_as_paranoid
+    acts_as_list column: :nav_position
 
-    belongs_to :template, optional: true
+    # minimal tree-building
     belongs_to :parent, class_name: 'Chemistry::Page', optional: true
+    has_many :child_pages, class_name: 'Chemistry::Page', foreign_key: :parent_id, dependent: :destroy
 
+    # things in main_app can `have_page` throught the :owner association
     belongs_to :owner, polymorphic: true, optional: true
+
+    # and the association can declare a position in the page tree, such that eg. all event pages are under /events
     cattr_accessor :owner_anchors
 
-    # page content
-    has_many :sections, -> {order(position: :asc)}, dependent: :destroy
-    accepts_collected_attributes_for :sections
-
-    # page links list
+    # page links
     has_many :socials, class_name: 'Chemistry::Social', dependent: :destroy
     accepts_collected_attributes_for :socials
-
-    # tree-building is very lightweight here but we do need the association
-    has_many :child_pages, class_name: 'Chemistry::Page', foreign_key: :parent_id, dependent: :destroy
 
     # metadata
     has_many :page_terms
     has_many :terms, through: :page_terms
 
-    # content associations extracted for convenience
+    # first masthead image is extracted for display in lists
     belongs_to :image, optional: true
-    belongs_to :video, optional: true
-
-    acts_as_list column: :nav_position
 
     before_validation :derive_slug_and_path
     before_validation :get_excerpt
@@ -38,21 +33,17 @@ module Chemistry
     validates :title, presence: true
     validates :path, uniqueness: {conditions: -> { where(deleted_at: nil) }}
 
-    after_create :init_sections
     before_update :note_publication_date
-    after_update :reinit_sections_if_changed
     after_save :update_owner
-
-    scope :undeleted, -> { where(deleted_at: nil) }
-    scope :published, -> { undeleted.where.not(published_at: nil) }
-    scope :latest, -> { order(created_at: :desc) }
-    scope :with_parent, -> page { where(parent_id: page.id) }
-    scope :placeholders, -> { where(content: 'empty') }
-    scope :published_and_placeholders, -> { published.or(placeholders) }
 
     scope :home, -> { where(home: true).limit(1) }
     scope :nav, -> { where(nav: true) }
-
+    scope :undeleted, -> { where(deleted_at: nil) }
+    scope :published, -> { undeleted.where.not(published_at: nil) }
+    scope :placeholders, -> { where(role: 'empty') }
+    scope :published_and_placeholders, -> { published.or(placeholders) }
+    scope :latest, -> { order(created_at: :desc) }
+    scope :with_parent, -> page { where(parent_id: page.id) }
     scope :with_path, -> path { where(path: path) }
 
     def self.owned_by(owners=[])
@@ -146,7 +137,7 @@ module Chemistry
       path_parts = path.split('/')
       slug = path_parts.pop
       page = where(path: path).first_or_create({
-        content: "none",
+        role: "none",
         title: slug.titlecase,
         slug: slug,
         path: path
