@@ -1,4 +1,0 @@
-.cms-buttons
-  %a.control.delete
-    %svg.icon.filled
-      %use{"xlink:href" => "#cross_button_symbol"}

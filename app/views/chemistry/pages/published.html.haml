@@ -2,10 +2,9 @@
 - if @page.owner
   - page_data[@page.owner_type.underscore] = @page.owner_id
 
-%article{class: @page.template_slug, data: page_data}
-  - if @page.rendered_html
-    .cms-sections
-      = @page.rendered_html.html_safe
+%article{class: @page.style, data: page_data}
+  - if @page.published_html
+      = sanitize(@page.published_html)
 
   - else
     %p.warning

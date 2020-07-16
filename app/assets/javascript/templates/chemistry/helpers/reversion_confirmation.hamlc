@@ -1,6 +1,0 @@
-%span.message
-%span.decision
-  %a.confirm.revert
-    =t('buttons.revert')
-  %a.cancel
-    =t('buttons.cancel')

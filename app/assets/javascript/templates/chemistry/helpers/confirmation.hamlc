@@ -1,6 +1,0 @@
-%span.message
-%span.decision
-  %a.confirm.warning
-    =t('confirmations.really')
-  %a.cancel
-    =t('buttons.no_not_really')

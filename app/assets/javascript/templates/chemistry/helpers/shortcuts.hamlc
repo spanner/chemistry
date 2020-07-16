@@ -1,9 +1,0 @@
-%a.save.shortcut.unavailable{title: t("nav.tooltips.save_shortcut")}
-  %svg
-    %use{"xlink:href" => "#save_button_symbol"}
-%a.publish.shortcut.unavailable{title: t("nav.tooltips.publish_shortcut")}
-  %svg
-    %use{"xlink:href" => "#publish_button_symbol"}
-%a.review.shortcut.unavailable{title: t("nav.tooltips.review_shortcut"), target: "_published"}
-  %svg
-    %use{"xlink:href" => "#show_button_symbol"}

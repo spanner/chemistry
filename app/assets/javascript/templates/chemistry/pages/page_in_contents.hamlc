@@ -1,5 +1,0 @@
-%a.page
-  %span.detail
-    %span.title
-    %date.published
-    %span.summary

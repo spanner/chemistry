@@ -1,5 +1,5 @@
-module Chemistry
-  class SocialsController < ApplicationController
+module Chemistry::API
+  class SocialsController < Chemistry::Api::ApiController
     load_and_authorize_resource :page
     load_and_authorize_resource through: :page
 

@@ -1,5 +1,5 @@
-module Chemistry
-  class ImagesController < ApplicationController
+module Chemistry::API
+  class ImagesController < Chemistry::Api::ApiController
     load_and_authorize_resource except: [:index]
 
     def index

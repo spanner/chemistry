@@ -2,6 +2,11 @@ module Chemistry
   class ApplicationRecord < ActiveRecord::Base
     self.abstract_class = true
 
+    scope :other_than, -> these {
+      these = [these].flatten
+      where.not(id: these.map(&:id))
+    }
+
     # Minimal collection-assignment,
     # without the fragility and sudden rages of accepts_nested_attributes_for.
     #

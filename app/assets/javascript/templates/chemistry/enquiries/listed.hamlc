@@ -1,7 +1,0 @@
-%a.enquiry
-  %h3
-    %span.name
-    %span.email
-  %p
-    %date
-    %span.message

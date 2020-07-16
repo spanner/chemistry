@@ -9,31 +9,20 @@ class Chemistry::PageSerializer
              :path,
              :slug,
              :parent_id,
-             :content,
-             :external_url,
-             :template_id,
-             :prefix,
+             :page_category_id,
+             :page_collection_id,
              :title,
-             :summary,
+             :masthead,
+             :content,
              :excerpt,
-             :keywords,
-             :date,
-             :to_date,
+             :terms,
              :home,
              :nav,
              :nav_name,
              :nav_position,
-             :image_id,
-             :video_id,
              :created_at,
              :updated_at,
              :published_at,
-             :deleted_at,
-             # and some signals for the UI
-             :empty,
-             :template_has_changed
+             :deleted_at
 
-  # todo: parse properly in UI
-  # has_many :sections
-  # has_many :socials
 end

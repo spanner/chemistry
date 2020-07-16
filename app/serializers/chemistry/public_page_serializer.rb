@@ -9,25 +9,12 @@ class Chemistry::PublicPageSerializer
              :path,
              :slug,
              :parent_id,
-             :content,
-             :external_url,
-             :template_slug,
-             :prefix,
-             :title,
-             :summary,
-             :excerpt,
-             :rendered_html,
-             :keywords,
-             :date,
-             :to_date,
+             :published_title,
+             :published_excerpt,
+             :published_html,
+             :terms,
              :created_at,
              :updated_at,
-             :published_at,
-             :deleted_at
-
-  has_many :socials
-  belongs_to :image
-  belongs_to :video
-
+             :published_at
 
 end

@@ -1,5 +1,5 @@
-module Chemistry
-  class VideosController < ApplicationController
+module Chemistry::API
+  class VideosController < Chemistry::Api::ApiController
     load_and_authorize_resource
 
     def index

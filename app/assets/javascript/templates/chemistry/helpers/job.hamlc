@@ -1,5 +1,0 @@
-%span.percentage
-%span.job_status
-%span.progress
-  %span.bar
-%span.error

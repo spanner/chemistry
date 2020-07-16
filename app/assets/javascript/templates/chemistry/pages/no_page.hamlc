@@ -1,8 +1,0 @@
-%a{href: "/page/edit/new"}
-  %svg.page
-    %use{"xlink:href" => "#new_page_symbol"}
-  %span.detail
-    %span.heading
-      = t('new_page.home_title')
-    %span.description
-      = t('new_page.home_description')

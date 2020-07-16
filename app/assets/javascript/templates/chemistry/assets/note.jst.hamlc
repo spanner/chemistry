@@ -1,2 +1,0 @@
-%aside.note
-  %p{contenteditable: true, data: {placeholder: t('placeholders.note.text')}}<

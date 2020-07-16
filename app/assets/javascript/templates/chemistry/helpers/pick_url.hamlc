@@ -1,3 +1,0 @@
-%span.url{contenteditable: "true", data: {placeholder: t('placeholders.page.url')}}
-%span.notes
-  = t('notes.external_url')

@@ -1,5 +1,5 @@
-module Chemistry
-  class DocumentsController < ApplicationController
+module Chemistry::API
+  class DocumentsController < Chemistry::Api::ApiController
     load_and_authorize_resource
 
     def index

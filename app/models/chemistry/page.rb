@@ -19,15 +19,15 @@ module Chemistry
     has_many :socials, class_name: 'Chemistry::Social', dependent: :destroy
     accepts_collected_attributes_for :socials
 
-    # metadata
+    #TODO remove after migration
+    # terms is now an ad-hoc list in text
     has_many :page_terms
-    has_many :terms, through: :page_terms
+    has_many :old_terms, through: :page_terms, class_name: "Chemistry::Term"
 
     # first masthead image is extracted for display in lists
     belongs_to :image, optional: true
 
     before_validation :derive_slug_and_path
-    before_validation :get_excerpt
     before_validation :set_home_if_first
 
     validates :title, presence: true
@@ -46,14 +46,6 @@ module Chemistry
     scope :with_parent, -> page { where(parent_id: page.id) }
     scope :with_path, -> path { where(path: path) }
 
-    def self.owned_by(owners=[])
-      owners = [owners].flatten
-      results = where("1=0")
-      owners.each do |o|
-        results = results.or(where(owner_type: o.class.to_s, owner_id: o.id))
-      end
-      results
-    end
 
     def self.published_page_at(path)
       where(path: path).where.not(published_at: nil).first
@@ -63,54 +55,13 @@ module Chemistry
       published_at?
     end
 
-    def populated?
-      sections.where("primary_html IS NOT NULL or secondary_html IS NOT NULL").any?
-    end
-
     def public?
       !private?
-    end
-
-    def empty
-      !populated?
     end
 
     def absolute_path
       #TODO: mount point, by way of public_page_url(page)?
       "/" + path
-    end
-
-    def summary_or_excerpt
-      summary.presence || excerpt
-    end
-
-
-    ## Terms
-    #
-    def term_names
-      terms.pluck(:term).uniq
-    end
-
-    def term_list
-      term_names.join(", ")
-    end
-
-    def terms_with_synonyms
-      terms.includes(:term_synonyms).map(&:with_synonyms).flatten.uniq.join(' ')
-    end
-
-    # public tagging interface looks like this:
-    #
-    def keywords
-      term_list
-    end
-
-    def keywords=(somewords)
-      if somewords.blank?
-        self.terms.clear
-      else
-        self.terms = Chemistry::Term.from_list(somewords)
-      end
     end
 
 
@@ -150,9 +101,20 @@ module Chemistry
       page
     end
 
+    # fetch all pages belonging to given owner object(s), which might be of various types so some hackery is involved.
+    #
+    def self.owned_by(owners=[])
+      owners = [owners].flatten
+      results = where("1=0")
+      owners.each do |o|
+        results = results.or(where(owner_type: o.class.to_s, owner_id: o.id))
+      end
+      results
+    end
+
 
     ## Interpolations
-    #  are provided globally by the main application or specificially by a page owner.
+    #  can be provided globally by the main application or specificially by a page owner.
     #
     def interpolations
       standard_interpolations.merge(owner_interpolations)
@@ -177,7 +139,7 @@ module Chemistry
 
     # Render performs the interpolations by passing our attributes (usually blocks of html) and interpolation rules to mustache.
     #
-    def render(attribute=:published_content)
+    def render(attribute=:published_html)
       if renderable_attributes.include? attribute
         Mustache.render(read_attribute(attribute), interpolations)
       else
@@ -192,34 +154,30 @@ module Chemistry
                word_start: [:title],
                highlight: [:title, :content]
 
-    scope :search_import, -> { includes(:template) }
-
     def search_data
       {
-        title: title,
-        content: clean_rendered_html,
-        terms: terms_with_synonyms,
-        page_type: template_slug,
         path: path,
+        title: published_title.presence || title,
+        content: clean_published_html,
+        terms: terms_list,
+        page_style: style,
+        page_collection: page_collection_id,
+        page_category: page_category_id,
         published: published?,
         published_at: published_at
       }
     end
 
-    def clean_rendered_html
-      ActionController::Base.helpers.strip_tags(rendered_html)
+    def clean_published_html
+      ActionController::Base.helpers.strip_tags(published_html)
     end
 
-    def image_url
-      image.file_url(:hero) if image
-    end
-
-    def icon_url
-      image.file_url(:thumb) if image
-    end
-
-    def template_slug
-      template.slug if template
+    def terms_list
+      if terms?
+        terms.split(',').compact.uniq
+      else
+        []
+      end
     end
 
     def slug_base
@@ -263,7 +221,7 @@ module Chemistry
     protected
 
     def renderable_attributes
-      [:display_title, :rendered_html]
+      [:published_title, :published_html]
     end
 
     def set_home_if_first
@@ -294,76 +252,16 @@ module Chemistry
       slug
     end
 
-    def get_excerpt
-      #todo: truncated body of first section that has one
-    end
-
     # tiny little bodge here to make sure that published_at ends up being later than updated_at.
     def note_publication_date
-      self.published_at = Time.now + 2.seconds if will_save_change_to_rendered_html?
-    end
-
-    def init_sections
-      Rails.logger.warn "init_sections"
-      if template
-        revised_sections = []
-
-        # populate in order dictated by template, reusing any existing sections of matching type
-        existing_sections = sections.to_a
-        section_placeholders = template.placeholders.to_a
-        pos_base = 1
-
-        # existing header section: change type in situ
-        if existing_sections.any? && section_placeholders.any?
-          header_section = existing_sections.shift
-          header_section_placeholder = section_placeholders.shift
-          if header_section.section_type_id != header_section_placeholder.section_type_id
-            header_section.section_type_id = header_section_placeholder.section_type_id
-            header_section.move_to_top
-            pos_base += 1
-          end
-          revised_sections.push(header_section)
-        end
-
-        # everything else: shuffle into order, adding new sections where none of that type is available.
-        section_placeholders.each.with_index do |placeholder, i|
-          section = sections.other_than(revised_sections).where(section_type_id: placeholder.section_type_id).first_or_create
-          section.update_attributes({
-            detached: false,
-            position: i + pos_base
-          })
-          section.save
-          revised_sections << section
-        end
-
-        # note leftovers
-        leftover_sections = sections.other_than(revised_sections)
-
-        # detach (but keep) leftovers
-        leftover_sections.update_all(position: nil, detached: true)
-
-        # and a bit of prep/housekeeping
-        if header_section = revised_sections.first
-          header_section.prefix = prefix unless header_section.prefix?
-          header_section.title = title unless header_section.title?
-          header_section.save if header_section.changed?
-        end
-
-        # assign new sections (which should give them position in their present order)
-        self.sections = revised_sections + leftover_sections
+      if will_save_change_to_published_html?
+        self.published_at = Time.now + 2.seconds 
       end
     end
 
-    def reinit_sections_if_changed
-      init_sections if template && (sections.empty? || template_has_changed?)
-    end
-
     def update_owner
-      Rails.logger.warn "update_owner"
-      if owner
-        if owner.respond_to? :update_from_page
-          owner.update_from_page
-        end
+      if owner && owner.respond_to? :update_from_page
+        owner.update_from_page
       end
     end
 

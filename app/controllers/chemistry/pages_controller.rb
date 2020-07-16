@@ -8,7 +8,7 @@ module Chemistry
     load_and_authorize_resource except: [:published, :latest, :children, :home, :bundle, :new]
 
 
-    # Any page in its published form.
+    # The standard route to a public page: find by path and display html content. 
     #
     def published
       @path = params[:id] || ''

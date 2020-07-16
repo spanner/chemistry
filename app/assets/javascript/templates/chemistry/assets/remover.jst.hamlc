@@ -1,3 +1,0 @@
-%a.control.delete
-  %svg.icon.filled
-    %use{"xlink:href" => "#delete_symbol"}

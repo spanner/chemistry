@@ -1,4 +1,0 @@
-%a.choose
-  %svg.preview
-    %use.template{"xlink:href" => "#empty_page_symbol"}
-  %span.title

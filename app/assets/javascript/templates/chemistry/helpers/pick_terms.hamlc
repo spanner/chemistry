@@ -1,3 +1,0 @@
-%input.keywords{type: 'text', placeholder: t('placeholders.page.terms')}
-%span.notes
-  = t ('notes.page_terms')

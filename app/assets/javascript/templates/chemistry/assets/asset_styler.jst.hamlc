@@ -1,9 +1,0 @@
-%a.control.left
-  %svg.icon.filled
-    %use{"xlink:href" => "#left_symbol"}
-%a.control.full
-  %svg.icon.filled
-    %use{"xlink:href" => "#full_symbol"}
-%a.control.right
-  %svg.icon.filled
-    %use{"xlink:href" => "#right_symbol"}

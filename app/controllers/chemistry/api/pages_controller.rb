@@ -1,7 +1,7 @@
 require 'json'
 
 module Chemistry::API
-  class PagesController < Chemistry::ApplicationController
+  class PagesController < Chemistry::Api::ApiController
     include Chemistry::Concerns::Searchable
 
     skip_before_action :authenticate_user!, only: [:published, :latest, :bundle], raise: false
@@ -20,7 +20,7 @@ module Chemistry::API
     end
 
     def create
-      if @page.update_attributes(create_page_params)
+      if @page.update_attributes(page_params)
         return_page
       else
         return_errors
@@ -28,8 +28,15 @@ module Chemistry::API
     end
 
     def update
-      if @page.update_attributes(update_page_params)
-        @page.touch
+      if @page.update_attributes(page_params)
+        return_page
+      else
+        return_errors
+      end
+    end
+
+    def publish
+      if @page.publish!(publish_params)
         return_page
       else
         return_errors
@@ -81,73 +88,36 @@ module Chemistry::API
     #
     def new_page_params
       params.permit(
-        :path,
+        :slug,
         :private,
         :title
       )
     end
   
-    # Page creation is a preparatory ste
-    # to make our associations a bit easier to manage.
-    #
-    def create_page_params
+    def page_params
       params.require(:page).permit(
-        :slug,
-        :template_id,
         :parent_id,
-        :content,
-        :keywords,
-        :external_url,
-        :private,
-        :title
-      )
-    end
-
-    def update_page_params
-      params.require(:page).permit(
-        :id,
         :slug,
         :private,
-        :home,
-        :template_id,
-        :parent_id,
-        :content,
-        :external_url,
-        :document_id,
-        :prefix,
-        :title,
-        :summary,
+        :style,
+        :title,             # authoring page parts
+        :content,           #
+        :masthead,          #
         :excerpt,
-        :rendered_html,
-        :image_id,
-        :video_id,
         :nav,               # takes part in navigation?
         :nav_name,          # with this name
         :nav_position,      # in this position
-        :keywords,
-        :date,
-        :to_date,
-        socials_data: [    # + nested socials data
-          :position,
-          :platform,
-          :name,
-          :reference,
-          :url
-        ],
-        sections_data: [    # + nested section data
-          :id,
-          :section_type_id,
-          :position,
-          :prefix,
-          :title,
-          :primary_html,
-          :secondary_html,
-          :background_html,
-          :deleted_at
-        ]
+        :terms
       )
     end
 
+    def publish_params
+      params.require(:page).permit(
+        :published_title,
+        :published_html,
+        :published_excerpt
+      )
+    end
 
     ## Searchable configuration
     #

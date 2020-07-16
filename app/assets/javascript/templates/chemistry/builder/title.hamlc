@@ -1,8 +1,0 @@
-.editing.page_title
-  %input.title{type: "text", placeholder: t('placeholders.builder.title'), autofocus: true}
-
-%a.continue{href: "asset"}
-  %span.label
-    = t('buttons.builder.continue')
-  %svg.suffix
-    %use{"xlink:href" => "#forward_symbol"}
