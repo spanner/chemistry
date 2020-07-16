@@ -8,13 +8,14 @@ module Chemistry
     load_and_authorize_resource except: [:published, :latest, :children, :home, :bundle, :new]
 
 
-    # The standard route to a public page: find by path and display html content. 
+    # Deliver page to public user
     #
     def published
       @path = params[:id] || ''
       @path.sub /\/$/, ''
       @path.sub /^\//, ''
       @page = Chemistry::Page.published.with_path(@path.strip).first
+      # TODO: stale check
       if @page && (@page.public? || user_signed_in?)
         render layout: Chemistry.public_layout
       else
@@ -29,7 +30,8 @@ module Chemistry
       render template: "chemistry/welcome", layout: "chemistry/application"
     end
 
-    # New and edit are shortcuts to views within the SPA editor.
+
+    # New and edit bring up the SPA editor.
     #
     def new
       @page = Chemistry::Page.new(new_page_params)
@@ -99,6 +101,8 @@ module Chemistry
     end
 
 
+    protected
+  
     ## Error pages
 
     def page_not_found
@@ -110,17 +114,16 @@ module Chemistry
     end
 
 
-    protected
-  
     ## Permitted parameters
     #
-    # New-page link can set basic properties
+    # New-page link can make basic preparations
     #
     def new_page_params
       params.permit(
         :path,
         :private,
-        :title
+        :title,
+        :page_collection_id
       )
     end
 

@@ -1,13 +1,13 @@
 {
-  "name": "chemistry",
+  "name": "Chemistry",
   "version": "2.0.0",
-  "description": "A compact and modern CMS engine",
+  "description": "An easy way to add editable pages to your rails app. This integration script merely imports chemistry-client.",
   "main": "index.js",
-  "repository": "https://github.com/spanner/droom.git",
+  "repository": "https://github.com/spanner/chemistry.git",
   "author": "Will Ross <will@spanner.org>",
   "license": "MIT",
   "dependencies": {
-    "chemistry-client": "^2.0.0"
+    "chemistry-client": "file:/var/www/croucher/cms_client"
   },
   "devDependencies": {}
 }
