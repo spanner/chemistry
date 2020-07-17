@@ -7,7 +7,6 @@
   "author": "Will Ross <will@spanner.org>",
   "license": "MIT",
   "dependencies": {
-    "chemistry-client": "file:/var/www/croucher/cms_client"
   },
   "devDependencies": {}
 }

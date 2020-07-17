@@ -14,6 +14,10 @@ module Chemistry
       order(:short_title).map{|coll| [coll.short_title, coll.id] }
     end
   
+    def empty?
+      pages.empty?
+    end
+  
     def unpublished_pages
       pages.unpublished
     end

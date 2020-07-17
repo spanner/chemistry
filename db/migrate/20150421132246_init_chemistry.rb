@@ -1,3 +1,4 @@
+# This migration comes from chemistry (originally 20150421132246)
 class InitChemistry < ActiveRecord::Migration[5.1]
   def change
     create_table :chemistry_pages do |t|
@@ -15,65 +16,15 @@ class InitChemistry < ActiveRecord::Migration[5.1]
       t.integer :nav_position
       t.text :rendered_html, limit: 16.megabytes - 1
       t.string :external_url
-      t.integer :document_id
       t.datetime :published_at
       t.datetime :deleted_at
       t.timestamps
     end
     add_index :chemistry_pages, [:published_at, :path]
-    add_index :chemistry_pages, :template_id
     add_index :chemistry_pages, :parent_id
     add_index :chemistry_pages, :nav
     add_index :chemistry_pages, :home
     add_index :chemistry_pages, :deleted_at
-
-    create_table :chemistry_section_types do |t|
-      t.string :title
-      t.string :slug
-      t.text :description
-      t.text :template
-      t.attachment :icon
-      t.attachment :image
-      t.datetime :deleted_at
-      t.timestamps
-    end
-
-    create_table :chemistry_sections do |t|
-      t.integer :page_id
-      t.integer :position
-      t.boolean :detached, default: false
-      t.integer :section_type_id
-      t.string :title
-      t.text :primary_html, limit: 16.megabytes - 1
-      t.text :secondary_html, limit: 16.megabytes - 1
-      t.datetime :deleted_at
-      t.timestamps
-    end
-    add_index :chemistry_sections, [:page_id, :position]
-    add_index :chemistry_sections, :section_type_id
-    add_index :chemistry_sections, :deleted_at
-
-    create_table :chemistry_templates do |t|
-      t.string :title
-      t.string :slug
-      t.text :description
-      t.attachment :icon
-      t.datetime :deleted_at
-      t.timestamps
-    end
-
-    create_table :chemistry_placeholders do |t|
-      t.integer :template_id
-      t.integer :position
-      t.integer :section_type_id
-      t.string :title
-      t.text :content, limit: 16.megabytes - 1
-      t.text :aside, limit: 16.megabytes - 1
-      t.datetime :deleted_at
-      t.timestamps
-    end
-    add_index :chemistry_placeholders, [:template_id, :position]
-    add_index :chemistry_placeholders, :section_type_id
 
     create_table :chemistry_images do |t|
       t.attachment :file

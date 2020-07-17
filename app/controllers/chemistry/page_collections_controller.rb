@@ -1,6 +1,6 @@
 module Chemistry
   class PageCollectionsController < Chemistry::ApplicationController
-    skip_before_action :authenticate_user!, only: [:index, :show, :archive, :latest]
+    skip_before_action :authenticate_user!, only: [:index, :show, :archive, :latest], raise: false
     load_and_authorize_resource find_by: :slug
 
 

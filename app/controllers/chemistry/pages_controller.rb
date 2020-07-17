@@ -4,18 +4,17 @@ module Chemistry
   class PagesController < Chemistry::ApplicationController
     include Chemistry::Concerns::Searchable
 
-    skip_before_action :authenticate_user!, only: [:published, :latest, :bundle], raise: false
-    load_and_authorize_resource except: [:published, :latest, :children, :home, :bundle, :new]
+    skip_before_action :authenticate_user!, only: [:published, :latest], raise: false
+    load_resource :page_collection, only: [:new, :edit]
+    load_resource except: [:published, :latest, :children, :controls, :new], through: :page_collection, shallow: true
 
 
-    # Deliver page to public user
+    ## Deliver page to public user
     #
     def published
-      @path = params[:id] || ''
-      @path.sub /\/$/, ''
-      @path.sub /^\//, ''
-      @page = Chemistry::Page.published.with_path(@path.strip).first
-      # TODO: stale check
+      Rails.logger.warn "🦋 published #{params[:path]}"
+      @path = (params[:path] || '').sub(/\/$/, '').sub(/^\//, '').strip
+      @page = Chemistry::Page.published.with_path(@path).first
       if @page && (@page.public? || user_signed_in?)
         render layout: Chemistry.public_layout
       else
@@ -35,15 +34,11 @@ module Chemistry
     #
     def new
       @page = Chemistry::Page.new(new_page_params)
-      render template: "chemistry/pages/editor"
+      render
     end
 
     def edit
-      if @page
-        render template: "chemistry/pages/editor"
-      else
-        raise ActiveRecord::RecordNotFound
-      end
+      render
     end
 
 

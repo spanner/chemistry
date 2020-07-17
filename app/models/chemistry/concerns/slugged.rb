@@ -7,10 +7,6 @@ module Chemistry
       before_validation :derive_slug
     end
 
-    def to_param
-      slug
-    end
-
     def slug_source
       title
     end

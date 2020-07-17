@@ -4,10 +4,6 @@ module Chemistry::API
   class PagesController < Chemistry::Api::ApiController
     include Chemistry::Concerns::Searchable
 
-    skip_before_action :authenticate_user!, only: [:published, :latest, :bundle], raise: false
-    load_and_authorize_resource except: [:published, :latest, :children, :home, :bundle, :new]
-
-
     ## API routes
     # Support the editing UI and a few public functions like list pagination.
     #
