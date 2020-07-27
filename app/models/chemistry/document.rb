@@ -3,17 +3,17 @@ require "open-uri"
 module Chemistry
   class Document < ApplicationRecord
     acts_as_paranoid
+    belongs_to :user, class_name: Chemistry.config.user_class, foreign_key: Chemistry.config.user_key
 
     # TODO extract text, thumbnail image
     has_attached_file :file, preserve_files: true
     do_not_validate_attachment_file_type :file
 
     before_validation :read_remote_url
-  
+
     def file_url(style=:original, decache=true)
       if file?
         url = file.url(style, decache)
-        url.sub(/^\//, Settings.chemistry.host)
       else
         ""
       end
@@ -39,6 +39,10 @@ module Chemistry
 
     ## serialization
 
+    def title
+      read_attribute(:title).presence || file_file_name
+    end
+
     def file_name
       file_file_name
     end
@@ -53,6 +57,24 @@ module Chemistry
  
     def url
       file_url(:original)
+    end
+
+    ## Elasticsearch indexing
+    #
+    searchkick searchable: [:title],
+               word_start: [:title],
+               highlight: [:title]
+
+    def search_data
+      {
+        title: title,
+        file_name: file_name,
+        file_type: file_type,
+        file_size: file_size,
+        created_at: created_at,
+        user: user_id,
+        url: url
+      }
     end
 
     protected

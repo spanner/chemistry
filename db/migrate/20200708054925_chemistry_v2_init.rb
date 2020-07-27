@@ -18,6 +18,12 @@ class ChemistryV2Init < ActiveRecord::Migration[6.0]
     add_column :chemistry_pages, :terms, :text
     add_column :chemistry_pages, :featured_at, :datetime
 
+    # ownership association is configurable
+    add_column :chemistry_pages, :user_id, :string
+    add_column :chemistry_images, :user_id, :string
+    add_column :chemistry_videos, :user_id, :string
+    add_column :chemistry_documents, :user_id, :string
+
     # optional filing
     create_table :chemistry_page_categories, id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
       t.string :title

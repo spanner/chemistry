@@ -1,4 +1,4 @@
-module Chemistry::API
+module Chemistry::Api
   class SocialsController < Chemistry::Api::ApiController
     load_and_authorize_resource :page
     load_and_authorize_resource through: :page

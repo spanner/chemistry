@@ -1,4 +1,4 @@
-module Chemistry::API
+module Chemistry::Api
   class PageCollectionsController < Chemistry::Api::ApiController
     load_and_authorize_resource
 

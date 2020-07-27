@@ -3,7 +3,7 @@ require 'video_info'
 module Chemistry
   class Video < ApplicationRecord
     acts_as_paranoid
-    belongs_to :user, class_name: Chemistry.user_class
+    belongs_to :user, class_name: Chemistry.config.user_class, foreign_key: Chemistry.config.user_key
 
     has_attached_file :file,
       preserve_files: true,
@@ -26,7 +26,6 @@ module Chemistry
     def uploaded_file_url(style=:full, decache=true)
       if file?
         url = file.url(style, decache)
-        url.sub(/^\//, Settings.chemistry.host + "/")
       else
         ""
       end
@@ -96,8 +95,38 @@ module Chemistry
       uploaded_file_url(:mp4)
     end
 
+    ## Elasticsearch indexing
+    #
+    searchkick searchable: [:title],
+               word_start: [:title],
+               highlight: [:title]
+
+    def search_data
+      {
+        title: title,
+        provider: provider,
+        width: width,
+        height: height,
+        duration: duration,
+        file_name: file_name,
+        file_type: file_type,
+        file_size: file_size,
+        created_at: created_at,
+        user: user_id,
+        embed_code: embed_code,
+        urls: {
+          original: original_url,
+          hero:  hero_url,
+          full: full_url,
+          half: half_url,
+          thumb: thumb_url,
+          mp4: mp4_url
+        }
+      }
+    end
+
     protected
-  
+
     def get_metadata
       Rails.logger.warn "fetching metadata for remote_url #{remote_url}"
       if remote_url?

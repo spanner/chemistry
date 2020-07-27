@@ -9,7 +9,11 @@ module Chemistry
     end
 
     def chemistry_layout
-      Chemistry.layout
+      Chemistry.config.public_layout
+    end
+
+    def chemistry_admin_layout
+      Chemistry.config.admin_layout
     end
 
     def paginated(collection, default_show=10, default_page=1)

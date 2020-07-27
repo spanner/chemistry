@@ -16,7 +16,7 @@ module Chemistry
       @path = (params[:path] || '').sub(/\/$/, '').sub(/^\//, '').strip
       @page = Chemistry::Page.published.with_path(@path).first
       if @page && (@page.public? || user_signed_in?)
-        render layout: Chemistry.public_layout
+        render layout: chemistry_layout
       else
         page_not_found
       end
@@ -34,11 +34,11 @@ module Chemistry
     #
     def new
       @page = Chemistry::Page.new(new_page_params)
-      render
+      render layout: chemistry_admin_layout
     end
 
     def edit
-      render
+      render layout: chemistry_admin_layout
     end
 
 
@@ -102,9 +102,9 @@ module Chemistry
 
     def page_not_found
       if @page = Page.published.with_path("/404").first
-        render layout: Chemistry.public_layout
+        render layout: chemistry_layout
       else
-        render template: "chemistry/pages/not_found", layout: Chemistry.public_layout
+        render template: "chemistry/pages/not_found", layout: chemistry_layout
       end
     end
 

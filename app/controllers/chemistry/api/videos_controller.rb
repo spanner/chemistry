@@ -1,5 +1,6 @@
-module Chemistry::API
+module Chemistry::Api
   class VideosController < Chemistry::Api::ApiController
+    include Chemistry::Concerns::Searchable
     load_and_authorize_resource
 
     def index
@@ -11,7 +12,7 @@ module Chemistry::API
     end
   
     def create
-      if @video.update_attributes(video_params)
+      if @video.update_attributes(video_params.merge(user_id: current_user.id))
         return_video
       else
         return_errors
@@ -57,6 +58,20 @@ module Chemistry::API
         :caption,
         :remote_url
       )
+    end
+
+    ## Searchable configuration
+    #
+    def search_fields
+      ['title']
+    end
+
+    def search_highlights
+      {tag: "<strong>"}
+    end
+
+    def search_default_sort
+      "created_at"
     end
 
   end

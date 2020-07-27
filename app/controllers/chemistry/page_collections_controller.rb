@@ -7,14 +7,14 @@ module Chemistry
     # Public collection home page
     #
     def show
-      render layout: Chemistry.public_layout
+      render layout: chemistry_layout
     end
 
     # Public Archive / search view
     #
     def archive
       @pages = @page_collection.search_and_aggregate_pages(archive_params)
-      render layout: Chemistry.admin_layout
+      render layout: chemistry_admin_layout
     end
 
 
@@ -23,7 +23,7 @@ module Chemistry
     #
     def dashboard
       @page_collections = PageCollection.order(:title)
-      render layout: Chemistry.admin_layout
+      render layout: chemistry_admin_layout
     end
   
     # Admin latest-updates page
@@ -31,7 +31,7 @@ module Chemistry
     #
     def index
       @page_collections = @page_collections.made_public
-      render layout: Chemistry.admin_layout
+      render layout: chemistry_admin_layout
     end
 
     # Admin page quick search
@@ -44,7 +44,7 @@ module Chemistry
     # Admin crud
     #
     def edit
-      render layout: Chemistry.admin_layout
+      render layout: chemistry_admin_layout
     end
   
     def update
@@ -56,7 +56,7 @@ module Chemistry
     end
 
     def new
-      render layout: Chemistry.admin_layout
+      render layout: chemistry_admin_layout
     end
   
     def create

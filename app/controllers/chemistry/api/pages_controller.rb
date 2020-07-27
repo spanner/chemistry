@@ -1,6 +1,6 @@
 require 'json'
 
-module Chemistry::API
+module Chemistry::Api
   class PagesController < Chemistry::Api::ApiController
     include Chemistry::Concerns::Searchable
 
@@ -16,7 +16,7 @@ module Chemistry::API
     end
 
     def create
-      if @page.update_attributes(page_params)
+      if @page.update_attributes(page_params.merge(user_id: current_user.id))
         return_page
       else
         return_errors
@@ -45,7 +45,6 @@ module Chemistry::API
     end
 
 
-
     ## Standard API responses
 
     def return_pages
@@ -68,11 +67,7 @@ module Chemistry::API
     ## Error pages
 
     def page_not_found
-      if @page = Page.published.with_path("/404").first
-        render layout: Chemistry.public_layout
-      else
-        render template: "chemistry/pages/not_found", layout: Chemistry.public_layout
-      end
+      head :not_found
     end
 
 

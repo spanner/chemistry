@@ -1,5 +1,5 @@
 module Chemistry::Api
-  class ApiController < Droom::DroomController
+  class ApiController < Chemistry::ApplicationController
 
     respond_to :json
     skip_before_action :verify_authenticity_token, raise: false
