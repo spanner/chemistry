@@ -3,6 +3,7 @@ require 'json'
 module Chemistry::Api
   class PagesController < Chemistry::Api::ApiController
     include Chemistry::Concerns::Searchable
+    load_and_authorize_resource class: Chemistry::Page, except: [:index]
 
     ## API routes
     # Support the editing UI and a few public functions like list pagination.
@@ -48,15 +49,15 @@ module Chemistry::Api
     ## Standard API responses
 
     def return_pages
-      render json: PageSerializer.new(@pages).serialized_json
+      render json: Chemistry::PageSerializer.new(@pages).serialized_json
     end
 
     def return_pages_with_everything
-      render json: PublicPageSerializer.new(@pages, include: [:socials, :image, :video]).serialized_json
+      render json: Chemistry::PublicPageSerializer.new(@pages, include: [:socials, :image, :video]).serialized_json
     end
 
     def return_page
-      render json: PageSerializer.new(@page).serialized_json
+      render json: Chemistry::PageSerializer.new(@page).serialized_json
     end
 
     def return_errors

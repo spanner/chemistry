@@ -1,7 +1,7 @@
 module Chemistry::Api
   class ImagesController < Chemistry::Api::ApiController
     include Chemistry::Concerns::Searchable
-    load_and_authorize_resource except: [:index]
+    load_and_authorize_resource class: Chemistry::Image, except: [:index]
 
     def index
       return_images
@@ -12,7 +12,7 @@ module Chemistry::Api
     end
 
     def create
-      if @image.update_attributes(image_params.merge(user_id: current_user.id))
+      if @image.update_attributes(image_params.merge(user_id: user_signed_in? && current_user.id))
         return_image
       else
         return_errors
@@ -36,11 +36,11 @@ module Chemistry::Api
     ## Standard responses
 
     def return_images
-      render json: ImageSerializer.new(@images).serialized_json
+      render json: Chemistry::ImageSerializer.new(@images).serialized_json
     end
 
     def return_image
-      render json: ImageSerializer.new(@image).serialized_json
+      render json: Chemistry::ImageSerializer.new(@image).serialized_json
     end
 
     def return_errors
@@ -62,6 +62,10 @@ module Chemistry::Api
 
     ## Searchable configuration
     #
+    def search_class
+      Chemistry::Image
+    end
+
     def search_fields
       ['title']
     end

@@ -52,9 +52,9 @@ module Chemistry::Concerns::Searchable
     options[:highlight] = search_highlights if search_highlights
     options[:includes] = search_includes if search_includes
 
-    Rails.logger.warn "SEARCH OPTIONS: #{options.inspect}"
+    Rails.logger.warn "🕵️‍♂️ SEARCH OPTIONS: #{options.inspect}"
 
-    klass = controller_path.classify.constantize
+    klass = search_class
     search_results = klass.search @q, options
     instance_variable_set("@#{controller_name}", search_results)
 
@@ -65,6 +65,10 @@ module Chemistry::Concerns::Searchable
     if aggregated?
       @aggs = search_results.aggs
     end
+  end
+
+  def search_class
+    controller_path.classify.constantize
   end
 
   def search_fields
@@ -105,7 +109,7 @@ module Chemistry::Concerns::Searchable
   end
 
   def default_per_page
-    20
+    10
   end
 
   def paginated?

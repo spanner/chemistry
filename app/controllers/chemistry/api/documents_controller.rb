@@ -1,16 +1,16 @@
 module Chemistry::Api
   class DocumentsController < Chemistry::Api::ApiController
     include Chemistry::Concerns::Searchable
-    load_and_authorize_resource
+    load_and_authorize_resource class: Chemistry::Document, except: [:index]
 
     def index
       return_documents
     end
-  
+
     def show
       return_document
     end
-  
+
     def create
       if @document.update_attributes(document_params.merge(user_id: current_user.id))
         return_document
@@ -36,11 +36,11 @@ module Chemistry::Api
     ## Standard responses
 
     def return_documents
-      render json: DocumentSerializer.new(@documents).serialized_json
+      render json: Chemistry::DocumentSerializer.new(@documents).serialized_json
     end
 
     def return_document
-      render json: DocumentSerializer.new(@document).serialized_json
+      render json: Chemistry::DocumentSerializer.new(@document).serialized_json
     end
 
     def return_errors
@@ -61,6 +61,10 @@ module Chemistry::Api
 
     ## Searchable configuration
     #
+    def search_class
+      Chemistry::Document
+    end
+
     def search_fields
       ['title']
     end

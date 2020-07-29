@@ -1,6 +1,6 @@
 module Chemistry::Api
   class PageCollectionsController < Chemistry::Api::ApiController
-    load_and_authorize_resource
+    load_and_authorize_resource class: Chemistry::PageCollection
 
     def index
       return_page_collections
@@ -30,11 +30,11 @@ module Chemistry::Api
     protected
 
     def return_page_collections
-      render json: PageCollectionSerializer.new(@page_collections).serialized_json
+      render json: Chemistry::PageCollectionSerializer.new(@page_collections).serialized_json
     end
 
     def return_page_collection
-      render json: PageCollectionSerializer.new(@page_collection).serialized_json
+      render json: Chemistry::PageCollectionSerializer.new(@page_collection).serialized_json
     end
 
     def return_errors

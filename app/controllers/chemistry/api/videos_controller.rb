@@ -1,7 +1,7 @@
 module Chemistry::Api
   class VideosController < Chemistry::Api::ApiController
     include Chemistry::Concerns::Searchable
-    load_and_authorize_resource
+    load_and_authorize_resource class: Chemistry::Video, except: [:index]
 
     def index
       return_videos
@@ -36,11 +36,11 @@ module Chemistry::Api
     ## Standard responses
 
     def return_videos
-      render json: VideoSerializer.new(@videos).serialized_json
+      render json: Chemistry::VideoSerializer.new(@videos).serialized_json
     end
 
     def return_video
-      render json: VideoSerializer.new(@video).serialized_json
+      render json: Chemistry::VideoSerializer.new(@video).serialized_json
     end
 
     def return_errors
@@ -62,6 +62,10 @@ module Chemistry::Api
 
     ## Searchable configuration
     #
+    def search_class
+      Chemistry::Video
+    end
+
     def search_fields
       ['title']
     end

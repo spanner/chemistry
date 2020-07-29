@@ -1,6 +1,6 @@
 module Chemistry::Api
-  class PageCategorysController < Chemistry::Api::ApiController
-    load_and_authorize_resource
+  class PageCategoriesController < Chemistry::Api::ApiController
+    load_and_authorize_resource class: Chemistry::PageCategory
 
     def index
       return_page_categories
@@ -30,11 +30,11 @@ module Chemistry::Api
     protected
 
     def return_page_categories
-      render json: PageCategorySerializer.new(@page_categories).serialized_json
+      render json: Chemistry::PageCategorySerializer.new(@page_categories).serialized_json
     end
 
     def return_page_category
-      render json: PageCategorySerializer.new(@page_category).serialized_json
+      render json: Chemistry::PageCategorySerializer.new(@page_category).serialized_json
     end
 
     def return_errors

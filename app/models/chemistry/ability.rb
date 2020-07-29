@@ -7,6 +7,9 @@ module Chemistry
       can [:index, :home, :published, :latest], Chemistry::Page
       can :create, Chemistry::Enquiry
 
+      # temporary
+      can :manage, :all
+
       if user && user.persisted?
 
         # todo: perhaps be a little bit more fine-grained here.

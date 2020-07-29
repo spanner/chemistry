@@ -114,6 +114,7 @@ module Chemistry
         created_at: created_at,
         user: user_id,
         embed_code: embed_code,
+        created_at: created_at,
         urls: {
           original: original_url,
           hero:  hero_url,
