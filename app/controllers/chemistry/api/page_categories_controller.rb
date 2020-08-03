@@ -1,6 +1,6 @@
 module Chemistry::Api
   class PageCategoriesController < Chemistry::Api::ApiController
-    load_and_authorize_resource class: Chemistry::PageCategory
+    load_resource class: Chemistry::PageCategory
 
     def index
       return_page_categories

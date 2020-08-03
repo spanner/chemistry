@@ -3,7 +3,7 @@ require 'json'
 module Chemistry::Api
   class PagesController < Chemistry::Api::ApiController
     include Chemistry::Concerns::Searchable
-    load_and_authorize_resource class: Chemistry::Page, except: [:index]
+    load_resource class: Chemistry::Page, except: [:index]
 
     ## API routes
     # Support the editing UI and a few public functions like list pagination.
@@ -14,6 +14,11 @@ module Chemistry::Api
 
     def show
       return_page if stale?(etag: @page, last_modified: @page.published_at, public: true)
+    end
+
+    def branch
+      # return all the pages that are children of a given stem,
+      # and within a given page_collection
     end
 
     def create
@@ -49,7 +54,7 @@ module Chemistry::Api
     ## Standard API responses
 
     def return_pages
-      render json: Chemistry::PageSerializer.new(@pages).serialized_json
+      render json: Chemistry::TreePageSerializer.new(@pages).serialized_json
     end
 
     def return_pages_with_everything
@@ -113,6 +118,10 @@ module Chemistry::Api
 
     ## Searchable configuration
     #
+    def search_class
+      Chemistry::Page
+    end
+
     def search_fields
       ['title^10', 'terms^5', 'content']
     end
@@ -123,6 +132,10 @@ module Chemistry::Api
 
     def search_default_sort
       "title"
+    end
+
+    def paginated?
+      false
     end
 
   end

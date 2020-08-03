@@ -1,7 +1,8 @@
 module Chemistry::Api
   class VideosController < Chemistry::Api::ApiController
     include Chemistry::Concerns::Searchable
-    load_and_authorize_resource class: Chemistry::Video, except: [:index]
+    # load_and_authorize_resource class: Chemistry::Video, except: [:index]
+    load_resource class: Chemistry::Video, except: [:index]
 
     def index
       return_videos
@@ -12,7 +13,7 @@ module Chemistry::Api
     end
   
     def create
-      if @video.update_attributes(video_params.merge(user_id: current_user.id))
+      if @video.update_attributes(video_params.merge(user_id: user_signed_in? && current_user.id))
         return_video
       else
         return_errors
@@ -68,6 +69,10 @@ module Chemistry::Api
 
     def search_fields
       ['title']
+    end
+
+    def search_match
+      :word_start
     end
 
     def search_highlights

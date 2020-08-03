@@ -13,6 +13,7 @@ class Chemistry::PublicPageSerializer
              :published_excerpt,
              :published_html,
              :terms,
+             :style,
              :created_at,
              :updated_at,
              :published_at

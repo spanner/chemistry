@@ -1,6 +1,6 @@
 require "fast_jsonapi"
 
-class Chemistry::PageSerializer
+class Chemistry::TreePageSerializer
   include FastJsonapi::ObjectSerializer
 
   set_type :page
@@ -12,15 +12,7 @@ class Chemistry::PageSerializer
              :page_category_id,
              :page_collection_id,
              :title,
-             :masthead,
-             :content,
-             :excerpt,
-             :terms,
-             :home,
              :style,
-             :nav,
-             :nav_name,
-             :nav_position,
              :created_at,
              :updated_at,
              :published_at,

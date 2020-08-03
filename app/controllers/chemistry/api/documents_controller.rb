@@ -12,7 +12,7 @@ module Chemistry::Api
     end
 
     def create
-      if @document.update_attributes(document_params.merge(user_id: current_user.id))
+      if @document.update_attributes(document_params.merge(user_id: user_signed_in? && current_user.id))
         return_document
       else
         return_errors
@@ -66,7 +66,11 @@ module Chemistry::Api
     end
 
     def search_fields
-      ['title']
+      ['title', 'file_name']
+    end
+
+    def search_match
+      :word_middle
     end
 
     def search_highlights

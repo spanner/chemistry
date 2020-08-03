@@ -83,6 +83,10 @@ module Chemistry
       thumbnail_medium.presence || uploaded_file_url(:half)
     end
 
+    def full_url
+      thumbnail_large.presence || uploaded_file_url(:full)
+    end
+
     def hero_url
       thumbnail_large.presence || uploaded_file_url(:full)
     end
@@ -97,9 +101,8 @@ module Chemistry
 
     ## Elasticsearch indexing
     #
-    searchkick searchable: [:title],
-               word_start: [:title],
-               highlight: [:title]
+    searchkick searchable: [:title, :file_name],
+               word_start: [:title, :file_name]
 
     def search_data
       {
@@ -129,12 +132,15 @@ module Chemistry
     protected
 
     def get_metadata
-      Rails.logger.warn "fetching metadata for remote_url #{remote_url}"
+      Rails.logger.warn "🍿 fetching metadata for remote_url #{remote_url}"
       if remote_url?
-        # unless remote_url =~ /^http/
-        #   remote_url = "http://www.youtube.com/watch?v=#{remote_url}"
-        # end
-        if video = VideoInfo.new(remote_url)
+        if remote_url =~ /^http/
+          import_url = remote_url
+        else
+          import_url = "https://www.youtube.com/watch?v=#{remote_url}"
+        end
+        Rails.logger.warn "🍿 infoing #{import_url}"
+        if video = VideoInfo.new(import_url)
           self.title = video.title
           self.provider = video.provider
           self.thumbnail_large = video.thumbnail_large

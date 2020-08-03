@@ -7,7 +7,8 @@ module Chemistry
                   :api_url,
                   :user_class,
                   :user_key,
-                  :default_per_page
+                  :default_per_page,
+                  :login_path
 
     # defaults
     @user_class = "User"

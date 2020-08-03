@@ -5,7 +5,6 @@ module Chemistry
     def initialize(user)
 
       can [:index, :home, :published, :latest], Chemistry::Page
-      can :create, Chemistry::Enquiry
 
       # temporary
       can :manage, :all

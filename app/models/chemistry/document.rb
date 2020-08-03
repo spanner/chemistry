@@ -61,9 +61,8 @@ module Chemistry
 
     ## Elasticsearch indexing
     #
-    searchkick searchable: [:title],
-               word_start: [:title],
-               highlight: [:title]
+    searchkick searchable: [:title, :file_name],
+               word_middle: [:title, :file_name]
 
     def search_data
       {

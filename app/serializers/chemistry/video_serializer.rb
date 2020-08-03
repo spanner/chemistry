@@ -14,8 +14,8 @@ class Chemistry::VideoSerializer
              :width,
              :height,
              :duration,
-             :file_size,
              :file_type,
+             :file_size,
              :file_updated_at,
              :embed_code,
              :file_url,           # defaults to :full size

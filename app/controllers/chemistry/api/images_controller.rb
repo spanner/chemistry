@@ -1,7 +1,7 @@
 module Chemistry::Api
   class ImagesController < Chemistry::Api::ApiController
     include Chemistry::Concerns::Searchable
-    load_and_authorize_resource class: Chemistry::Image, except: [:index]
+    load_resource class: Chemistry::Image, except: [:index]
 
     def index
       return_images
@@ -67,7 +67,11 @@ module Chemistry::Api
     end
 
     def search_fields
-      ['title']
+      ['title', 'file_name']
+    end
+
+    def search_match
+      :word_start
     end
 
     def search_highlights
@@ -77,6 +81,10 @@ module Chemistry::Api
     def search_default_sort
       "created_at"
     end
+
+  def default_per_page
+    50
+  end
 
   end
 end
