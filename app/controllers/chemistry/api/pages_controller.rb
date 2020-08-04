@@ -22,7 +22,11 @@ module Chemistry::Api
     end
 
     def create
-      if @page.update_attributes(page_params.merge(user_id: current_user.id))
+      page_attributes = page_params
+      if (user_signed_in?) 
+        page_attributes[:user_id] = current_user.id
+      end
+      if @page.update(page_attributes)
         return_page
       else
         return_errors
@@ -30,7 +34,7 @@ module Chemistry::Api
     end
 
     def update
-      if @page.update_attributes(page_params)
+      if @page.update(page_params)
         return_page
       else
         return_errors
@@ -93,7 +97,6 @@ module Chemistry::Api
   
     def page_params
       params.require(:page).permit(
-        :parent_id,
         :slug,
         :private,
         :style,
@@ -104,7 +107,10 @@ module Chemistry::Api
         :nav,               # takes part in navigation?
         :nav_name,          # with this name
         :nav_position,      # in this position
-        :terms
+        :terms,
+        :parent_id,
+        :page_collection_id,
+        :page_category_id
       )
     end
 
@@ -123,7 +129,7 @@ module Chemistry::Api
     end
 
     def search_fields
-      ['title^10', 'terms^5', 'content']
+      ['title^2', 'path', 'terms']
     end
 
     def search_highlights
@@ -131,10 +137,18 @@ module Chemistry::Api
     end
 
     def search_default_sort
-      "title"
+      "created_at"
+    end
+
+    def search_aggregations
+      ['page_collection', 'page_category', 'parent']
     end
 
     def paginated?
+      true
+    end
+
+    def search_load?
       false
     end
 

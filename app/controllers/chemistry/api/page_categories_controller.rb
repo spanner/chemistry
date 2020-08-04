@@ -1,8 +1,9 @@
 module Chemistry::Api
   class PageCategoriesController < Chemistry::Api::ApiController
-    load_resource class: Chemistry::PageCategory
+    load_resource class: Chemistry::PageCategory, except: [:index]
 
     def index
+      @page_categories = Chemistry::PageCategory.order(title: :asc)
       return_page_categories
     end
 

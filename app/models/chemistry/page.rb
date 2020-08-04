@@ -25,8 +25,8 @@ module Chemistry
     # first masthead image is extracted for display in lists
     belongs_to :image, optional: true
 
-    before_validation :derive_slug_and_path
     before_validation :set_home_if_first
+    before_validation :derive_slug_and_path
 
     validates :title, presence: true
     validates :path, uniqueness: {conditions: -> { where(deleted_at: nil) }}
@@ -99,8 +99,11 @@ module Chemistry
         content: clean_published_html,
         terms: terms_list,
         page_style: style,
+        parent: parent_id,
         page_collection: page_collection_id,
         page_category: page_category_id,
+        created_at: created_at,
+        updated_at: updated_at,
         published: published?,
         published_at: published_at,
         featured: featured?,
@@ -163,7 +166,9 @@ module Chemistry
         self.slug = "__home"
         self.path = [path_base, 'home'].join("/")
       else
-        if !slug? 
+        if slug? && !persisted?
+          self.slug = add_suffix_if_taken(slug, path_base)
+        elsif !slug?
           self.slug = add_suffix_if_taken(slug_base, path_base)
         end
         self.path = [path_base, slug].join("/")
@@ -174,7 +179,7 @@ module Chemistry
       slug = base
       addendum = 1
       while Chemistry::Page.find_by(path: [scope_path, slug].join('/'))
-        slug = base + '_' + addendum.to_s
+        slug = base + '-' + addendum.to_s
         addendum += 1
       end
       slug

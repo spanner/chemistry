@@ -41,22 +41,33 @@ module Chemistry::Concerns::Searchable
       h[p] = false if h[p] == "false"
     end
 
+    if params[:ids] && params[:ids].present?
+      criteria[:id] = CGI.unescape(params[:ids]).split(',')
+    end
+
     options = {
       where: criteria,
       order: order
     }
-    options.merge!({ per_page: @show, page: @page }) if paginated?
+
+    Rails.logger.warn "🕵️‍♂️  PAGINATING WITH: #{@page.inspect} / #{@show.inspect}"
+    options.merge!({ per_page: @show.to_i, page: @page.to_i }) if paginated? && @page && @show && @show != 'all'
+
     options[:fields] = fields if fields.any?
     options[:aggs] = aggregations if aggregations.any?
     options[:match] = search_match if search_match
+    options[:misspellings] = search_misspellings if search_misspellings
     options[:highlight] = search_highlights if search_highlights
     options[:includes] = search_includes if search_includes
+    options[:load] = search_load?
 
-    Rails.logger.warn "🕵️‍♂️ SEARCH OPTIONS: #{options.inspect}"
+    Rails.logger.warn "🕵️‍♂️  SEARCH OPTIONS: #{options.inspect}"
 
     klass = search_class
     search_results = klass.search @q, options
     instance_variable_set("@#{controller_name}", search_results)
+
+    Rails.logger.warn "🕵️‍♂️  SEARCH RESULTS: #{search_results.count}"
 
     if paginated?
       @total = search_results.total_count
@@ -83,12 +94,16 @@ module Chemistry::Concerns::Searchable
     nil
   end
 
+  def search_misspellings
+    {below: 5}
+  end
+
   def search_aggregations
     []
   end
 
   def search_criterion_params
-    []
+    search_aggregations
   end
 
   def search_permitted_sorts
@@ -104,8 +119,8 @@ module Chemistry::Concerns::Searchable
   end
 
   def init_pagination
-    @page = (params[:page].presence || 1).to_i
-    @show = (params[:per_page].presence || default_per_page).to_i
+    @page = params[:p].presence || 1
+    @show = params[:pp].presence || default_per_page
   end
 
   def default_per_page
@@ -121,6 +136,10 @@ module Chemistry::Concerns::Searchable
   end
 
   def aggregated?
+    true
+  end
+
+  def search_load?
     true
   end
 end

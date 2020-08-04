@@ -3,7 +3,7 @@ Chemistry::Engine.routes.draw do
   match "*all" => "application#cors_check", :via => :options, :constraints => {:method => 'OPTIONS'}
 
   namespace :api, defaults: { format: 'json' }, constraints: { format: 'json' } do
-    resources :pages, only: [:index, :show, :update] do
+    resources :pages, only: [:index, :show, :create, :update] do
       put :publish, on: :member
     end
     resources :page_collections, only: [:index, :show]
