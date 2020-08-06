@@ -14,7 +14,7 @@ module Chemistry
     def published
       Rails.logger.warn "🦋 published #{params[:path]}"
       @path = (params[:path] || '').sub(/\/$/, '').sub(/^\//, '').strip
-      @page = Chemistry::Page.published_with_path(@path).first
+      @page = Chemistry::Page.published_with_path(@path)
       if @page && (@page.public? || user_signed_in?)
         render layout: chemistry_layout
       else

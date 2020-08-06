@@ -1,6 +1,8 @@
 require "chemistry/config"
 require 'chemistry/version'
 require "chemistry/engine"
+require "chemistry/content_scrubber"
+require "chemistry/inline_scrubber"
 require "json"
 require "searchkick"
 require "paperclip"

@@ -1,0 +1,148 @@
+#masthead
+  background: radial-gradient(lighten($dark, 12), $dark)
+  position: relative
+  margin: 0
+  border: 0
+  overflow: hidden
+  transition: width 1s ease-out
+  .cms-chooser
+    background-color: transparent;
+    .cms-chooser-head
+      top: 14px
+      right: 14px
+    .cms-chooser-body
+      color: white
+      a.close
+        top: 20px
+        right: 20px
+        color: white
+
+#body
+  position: relative
+  width: 100vw
+  padding: 3em 9%
+  box-sizing: border-box
+  margin: 0
+  order: 1
+  transition: width 1s ease-out, left 1s ease-out, margin-top 1s ease-out
+  display: flex
+  flex-flow: column nowrap
+  align-items: flex-start
+  #title, #content
+    max-width: 45em
+    width: 100%;
+    margin-left: auto
+    margin-right: auto
+
+#cms_page
+  display: flex
+  flex-flow: column nowrap
+  align-items: flex-start
+  justify-content: space-between
+
+#masthead
+  width: 100vw
+  height: 100vw
+  z-index: 10
+  .images
+    width: 100%
+    height: 100%
+
+
+@media (min-width: 667px)
+  #cms_page.layout_heroic
+    display: flex
+    flex-flow: row nowrap
+    #masthead
+      position: fixed
+      overflow: hidden
+      top: 0
+      left: 0
+      width: 67vw
+      height: 100vh
+    #body
+      width: 33vw
+      left: 67vw
+      margin-top: 50px
+
+  #cms_page.layout_illustrated
+    display: flex
+    flex-flow: row nowrap
+    #masthead
+      position: fixed
+      overflow: hidden
+      top: 0
+      left: 0
+      width: 33.3vh
+      height: 100vh
+    #body
+      width: calc(100vw - 33.3vh)
+      left: 33.3vh
+      margin-top: 8em
+
+  #cms_page.layout_gallery
+    display: flex
+    flex-flow: row nowrap
+    #masthead
+      position: fixed
+      overflow: hidden
+      top: 0
+      left: 0
+      width: 100vw
+      height: 100vh
+    #body
+      left: 100vw
+      width: 0
+      overflow: hidden
+
+  #cms_page.layout_texty
+    display: flex
+    flex-flow: row nowrap
+    #masthead
+      position: fixed
+      overflow: hidden
+      top: 0
+      left: 0
+      width: 0
+      height: 100vh
+    #body
+      left: 0
+      width: 100vw
+      margin-top: 8em
+
+
+@media (min-aspect-ratio: 6/5) and (min-height: 667px)
+  #cms_page.layout_heroic
+    #body
+      margin-top: 120px
+
+
+@media (min-aspect-ratio: 5/3) and (min-width: 667px)
+  #cms_page.layout_heroic
+    #body
+      width: calc(100vw - 100vh)
+      left: 100vh
+      padding: 3vw 4vw
+
+  #cms_page.layout_illustrated
+    #masthead
+      background-color: red
+      .images 
+        .cms-slider
+          flex-flow: column nowrap
+        .cms-slide
+          display: inline-block
+          width: 100%
+        a.slider-control.add
+          right: auto
+          top: auto;
+          left: 50%;
+          bottom: 10px
+          transform: translate(-50%,0)
+
+
+
+@media (max-width: 1024px) and (min-width: 667px)
+  h1
+    font-size: 1.8em
+

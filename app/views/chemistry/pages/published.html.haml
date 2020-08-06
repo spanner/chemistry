@@ -1,8 +1,19 @@
-#page{class: @page.published_style, data: {page: @page.id}}
-  #masthead
-    = sanitize(@page.published_masthead)
-  #body
-    #title
-      = sanitize(@page.published_title)
-    #content
-      = sanitize(@page.published_content)
+- rendered_title = @page.render(:published_title)
+- rendered_masthead = @page.render(:published_masthead)
+- rendered_content = @page.render(:published_content)
+
+#cms_page{class: "layout_#{@page.published_style}", data: {page: @page.id}}
+  %main
+    #masthead
+      - if rendered_masthead.present?
+        = sanitize(rendered_masthead, scrubber: Chemistry::ContentScrubber.new)
+
+    #body
+      - if rendered_title.present?
+        #title
+          %h1.pagetitle
+            = sanitize(rendered_title, scrubber: Chemistry::InlineScrubber.new)
+    
+      - if rendered_content.present?
+        #content
+          = sanitize(rendered_content, scrubber: Chemistry::ContentScrubber.new)

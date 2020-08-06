@@ -1,3 +1,12 @@
+div.embed
+  position: relative
+  width: 122%
+  margin: 0
+  &.note
+    width: 50%
+    float: right
+    margin: 0 0 1em 1em
+
 .darken
   position: absolute
   width: 100%
@@ -10,333 +19,260 @@
   &.darker
     background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 40%)
 
-
-figure
-  position: relative
-  min-height: 48px
-  margin: 2em 0
-  &:first-child
-    margin-top: 0.3em
-  blockquote
-    min-height: 1em
-    min-width: 1em
-    box-sizing: border-box
-  figcaption
-    font-style: italic
-    line-height: 1.35
-    text-align: center
-    color: $mid
-  img
-    display: block
+figure.image, figure.video
+  img, video
     width: 100%
-    height: auto
-  img[src=""], img:not([src])
-    width: 100%
-    height: 0
-    display: block
-    padding-bottom: 56%
-    background: radial-gradient($pale, $mid)
-  .cms-controls
-    position: absolute
-    bottom: 0
-    right: 0
-
-  &.bg
-    video
-      width: 100%
-      display: block
-      background: radial-gradient($pale, $mid)
-    .embed
-      position: relative
-      background: radial-gradient($pale, $mid)
-      iframe
-        position: absolute
-        top: 0
-        left: 0
-        width: 100%
-        height: 100%
-    
-  &.image
-    figcaption
-      margin: 0.5em 0
-      width: 90%
-    &.thumb
-      width: 180px
-      float: left
-      z-index: 1
-      margin: 8px 12px 12px 0
-    &.full
-      img
-        width: 120%
-        margin: 2em -10%
-    &.right
-      width: 60%
-      float: right
-      margin: 0.5em -10% 0.5em 10%
-
-  &.video
-    figcaption
-      margin: 0.5em 0
-      width: 90%
-    video
-      width: 100%
-      display: block
-      background: radial-gradient($pale, $mid)
-    .embed
-      position: relative
-      padding: 0 0 56.25% 0
-      background: radial-gradient($pale, $mid)
-      display: block
-      &.unnecessary
-        display: none
-      iframe
-        position: absolute
-        top: 0
-        left: 0
-        width: 100%
-        height: 100%
-
-  &.linkbutton
-    display: flex
-    align-items: center
-    justify-content: center
-    padding: 2em
-    a.linkbutton
-      display: inline-block
-      font-size: 1.25em
-      background-color: $link
-      padding: 0.5em 1em 0.75em
-      border-radius: 6px
-      color: white
-      text-align: center
-      &:active
-        box-shadow: inset 0 3px 6px $shadow
-      span.label
-      min-height: 1.2em
-    span.href
-      display: block
-      text-align: center
-      color: $mid
-      &:before
-        content: "➡ "
-    span.caption
-      display: block
-      text-align: center
-      color: $mid
-      margin: 1em 0
-
-
-  &.quote
-    blockquote
-      font-size: 1rem
-      font-style: italic
-      text-align: center
-      transition: font-size 0.5s ease-out
-      width: 100%
-      margin: 0
-      padding: 0 1em
-      color: $mid
-      margin-left: -0.5em
-      &:before
-        content: "“ "
-      &:after
-        content: "”"
-    figcaption
-      text-align: center
-      padding: 0 1em
-      color: $pale
-    &.shortish
-      blockquote
-        font-size: 1.25em
-        line-height: 1.4
-    &.short
-      blockquote
-        font-size: 1.5em
-        line-height: 1.3
-    &.veryshort
-      blockquote
-        font-size: 2em
-        line-height: 1.2
-
-  &.document
-    text-align: center
-    margin: 0
-    padding: 1em 0
-    img.icon
-      display: inline-block
-      vertical-align: top
-      width: 36px
-      height: auto
-    span.filename
-      display: inline-block
-      vertical-align: top
-      color: $dark
-      font-weight: lighter
-      font-size: 1.75rem
-      margin-left: 5px
-    a.missing
-      span.filename
-        color: $pale
-
-.editing
-  figure:not(.video)
-    video, div.embed
-      display: none
-  figure.video
-    img
-      display: none
-
-  figure
-    position: relative
-    width: 100%
-    height: auto
-    transition: background-position 0.5s ease-in-out
-    background:
-      repeat: no-repeat
-      position: center bottom
-      size: cover
-    p
-      color: $pale
-    div.embed
-      width: 100%
-      height: 100%
-    img, video
+    height: 100%
+    min-height: 240px;
+    image-rendering: pixelated
+    transition: opacity 0.5s ease-out
+    object-fit: cover
+    font-family: 'object-fit: cover;'
+    iframe
       width: 100%
       height: 100%
       object-fit: cover
-      font-family: 'object-fit: cover;'
-      iframe
-        width: 100%
-        height: 100%
-        object-fit: cover
-    .cms-dropmask
-      position: absolute
-      top: 0
-      left: 0
-      width: 100%
-      height: 100%
-      display: flex
-      align-items: flex-end
-      justify-content: center
-      pointer-events: none
-      p
-        color: white
-        pointer-events: none
-        mix-blend-mode: normal
-        font-size: 1rem
-        text-shadow: 0 0 6px $dark
-        margin: 20px 4% 72px
-    .droppable
-      .cms-dropmask
-        background-color: $green
-        mix-blend-mode: difference
 
-    .cms-buttons
-      position: absolute
-      top: 16px
-      left: 16px
-      width: calc(100% - 32px)
-      pointer-events: none
-      display: flex
-      align-items: flex-start
-      justify-content: flex-start
-      a.control, label.control
-        margin-bottom: 0
-      .picker, .importer, .uploader, .styler, .config, .weighter, .remover, .layout
-        display: inline-block
-        vertical-align: top
-        margin: 0 5px 0 0
-        pointer-events: auto
-      .delete
-        position: absolute
-        right: 0
-        margin: 0 4px
-      .thumbnails, .select
-        display: inline-block
-        vertical-align: top
-    &.quote
-      .cms-buttons
-        top: -20px
+div.embedded
+  div.collection
+    &:empty
+      padding-bottom: 56%
+    &.documents
+      margin: 1em
 
-  figure.bg
-    .cms-buttons
-      .delete
-        display: none
-
-.touch
-  .ed-buttons
-    display: block
-
-.cms-importer
-  margin: 20px 0 10px 10px
-  clear: both
-  input, a.submit
-    display: inline-block
-    vertical-align: top
-    box-sizing: border-box
-    height: 36px
-    font-size: 0.9rem
-    line-height: 20px
-    margin: 0
-  input
-    width: 248px
-    padding: 8px
-    margin-right: 0
-    color: $dark
-    border: 1px solid $pale
-    outline: none
-  a.submit
-    +bg($blue, white)
-    width: 72px
-    padding: 8px 12px
-    cursor: pointer
-  p.waiter
-    display: none
-
-.asset_settings
-  margin: 0 0 10px 10px
-  clear: both
-  h4
-    margin: 6px 0 0 0
-    &:first-child
-      margin-top: 0
-  .placements
-    a.placement
-      color: $pale
-      display: inline-block
-      margin-right: 5px
-      cursor: pointer
-      svg
-        width: 48px
-        height: 48px
-        path.hl
-          fill: $highlight
-      &:hover
-        color: $mid
-        svg
-          path.hl
-            fill: $highlight
-
-  .weightings
-    position: relative
-    padding: 20px
-    a
-      background-color: $pale
-    input:checked + span
-      background-color: $green
-    label.sector
-      display: inline-block
-      span
-        position: relative
-        display: inline-block
-        width: 24px
-        height: 24px
-        border-radius: 12px
-        margin: 4px
-        background-color: $pale
+  div.pages
+    min-height: 200px
+    h2.toc_title
+      font-weight: lighter
+      margin: 0.5em 32px
+    ul.collection
+      list-style: none;
+      margin: 0
+      padding: 0 0 0 32px
+      li.page
+        margin: 0.25em 0
+      a.page
+        color: $coolgrey10
+        text-decoration: none
+        cursor: pointer
         &:hover
-          backround-color: $mid
+          color: $dark
+      svg.icon + span.title
+        display: inline-block
+        vertical-align: top
+        margin-left: 0.25em
+        width: calc(100% - 56px)
+      .unsaved
+        color: $blue
 
+    div.actions
+      margin: 1em 0 1em 32px
+      a
+        display: inline-block
+        margin-right: 1em
+      a.pick
+        color: $blue
+        cursor: pointer
+        +hover
+      a.add
+        color: $green
+        cursor: pointer
+        +hover
+
+  figure
+    position: relative
+    margin: 0
+    figcaption
+      z-index: 1020;
+      display: block;
+      position: relative;
+      font-style: italic
+      line-height: 1.35
+      text-align: center
+      color: $mid
+      margin-bottom: 1em
+    img
+      display: block
+      width: 100%
+      height: auto
+    img[src=""], img:not([src])
+      width: 100%
+      height: 0
+      display: block
+      padding-bottom: 56%
+
+    &.image
+      figcaption
+        margin: 0.5em 0
+      &.thumb
+        width: 180px
+        float: left
+        z-index: 1
+        margin: 8px 12px 12px 0
+      &.full
+        img
+          width: 120%
+          margin: 2em -10%
+      &.right
+        width: 60%
+        float: right
+        margin: 0.5em -10% 0.5em 10%
+
+    &.video
+      figcaption
+        margin: 0.5em 0
+        width: 90%
+      video
+        width: 100%
+        display: block
+      .player
+        position: relative
+        padding: 0 0 56.25% 0
+        display: block
+        &.unnecessary
+          display: none
+        iframe
+          position: absolute
+          top: 0
+          left: 0
+          width: 100%
+          height: 100%
+
+    &.linkbutton
+      display: flex
+      align-items: center
+      justify-content: center
+      padding: 2em
+      a.linkbutton
+        display: inline-block
+        font-size: 1.25em
+        background-color: $link
+        padding: 0.5em 1em 0.75em
+        border-radius: 6px
+        color: white
+        text-align: center
+        &:active
+          box-shadow: inset 0 3px 6px $shadow
+        span.label
+        min-height: 1.2em
+      span.href
+        display: block
+        text-align: center
+        color: $mid
+        &:before
+          content: "➡ "
+      span.caption
+        display: block
+        text-align: center
+        color: $mid
+        margin: 1em 0
+
+    &.note
+      p
+        font-size: 1rem
+        transition: font-size 0.5s ease-out
+        font-style: italic
+        color: $mid
+        margin: 1em
+      &.shortish
+        p
+          font-size: 1.1em
+          line-height: 1.4
+      &.short
+        p
+          font-size: 1.25em
+          line-height: 1.3
+      &.veryshort
+        p
+          font-size: 1.5em
+          line-height: 1.2
+
+    &.quote
+      blockquote
+        font-size: 1rem
+        font-style: italic
+        text-align: center
+        transition: font-size 0.5s ease-out
+        width: 70%
+        margin: 1em auto
+        color: $mid
+        &:before
+          content: "“ "
+        &:after
+          content: "”"
+      figcaption
+        text-align: center
+        padding: 0 1em
+        color: $pale
+      &.shortish
+        blockquote
+          font-size: 1.25em
+          line-height: 1.4
+      &.short
+        blockquote
+          font-size: 1.5em
+          line-height: 1.3
+      &.veryshort
+        blockquote
+          font-size: 2em
+          line-height: 1.2
+
+    &.document
+      margin: 0
+      padding: 0.5em 0
+      display: grid;
+      place-content: center;
+      img.icon
+        display: inline-block
+        vertical-align: top
+        width: 24px
+        height: auto
+      span.filename
+        display: inline-block
+        vertical-align: top
+        font-weight: lighter
+        font-size: 1.4rem
+        margin-left: 5px
+      a.document
+        display: inline-block
+        vertical-align: middle
+      a.remove
+        display: inline-block
+        vertical-align: middle
+        margin-left: 0.25em
+        color: $pale
+        cursor $pointer
+        transition: color 0.5s ease-out, transform 0.5s ease-out
+        svg
+          width: 12px
+          height: 12px
+        &:hover
+          color: $red
+          transform: scale(1.25)
+
+a.document
+  text-decoration: none
+  white-space: nowrap
+  color: $red
+  svg.icon
+    width: 32px
+    height: 32px
+  &.pdf
+    color: $red
+  &.ppt
+    color: $purple
+  &.doc
+    color: $blue
+  &.xls
+    color: $green
+  &.missing
+    color: $pale
+
+
+@media (min-width: 667px)
+  div.embed
+    width: 100%
+    margin: 2em 0 2em 0;
 
 @media (min-width: 1020px)
   figure.image, figure.video
@@ -346,10 +282,8 @@ figure
       z-index: 1
       margin: 8px 12px 12px 0
     &.full
-      margin: 0 0 1em 0
       img, video, div.embed
         width: 100%
-        margin: 2em 0 1em 0
     &.right
       width: 46%
       z-index: 1
@@ -357,17 +291,3 @@ figure
       margin: 1em 0 12px 4%
 
 
-@media (max-width: 750px)
-  figure
-    figcaption
-      position: relative
-      top: auto
-      right: auto
-      width: auto
-      margin: 1em 0
-  aside.note
-    position: relative
-    top: auto
-    right: auto
-    width: 66%
-    margin: 1em 0 1em 33%
