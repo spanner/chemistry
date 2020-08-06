@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'video_info'
   s.add_dependency "kaminari"
   s.add_dependency 'fast_jsonapi'
-  s.add_dependency 'paranoia'
   s.add_dependency 'acts_as_list'
   s.add_dependency 'colorize'
   s.add_dependency 'settingslogic'

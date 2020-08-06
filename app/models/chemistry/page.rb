@@ -2,7 +2,6 @@ require 'mustache'
 
 module Chemistry
   class Page < Chemistry::ApplicationRecord
-    acts_as_paranoid
     acts_as_list column: :nav_position
 
     # Filing
@@ -18,7 +17,7 @@ module Chemistry
     accepts_collected_attributes_for :socials
 
     #TODO remove after migration
-    # terms is now an ad-hoc list in text
+    # `terms` is now an ad-hoc list in text
     has_many :page_terms
     has_many :old_terms, through: :page_terms, class_name: "Chemistry::Term"
 
@@ -29,27 +28,30 @@ module Chemistry
     before_validation :derive_slug_and_path
 
     validates :title, presence: true
-    validates :path, uniqueness: {conditions: -> { where(deleted_at: nil) }}
+    validates :slug, presence: true, uniqueness: {scope: :parent_id}
+    validates :path, presence: true, uniqueness: true
 
-    before_update :note_publication_date
+    attr_accessor :publishing
+    validates :published_path, presence: true, uniqueness: true, if: :publishing?
+    validates :published_content, presence: true, if: :publishing?
 
     scope :home, -> { where(home: true).limit(1) }
     scope :nav, -> { where(nav: true) }
-    scope :undeleted, -> { where(deleted_at: nil) }
-    scope :published, -> { undeleted.where.not(published_at: nil) }
-    scope :placeholders, -> { where(role: 'empty') }
-    scope :published_and_placeholders, -> { published.or(placeholders) }
+    scope :published, -> { where.not(published_at: nil) }
     scope :latest, -> { order(created_at: :desc) }
     scope :with_parent, -> page { where(parent_id: page.id) }
     scope :with_path, -> path { where(path: path) }
 
-
-    def self.published_page_at(path)
-      where(path: path).where.not(published_at: nil).first
+    def self.published_with_path(path)
+      where(published_path: path).where.not(published_at: nil).first
     end
 
     def published?
       published_at?
+    end
+
+    def publishing?
+      !!publishing
     end
 
     def featured?
@@ -65,6 +67,25 @@ module Chemistry
       "/" + path
     end
 
+    def publish!
+      transaction do
+        %w{slug path title masthead content byline summary excerpt terms style}.each do |col|
+          self.send("published_#{col}=".to_sym, self.send(col.to_sym))
+        end
+        self.published_at = Time.now + 2.seconds    # hack to ensure > updated_at
+        self.publishing = true                      # engage validations
+        if valid?
+          self.save!
+          return true
+        else
+          return false
+        end
+      end
+    rescue => e
+      Rails.logger.warn("⚠️ Publication fail", e.message);
+      return false
+    end
+
 
     ## Interpolations
     # override to provide site-wide interpolations available on any page.
@@ -77,9 +98,14 @@ module Chemistry
 
     # Render performs the interpolations by passing our attributes (usually blocks of html) and interpolation rules to mustache.
     #
-    def render(attribute=:published_html)
-      if interpolable_attributes.include? attribute
-        Mustache.render(read_attribute(attribute), interpolations)
+    def render(attribute=:published_content)
+      content = read_attribute(attribute)
+      if content.present? 
+        if interpolable_attributes.include?(attribute)
+          Mustache.render(content, interpolations)
+        else
+          content
+        end
       else
         ""
       end
@@ -88,17 +114,27 @@ module Chemistry
 
     ## Elasticsearch indexing
     #
-    searchkick searchable: [:title, :content],
+    searchkick searchable: [:path, :working_title, :title, :content, :byline],
                word_start: [:title],
                highlight: [:title, :content]
 
     def search_data
       {
-        path: path,
-        title: published_title.presence || title,
-        content: clean_published_html,
-        terms: terms_list,
-        page_style: style,
+        # chiefly for UI retrieval
+        slug: slug,
+        path: published_path,
+        working_title: title,
+        
+        # public archive / search
+        title: render_and_strip_tags(:published_title),
+        masthead: render_and_strip_tags(:published_masthead),
+        content: render_and_strip_tags(:published_content),
+        byline: render_and_strip_tags(:published_byline),
+        summary: strip_tags(:published_summary),
+        excerpt: strip_tags(:published_excerpt),
+        terms: terms_list(:published_terms),
+
+        # aggregation and selection
         parent: parent_id,
         page_collection: page_collection_id,
         page_category: page_category_id,
@@ -111,12 +147,23 @@ module Chemistry
       }
     end
 
-    def clean_published_html
-      ActionController::Base.helpers.strip_tags(published_html)
+    def render_and_strip_tags(attribute=:published_content)
+      ActionController::Base.helpers.strip_tags(render(attribute))
     end
 
-    def terms_list
-      if terms?
+    def strip_tags(attribute=:published_content)
+      Rails.logger.warn("🍿 strip_tags(#{attribute.inspect})")
+      html = send(attribute)
+      if html.present?
+        ActionController::Base.helpers.strip_tags(html)
+      else
+        ""
+      end
+    end
+
+    def terms_list(attribute=:published_terms)
+      terms = send(attribute)
+      if terms.present?
         terms.split(',').compact.uniq
       else
         []
@@ -127,8 +174,6 @@ module Chemistry
       published_title.presence || title
     end
 
-    # Pages are routed 
-    #
     def path_base
       if parent && parent.path?
         tidy_slashes(parent.path)
@@ -147,7 +192,7 @@ module Chemistry
     protected
 
     def interpolable_attributes
-      [:published_title, :published_html, :published_byeline, :published_excerpt]
+      [:published_title, :published_masthead, :published_content, :published_byline, :published_excerpt]
     end
 
     # During creation, first page in a site or collection is automatically marked as 'home'.
@@ -183,13 +228,6 @@ module Chemistry
         addendum += 1
       end
       slug
-    end
-
-    # tiny little bodge here to make sure that published_at ends up being later than updated_at.
-    def note_publication_date
-      if will_save_change_to_published_html?
-        self.published_at = Time.now + 2.seconds 
-      end
     end
 
   end

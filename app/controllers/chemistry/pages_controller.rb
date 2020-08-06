@@ -14,7 +14,7 @@ module Chemistry
     def published
       Rails.logger.warn "🦋 published #{params[:path]}"
       @path = (params[:path] || '').sub(/\/$/, '').sub(/^\//, '').strip
-      @page = Chemistry::Page.published.with_path(@path).first
+      @page = Chemistry::Page.published_with_path(@path).first
       if @page && (@page.public? || user_signed_in?)
         render layout: chemistry_layout
       else
@@ -101,7 +101,7 @@ module Chemistry
     ## Error pages
 
     def page_not_found
-      if @page = Page.published.with_path("/404").first
+      if @page = Chemistry::Page.published_with_path("/404").first
         render layout: chemistry_layout
       else
         render template: "chemistry/pages/not_found", layout: chemistry_layout
@@ -120,6 +120,37 @@ module Chemistry
         :title,
         :page_collection_id
       )
+    end
+
+
+    ## Searchable configuration
+    #
+    def search_class
+      Chemistry::Page
+    end
+
+    def search_fields
+      ['title^5', 'content', 'byline']
+    end
+
+    def search_highlights
+      {tag: "<strong>"}
+    end
+
+    def search_default_sort
+      "published_at"
+    end
+
+    def search_aggregations
+      ['page_collection', 'page_category', 'terms']
+    end
+
+    def paginated?
+      true
+    end
+
+    def search_load?
+      false
     end
 
   end

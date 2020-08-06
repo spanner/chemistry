@@ -1,11 +1,8 @@
-- page_data = {page: @page.path}
-- if @page.owner
-  - page_data[@page.owner_type.underscore] = @page.owner_id
-
-%article{class: @page.style, data: page_data}
-  - if @page.published_html
-      = sanitize(@page.published_html)
-
-  - else
-    %p.warning
-      Nothing to display here.
+#page{class: @page.published_style, data: {page: @page.id}}
+  #masthead
+    = sanitize(@page.published_masthead)
+  #body
+    #title
+      = sanitize(@page.published_title)
+    #content
+      = sanitize(@page.published_content)

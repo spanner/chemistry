@@ -6,7 +6,6 @@ require "searchkick"
 require "paperclip"
 require "paperclip/av/transcoder"
 require "acts_as_list"
-require "paranoia"
 require 'haml_coffee_assets'
 
 module Chemistry

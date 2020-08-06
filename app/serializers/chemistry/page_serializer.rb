@@ -8,22 +8,27 @@ class Chemistry::PageSerializer
   attributes :id,
              :path,
              :slug,
+             :style,
              :parent_id,
              :page_category_id,
              :page_collection_id,
              :title,
              :masthead,
              :content,
+             :byline,
+             :summary,
              :excerpt,
              :terms,
              :home,
-             :style,
              :nav,
              :nav_name,
              :nav_position,
              :created_at,
              :updated_at,
-             :published_at,
-             :deleted_at
+             :published_at
+
+  attribute :url  do |object|
+    Chemistry::Engine.routes.url_helpers.published_collection_page_url(object.path, host: Settings.host)
+  end
 
 end

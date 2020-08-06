@@ -15,8 +15,6 @@
 
 module Chemistry
   class Social < ApplicationRecord
-    acts_as_paranoid
-
     belongs_to :page
     acts_as_list scope: :page_id
 

@@ -16,11 +16,6 @@ module Chemistry::Api
       return_page if stale?(etag: @page, last_modified: @page.published_at, public: true)
     end
 
-    def branch
-      # return all the pages that are children of a given stem,
-      # and within a given page_collection
-    end
-
     def create
       page_attributes = page_params
       if (user_signed_in?) 
@@ -42,7 +37,7 @@ module Chemistry::Api
     end
 
     def publish
-      if @page.publish!(publish_params)
+      if @page.publish!
         return_page
       else
         return_errors
@@ -100,25 +95,20 @@ module Chemistry::Api
         :slug,
         :private,
         :style,
-        :title,             # authoring page parts
-        :content,           #
-        :masthead,          #
+        :title,
+        :masthead,
+        :content,
+        :byline,
+        :summary,
         :excerpt,
         :nav,               # takes part in navigation?
         :nav_name,          # with this name
         :nav_position,      # in this position
         :terms,
+        :private,
         :parent_id,
         :page_collection_id,
         :page_category_id
-      )
-    end
-
-    def publish_params
-      params.require(:page).permit(
-        :published_title,
-        :published_html,
-        :published_excerpt
       )
     end
 
@@ -129,7 +119,7 @@ module Chemistry::Api
     end
 
     def search_fields
-      ['title^2', 'path', 'terms']
+      ['working_title^2', 'path', 'terms']
     end
 
     def search_highlights
