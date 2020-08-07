@@ -2,6 +2,8 @@ require 'mustache'
 
 module Chemistry
   class Page < Chemistry::ApplicationRecord
+    PUBLISHED_ATTRIBUTES = [:slug, :path, :title, :masthead, :content, :byline, :summary, :excerpt, :terms, :style, :image_id]
+
     acts_as_list column: :nav_position
 
     # Filing
@@ -22,7 +24,8 @@ module Chemistry
     has_many :old_terms, through: :page_terms, class_name: "Chemistry::Term"
 
     # first masthead image is extracted for display in lists
-    belongs_to :image, optional: true
+    belongs_to :image, class_name: 'Chemistry::Image', optional: true
+    belongs_to :published_image, class_name: 'Chemistry::Image', optional: true
 
     before_validation :set_home_if_first
     before_validation :derive_slug_and_path
@@ -69,7 +72,7 @@ module Chemistry
 
     def publish!
       transaction do
-        %w{slug path title masthead content byline summary excerpt terms style}.each do |col|
+        Chemistry::Page::PUBLISHED_ATTRIBUTES.each do |col|
           self.send("published_#{col}=".to_sym, self.send(col.to_sym))
         end
         self.published_at = Time.now + 2.seconds    # hack to ensure > updated_at
@@ -133,6 +136,8 @@ module Chemistry
         summary: strip_tags(published_summary.presence || summary),
         excerpt: strip_tags(published_excerpt.presence || excerpt),
         terms: terms_list(published_terms.presence || terms),
+        image_url: image_url,
+        thumbnail_url: thumbnail_url,
 
         # aggregation and selection
         parent: parent_id,
@@ -165,6 +170,22 @@ module Chemistry
         terms.split(',').compact.uniq
       else
         []
+      end
+    end
+
+    def image_url
+      if published_image
+        published_image.file_url(:full)
+      elsif image
+        image.file_url(:full)
+      end
+    end
+
+    def thumbnail_url
+      if published_image
+        published_image.file_url(:thumb)
+      elsif image
+        image.file_url(:thumb)
       end
     end
 

@@ -2,21 +2,29 @@ class ChemistryV2Init < ActiveRecord::Migration[6.0]
   def change
 
     rename_column :chemistry_pages, :content, :role
-    rename_column :chemistry_pages, :rendered_html, :published_html
-    add_column :chemistry_pages, :published_title, :text
-    add_column :chemistry_pages, :published_byeline, :text
-    add_column :chemistry_pages, :published_excerpt, :text
-    add_column :chemistry_pages, :apparently_published_at, :datetime
+    rename_column :chemistry_pages, :rendered_html, :published_content
 
-    # will migrate from section html blocks
     add_column :chemistry_pages, :style, :string
     add_column :chemistry_pages, :content, :text, limit: 16.megabytes - 1
     add_column :chemistry_pages, :masthead, :text
-    add_column :chemistry_pages, :byeline, :text
+    add_column :chemistry_pages, :byline, :text
     add_column :chemistry_pages, :page_category_id, :integer
     add_column :chemistry_pages, :page_collection_id, :integer
+    add_column :chemistry_pages, :image_id, :integer
     add_column :chemistry_pages, :terms, :text
     add_column :chemistry_pages, :featured_at, :datetime
+
+    add_column :chemistry_pages, :published_title, :text
+    add_column :chemistry_pages, :published_byline, :text
+    add_column :chemistry_pages, :published_excerpt, :text
+    add_column :chemistry_pages, :published_slug, :string
+    add_column :chemistry_pages, :published_path, :string
+    add_column :chemistry_pages, :published_masthead, :text
+    add_column :chemistry_pages, :published_style, :string
+    add_column :chemistry_pages, :published_image_id, :integer
+    add_column :chemistry_pages, :published_summary, :text
+    add_column :chemistry_pages, :published_terms, :text
+    add_column :chemistry_pages, :apparently_published_at, :datetime
 
     # ownership association is configurable
     add_column :chemistry_pages, :user_id, :string

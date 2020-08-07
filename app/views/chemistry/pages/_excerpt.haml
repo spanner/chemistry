@@ -2,9 +2,18 @@
 - page ||= excerpt || @page
 
 %li.page{data: {page: page.id}}
-  %a.page{href: page.path}
+  %a{href: chemistry.published_page_url(page.path)}
+    %span.image
+      - if page.image_url.present?
+        = image_tag page.image_url, class: "thumb"
+      - else
+        %svg
+          %use{href: "#page_symbol"}
     %span.detail
       %span.title
         = page.title
+      %span.filing
+        %time
+          = l(Date.parse(page.date), format: :natural)
       %span.summary
-        = truncate strip_tags(page.summary.presence || page.excerpt), length: 128
+        = truncate strip_tags(page.summary.presence || page.excerpt), length: 140

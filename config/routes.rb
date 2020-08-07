@@ -33,6 +33,6 @@ Chemistry::Engine.routes.draw do
     get "toc/list/:page_ids" => "pages#listed", as: :listed_pages
     get "toc/children/:page_id" => "pages#children", as: :child_pages
     get "toc/similar/:page_id" => "pages#similar", as: :similar_pages
-    get "*path" => "pages#published", as: :published_collection_page
+    get "/*path" => "pages#published", as: :published_page
   end
 end

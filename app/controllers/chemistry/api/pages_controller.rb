@@ -108,7 +108,8 @@ module Chemistry::Api
         :private,
         :parent_id,
         :page_collection_id,
-        :page_category_id
+        :page_category_id,
+        :image_id
       )
     end
 
