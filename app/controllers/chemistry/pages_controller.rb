@@ -5,8 +5,8 @@ module Chemistry
     include Chemistry::Concerns::Searchable
 
     skip_before_action :authenticate_user!, only: [:published, :latest], raise: false
-    load_resource :page_collection, only: [:new, :edit]
-    load_resource except: [:published, :latest, :children, :controls, :new], through: :page_collection, shallow: true
+    load_and_authorize_resource :page_collection, class: Chemistry::PageCollection, only: [:new, :edit]
+    load_and_authorize_resource class: Chemistry::Page, except: [:published, :latest, :children, :controls, :new], through: :page_collection, shallow: true
 
 
     ## Deliver page to public user

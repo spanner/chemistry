@@ -3,7 +3,7 @@ require 'json'
 module Chemistry::Api
   class PagesController < Chemistry::Api::ApiController
     include Chemistry::Concerns::Searchable
-    load_resource class: Chemistry::Page, except: [:index]
+    load_and_authorize_resource class: Chemistry::Page, except: [:index]
 
     ## API routes
     # Support the editing UI and a few public functions like list pagination.

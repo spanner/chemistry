@@ -1,6 +1,6 @@
 module Chemistry::Api
   class PageCollectionsController < Chemistry::Api::ApiController
-    load_resource class: Chemistry::PageCollection, except: [:index]
+    load_and_authorize_resource class: Chemistry::PageCollection, except: [:index]
 
     def index
       @page_collections = Chemistry::PageCollection.order(title: :asc)

@@ -1,8 +1,7 @@
 module Chemistry::Api
   class VideosController < Chemistry::Api::ApiController
     include Chemistry::Concerns::Searchable
-    # load_and_authorize_resource class: Chemistry::Video, except: [:index]
-    load_resource class: Chemistry::Video, except: [:index]
+    load_and_authorize_resource class: Chemistry::Video, except: [:index]
 
     def index
       return_videos

@@ -1,7 +1,7 @@
 module Chemistry::Api
   class ImagesController < Chemistry::Api::ApiController
     include Chemistry::Concerns::Searchable
-    load_resource class: Chemistry::Image, except: [:index]
+    load_and_authorize_resource class: Chemistry::Image, except: [:index]
 
     def index
       return_images

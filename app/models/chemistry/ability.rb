@@ -4,9 +4,6 @@ module Chemistry
 
     def initialize(user)
 
-      #temp
-      can :manage, :all
-
       can [:index, :home, :published, :latest], Chemistry::Page
       can [:read], Chemistry::Image
       can [:read], Chemistry::Video
