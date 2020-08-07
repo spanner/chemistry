@@ -1,12 +1,10 @@
 - excerpt ||= nil
 - page ||= excerpt || @page
 
-%li.page
+%li.page{data: {page: page.id}}
   %a.page{href: page.path}
     %span.detail
       %span.title
         = page.title
-      %date
-        = l(page.date.presence || page.published_at, format: :natural)
       %span.summary
-        = truncate strip_tags(page.summary.presence || page.excerpt), length: 256
+        = truncate strip_tags(page.summary.presence || page.excerpt), length: 128

@@ -50,31 +50,48 @@ module Chemistry
     def latest
       limit = params[:limit].presence || 1
       @pages = Page.published.latest.limit(limit)
-      if params[:parent] and @page = Page.where(path: params[:parent]).first
+      if params[:parent] and @page = Chemistry::Page.where(path: params[:parent]).first
         @pages = @pages.with_parent(@page)
       end
-      render layout: false
+      if @pages && @pages.any?
+        render template: "chemistry/pages/toc", layout: false
+      else
+        head :no_content
+      end
     end
 
-    # `children` returns paginated lists of published pages under the given page path.
-    # TODO: search index!
+    # `children` returns a toc list of published pages under the given page id.
     #
     def children
-      if @page = Page.where(path: params[:parent]).first
-        @pages = @page.child_pages.published
+      if params[:page_id].present?
+        @pages = Chemistry::Page.search(where: {parent: params[:page_id]}, load: false);
+      end
+      if @pages && @pages.any?
+        render template: "chemistry/pages/toc", layout: false
+      else
+        head :no_content
+      end
+    end
 
-        # sort
-        @sort = params[:sort] if ["published_at", "date", "title"].include?(params[:sort])
-        @sort ||= "published_at"
-        @order = params[:order] || (@sort == 'title' ? "asc" : "desc")
-        Rails.logger.warn "children: sort #{@sort}, order #{@order}: #{{@sort => @order}.inspect}"
-        @pages = @pages.order(@sort => @order)
+    # `similar` returns a toc list of published pages under the given page id.
+    #
+    def similar
+      @page = Chemistry::Page.find(params[:page_id])
+      @pages = @page.similar_pages
+      if @pages && @pages.any?
+        render template: "chemistry/pages/toc", layout: false
+      else
+        head :no_content
+      end
+    end
 
-        # paginate
-        @p = params[:p] || 1
-        @pp = params[:limit] || Chemistry.default_per_page
-        @pages = @pages.page(@p).per(@pp)
-        render layout: false
+    def listed
+      if params[:page_ids].present?
+        page_ids = params[:page_ids].split(',').map(&:to_i).compact.uniq
+        @pages = Chemistry::Page.search(where: {id: page_ids}, load: false);
+      end
+      if @pages && @pages.any?
+        render template: "chemistry/pages/toc", layout: false
       else
         head :no_content
       end

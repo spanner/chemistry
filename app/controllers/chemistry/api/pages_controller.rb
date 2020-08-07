@@ -119,7 +119,7 @@ module Chemistry::Api
     end
 
     def search_fields
-      ['working_title^2', 'path', 'terms']
+      ['title^10', 'path^5', 'terms^2', 'summary^2', 'content', 'byline']
     end
 
     def search_highlights

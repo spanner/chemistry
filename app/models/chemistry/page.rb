@@ -121,18 +121,18 @@ module Chemistry
     def search_data
       {
         # chiefly for UI retrieval
-        slug: slug,
-        path: published_path,
-        working_title: title,
-        
+        slug: published_slug.presence || slug,
+        path: published_path.presence || path,
+        style: published_style.presence || style,
+        title: strip_tags(published_title.presence || title),
+
         # public archive / search
-        title: render_and_strip_tags(:published_title),
-        masthead: render_and_strip_tags(:published_masthead),
-        content: render_and_strip_tags(:published_content),
-        byline: render_and_strip_tags(:published_byline),
-        summary: strip_tags(:published_summary),
-        excerpt: strip_tags(:published_excerpt),
-        terms: terms_list(:published_terms),
+        masthead: strip_tags(published_masthead.presence || masthead),
+        content: strip_tags(published_content.presence || content),
+        byline: strip_tags(published_byline.presence || byline),
+        summary: strip_tags(published_summary.presence || summary),
+        excerpt: strip_tags(published_excerpt.presence || excerpt),
+        terms: terms_list(published_terms.presence || terms),
 
         # aggregation and selection
         parent: parent_id,
@@ -143,17 +143,16 @@ module Chemistry
         published: published?,
         published_at: published_at,
         featured: featured?,
-        featured_at: featured_at
+        featured_at: featured_at,
+        date: featured_at.presence || published_at.presence || created_at
       }
     end
 
     def render_and_strip_tags(attribute=:published_content)
-      ActionController::Base.helpers.strip_tags(render(attribute))
+      strip_tags(render(attribute))
     end
 
-    def strip_tags(attribute=:published_content)
-      Rails.logger.warn("🍿 strip_tags(#{attribute.inspect})")
-      html = send(attribute)
+    def strip_tags(html)
       if html.present?
         ActionController::Base.helpers.strip_tags(html)
       else
@@ -161,10 +160,17 @@ module Chemistry
       end
     end
 
-    def terms_list(attribute=:published_terms)
-      terms = send(attribute)
+    def terms_list(terms)
       if terms.present?
         terms.split(',').compact.uniq
+      else
+        []
+      end
+    end
+
+    def similar_pages
+      if tokens = terms_list(published_terms);
+        Chemistry::Page.search(body: {query: {match: {terms: tokens}}}, limit: 19);
       else
         []
       end
@@ -188,11 +194,10 @@ module Chemistry
       string.sub(/\/$/, '').sub(/^\//, '').sub(/^\/{2,}/, '/');
     end
 
-
     protected
 
     def interpolable_attributes
-      [:published_title, :published_masthead, :published_content, :published_byline, :published_excerpt]
+      [:published_masthead, :published_content, :published_byline, :published_excerpt]
     end
 
     # During creation, first page in a site or collection is automatically marked as 'home'.

@@ -20,6 +20,9 @@ div.embed
     background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 40%)
 
 figure.image, figure.video
+  width: 100%
+  height: auto
+  margin: 0
   img, video
     width: 100%
     height: 100%
@@ -32,7 +35,11 @@ figure.image, figure.video
       width: 100%
       height: 100%
       object-fit: cover
-
+  figcaption
+    font-style: italic
+    text-align: center
+    color: $mid
+    margin: 1em
 div.embedded
   div.collection
     &:empty

@@ -3,7 +3,6 @@ ul.pages, ul.contents
   padding: 0
   li.page
     position: relative
-    min-height: 48px
     margin-bottom: 0.5em
     transition: min-height 0.25s ease-out, margin-bottom 0.25s ease-out
     a.page
@@ -72,8 +71,6 @@ ul.pages, ul.contents
       margin-right: 10px
     span.title, span.path, span.description
       line-height: 1.2
-    span.title
-      font-size: 1.75rem
     span.path
       display: inline-block
       color: $pale
@@ -145,47 +142,7 @@ h2.page
     span.description
       font-size: 0.9rem
 
-.dates_picker
-  margin-bottom: 1em
-  p.col
-    display: inline-block
-    vertical-align: top
-    width: 49%
-    margin: 0 2% 0 0
-    &.to_date
-      margin-right: 0
-    input
-      width: 100%
-  p.notes
-    font-size: 1rem
-    color: $pale
-    margin: 0.25em 0 0.75em 0
 
-.page_detail
-  display: none
-
-a.show_detail
-  cursor: pointer
-  color: $mid
-  +hover
-  svg.icon
-    width: 12px
-    height: 16px
-    transform: rotate(-90deg)
-    transition: transform 0.25s ease-out
-    will-change: transform
-  span.show
-    display: inline-block
-  span.hide
-    display: none
-  &.showing
-    svg
-      transform: rotate(0deg)
-    span.show
-      display: none
-    span.hide
-      display: inline-block
-    
 
 @media (max-width: 750px)
   ul.pages
