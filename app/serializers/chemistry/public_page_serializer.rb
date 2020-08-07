@@ -21,7 +21,7 @@ class Chemistry::PublicPageSerializer
   attribute :date, &:published_at
 
   attribute :url  do |object|
-    Rails.application.routes.url_helpers.published_collection_page_url(object)
+    Rails.application.routes.url_helpers.published_page_url(object)
   end
 
 end

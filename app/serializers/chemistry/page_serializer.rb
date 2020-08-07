@@ -28,7 +28,7 @@ class Chemistry::PageSerializer
              :published_at
 
   attribute :url  do |object|
-    Chemistry::Engine.routes.url_helpers.published_collection_page_url(object.path, host: Settings.host)
+    Chemistry::Engine.routes.url_helpers.published_page_url(object.path, host: Settings.host)
   end
 
 end

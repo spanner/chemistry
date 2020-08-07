@@ -27,12 +27,11 @@ Chemistry::Engine.routes.draw do
   end
 
   scope defaults: { format: 'html' }, constraints: { format: 'html' } do
-    get "page_controls(/*path)" => "pages#controls", as: :page_controls
-    get "latest/*parent" => "pages#latest", as: :latest
-    get "contents/:parent_id" => "pages#children", as: :contents
+    get "/parts/controls/:id" => "pages#controls", as: :page_controls
     get "toc/list/:page_ids" => "pages#listed", as: :listed_pages
     get "toc/children/:page_id" => "pages#children", as: :child_pages
     get "toc/similar/:page_id" => "pages#similar", as: :similar_pages
+
     get "/*path" => "pages#published", as: :published_page
   end
 end

@@ -16,3 +16,5 @@
     - if rendered_content.present?
       #content
         = sanitize(rendered_content, scrubber: Chemistry::ContentScrubber.new)
+
+#buttons{data: {page: @page.id}}
