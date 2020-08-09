@@ -1,3 +1,25 @@
-%article{class: 'error'}
-  %h1
-    Not found
+%main
+  #masthead
+
+  #body
+    #title
+      %h1.pagetitle
+        %h1
+          = t("errors.page_not_found")
+
+    #standfirst
+      %p.large
+        = t("errors.page_not_found_text")
+
+      .sections
+        %h2
+          = t("welcome.page_collections")
+
+        %ul.page_collections
+          - Chemistry::PageCollection.where(featured: true).each do |pc|
+            %li
+              %a{href: chemistry.page_collection_home_url(pc.slug)}
+                = pc.short_title
+
+  - if params[:path].present?
+    #buttons{data: {page: params[:path]}}

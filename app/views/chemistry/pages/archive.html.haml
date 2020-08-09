@@ -1,0 +1,56 @@
+- content_for :body_class do
+  = "archive"
+
+- content_for :title do
+  = t(:archive_and_search)
+
+#masthead
+  .search_results
+    #blurb
+      - if params[:month].present? && params[:year].present?
+        - date = Date.civil(params[:year].to_i, params[:month].to_i)
+        - month = l date, format: :month_and_year
+
+    %ul.pages.archive
+      - if @pages.any?
+        - if @pages.current_page > 1
+          .pagination.upper
+            = paginate @pages, params: {format: nil}
+
+        - if @q
+          - @pages.with_highlights.each do |page, highlights|
+            = render "chemistry/pages/archived", page: page, highlights: highlights
+        - else
+          = render partial: "chemistry/pages/archived", collection: @pages
+
+        .pagination.lower
+          = paginate @pages, params: {format: nil}
+
+#body
+  #title
+    %h1.pagetitle
+      - if @page_collection
+        %a.breadhead{href: chemistry.page_collection_home_url(@page_collection.slug)}
+          ↖
+          = @page_collection.title
+      = t(:archive_and_search)
+
+  %form#browser.faceter.standard{:action => chemistry.archive_url}
+    = hidden_field_tag :p, params[:p]
+    = hidden_field_tag :pp, params[:pp]
+    = hidden_field_tag :sort, params[:sort]
+
+    %fieldset.search<
+      = text_field_tag :q, @q, name: 'q', class: 'search', placeholder: t(:search), data: {slow: true}
+      %a.button.submit>
+        %svg.icon
+          %use{"xlink:href" => "#search_symbol"}
+
+    .toggle
+      = link_to "▾ more options", '#', class: "select", data: {alt: "▴ fewer options"}
+
+    .list_control
+      = render "chemistry/pages/search/facet", facet: "page_collection", heading: t("faceter.page_collections")
+      = render "chemistry/pages/search/facet", facet: "page_category", heading: t("faceter.page_categories")
+      = render "chemistry/pages/search/facet", facet: "term", heading: t("faceter.term")
+      = render "chemistry/pages/search/options"

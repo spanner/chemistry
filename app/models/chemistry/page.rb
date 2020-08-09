@@ -27,7 +27,7 @@ module Chemistry
     belongs_to :image, class_name: 'Chemistry::Image', optional: true
     belongs_to :published_image, class_name: 'Chemistry::Image', optional: true
 
-    before_validation :set_home_if_first
+    # before_validation :set_home_if_first
     before_validation :derive_slug_and_path
 
     validates :title, presence: true
@@ -121,6 +121,8 @@ module Chemistry
                word_start: [:title],
                highlight: [:title, :content]
 
+    scope :search_import, -> { includes(:image, :page_collection, :page_category) }
+
     def search_data
       {
         # chiefly for UI retrieval
@@ -138,20 +140,103 @@ module Chemistry
         terms: terms_list(published_terms.presence || terms),
         image_url: image_url,
         thumbnail_url: thumbnail_url,
+        collection_name: page_collection_name,
 
         # aggregation and selection
         parent: parent_id,
-        page_collection: page_collection_id,
-        page_category: page_category_id,
+        page_collection: page_collection_slug,
+        page_category: page_category_slug,
         created_at: created_at,
         updated_at: updated_at,
         published: published?,
         published_at: published_at,
+        collection_featured: page_collection_featured?,
         featured: featured?,
         featured_at: featured_at,
-        date: featured_at.presence || published_at.presence || created_at
+        date: featured_at.presence || published_at.presence || created_at,
+        month: month_and_year
       }
     end
+
+    # Search and aggregation
+    # Here we support the public archive and admin interfaces with faceting and date-filtering controls.
+    # There is also a simpler filter-and-paginate search in the Pages API.
+
+    def self.search_and_aggregate(params={})
+      Rails.logger.warn "🌸 Page.search_and_aggregate #{params.inspect}"
+
+      # search
+      #
+      fields = ['title^5', 'path^2', 'summary^3', 'content', 'byline']
+      highlight = {tag: "<strong>", fields: {title: {fragment_size: 40}, content: {fragment_size: 320}}}
+
+      if params[:q].present?
+        terms = params[:q]
+        default_order = {_score: :desc}
+      else
+        terms = "*"
+        default_order = {created_at: :desc}
+      end
+
+      # filter
+      #
+      criteria = { published: true }
+      criteria[:page_collection] = params[:page_collection] if params[:page_collection].present?
+      criteria[:page_category] = params[:page_category] if params[:page_category].present?
+      criteria[:terms] = params[:terms] if params[:term].present?
+
+      if params[:date_from].present? or params[:date_to].present?
+        criteria[:published_at] = {}
+        criteria[:published_at][:$gt] = params[:date_from] if params[:date_from].present?
+        criteria[:published_at][:$lte] = params[:date_to] if params[:date_to].present?
+      elsif params[:month].present? and params[:year].present?
+        criteria[:month] = [params[:year], params[:month]].join('/')
+      end
+
+      # sort
+      #
+      if params[:sort].present?
+        if params[:order].present?
+          order = {params[:sort] => params[:order]}
+        elsif %w{created_at featured_at published_at}.include?(params[:sort])
+          order = {params[:sort] => :desc}
+        else
+          order = {params[:sort] => :asc}
+        end
+      elsif params[:order].present?
+        order = {published_at: params[:order]}
+      else
+        order = default_order
+      end
+
+      # paginate
+      #
+      per_page = (params[:show].presence || 20).to_i
+      page = (params[:page].presence || 1).to_i
+
+      # aggregate
+      #
+      aggregations = {
+        month: {},
+        page_category: {},
+        page_collection: {}
+      }
+      
+      # fetch
+      #
+      Page.search terms, load: false, fields: fields, where: criteria, order: order, per_page: per_page, page: page, highlight: highlight, aggs: aggregations
+    end
+
+    def similar_pages
+      if tokens = terms_list(published_terms);
+        Chemistry::Page.search(body: {query: {match: {terms: tokens}}}, limit: 19);
+      else
+        []
+      end
+    end
+
+
+    # Indexing support
 
     def render_and_strip_tags(attribute=:published_content)
       strip_tags(render(attribute))
@@ -189,16 +274,37 @@ module Chemistry
       end
     end
 
-    def similar_pages
-      if tokens = terms_list(published_terms);
-        Chemistry::Page.search(body: {query: {match: {terms: tokens}}}, limit: 19);
-      else
-        []
+    def page_collection_name
+      page_collection.short_title if page_collection
+    end
+
+    def page_collection_slug
+      page_collection.slug if page_collection
+    end
+
+    def page_collection_featured?
+      page_collection.featured? if page_collection
+    end
+
+    def page_category_slug
+      page_category.slug if page_category
+    end
+
+    def month_and_year
+      if published_at.present?
+        published_at.strftime("%y/%m")
       end
     end
 
+
+    # Paths
+
     def slug_base
-      published_title.presence || title
+      if home?
+        "__home"
+      else
+        published_title.presence || title
+      end
     end
 
     def path_base
@@ -214,6 +320,8 @@ module Chemistry
     def tidy_slashes(string)
       string.sub(/\/$/, '').sub(/^\//, '').sub(/^\/{2,}/, '/');
     end
+
+
 
     protected
 
@@ -233,17 +341,12 @@ module Chemistry
     # Path is absolute and includes collection prefix so that we can match fast and route simply
     #
     def derive_slug_and_path
-      if home?
-        self.slug = "__home"
-        self.path = [path_base, 'home'].join("/")
-      else
-        if slug? && !persisted?
-          self.slug = add_suffix_if_taken(slug, path_base)
-        elsif !slug?
-          self.slug = add_suffix_if_taken(slug_base, path_base)
-        end
-        self.path = [path_base, slug].join("/")
+      if slug? && !persisted?
+        self.slug = add_suffix_if_taken(slug, path_base)
+      elsif !slug?
+        self.slug = add_suffix_if_taken(slug_base, path_base)
       end
+      self.path = [path_base, slug].join("/")
     end
 
     def add_suffix_if_taken(base, scope_path)

@@ -1,0 +1,188 @@
+#cms_page
+  #masthead.archive
+    background: white
+    display: grid
+    place-items: center
+    order: 1
+    height: auto
+    overflow: visible;
+    .search_results
+      margin: auto;
+      max-width: 55em;
+      width: 84%;
+
+
+body.archive
+  #cms_page
+    #body
+      order: 0
+    #masthead
+      background: white
+      display: grid
+      place-items: center
+      order: 1
+      height: auto
+      overflow: visible;
+      .search_results
+        margin: auto;
+        max-width: 55em;
+        width: 84%;
+
+@media (min-aspect-ratio: 6/5) and (min-width: 667px)
+  body.archive
+    #cms_page
+      #masthead
+        order: 0
+      #body
+        order: 1
+        form.faceter
+          div.toggle
+            display: none;
+          div.list_control
+            max-height: 60vh
+
+ul.archive
+  list-style: none
+  padding: 0
+  li.page
+    margin: 2em 0
+    a
+      color: $dark
+    span.image
+      display: inline-block
+      vertical-align: top
+      width: 64px
+      height: 64px
+      margin-right: 10px
+      margin-top: 3px
+      background:
+        position: center center
+        size: cover
+        repeat: no-repeat
+        color: $pale
+    span.detail
+      display: inline-block
+      vertical-align: top
+      width: calc(100% - 80px)
+    span.title
+      display: block
+      font-weight: bold
+    time
+      display: block
+
+form.faceter
+  position: relative
+  width: 100%
+
+  fieldset
+    display: block
+    vertical-align: top
+    margin-right: 10px
+    clear: left
+    input[type="text"]
+      padding: 10px;
+      border: 1px solid $verypale;
+      font-size: 1.2em;
+      color: #101820;
+      box-sizing: border-box;
+      outline: none;
+    input[type="text"], input[type="submit"], select, a.button
+      display: inline-block
+      float: left
+      vertical-align: top
+      margin: 0 10px 10px 0
+      border-radius: 3px
+      &:last-child
+        margin-right: 0
+    input[type="text"]
+      width: 80%
+      display: inline-block
+    a.button
+      width: 15%
+      box-sizing: border-box
+      display: inline-block
+      padding: 9px
+    &:last-child
+      margin-right: 0
+
+  .toggle
+    position: absolute
+    z-index: 20
+    display: block
+    top: 48px
+    right: 10px
+    a
+      white-space: nowrap
+      color: $pale
+      +hover
+
+  .list_control
+    max-height: 0
+    transition: max-height 0.5s ease-out
+    overflow: hidden
+    +clearfix
+    width: 100%
+    z-index: 10
+    padding-top: 1em
+    background-color: white
+    &.up
+      max-height: 60vh
+    .cols
+      width: 100%
+      display: flex
+      flex-flow: row wrap
+      align-items: flex-start
+      justify-content: flex-start
+      background-color: $overlay
+      padding: 10px
+    .col
+      float: left
+      margin-right: 2em
+      margin-bottom: 1em
+      max-width: calc(50% - 4em)
+      &:last-child
+        max-width: 100%
+      p.options
+        font-size: 0.95rem
+        margin: 0.25em 0
+        line-height: 1.7
+        a
+          color: $mid
+          cursor: pointer
+          +hover
+          margin: 0 0.15em
+          &.here
+            pointer-events: none
+            font-weight: bold
+    h3
+      font-size: 0.95rem
+      font-weight: bold
+      margin: 1em 0 0 0
+      padding: 0
+
+    ul.facet
+      list-style: none
+      font-size: 0.95rem
+      margin: 0
+      padding: 0
+      & + ul.facet
+        border-top: 1px dotted $pale
+        margin-top: 12px
+        padding-top: 8px
+      li
+        display: block
+        white-space: nowrap
+        margin: 0.25em 0
+        +clearfix
+        a
+          color: $mid
+          +hover
+          span.icon, svg.icon
+            width: 16px
+            height: 16px
+            margin-left: -16px
+            float: left
+          svg + span.name
+            width: calc(100% - 32px)
+          &.here
+            font-weight: bold

@@ -4,22 +4,29 @@ module Chemistry
   class PagesController < Chemistry::ApplicationController
     include Chemistry::Concerns::Searchable
 
-    skip_before_action :authenticate_user!, only: [:published, :latest], raise: false
+    skip_before_action :authenticate_user!, only: [:published, :latest, :archive, :children, :similar, :listed], raise: false
     load_and_authorize_resource :page_collection, class: Chemistry::PageCollection, only: [:new, :edit]
-    load_and_authorize_resource class: Chemistry::Page, except: [:published, :latest, :children, :controls, :new], through: :page_collection, shallow: true
+    load_and_authorize_resource class: Chemistry::Page, except: [:published, :latest, :children, :controls, :new, :archive], through: :page_collection, shallow: true
 
 
     ## Deliver page to public user
     #
     def published
-      Rails.logger.warn "🦋 published #{params[:path]}"
       @path = (params[:path] || '').sub(/\/$/, '').sub(/^\//, '').strip
       @page = Chemistry::Page.published_with_path(@path)
+      Rails.logger.warn "🦋 published #{@path} -> #{@page}"
       if @page && (@page.public? || user_signed_in?)
         render layout: chemistry_layout
       else
         page_not_found
       end
+    end
+
+    def archive
+      @params = archive_params
+      @q = @params[:q]
+      @pages = Chemistry::Page.search_and_aggregate(@params)
+      render layout: chemistry_layout
     end
 
 
@@ -100,8 +107,8 @@ module Chemistry
     # Control block added to public page if user is signed in.
     #
     def controls
-      @page = Chemistry::Page.find(params[:id])
-      if @page# && can?(:edit, @page)
+      @page = Chemistry::Page.find_by(path: params[:path]) if can?(:edit, Chemistry::Page)
+      if @page
         render layout: false
       else
         head :no_content
@@ -114,7 +121,7 @@ module Chemistry
     ## Error pages
 
     def page_not_found
-      if @page = Chemistry::Page.published_with_path("/404").first
+      if @page = Chemistry::Page.published_with_path("/404")
         render layout: chemistry_layout
       else
         render template: "chemistry/pages/not_found", layout: chemistry_layout
@@ -133,6 +140,10 @@ module Chemistry
         :title,
         :page_collection_id
       )
+    end
+
+    def archive_params
+      params.permit(:page_collection, :page_category, :month, :date_from, :date_to, :q, :sort, :order, :show, :page, terms: [])
     end
 
 

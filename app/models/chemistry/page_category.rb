@@ -9,5 +9,11 @@ module Chemistry
     def self.for_selection
       order(:title).map{|pc| [pc.title, pc.id] }
     end
+
+    def self.facet_labels
+      all.each_with_object({}) do |pc, h|
+        h[pc.slug] = pc.title
+      end
+    end
   end
 end

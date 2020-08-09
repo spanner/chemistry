@@ -1,10 +1,14 @@
 en:
+  archive_and_search: "Archive & search"
   chemistry: "Chemistry"
   published: "published"
   date:
     formats:
       natural: "%d %B %Y"
       natural_full: "%l:%M%P, %d %B %Y"
+  errors:
+    page_not_found: "Page not found"
+    page_not_found_text: "Sorry: the page that you requested could not be found. Either it has not been published or the link URL is not correct."
   sorts:
     date: "By original date"
     published_at: "By publication date"
@@ -18,3 +22,4 @@ en:
     body: "Time to make something."
     pages: "Page tree"
     templates: "Templates"
+    page_collections: "Page collections:"

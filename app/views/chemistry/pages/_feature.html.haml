@@ -1,0 +1,15 @@
+- omit_collection ||= false
+- page ||= feature ||= @page
+
+- if page[:image_url].present?
+  %a.page_block{href: chemistry.published_page_url(page[:path]), data: {bg: page[:image_url]}}
+    %span.caption
+      - unless omit_collection
+        %span.collection
+          = page.collection_name
+      %span.headline
+        = page.title
+      %time
+        = l(Date.parse(page.published_at), format: :natural)
+      %span.intro
+        = page.summary

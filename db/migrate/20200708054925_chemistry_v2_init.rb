@@ -47,6 +47,7 @@ class ChemistryV2Init < ActiveRecord::Migration[6.0]
       t.string :short_title
       t.string :slug
       t.text :introduction
+      t.boolean :featured, default: true
       t.boolean :private, default: false
       t.timestamps
     end

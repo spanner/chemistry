@@ -18,8 +18,8 @@ Chemistry::Engine.routes.draw do
   resources :page_collections do
     resources :pages
     member do
-      get :archive
       get :filter
+      get :features
     end
     collection do
       get :dashboard
@@ -27,10 +27,18 @@ Chemistry::Engine.routes.draw do
   end
 
   scope defaults: { format: 'html' }, constraints: { format: 'html' } do
-    get "/parts/controls/:id" => "pages#controls", as: :page_controls
+    get "/parts/controls/*path" => "pages#controls", as: :page_controls
+
     get "toc/list/:page_ids" => "pages#listed", as: :listed_pages
     get "toc/children/:page_id" => "pages#children", as: :child_pages
     get "toc/similar/:page_id" => "pages#similar", as: :similar_pages
+    get "collections/:id" => "page_collections#show", as: :page_collection_home
+
+    get "collections/:id/features" => "page_collections#features", as: 'page_collection_features'
+    get "collections/:id/features/:p" => "page_collections#features", as: 'more_page_collection_features'
+
+    get "/archive/:page_collection" => "pages#archive", as: 'page_collection_archive'
+    get "archive" => "pages#archive", as: 'archive'
 
     get "/*path" => "pages#published", as: :published_page
   end

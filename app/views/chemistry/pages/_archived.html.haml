@@ -1,0 +1,29 @@
+- archived ||= nil
+- page ||= archived || @page
+- highlights ||= nil
+- url = chemistry.published_page_url(page.path)
+
+%li.page{id: "page_#{page.id}"}
+  = link_to url do
+    - if page.thumbnail_url
+      %span.image{style: "background-image: url(#{page.thumbnail_url});"}
+    - else
+      %span.image.missing
+
+    %span.detail
+      %span.title
+        - if highlights && highlights[:title].present?
+          = highlights[:title].html_safe
+        - else
+          = strip_tags(page.title)
+
+      - if page.published_at
+        %time
+          = l Date.parse(page.published_at), format: :natural
+
+      %span.excerpt
+        - if highlights && highlights[:content].present?
+          = highlights[:content].html_safe
+        - else
+          - excerpt = page.summary.presence || page.excerpt.presence || ""
+          = shorten(strip_tags(excerpt).gsub('&nbsp;', ' '), 400)

@@ -11,10 +11,13 @@
     - if rendered_title.present?
       #title
         %h1.pagetitle
+          - if pc = @page.page_collection
+            %a.breadhead{href: chemistry.page_collection_home_url(pc.slug)}
+              = pc.title
           = sanitize(rendered_title, scrubber: Chemistry::InlineScrubber.new)
   
     - if rendered_content.present?
       #content
         = sanitize(rendered_content, scrubber: Chemistry::ContentScrubber.new)
 
-#buttons{data: {page: @page.id}}
+#buttons{data: {page: @page.path}}

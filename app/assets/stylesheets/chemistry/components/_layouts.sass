@@ -29,7 +29,7 @@
   flex-flow: column nowrap
   align-items: flex-start
   #title, #content
-    max-width: 65em
+    max-width: 55em
     width: 100%;
     margin-left: auto
     margin-right: auto
@@ -48,10 +48,12 @@
     width: 100%
     height: 100%
 
-@media (min-width: 667px)
-  #cms_page.layout_heroic
+@media (min-aspect-ratio: 6/5) and (min-width: 667px)
+  #cms_page
     display: flex
     flex-flow: row nowrap
+
+  #cms_page.layout_heroic
     #masthead
       position: fixed
       overflow: hidden
@@ -59,29 +61,28 @@
       left: 0
       width: 67vw
       height: 100vh
+    main.archive
+      #masthead
+        margin-top: 100px
     #body
       width: 33vw
       left: 67vw
       margin-top: 50px
 
   #cms_page.layout_illustrated
-    display: flex
-    flex-flow: row nowrap
     #masthead
       position: fixed
       overflow: hidden
       top: 0
       left: 0
-      width: 33.3vh
+      width: 33vh
       height: 100vh
     #body
-      width: calc(100vw - 33.3vh)
+      width: calc(100vw - 33vh)
       left: 33.3vh
       margin-top: 8em
 
   #cms_page.layout_gallery
-    display: flex
-    flex-flow: row nowrap
     #masthead
       position: fixed
       overflow: hidden
@@ -95,24 +96,20 @@
       overflow: hidden
 
   #cms_page.layout_texty
-    display: flex
-    flex-flow: row nowrap
     #masthead
-      position: fixed
-      overflow: hidden
-      top: 0
-      left: 0
-      width: 0
-      height: 100vh
+      display: none
     #body
       left: 0
       width: 100vw
       margin-top: 8em
 
 
-
 @media (min-aspect-ratio: 5/3) and (min-width: 667px)
   #cms_page.layout_heroic
+    #masthead
+      width: 100vh
+      div.bg
+        width: 100vh
     #body
       width: calc(100vw - 100vh)
       left: 100vh
@@ -140,6 +137,9 @@
   #cms_page.layout_heroic, #cms_page.layout_illustrated
     #body
       margin-top: 120px
+    main.archive
+      #masthead
+        margin-top: 250px;
 
 
 @media (max-width: 1024px) and (min-width: 667px)

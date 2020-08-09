@@ -7,11 +7,17 @@ module Chemistry
     validates :title, presence: true
 
     default_scope -> { order(:position) }
-    scope :made_public, -> { where(public: true) }
-    scope :made_private, -> { where(public: false) }
+    scope :made_public, -> { where(private: false) }
+    scope :made_private, -> { where(private: true) }
 
     def self.for_selection
       order(:short_title).map{|coll| [coll.short_title, coll.id] }
+    end
+  
+    def self.facet_labels
+      all.each_with_object({}) do |pc, h|
+        h[pc.slug] = pc.short_title
+      end
     end
   
     def empty?
@@ -23,12 +29,12 @@ module Chemistry
     end
 
     def search_and_aggregate_pages(params={})
-      Page.search_and_aggregate(params.merge({page_collection_id: self.slug}))
+      Page.search_and_aggregate(params.merge({page_collection: id}))
     end
 
     def latest_page_search_results(params={})
       Page.search_and_aggregate({
-        page_collection_id: self.slug,
+        page_collection: id,
         sort: :created_at,
         order: :desc,
         q: params[:q].presence,

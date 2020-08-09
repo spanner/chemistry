@@ -1,7 +1,8 @@
 module Chemistry
   class PageCollectionsController < Chemistry::ApplicationController
     skip_before_action :authenticate_user!, only: [:index, :show, :archive, :latest], raise: false
-    load_and_authorize_resource find_by: :slug
+    load_and_authorize_resource class: Chemistry::PageCollection, find_by: :slug
+    before_action :get_pages, only: [:show, :features]
 
 
     # Public collection home page
@@ -10,14 +11,19 @@ module Chemistry
       render layout: chemistry_layout
     end
 
+    def features
+      if stale?(etag: @pages, public: true)
+        render partial: "chemistry/pages/feature", collection: @pages, layout: false
+      end
+    end
+
     # Public Archive / search view
     #
     def archive
-      @pages = @page_collection.search_and_aggregate_pages(archive_params)
+      @params = archive_params.merge({page_collection: @page_collection.slug})
+      @pages = Chemistry::Page.search_and_aggregate(@params)
       render layout: chemistry_admin_layout
     end
-
-
 
     # Admin overview page
     #
@@ -70,8 +76,14 @@ module Chemistry
 
     private
 
+    def get_pages
+      @p = params[:p] || 1
+      @pp = 14
+      @pages = Chemistry::Page.search "*", where: {published: true, page_collection: @page_collection.slug}, order: {published_at: :desc}, load: false, per_page: @pp, page: @p
+    end
+
     def archive_params
-      params.permit(:page_collection_id, :page_category_id, :month, :term, :q, :sort, :order, :show, :page)
+      params.permit(:page_collection, :page_category, :month, :date_from, :date_to, :q, :sort, :order, :show, :page, terms: [])
     end
 
     def page_collection_params
