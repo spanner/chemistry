@@ -9,6 +9,23 @@ en:
   errors:
     page_not_found: "Page not found"
     page_not_found_text: "Sorry: the page that you requested could not be found. Either it has not been published or the link URL is not correct."
+  helpers:
+    label:
+      page:
+        title: "Title"
+        page_category_id: "Category"
+        page_collection_id: "Collection"
+      page_collection:
+        title: "Collection title"
+        short_title: "Short form"
+        slug: "URL slug"
+        grant_type_code: "Links to grants of type"
+        cobrand: "Partnership block (if any)"
+        eventful: "Links to events"
+        private: "Requires login?"
+        introduction: "Introduction"
+        featured: "Featured on home page?"
+        eventful: "Pages link to events?"
   placeholders:
     page:
       title: "Page title"

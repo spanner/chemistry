@@ -20,9 +20,21 @@
         A slug will be derived from the collection title if none is given.
         If you change this then external links will break. Consider adding a redirect from the old slug/* to the new.
 
-    .edit_text
+    %p
       = f.label :introduction
       = f.text_area :introduction, class: "introduction long", placeholder: t("placeholders.page_collection.introduction")
+
+    %p
+      = f.check_box :private
+      = f.label :private
+
+    %p
+      = f.check_box :featured
+      = f.label :featured
+
+    %p
+      = f.check_box :eventful
+      = f.label :eventful
 
   .buttons 
     = f.submit t(:save_collection), class: 'save button'
