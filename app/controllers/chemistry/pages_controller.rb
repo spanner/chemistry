@@ -5,7 +5,7 @@ module Chemistry
     include Chemistry::Concerns::Searchable
 
     skip_before_action :authenticate_user!, only: [:published, :latest, :archive, :children, :similar, :listed], raise: false
-    load_and_authorize_resource :page_collection, class: Chemistry::PageCollection, only: [:new, :edit]
+    load_and_authorize_resource :page_collection, class: Chemistry::PageCollection, only: [:new, :create, :edit]
     load_and_authorize_resource class: Chemistry::Page, except: [:published, :latest, :children, :controls, :new, :archive], through: :page_collection, shallow: true
 
 
@@ -37,13 +37,24 @@ module Chemistry
     end
 
 
-    # New and edit bring up the SPA editor.
+    # New returns a tiny inline form that will create an empty page and forward to edit
     #
     def new
-      @page = Chemistry::Page.new(new_page_params)
-      render layout: chemistry_admin_layout
+      @page = @page_collection.pages.build(new_page_params)
+      render layout: false
     end
 
+    def create
+      @page = @page_collection.pages.build(new_page_params)
+      if @page.save
+        redirect to edit_page_url(@page)
+      else
+        render action: "new", layout: false
+      end
+    end
+
+    # Edit shows the SPA editor and the rest of the edit and save process goes through the API.
+    #
     def edit
       render layout: chemistry_admin_layout
     end
@@ -136,12 +147,15 @@ module Chemistry
     # New-page link can make basic preparations
     #
     def new_page_params
-      params.permit(
-        :path,
-        :private,
-        :title,
-        :page_collection_id
-      )
+      if params[:page].present?
+        params.require(:page).permit(
+          :title,
+          :private,
+          :page_collection_id
+        )
+      else
+        {}
+      end
     end
 
     def archive_params

@@ -9,6 +9,9 @@ en:
   errors:
     page_not_found: "Page not found"
     page_not_found_text: "Sorry: the page that you requested could not be found. Either it has not been published or the link URL is not correct."
+  placeholders:
+    page:
+      title: "Page title"
   sorts:
     date: "By original date"
     published_at: "By publication date"

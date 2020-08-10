@@ -34,7 +34,7 @@ module Chemistry
 
     def latest_page_search_results(params={})
       Page.search_and_aggregate({
-        page_collection: id,
+        page_collection: slug,
         sort: :created_at,
         order: :desc,
         q: params[:q].presence,

@@ -1,5 +1,8 @@
-#chemistry.page_editor.page_editor{data: {cms: {page: 'new'}}}
-  #waiter.waiting
-    %span.logo
-    %span.message
-      CMS Loading...
+= form_for(@page, html: {class: "standard"}) do |f|
+  %span.image
+    %svg
+      %use{href: "#add_symbol"}
+  %span.detail
+    = f.hidden_field :page_collection_id
+    = f.text_field :title, class: "title", placeholder: t("placeholders.page.title"), autofocus: true
+    = f.submit "start"

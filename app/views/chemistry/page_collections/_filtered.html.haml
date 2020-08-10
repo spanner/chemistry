@@ -1,7 +1,6 @@
 - page_collection ||= @page_collection
-- default_page_count = page_collection.slug == 'news' ? 10 : 5
-- pages ||= @pages || page_collection.latest_page_search_results({show: default_page_count})
+- pages ||= @pages || page_collection.latest_page_search_results({show: 5})
 
-%ul.matches{id: "page_collection_#{page_collection.id}_pages", data: {refreshing: chemistry.filter_page_collection_url(page_collection)}}
-  = render partial: "chemistry/pages/search_result", collection: pages
+%ul.matches{id: "page_collection_#{page_collection.id}_pages"}
+  = render partial: "chemistry/pages/search/listed", collection: pages
 

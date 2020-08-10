@@ -44,7 +44,7 @@ module Chemistry
     #
     def filter
       @pages = @page_collection.latest_page_search_results
-      render partial: "pages/filtered", layout: false
+      render partial: "page_collections/filtered", layout: false
     end
 
     # Admin crud

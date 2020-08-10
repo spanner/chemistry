@@ -19,9 +19,9 @@
 
         - if @q
           - @pages.with_highlights.each do |page, highlights|
-            = render "chemistry/pages/archived", page: page, highlights: highlights
+            = render "chemistry/pages/search/result", page: page, highlights: highlights
         - else
-          = render partial: "chemistry/pages/archived", collection: @pages
+          = render partial: "chemistry/pages/search/result", collection: @pages
 
         .pagination.lower
           = paginate @pages, params: {format: nil}
