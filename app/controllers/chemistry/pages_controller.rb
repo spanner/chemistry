@@ -1,5 +1,3 @@
-require 'json'
-
 module Chemistry
   class PagesController < Chemistry::ApplicationController
     include Chemistry::Concerns::Searchable
@@ -7,7 +5,6 @@ module Chemistry
     skip_before_action :authenticate_user!, only: [:published, :latest, :archive, :children, :similar, :listed], raise: false
     load_and_authorize_resource :page_collection, class: Chemistry::PageCollection, only: [:new, :create, :edit]
     load_and_authorize_resource class: Chemistry::Page, except: [:published, :latest, :children, :controls, :new, :archive], through: :page_collection, shallow: true
-
 
     ## Deliver page to public user
     #

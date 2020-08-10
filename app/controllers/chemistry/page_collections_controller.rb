@@ -2,7 +2,7 @@ module Chemistry
   class PageCollectionsController < Chemistry::ApplicationController
     skip_before_action :authenticate_user!, only: [:index, :show, :archive, :latest], raise: false
     load_resource class: Chemistry::PageCollection, find_by: :slug, except: [:edit, :update]
-    load_resource class: Chemistry::PageCollection, , only: [:edit, :update]
+    load_resource class: Chemistry::PageCollection, only: [:edit, :update]
     before_action :get_pages, only: [:show, :features]
 
 
