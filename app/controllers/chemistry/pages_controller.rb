@@ -115,13 +115,11 @@ module Chemistry
       end
     end
 
-    # Control block added to public page if user is signed in.
+    # Control block added to (cacheable) public page if user is signed in.
     #
     def controls
-      Rails.logger.warn "🦋 controls #{user_signed_in?.inspect} & #{can?(:edit, Chemistry::Page).inspect}"
-      @page = Chemistry::Page.find_by(path: params[:path]) if can?(:edit, Chemistry::Page)
-      Rails.logger.warn "🦋 page: #{@page.inspect}"
-      if @page
+      if params[:path].present? && can?(:edit, Chemistry::Page)
+        @page = Chemistry::Page.find_by(path: params[:path])
         render layout: false
       else
         head :no_content

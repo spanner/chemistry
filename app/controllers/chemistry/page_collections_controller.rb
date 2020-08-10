@@ -1,7 +1,8 @@
 module Chemistry
   class PageCollectionsController < Chemistry::ApplicationController
     skip_before_action :authenticate_user!, only: [:index, :show, :archive, :latest], raise: false
-    load_resource class: Chemistry::PageCollection, find_by: :slug
+    load_resource class: Chemistry::PageCollection, find_by: :slug, except: [:edit, :update]
+    load_resource class: Chemistry::PageCollection, , only: [:edit, :update]
     before_action :get_pages, only: [:show, :features]
 
 
@@ -70,6 +71,17 @@ module Chemistry
         redirect_to page_collection_url(@page_collection)
       else
         render action: :new
+      end
+    end
+
+    # Control block added to (cacheable) public page if user is signed in.
+    #
+    def controls
+      if params[:slug].present && can?(:edit, Chemistry::PageCollection)
+        @page_collection = Chemistry::PageCollection.find_by(slug: params[:slug])
+        render layout: false
+      else
+        head :no_content
       end
     end
 

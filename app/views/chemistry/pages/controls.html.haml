@@ -1,4 +1,5 @@
-%header#cms-nav
-  %a.cms-button{href: chemistry.edit_page_url(@page)}
-    %svg
-      %use{href: "#edit_button_symbol"}
+- if @page
+  %header#cms-nav
+    %a.cms-button{href: chemistry.edit_page_url(@page)}
+      %svg
+        %use{href: "#edit_button_symbol"}

@@ -4,11 +4,11 @@
 - highlights ||= nil
 
 %li.page{id: "page_#{page.id}"}
-  - if can?(:edit, page)
-    = link_to chemistry.edit_page_path(page.id), class: "edit" do
+  - if can?(:edit, Chemistry::Page)
+    = link_to chemistry.edit_page_url(page.id), class: "edit" do
       %svg
         %use{href: "#edit_button_symbol"}
-    
+
   = link_to chemistry.published_page_url(page.path), class: "show" do
     - if page.thumbnail_url
       %span.image{style: "background-image: url(#{page.thumbnail_url});"}

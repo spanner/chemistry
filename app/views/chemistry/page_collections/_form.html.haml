@@ -1,7 +1,6 @@
 - cancel_url = @page_collection.new_record? ? main_app.dashboard_url : chemistry.page_collection_home_path(@page_collection.slug)
 
 = form_for @page_collection, html: {class: 'standard page_collection'} do |f|
-
   #basics
     %p
       = f.label :title, class: "required"

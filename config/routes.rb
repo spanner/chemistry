@@ -28,6 +28,7 @@ Chemistry::Engine.routes.draw do
 
   scope defaults: { format: 'html' }, constraints: { format: 'html' } do
     get "/parts/controls/*path" => "pages#controls", as: :page_controls
+    get "/parts/collection_controls/:slug" => "page_collections#controls", as: :page_collection_controls
 
     get "toc/list/:page_ids" => "pages#listed", as: :listed_pages
     get "toc/children/:page_id" => "pages#children", as: :child_pages
