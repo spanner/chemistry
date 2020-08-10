@@ -113,7 +113,6 @@ module Chemistry
         file_name: file_name,
         file_type: file_type,
         file_size: file_size,
-        created_at: created_at,
         user: user_id,
         embed_code: embed_code,
         created_at: created_at,
