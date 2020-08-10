@@ -1,7 +1,7 @@
 module Chemistry
   class PageCollectionsController < Chemistry::ApplicationController
     skip_before_action :authenticate_user!, only: [:index, :show, :archive, :latest], raise: false
-    load_and_authorize_resource class: Chemistry::PageCollection, find_by: :slug
+    load_resource class: Chemistry::PageCollection, find_by: :slug
     before_action :get_pages, only: [:show, :features]
 
 
@@ -88,7 +88,9 @@ module Chemistry
 
     def page_collection_params
       if params[:page_collection]
-        params.require(:page_collection).permit(:title, :short_title, :slug, :introduction, :cobrand, :public)
+        params.require(:page_collection).permit(:title, :short_title, :slug, :introduction, :cobrand, :featured, :private, :eventful)
+      else
+        {}
       end
     end
 

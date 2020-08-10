@@ -56,7 +56,7 @@ module Chemistry
     # Edit shows the SPA editor and the rest of the edit and save process goes through the API.
     #
     def edit
-      render layout: chemistry_admin_layout
+      render layout: chemistry_editing_layout
     end
 
 

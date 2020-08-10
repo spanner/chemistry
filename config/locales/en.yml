@@ -12,6 +12,8 @@ en:
   placeholders:
     page:
       title: "Page title"
+    page_collection:
+      introduction: "Please enter text or HTML for the home page of this collection."
   sorts:
     date: "By original date"
     published_at: "By publication date"

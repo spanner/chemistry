@@ -16,6 +16,10 @@ module Chemistry
       Chemistry.config.admin_layout
     end
 
+    def chemistry_editing_layout
+      Chemistry.config.editing_layout || Chemistry.config.admin_layout
+    end
+
     def paginated(collection, default_show=10, default_page=1)
       @show = (params[:show] || default_show).to_i
       @page = (params[:page] || default_page).to_i

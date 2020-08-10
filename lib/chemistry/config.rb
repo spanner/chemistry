@@ -2,6 +2,7 @@ module Chemistry
   class Config
     attr_accessor :public_layout,
                   :admin_layout,
+                  :editing_layout,
                   :host,
                   :protocol,
                   :api_url,
