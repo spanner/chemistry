@@ -107,7 +107,9 @@ module Chemistry
     # Control block added to public page if user is signed in.
     #
     def controls
+      Rails.logger.warn "🦋 controls #{user_signed_in?.inspect} & #{can?(:edit, Chemistry::Page).inspect}"
       @page = Chemistry::Page.find_by(path: params[:path]) if can?(:edit, Chemistry::Page)
+      Rails.logger.warn "🦋 page: #{@page.inspect}"
       if @page
         render layout: false
       else

@@ -6,7 +6,7 @@ module Chemistry::Api
     load_and_authorize_resource class: Chemistry::Page, except: [:index]
 
     ## API routes
-    # Support the editing UI and a few public functions like list pagination.
+    # Support the editing UI
     #
     def index
       return_pages
@@ -54,10 +54,6 @@ module Chemistry::Api
 
     def return_pages
       render json: Chemistry::TreePageSerializer.new(@pages).serialized_json
-    end
-
-    def return_pages_with_everything
-      render json: Chemistry::PublicPageSerializer.new(@pages, include: [:socials, :image, :video]).serialized_json
     end
 
     def return_page

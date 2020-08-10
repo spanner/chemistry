@@ -4,12 +4,13 @@ module Chemistry
 
     def initialize(user)
 
-      can [:index, :published, :latest], Chemistry::Page
-      can [:index, :show, :archive, :latest, :features], Chemistry::PageCollection
+      can [:index, :published], Chemistry::Page
+      can [:index, :show, :archive, :features], Chemistry::PageCollection
       can [:read], Chemistry::Image
       can [:read], Chemistry::Video
       can [:read], Chemistry::Document
       can [:read], Chemistry::Social
+      can [:read], Chemistry::PageCategory
 
       # application Ability should subclass Chemistry::Ability and add management permissions. Eg:
       # if user.author?
