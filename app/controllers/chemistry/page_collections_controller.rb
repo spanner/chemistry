@@ -56,7 +56,7 @@ module Chemistry
   
     def update
       if @page_collection.update_attributes(page_collection_params)
-        redirect_to page_collection_url(@page_collection)
+        redirect_to page_collection_home_url(@page_collection.slug)
       else
         render action: :edit
       end
@@ -68,7 +68,7 @@ module Chemistry
   
     def create
       if @page_collection.update_attributes(page_collection_params)
-        redirect_to page_collection_url(@page_collection)
+        redirect_to page_collection_home_url(@page_collection)
       else
         render action: :new
       end

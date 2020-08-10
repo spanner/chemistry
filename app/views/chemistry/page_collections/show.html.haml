@@ -16,8 +16,8 @@
       = @page_collection.title
 
   #standfirst
-    %p
-      = @page_collection.introduction
+    = sanitize(@page_collection.introduction)
+
     %p
       %a{href: chemistry.page_collection_archive_url(@page_collection.slug)}
         %svg.icon
