@@ -77,7 +77,7 @@ module Chemistry
     # Control block added to (cacheable) public page if user is signed in.
     #
     def controls
-      if params[:slug].present && can?(:edit, Chemistry::PageCollection)
+      if params[:slug].present? && can?(:edit, Chemistry::PageCollection)
         @page_collection = Chemistry::PageCollection.find_by(slug: params[:slug])
         render layout: false
       else
