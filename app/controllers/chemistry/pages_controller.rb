@@ -42,7 +42,7 @@ module Chemistry
     end
 
     def create
-      @page = @page_collection.pages.build(new_page_params)
+      @page = Chemistry::Page.new(new_page_params)
       if @page.save
         redirect to edit_page_url(@page)
       else
