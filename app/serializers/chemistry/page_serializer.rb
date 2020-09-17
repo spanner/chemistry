@@ -10,8 +10,6 @@ class Chemistry::PageSerializer
              :slug,
              :style,
              :parent_id,
-             :page_category_id,
-             :page_collection_id,
              :title,
              :masthead,
              :content,
@@ -26,6 +24,10 @@ class Chemistry::PageSerializer
              :created_at,
              :updated_at,
              :published_at
+
+  attribute :parent_id  { |object| object.parent } 
+  attribute :page_category_id  { |object| object.page_category } 
+  attribute :page_collection_id  { |object| object.page_collection } 
 
   attribute :url  do |object|
     Chemistry::Engine.routes.url_helpers.published_page_url(object.path, host: Chemistry.config.site_host)
