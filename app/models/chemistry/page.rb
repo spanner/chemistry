@@ -1,3 +1,6 @@
+# TODO: History of previous paths for redirection
+#.      history of edits by users...
+
 require 'mustache'
 
 module Chemistry
@@ -7,6 +10,7 @@ module Chemistry
     acts_as_list column: :nav_position
 
     # Filing
+    belongs_to :user, class_name: Chemistry.config.user_class, foreign_key: Chemistry.config.user_key
     belongs_to :page_collection, optional: true
     belongs_to :page_category, optional: true 
 

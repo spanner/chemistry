@@ -9,6 +9,11 @@
   %meta{property: "og:url", content: Chemistry::Engine.routes.url_helpers.published_page_url(@page.path, host: Chemistry.config.site_host)}
   %meta{property: "og:image", content: @page.image_url.presence || Chemistry.config.site_image_url}
   %meta{property: "og:site_name", content: Chemistry.config.site_name}
+  %meta{name: "twitter:card", content: "summary"}
+  - if Chemistry.config.site_twitter.present?
+    %meta{name: "twitter:site", content: Chemistry.config.site_twitter}
+  - if @page.user && @page.user.respond_to?(:twitter) && @page.user.twitter.present?
+    %meta{name: "twitter:creator", content: @page.user.twitter}
 
 
 %main

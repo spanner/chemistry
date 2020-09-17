@@ -42,7 +42,7 @@ module Chemistry
     end
 
     def create
-      @page = Chemistry::Page.new(new_page_params)
+      @page = Chemistry::Page.new(new_page_params.merge(user_id: user_signed_in? && current_user.id))
       if @page.save
         redirect to edit_page_url(@page)
       else

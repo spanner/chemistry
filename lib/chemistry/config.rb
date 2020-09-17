@@ -14,7 +14,8 @@ module Chemistry
                   :site_name,
                   :site_description,
                   :site_host,
-                  :site_image_url
+                  :site_image_url,
+                  :site_twitter
 
 
     @user_class = "User"
