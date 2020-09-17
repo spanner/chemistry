@@ -2,6 +2,15 @@
 - rendered_masthead = @page.render(:published_masthead)
 - rendered_content = @page.render(:published_content)
 
+- content_for :head do
+  %meta{property: "og:type", content: "article"}
+  %meta{property: "og:title", content: @page.render_and_strip_tags(:published_title)}
+  %meta{property: "og:description", content: @page.render_and_strip_tags(:published_excerpt).presence || Chemistry.config.site_description}
+  %meta{property: "og:url", content: Chemistry::Engine.routes.url_helpers.published_page_url(@page.path, host: Chemistry.config.site_host)}
+  %meta{property: "og:image", content: @page.image_url.presence || Chemistry.config.site_image_url}
+  %meta{property: "og:site_name", content: Chemistry.config.site_name}
+
+
 %main
   #masthead
     - if rendered_masthead.present?
