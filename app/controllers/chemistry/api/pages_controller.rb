@@ -127,8 +127,9 @@ module Chemistry::Api
       "created_at"
     end
 
+    # for editing collections we key and search by id
     def search_aggregations
-      ['page_collection', 'page_category', 'parent']
+      ['page_collection_id', 'page_category_id', 'parent_id']
     end
 
     def paginated?

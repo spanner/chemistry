@@ -147,9 +147,11 @@ module Chemistry
         collection_name: page_collection_name,
 
         # aggregation and selection
-        parent: parent_id,
+        parent_id: parent_id,
         page_collection: page_collection_slug,
+        page_collection_id: page_collection_id,
         page_category: page_category_slug,
+        page_category_id: page_category_id,
         created_at: created_at,
         updated_at: updated_at,
         published: published?,

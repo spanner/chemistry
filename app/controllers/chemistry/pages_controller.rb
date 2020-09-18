@@ -176,6 +176,7 @@ module Chemistry
       "published_at"
     end
 
+    # for the public archive page we facet using slug parameters for readability and consistency with urls
     def search_aggregations
       ['page_collection', 'page_category', 'terms']
     end
