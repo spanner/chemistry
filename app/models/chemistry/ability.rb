@@ -4,7 +4,7 @@ module Chemistry
 
     def initialize(user)
 
-      can [:index, :published], Chemistry::Page
+      can [:home, :index, :published], Chemistry::Page
       can [:index, :show, :archive, :features], Chemistry::PageCollection
       can [:read], Chemistry::Image
       can [:read], Chemistry::Video

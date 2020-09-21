@@ -4,10 +4,21 @@ module Chemistry
 
     skip_before_action :authenticate_user!, only: [:published, :latest, :archive, :children, :similar, :listed], raise: false
     load_and_authorize_resource :page_collection, class: Chemistry::PageCollection, only: [:new, :create, :edit]
-    load_and_authorize_resource class: Chemistry::Page, except: [:published, :latest, :children, :controls, :new, :archive], through: :page_collection, shallow: true
+    load_and_authorize_resource class: Chemistry::Page, except: [:home, :published, :latest, :children, :controls, :new, :archive], through: :page_collection, shallow: true
 
     ## Deliver page to public user
     #
+    def home
+      @page = Chemistry::Page.home.first
+      if @page && @page.published?
+        if stale?(etag: @page, last_modified: @page.published_at)
+          render template: "chemistry/pages/published", layout: chemistry_layout
+        end
+      else
+        render template: "chemistry/welcome", layout: "chemistry/application"
+      end
+    end
+
     def published
       @path = (params[:path] || '').sub(/\/$/, '').sub(/^\//, '').strip
       @page = Chemistry::Page.published_with_path(@path)

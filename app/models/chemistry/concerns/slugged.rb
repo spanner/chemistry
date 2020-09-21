@@ -12,11 +12,9 @@ module Chemistry
     end
 
     def derive_slug
-      if slug?
-        self.slug = slug.parameterize
-      else
-        self.short_title ||= title
-        unique_slug = slug_base = self.slug || self.slug_source
+      unless slug?
+        slug_base = slug_source.parameterize
+        unique_slug = slug_base
         addendum = 1
         while self.class.other_than(self).find_by_slug(unique_slug)
           unique_slug = "#{slug_base}-#{addendum}"
@@ -25,6 +23,5 @@ module Chemistry
         self.slug = unique_slug
       end
     end
-
   end
 end
