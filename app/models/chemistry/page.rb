@@ -69,11 +69,6 @@ module Chemistry
       !private?
     end
 
-    def absolute_path
-      #TODO: mount point, by way of public_page_url(page)?
-      "/" + path
-    end
-
     def publish!
       transaction do
         Chemistry::Page::PUBLISHED_ATTRIBUTES.each do |col|
@@ -305,6 +300,14 @@ module Chemistry
 
     # Paths
 
+    def absolute_path
+      if page_collection
+        tidy_slashes ["", page_collection.path.presence, path.presence].compact.join('/')
+      else
+        tidy_slashes(path)
+      end
+    end
+
     def slug_base
       if home?
         "__home"
@@ -314,20 +317,23 @@ module Chemistry
     end
 
     def path_base
-      if parent && parent.path?
-        tidy_slashes(parent.path)
-      elsif page_collection
-        page_collection.slug
-      else
-        ""
-      end
+      path_parts = []
+      path_parts.push page_collection.path if page_collection
+      path_parts.push parent.path if parent
+      tidy_slashes(path_parts.compact.join('/'))
     end
 
     def tidy_slashes(string)
       string.sub(/\/$/, '').sub(/^\//, '').sub(/^\/{2,}/, '/');
     end
 
-
+    def permalink
+      if home?
+        Chemistry.config.site_host
+      else
+        Chemistry::Engine.routes.url_helpers.published_page_url(@page.path, host: Chemistry.config.site_host)
+      end
+    end
 
     protected
 
@@ -349,10 +355,10 @@ module Chemistry
     def derive_slug_and_path
       if slug? && !persisted?
         self.slug = add_suffix_if_taken(slug, path_base)
-      elsif !slug?
+      elsif !slug? && !home?
         self.slug = add_suffix_if_taken(slug_base, path_base)
       end
-      self.path = [path_base, slug].join("/")
+      self.path = tidy_slashes([path_base, slug].map(&:presence).compact.join("/"))
     end
 
     def add_suffix_if_taken(base, scope_path)

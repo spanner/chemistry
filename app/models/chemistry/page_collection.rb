@@ -4,6 +4,8 @@ module Chemistry
     acts_as_list
     has_many :pages
 
+    before_validation :update_path
+
     validates :title, presence: true
 
     default_scope -> { order(:position) }
@@ -43,8 +45,12 @@ module Chemistry
       })
     end
 
-    def absolute_path
-      "/#{slug}"
+    def update_path
+      if slug_changed? && path == "/#{slug_was}"
+        self.path = "/#{slug}"
+      elsif new_record? && !path?
+        self.path = "/#{slug}"
+      end
     end
 
   end

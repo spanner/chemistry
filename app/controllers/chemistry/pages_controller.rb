@@ -2,7 +2,7 @@ module Chemistry
   class PagesController < Chemistry::ApplicationController
     include Chemistry::Concerns::Searchable
 
-    skip_before_action :authenticate_user!, only: [:published, :latest, :archive, :children, :similar, :listed], raise: false
+    skip_before_action :authenticate_user!, only: [:home, :published, :latest, :archive, :children, :similar, :listed], raise: false
     load_and_authorize_resource :page_collection, class: Chemistry::PageCollection, only: [:new, :create, :edit]
     load_and_authorize_resource class: Chemistry::Page, except: [:home, :published, :latest, :children, :controls, :new, :archive], through: :page_collection, shallow: true
 

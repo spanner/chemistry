@@ -9,8 +9,13 @@ namespace :chemistry do
     Rake::Task["chemistry:install:migrations"].invoke
     Rake::Task["db:migrations"].invoke
     Rake::Task["chemistry:seed"].invoke
+    # TODO: generate initializer
+  end
 
-    # generate initializer if none
+  # desc "Seed demo chemistry page."
+  task :seed => :environment do
+
+
   end
 
   # desc "Migrate page content from v1 blocks to v2 page markup"
