@@ -1,5 +1,5 @@
 module Chemistry
-  class SectionType < ApplicationRecord
+  class SectionType < ActiveRecord::Base
     has_many :sections
 
     before_validation :derive_slug

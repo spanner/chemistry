@@ -1,4 +1,5 @@
 require 'colorize'
+require 'chemistry'
 require 'chemistry/migration/section_type'
 require 'chemistry/migration/section'
 

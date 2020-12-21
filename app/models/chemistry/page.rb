@@ -22,11 +22,6 @@ module Chemistry
     has_many :socials, class_name: 'Chemistry::Social', dependent: :destroy
     accepts_collected_attributes_for :socials
 
-    #TODO remove after migration
-    # `terms` is now an ad-hoc list in text
-    has_many :page_terms
-    has_many :old_terms, through: :page_terms, class_name: "Chemistry::Term"
-
     # first masthead image is extracted for display in lists
     belongs_to :image, class_name: 'Chemistry::Image', optional: true
     belongs_to :published_image, class_name: 'Chemistry::Image', optional: true

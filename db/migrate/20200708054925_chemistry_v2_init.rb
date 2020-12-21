@@ -10,7 +10,6 @@ class ChemistryV2Init < ActiveRecord::Migration[6.0]
     add_column :chemistry_pages, :byline, :text
     add_column :chemistry_pages, :page_category_id, :integer
     add_column :chemistry_pages, :page_collection_id, :integer
-    add_column :chemistry_pages, :image_id, :integer
     add_column :chemistry_pages, :terms, :text
     add_column :chemistry_pages, :featured_at, :datetime
 

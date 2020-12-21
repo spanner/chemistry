@@ -1,5 +1,5 @@
 module Chemistry
-  class Section < ApplicationRecord
+  class Section < ActiveRecord::Base
     belongs_to :page
 
     belongs_to :section_type
