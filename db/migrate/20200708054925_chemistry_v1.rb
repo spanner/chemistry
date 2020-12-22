@@ -40,7 +40,7 @@ class ChemistryV1 < ActiveRecord::Migration[5.2]
     t.integer "parent_id"
     t.string "path"
     t.string "slug"
-    t.string "content", default: "page"
+    t.string "content"
     t.string "title"
     t.text "summary"
     t.text "excerpt"

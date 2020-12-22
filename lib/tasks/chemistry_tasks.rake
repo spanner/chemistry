@@ -2,6 +2,7 @@ require 'colorize'
 require 'chemistry'
 require 'chemistry/migration/section_type'
 require 'chemistry/migration/section'
+require 'open-uri'
 
 namespace :chemistry do
   # desc "Prepare an empty chemistry site."
@@ -23,36 +24,50 @@ namespace :chemistry do
   task :migrate => :environment do
     head_section_types = Chemistry::SectionType.where(slug: %w{hero homehead statement}).map(&:id)
     body_section_types = Chemistry::SectionType.where(slug: %w{standfirst standard}).map(&:id)
-    Page.where(deleted_at: nil).each do |page|
-      sections = Chemistry::Section.where(deleted_at: nil, detached: false, page_id: page.id)
-      head_sections = sections.select {|s| head_section_types.include?(s.section_type_id) }
-      body_sections = sections.select {|s| body_section_types.include?(s.section_type_id) }
+    Chemistry::Page.where(deleted_at: nil).each do |page|
+      unless page.content?
+        sections = Chemistry::Section.where(deleted_at: nil, detached: false, page_id: page.id)
+        head_sections = sections.select {|s| head_section_types.include?(s.section_type_id) }
+        body_sections = sections.select {|s| body_section_types.include?(s.section_type_id) }
 
-      puts "* #{page.title}"
-      puts "  #{head_sections.count} heads"
-      puts "  #{body_sections.count} bodies"
+        # puts "  #{head_sections.count} heads"
+        # puts "  #{body_sections.count} bodies"
 
-      if head = head_sections.first
-        if html = head.background_html.presence || head.primary_html.presence || head.secondary_html
-          matches = html.match /data\-asset\-id\s*=\"(\d+)\"/
-          if asset_id = matches[1]
-            if image = Chemistry::Image.find_by(id: asset_id)
-              page.image = image
-              page.masthead = %{
-<div class="images cms-slides"><div class="cms-slider"><div class="cms-slide-holder">
-  <figure class="image cms-slide" data-image="#{image.id}">
-    <img class='image' src="#{image.file_url(:hero)}">
-    <figcaption></figcaption>
-  </figure>
-</div></div></div>
-}
+        if head = head_sections.first
+          if html = head.background_html.presence || head.primary_html.presence || head.secondary_html
+            matches = html.match /data\-asset\-id\s*=\"(\d+)\"/
+            if asset_id = matches[1]
+              if image = Chemistry::Image.find_by(id: asset_id)
+                url = image.file_url(:hero)
+                begin
+                  URI.open(url) { |f|
+                    puts "✅ Collected image: #{url}"
+                    page.image = image
+                    page.masthead = %{<div class="images cms-slides">
+  <div class="cms-slider">
+    <div class="cms-slide-holder">
+      <figure class="image cms-slide" data-image="#{image.id}">
+        <img class='image' src="#{url}">
+        <figcaption></figcaption>
+      </figure>
+    </div>
+  </div>
+</div>}
+                  }
+                rescue
+
+                end
+              end
             end
           end
         end
-      end
 
-      page.content = body_sections.map(&:all_html).join("\n\n")
-      page.save
+        page.content = body_sections.map(&:all_html).join("\n\n")
+        if page.content.present? && page.content.length > 0 && page.changed?
+          puts "✅  #{page.title}"
+          page.save
+        end
+      end
     end
   end
 end
