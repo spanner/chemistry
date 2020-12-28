@@ -4,14 +4,14 @@
 - content_for :title do
   = strip_tags(@page_collection.short_title)
 
-#masthead
+#cms_illustration
   .features_grid.infinite.irregular{data: {url: chemistry.page_collection_features_url(@page_collection.slug)}}
     = render partial: "chemistry/pages/feature", collection: @pages, locals: {omit_collection: true}
     .waiter
       .spinner
 
-#body
-  #title
+#cms_body
+  #cms_title
     %h1.pagetitle
       = @page_collection.title
 

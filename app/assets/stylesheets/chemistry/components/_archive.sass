@@ -1,5 +1,5 @@
 #cms_page
-  #masthead.archive
+  #cms_illustration.archive
     background: white
     display: grid
     place-items: center
@@ -14,9 +14,9 @@
 
 body.archive
   #cms_page
-    #body
+    #cms_body
       order: 0
-    #masthead
+    #cms_illustration
       background: white
       display: grid
       place-items: center
@@ -32,9 +32,9 @@ body.archive
 @media (min-aspect-ratio: 6/5) and (min-width: 667px)
   body.archive
     #cms_page
-      #masthead
+      #cms_illustration
         order: 0
-      #body
+      #cms_body
         order: 1
         form.faceter
           div.toggle
@@ -135,7 +135,7 @@ form.faceter
       flex-flow: row wrap
       align-items: flex-start
       justify-content: flex-start
-      background-color: $overlay
+      background-color: $menubg
       padding: 10px
     .col
       float: left

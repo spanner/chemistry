@@ -10,7 +10,7 @@ module Chemistry
     acts_as_list column: :nav_position
 
     # Filing
-    belongs_to :user, class_name: Chemistry.config.user_class, foreign_key: Chemistry.config.user_key
+    belongs_to :user, optional: true, class_name: Chemistry.config.user_class, foreign_key: Chemistry.config.user_key
     belongs_to :page_collection, optional: true
     belongs_to :page_category, optional: true 
 
@@ -30,8 +30,7 @@ module Chemistry
     before_validation :derive_slug_and_path
 
     validates :title, presence: true
-    validates :slug, presence: true, uniqueness: {scope: :parent_id}
-    validates :path, presence: true, uniqueness: true
+    validate :has_path_and_slug
 
     attr_accessor :publishing
     validates :published_path, presence: true, uniqueness: true, if: :publishing?
@@ -131,7 +130,7 @@ module Chemistry
         byline: strip_tags(published_byline.presence || byline),
         summary: strip_tags(published_summary.presence || summary),
         excerpt: strip_tags(published_excerpt.presence || excerpt),
-        terms: terms_list(published_terms.presence || terms),
+        terms: terms_list,
         image_url: image_url,
         thumbnail_url: thumbnail_url,
         collection_name: page_collection_name,
@@ -224,7 +223,7 @@ module Chemistry
     end
 
     def similar_pages
-      if tokens = terms_list(published_terms);
+      if tokens = terms_list
         Chemistry::Page.search(body: {query: {match: {terms: tokens}}}, limit: 19);
       else
         []
@@ -246,7 +245,11 @@ module Chemistry
       end
     end
 
-    def terms_list(terms)
+    def terms_list
+      list_of(published_terms.presence || terms)
+    end
+
+    def list_of(terms)
       if terms.present?
         terms.split(',').compact.uniq
       else
@@ -364,6 +367,17 @@ module Chemistry
         addendum += 1
       end
       slug
+    end
+
+    def has_path_and_slug
+      slug_valid = slug.present? || (home? && slug == "")
+      path_valid = path.present? || (home? && path == "")
+      path_unique = has_unique_path
+      slug_valid && path_valid && path_unique
+    end
+
+    def has_unique_path
+      Chemistry::Page.other_than(self).find_by(path: path)
     end
 
   end

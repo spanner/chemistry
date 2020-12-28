@@ -4,7 +4,7 @@
 - content_for :title do
   = t(:archive_and_search)
 
-#masthead
+#cms_illustration
   .search_results
     #blurb
       - if params[:month].present? && params[:year].present?
@@ -26,8 +26,8 @@
         .pagination.lower
           = paginate @pages, params: {format: nil}
 
-#body
-  #title
+#cms_body
+  #cms_title
     %h1.pagetitle
       - if @page_collection
         %a.breadhead{href: chemistry.page_collection_home_url(@page_collection.slug)}
