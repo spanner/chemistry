@@ -12,7 +12,7 @@ module Chemistry::Api
     end
 
     def create
-      if @image.update_attributes(image_params.merge(user_id: user_signed_in? && current_user.id))
+      if @image.update(image_params.merge(user_id: user_signed_in? && current_user.id))
         return_image
       else
         return_errors
@@ -20,7 +20,7 @@ module Chemistry::Api
     end
 
     def update
-      if @image.update_attributes(image_params)
+      if @image.update(image_params)
         return_image
       else
         return_errors

@@ -35,7 +35,7 @@ namespace :chemistry do
 
         if head = head_sections.first
           if html = head.background_html.presence || head.primary_html.presence || head.secondary_html
-            if matches = html.match /data\-asset\-id\s*=\"(\d+)\"/
+            if matches = html.match(/data\-asset\-id\s*=\"(\d+)\"/)
               if asset_id = matches[1]
                 if image = Chemistry::Image.find_by(id: asset_id)
                   url = image.file_url(:hero)

@@ -329,9 +329,10 @@ module Chemistry
       if home?
         Chemistry.config.site_host
       else
-        Chemistry::Engine.routes.url_helpers.published_page_url(@page.path, host: Chemistry.config.site_host)
+        Chemistry::Engine.routes.url_helpers.published_page_url(path, host: Chemistry.config.site_host)
       end
     end
+
 
     protected
 

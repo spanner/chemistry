@@ -126,8 +126,8 @@ module Chemistry
     # Control block added to (cacheable) public page if user is signed in.
     #
     def controls
-      if params[:path].present? && can?(:edit, Chemistry::Page)
-        @page = Chemistry::Page.find_by(path: params[:path])
+      if params[:id].present? && can?(:edit, Chemistry::Page)
+        @page = Chemistry::Page.find(params[:id])
         render layout: false
       else
         head :no_content

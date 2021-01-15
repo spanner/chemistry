@@ -20,6 +20,9 @@
   #cms_illustration
     - if rendered_masthead.present?
       = sanitize(rendered_masthead, scrubber: Chemistry::ContentScrubber.new)
+    - if rendered_title.present?
+      %h1.pagetitle
+        = sanitize(rendered_title, scrubber: Chemistry::InlineScrubber.new)
 
   #cms_body
     - if rendered_title.present?
@@ -34,4 +37,4 @@
       #cms_content
         = sanitize(rendered_content, scrubber: Chemistry::ContentScrubber.new)
 
-#buttons{data: {page: @page.path}}
+#buttons{data: {page: @page.id}}

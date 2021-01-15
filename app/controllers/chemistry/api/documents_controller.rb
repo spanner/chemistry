@@ -12,7 +12,7 @@ module Chemistry::Api
     end
 
     def create
-      if @document.update_attributes(document_params.merge(user_id: user_signed_in? && current_user.id))
+      if @document.update(document_params.merge(user_id: user_signed_in? && current_user.id))
         return_document
       else
         return_errors
@@ -20,7 +20,7 @@ module Chemistry::Api
     end
 
     def update
-      if @document.update_attributes(document_params)
+      if @document.update(document_params)
         return_document
       else
         return_errors

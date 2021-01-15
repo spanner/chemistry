@@ -27,7 +27,7 @@ Chemistry::Engine.routes.draw do
   end
 
   scope defaults: { format: 'html' }, constraints: { format: 'html' } do
-    get "/parts/controls/*path" => "pages#controls", as: :page_controls
+    get "/parts/controls/:id" => "pages#controls", as: :page_controls
     get "/parts/collection_controls/:slug" => "page_collections#controls", as: :page_collection_controls
 
     get "toc/list/:page_ids" => "pages#listed", as: :listed_pages
@@ -41,6 +41,11 @@ Chemistry::Engine.routes.draw do
     get "/archive/:page_collection" => "pages#archive", as: 'page_collection_archive'
     get "archive" => "pages#archive", as: 'archive'
 
-    get "/*path" => "pages#published", as: :published_page
+    get "/" => "pages#published", as: :home_page
+
+    get '*path', to: 'pages#published', constraints: lambda { |req|
+      req.path.exclude? 'rails/'
+    }
+
   end
 end

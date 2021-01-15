@@ -12,7 +12,7 @@ module Chemistry::Api
     end
 
     def create
-      if @page_category.update_attributes(page_category_params)
+      if @page_category.update(page_category_params)
         return_page_category
       else
         return_errors
@@ -20,7 +20,7 @@ module Chemistry::Api
     end
 
     def update
-      if @page_category.update_attributes(page_category_params)
+      if @page_category.update(page_category_params)
         return_page_category
       else
         return_errors

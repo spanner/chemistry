@@ -48,18 +48,6 @@ module Chemistry::Concerns::HasPage
       end
       path.sub(/^\//, '').sub(/\/$/, '')
     end
-
-    def anchor_page_for(owner)
-      if path = anchor_page_path(owner)
-        Chemistry::Page.find_or_create_anchor_page(path)
-      end
-    end
-
-    #TODO so we take different argument types here too?
-    def page_template
-      template_slug = @cms_template_slug.presence || self.to_s.underscore
-      Chemistry::Template.find_by(slug: template_slug)
-    end
   end
 
 
@@ -125,7 +113,7 @@ module Chemistry::Concerns::HasPage
   end
 
   def init_page
-    self.page || self.create_page(initial_page_properties)
+    self.page || self.create_page(properties_for_page)
   end
 
   def try_init_page
@@ -134,18 +122,12 @@ module Chemistry::Concerns::HasPage
     debugger
   end
 
-  def initial_page_properties
-    properties_for_page.merge({
-      parent: self.class.anchor_page_for(self),
-      template: self.class.page_template
-    })
-  end
 
   protected
 
   def update_page
     if self.page
-      self.page.update_attributes(properties_for_page)
+      self.page.update(properties_for_page)
     else
       init_page
     end
@@ -153,7 +135,7 @@ module Chemistry::Concerns::HasPage
 
   def update_from_page
     if self.page
-      self.update_attributes(properties_from_page)
+      self.update(properties_from_page)
     end
   end
 

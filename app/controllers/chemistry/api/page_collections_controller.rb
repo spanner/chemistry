@@ -12,7 +12,7 @@ module Chemistry::Api
     end
 
     def create
-      if @page_collection.update_attributes(page_collection_params)
+      if @page_collection.update(page_collection_params)
         return_page_collection
       else
         return_errors
@@ -20,7 +20,7 @@ module Chemistry::Api
     end
 
     def update
-      if @page_collection.update_attributes(page_collection_params)
+      if @page_collection.update(page_collection_params)
         return_page_collection
       else
         return_errors

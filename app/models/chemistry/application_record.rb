@@ -22,12 +22,12 @@ module Chemistry
               if associate_id = datum.delete(:id)
                 # if already associated, update associate attributes
                 if associate = send(association).find_by(id: associate_id)
-                  associate.update_attributes(datum)
+                  associate.update(datum)
                   new_associate_ids.push associate_id
 
                 # if newly associated, attach _and_ update attributes
                 elsif associate = klass.find_by(id: associate_id)
-                  associate.update_attributes(datum)
+                  associate.update(datum)
                   send(association) << associate
                   new_associate_ids.push associate_id
                 else

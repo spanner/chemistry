@@ -12,7 +12,7 @@ module Chemistry::Api
     end
 
     def create
-      if @social.update_attributes(social_params)
+      if @social.update(social_params)
         return_social
       else
         return_errors
@@ -20,7 +20,7 @@ module Chemistry::Api
     end
 
     def update
-      if @social.update_attributes(social_params)
+      if @social.update(social_params)
         return_social
       else
         return_errors

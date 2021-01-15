@@ -12,7 +12,7 @@ module Chemistry::Api
     end
   
     def create
-      if @video.update_attributes(video_params.merge(user_id: user_signed_in? && current_user.id))
+      if @video.update(video_params.merge(user_id: user_signed_in? && current_user.id))
         return_video
       else
         return_errors
@@ -20,7 +20,7 @@ module Chemistry::Api
     end
 
     def update
-      if @video.update_attributes(video_params)
+      if @video.update(video_params)
         return_video
       else
         return_errors
