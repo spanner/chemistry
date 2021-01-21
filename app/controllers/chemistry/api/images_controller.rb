@@ -36,11 +36,11 @@ module Chemistry::Api
     ## Standard responses
 
     def return_images
-      render json: Chemistry::ImageSerializer.new(@images).serialized_json
+      render json: Chemistry::ImageSerializer.new(@images).serializable_hash.as_json
     end
 
     def return_image
-      render json: Chemistry::ImageSerializer.new(@image).serialized_json
+      render json: Chemistry::ImageSerializer.new(@image).serializable_hash.as_json
     end
 
     def return_errors

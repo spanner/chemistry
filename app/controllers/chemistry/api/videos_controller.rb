@@ -36,11 +36,11 @@ module Chemistry::Api
     ## Standard responses
 
     def return_videos
-      render json: Chemistry::VideoSerializer.new(@videos).serialized_json
+      render json: Chemistry::VideoSerializer.new(@videos).serializable_hash.as_json
     end
 
     def return_video
-      render json: Chemistry::VideoSerializer.new(@video).serialized_json
+      render json: Chemistry::VideoSerializer.new(@video).serializable_hash.as_json
     end
 
     def return_errors

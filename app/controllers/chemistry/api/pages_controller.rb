@@ -53,11 +53,11 @@ module Chemistry::Api
     ## Standard API responses
 
     def return_pages
-      render json: Chemistry::TreePageSerializer.new(@pages).serialized_json
+      render json: Chemistry::TreePageSerializer.new(@pages).serializable_hash.as_json
     end
 
     def return_page
-      render json: Chemistry::PageSerializer.new(@page).serialized_json
+      render json: Chemistry::PageSerializer.new(@page).serializable_hash.as_json
     end
 
     def return_errors

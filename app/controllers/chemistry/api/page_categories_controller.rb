@@ -31,11 +31,11 @@ module Chemistry::Api
     protected
 
     def return_page_categories
-      render json: Chemistry::PageCategorySerializer.new(@page_categories).serialized_json
+      render json: Chemistry::PageCategorySerializer.new(@page_categories).serializable_hash.as_json
     end
 
     def return_page_category
-      render json: Chemistry::PageCategorySerializer.new(@page_category).serialized_json
+      render json: Chemistry::PageCategorySerializer.new(@page_category).serializable_hash.as_json
     end
 
     def return_errors

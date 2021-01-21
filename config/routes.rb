@@ -43,7 +43,7 @@ Chemistry::Engine.routes.draw do
 
     get "/" => "pages#published", as: :home_page
 
-    get '*path', to: 'pages#published', constraints: lambda { |req|
+    get '*path', to: 'pages#published', as: :published_page, constraints: lambda { |req|
       req.path.exclude? 'rails/'
     }
 

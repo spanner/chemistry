@@ -36,11 +36,11 @@ module Chemistry::Api
     ## Standard responses
 
     def return_documents
-      render json: Chemistry::DocumentSerializer.new(@documents).serialized_json
+      render json: Chemistry::DocumentSerializer.new(@documents).serializable_hash.as_json
     end
 
     def return_document
-      render json: Chemistry::DocumentSerializer.new(@document).serialized_json
+      render json: Chemistry::DocumentSerializer.new(@document).serializable_hash.as_json
     end
 
     def return_errors

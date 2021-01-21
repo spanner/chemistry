@@ -134,6 +134,10 @@ module Chemistry
       end
     end
 
+    def index
+      
+    end
+
 
     protected
   

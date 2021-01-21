@@ -325,14 +325,6 @@ module Chemistry
       string.sub(/\/$/, '').sub(/^\//, '').sub(/^\/{2,}/, '/');
     end
 
-    def permalink
-      if home?
-        Chemistry.config.site_host
-      else
-        Chemistry::Engine.routes.url_helpers.published_page_url(path, host: Chemistry.config.site_host)
-      end
-    end
-
 
     protected
 

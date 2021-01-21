@@ -31,11 +31,11 @@ module Chemistry::Api
     protected
 
     def return_page_collections
-      render json: Chemistry::PageCollectionSerializer.new(@page_collections).serialized_json
+      render json: Chemistry::PageCollectionSerializer.new(@page_collections).serializable_hash.as_json
     end
 
     def return_page_collection
-      render json: Chemistry::PageCollectionSerializer.new(@page_collection).serialized_json
+      render json: Chemistry::PageCollectionSerializer.new(@page_collection).serializable_hash.as_json
     end
 
     def return_errors

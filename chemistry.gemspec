@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'aws-sdk-s3'
   s.add_dependency 'video_info'
   s.add_dependency "kaminari"
-  s.add_dependency 'fast_jsonapi'
+  s.add_dependency 'jsonapi-serializer'
   s.add_dependency 'acts_as_list'
   s.add_dependency 'colorize'
   s.add_dependency 'settingslogic'

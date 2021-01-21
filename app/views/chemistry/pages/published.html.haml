@@ -6,7 +6,7 @@
   %meta{property: "og:type", content: "article"}
   %meta{property: "og:title", content: @page.render_and_strip_tags(:published_title)}
   %meta{property: "og:description", content: @page.render_and_strip_tags(:published_excerpt).presence || Chemistry.config.site_description}
-  %meta{property: "og:url", content: @page.permalink}
+  %meta{property: "og:url", content: chemistry.published_page_url(@page.path, host: Chemistry.config.site_host)}
   %meta{property: "og:image", content: @page.image_url.presence || Chemistry.config.site_image_url}
   %meta{property: "og:site_name", content: Chemistry.config.site_name}
   %meta{name: "twitter:card", content: "summary"}
@@ -31,6 +31,10 @@
           - if pc = @page.page_collection
             %a.breadhead{href: chemistry.page_collection_home_url(pc.slug)}
               = pc.title
+          - elsif pp = @page.parent
+            %a.breadhead{href: chemistry.published_page_url(pp.path)}
+              = pp.title
+
           = sanitize(rendered_title, scrubber: Chemistry::InlineScrubber.new)
   
     - if rendered_content.present?

@@ -1,7 +1,7 @@
-require "fast_jsonapi"
+require "jsonapi/serializer"
 
 class Chemistry::PageCollectionSerializer
-  include FastJsonapi::ObjectSerializer
+  include JSONAPI::Serializer
 
   set_type :page_collection
 

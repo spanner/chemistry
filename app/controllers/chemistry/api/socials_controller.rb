@@ -36,11 +36,11 @@ module Chemistry::Api
     ## Standard responses
 
     def return_socials
-      render json: SocialSerializer.new(@socials).serialized_json
+      render json: SocialSerializer.new(@socials).serializable_hash.as_json
     end
 
     def return_social
-      render json: SocialSerializer.new(@social).serialized_json
+      render json: SocialSerializer.new(@social).serializable_hash.as_json
     end
 
     def return_errors
