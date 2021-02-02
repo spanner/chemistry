@@ -1,0 +1,41 @@
+- collections = Chemistry::PageCollection.for_selection
+- categories = Chemistry::PageCategory.for_selection
+- pages = Chemistry::Page.tree_for_selection(nil, @page)
+
+= form_for @page, :html => {:class => 'edit page', :remote => true} do |f|
+  %p.name.onecol
+    %span.col
+      = f.text_field :title, :class => 'name', placeholder: t("placeholders.page.title"), autofocus: true, tabindex: 1
+  %p.summary.onecol
+    %span.col
+      = f.text_area :summary, :class => 'name', placeholder: t("placeholders.page.summary")
+      %br
+      = f.check_box :private, class: "fancy"
+      = f.label :private
+      = f.check_box :passworded, class: "fancy", data: {reveals: "p.password"}
+      = f.label :passworded
+
+  %p.password.onecol.detail
+    %span.col
+      = f.text_field :password
+    %span.note
+      This is very low security; just a light fence around semi-private content. Please don't rely on this password to keep your secrets.
+
+  // TODO: refetch parent select when page collection chosen, but remember original selection in case of return
+  %p.parent.onecol
+    %span.col
+      = f.label :parent_id
+      = f.select :parent_id, pages, {}, disabled: pages.empty?, tabindex: 2
+
+  %p.summary.twocol<
+    %span.col>
+      = f.label :page_collection_id
+      = f.select :page_collection_id, collections, {include_blank: true}, disabled: collections.empty?
+    %span.col>
+      = f.label :page_category_id
+      = f.select :page_category_id, categories, {include_blank: true}, disabled: categories.empty?
+
+  .buttons
+    = f.submit t(:save)
+    = t :or
+    = link_to t(:cancel), "/", :class => 'cancel'

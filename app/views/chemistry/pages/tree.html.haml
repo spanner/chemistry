@@ -1,0 +1,22 @@
+%div{id: "page_#{page.id}"}
+  - if 
+  %a.toggle
+    %svg.icon
+      %use{"xlink:href" => "/spritemap.svg#sprite-next_bare"}
+
+  %span.detail.saved
+    %a.page
+      %svg.icon.page
+        %use.content{:href => "/spritemap.svg#sprite-#{style}"}
+      %span.title
+        = page.title
+      %span.path
+        = page.path
+
+    %span.actions
+      %a.delete
+        %svg.icon
+          %use{:href => "/spritemap.svg#sprite-cross_button"}
+      %a.review{:target => "_blank"}
+        %svg.icon
+          %use{:href => "/spritemap.svg#sprite-show_button"}

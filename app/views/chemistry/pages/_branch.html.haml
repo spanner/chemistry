@@ -1,0 +1,32 @@
+- branch_open ||= false
+- if branch
+  - page = branch[:p]
+  - children = branch[:c]
+  - showable = !!children && children.any?
+  - cssclass = "tree_page"
+  - cssclass << " showable" if showable
+  - cssclass << " open" if showable && branch_open
+  %li{id: "page_#{page.id}", class: cssclass}
+    %a.shower
+      %svg.prefix
+        %use{href: "/spritemap.svg#sprite-next_bare"}
+    %a.page{href: chemistry.edit_page_url(page)}
+      = page.title
+    %span.actions
+      %a.edit{href: chemistry.edit_page_url(page, view: 'config')}
+        %svg
+          %use{href: "/spritemap.svg#sprite-page_button"}
+      %a.add
+        %svg
+          %use{href: "/spritemap.svg#sprite-plus_button"}
+      %a.remove
+        %svg
+          %use{href: "/spritemap.svg#sprite-cross_button"}
+    - if page.content
+      %span.preview
+        = truncate(strip_tags(page.content), length: 72)
+    %ul.page_tree
+      - if showable
+        - children_by_name = children.sort_by{|branch| (branch[:p] && branch[:p].title).presence || 'xxx' }
+        - children_by_name.each do |branch|
+          = render "chemistry/pages/branch", branch: branch, branch_open: false

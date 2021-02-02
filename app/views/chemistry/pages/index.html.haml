@@ -1,0 +1,6 @@
+%h1
+  = t :page_tree_title
+
+%div.page_tree
+  %ul.page_tree
+    = render "chemistry/pages/branch", branch: @page_tree, branch_open: true

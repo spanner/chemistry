@@ -16,7 +16,7 @@ Chemistry::Engine.routes.draw do
   resources :pages
 
   resources :page_collections do
-    resources :pages
+    resources :pages, only: [:show]
     member do
       get :filter
       get :features

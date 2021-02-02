@@ -13,8 +13,9 @@ en:
     label:
       page:
         title: "Title"
-        page_category_id: "Category"
-        page_collection_id: "Collection"
+        page_category_id: "Filing category"
+        page_collection_id: "Page collection"
+        private: "Visible only if signed in"
       page_collection:
         title: "Collection title"
         short_title: "Short form"
@@ -29,6 +30,7 @@ en:
   placeholders:
     page:
       title: "Page title"
+      summary: "Summary of page (to appear in lists in place of the usual excerpt)"
     page_collection:
       introduction: "Please enter text or HTML for the home page of this collection."
   sorts:

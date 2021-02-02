@@ -39,5 +39,23 @@ module Chemistry
     def chemistry_controller?
       true
     end
+
+    def no_layout_if_pjax
+      if pjax?
+        @pjax = true
+        false
+      else
+        @pjax = false
+        default_layout
+      end
+    end
+
+    def default_layout
+      chemistry_admin_layout
+    end
+
+    def pjax?
+      request.headers['X-PJAX'].present?
+    end
   end
 end

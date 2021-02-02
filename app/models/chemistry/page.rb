@@ -18,10 +18,6 @@ module Chemistry
     belongs_to :parent, class_name: 'Chemistry::Page', optional: true
     has_many :child_pages, class_name: 'Chemistry::Page', foreign_key: :parent_id, dependent: :destroy
 
-    # Links
-    has_many :socials, class_name: 'Chemistry::Social', dependent: :destroy
-    accepts_collected_attributes_for :socials
-
     # first masthead image is extracted for display in lists
     belongs_to :image, class_name: 'Chemistry::Image', optional: true
     belongs_to :published_image, class_name: 'Chemistry::Image', optional: true
@@ -39,12 +35,100 @@ module Chemistry
     scope :home, -> { where(home: true).limit(1) }
     scope :nav, -> { where(nav: true) }
     scope :published, -> { where.not(published_at: nil) }
+    scope :uncollected, -> { where(page_collection_id: nil) }
     scope :latest, -> { order(created_at: :desc) }
     scope :with_parent, -> page { where(parent_id: page.id) }
     scope :with_path, -> path { where(path: path) }
+    scope :at_or_below, -> path { where("path like ?", "#{path}%")}
 
-    def self.published_with_path(path)
-      where(published_path: path).where.not(published_at: nil).first
+    class << self
+      def for_selection(page_collection=nil, except_page=nil)
+        if page_collection
+          pages = page_collection.pages
+        else
+          pages = uncollected
+        end
+        if except_page
+          pages = pages.other_than(except_page)
+        end
+        pages.order(:title).map{|page| [page.title, page.id] }
+      end
+
+      def tree_for_selection(page_collection=nil, except_page=nil)
+        if page_collection
+          pages = page_collection.pages
+          root = page_collection
+        else
+          pages = uncollected
+          root = home_page
+        end
+        if except_page
+          pages = pages.other_than(except_page)
+        end
+        index = pages.each_with_object({}) do |p, h|
+          h[p.parent_id] ||= []
+          h[p.parent_id].push(p)
+        end
+        branch_for_selection(root, index)
+      end
+
+      def branch_for_selection(page, index, depth=0, seen={})
+        seen[page.id] = true
+        branch = [branch_page_option(page, depth)]
+        if children = index[page.id]
+          children.each do |child|
+            branch.concat branch_for_selection(child, index, depth+1, seen)
+          end
+        end
+        branch
+      end
+
+      def branch_page_option(page, depth)
+        prefix = "&nbsp;" * depth * 8
+        label = (prefix + page.title).html_safe
+        [label, page.id]
+      end
+
+      def home_page
+        home.first
+      end
+
+      def published_with_path(path)
+        where(published_path: path).where.not(published_at: nil).first
+      end
+
+      def page_tree(root=nil)
+        if root
+          pages = at_or_below(root.path)
+        else
+          pages = uncollected
+          root = home_page
+        end
+        index = pages.each_with_object({}) do |p, h|
+          h[p.parent_id] ||= []
+          h[p.parent_id].push(p)
+        end
+        branch_from(root, index)
+      end
+
+      def branch_from(page, index, depth=0, seen={})
+        seen[page.id] = true
+        branch = {
+          p: page,
+          d: depth
+        }
+        if index[page.id]
+          children = []
+          children_in_order = index[page.id].sort_by { |p| p.title.presence || 'zzz' }
+          children_in_order.each do |child|
+            unless seen[child.id]
+              children.push branch_from(child, index, depth + 1, seen)
+            end
+            branch[:c] = children
+          end
+        end
+        branch
+      end
     end
 
     def published?
@@ -301,6 +385,8 @@ module Chemistry
     def absolute_path
       if page_collection
         tidy_slashes ["", page_collection.path.presence, path.presence].compact.join('/')
+      elsif home?
+        ""
       else
         tidy_slashes(path)
       end
@@ -308,7 +394,7 @@ module Chemistry
 
     def slug_base
       if home?
-        "__home"
+        ""
       else
         published_title.presence || title
       end
@@ -316,8 +402,8 @@ module Chemistry
 
     def path_base
       path_parts = []
-      path_parts.push page_collection.path if page_collection
-      path_parts.push parent.path if parent
+      path_parts.push page_collection.slug if page_collection
+      path_parts.push parent.path if parent && !parent.home?
       tidy_slashes(path_parts.compact.join('/'))
     end
 

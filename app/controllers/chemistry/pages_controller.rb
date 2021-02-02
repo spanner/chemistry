@@ -3,10 +3,11 @@ module Chemistry
     include Chemistry::Concerns::Searchable
 
     skip_before_action :authenticate_user!, only: [:home, :published, :latest, :archive, :children, :similar, :listed], raise: false
-    load_and_authorize_resource :page_collection, class: Chemistry::PageCollection, only: [:new, :create, :edit]
-    load_and_authorize_resource class: Chemistry::Page, except: [:home, :published, :latest, :children, :controls, :new, :archive], through: :page_collection, shallow: true
+    load_resource class: Chemistry::Page, except: [:home, :published, :latest, :children, :controls, :archive]
+    before_action :get_view, only: [:edit]
 
-    ## Deliver page to public user
+
+    ## Published pages for public users
     #
     def home
       @page = Chemistry::Page.home.first
@@ -22,9 +23,16 @@ module Chemistry
     def published
       @path = (params[:path] || '').sub(/\/$/, '').sub(/^\//, '').strip
       @page = Chemistry::Page.published_with_path(@path)
-      Rails.logger.warn "🦋 published #{@path} -> #{@page}"
-      if @page && (@page.public? || user_signed_in?)
-        render layout: chemistry_layout
+      if @page
+        if @page.passworded?
+          if authenticate_with_http_basic { |u, p| p == @page.password }
+            render layout: chemistry_layout
+          else
+            request_http_basic_authentication
+          end
+        elsif @page && (@page.public? || user_signed_in?)
+          render layout: chemistry_layout
+        end
       else
         page_not_found
       end
@@ -45,28 +53,53 @@ module Chemistry
     end
 
 
+    # Page-tree management views
+    # All our basic page-crud happens within this view, then we jump to the editor for content creation.
+    #
+    def index
+      @page_tree = Chemistry::Page.page_tree
+      render layout: chemistry_admin_layout
+    end
+
     # New returns a tiny inline form that will create an empty page and forward to edit
     #
     def new
-      @page = @page_collection.pages.build(new_page_params)
-      render layout: false
+      @page = Chemistry::Page.new(page_params)
+      render layout: no_layout_if_pjax
     end
 
     def create
-      @page = Chemistry::Page.new(new_page_params.merge(user_id: user_signed_in? && current_user.id))
+      @page = Chemistry::Page.new(page_params.merge(user_id: user_signed_in? && current_user.id))
       if @page.save
-        redirect to edit_page_url(@page)
+        render :partial => "branch", locals: {branch: Chemistry::Page.page_tree(@page)}
       else
         render action: "new", layout: false
       end
     end
 
-    # Edit shows the SPA editor and the rest of the edit and save process goes through the API.
-    #
-    def edit
-      render layout: chemistry_editing_layout
+    def branch
+      render :partial => "branch", locals: {branch: Chemistry::Page.page_tree(@page)}
     end
 
+    def update
+      if @page.update(page_params)
+        render :partial => "branch", locals: {branch: Chemistry::Page.page_tree(@page)}
+      else
+        render action: "edit", layout: false
+      end
+    end
+
+    # Edit usually shows the SPA editor and the rest of the edit and save process goes through the API,
+    # but you can also supply a `view` parameter that will be whitelisted then used to render an edity form.
+    #
+    def edit
+      render layout: no_layout_if_pjax
+    end
+
+    def destroy
+      @page.destroy
+      head :no_content
+    end
 
     # Page fragments
     #
@@ -134,10 +167,6 @@ module Chemistry
       end
     end
 
-    def index
-      
-    end
-
 
     protected
   
@@ -156,12 +185,17 @@ module Chemistry
     #
     # New-page link can make basic preparations
     #
-    def new_page_params
+    def page_params
       if params[:page].present?
         params.require(:page).permit(
           :title,
           :private,
-          :page_collection_id
+          :parent_id,
+          :page_collection_id,
+          :page_category_id,
+          :summary,
+          :passworded,
+          :password
         )
       else
         {}
@@ -204,5 +238,10 @@ module Chemistry
       false
     end
 
+    def get_view
+      if %w{config}.include?(params[:view])
+        @view = params[:view]
+      end
+    end
   end
 end

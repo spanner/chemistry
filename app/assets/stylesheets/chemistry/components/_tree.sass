@@ -1,0 +1,97 @@
+div.page_collections
+  margin-bottom: 2em;
+
+div.page_tree
+  h4
+    font-weight: normal
+    margin: 1em 0 0 0
+    a.toggle
+      +oneliner
+      color: $dark
+      cursor: pointer
+      svg.icon
+        transform: rotate(0deg);
+        transition: transform 0.4s ease-out;
+      &:hover
+        color: $hover
+      &.open
+        svg.icon
+          transform: rotate(90deg);
+      &.waiting
+        color: $pale
+        background:
+          image: url('Images/spinner.svg')
+          position: 2px 2px
+          size: 20px
+          repeat: no-repeat
+        svg.icon
+          visibility: hidden
+  a.add
+    +oneliner
+    color: $pale
+    margin: 0.5rem 0 0.25em 0
+    cursor: pointer
+    svg
+      width: 18px
+      height: 18px
+      margin: 0 2px
+    &:hover
+      color: $green
+
+  div.toggled
+    margin-left: 32px
+
+ul.page_tree
+  list-style: none
+  padding: 0
+  margin: 0
+  max-height: 38vh
+  overflow: auto
+  ul.page_tree
+    display: none
+  li.tree_page
+    ul.page_tree
+      display: block
+
+li.tree_page
+  position: relative
+  margin: 0.5rem 0
+  transition: min-height 0.25s ease-out, margin-bottom 0.25s ease-out
+  span.unsaved
+    +oneliner
+    color: $blue
+  a.page
+    +oneliner
+    color: $mid
+    cursor: pointer
+    &:hover
+      color: $dark
+    &.new
+      color: $green
+      +hover
+    &.empty
+      pointer-events: none
+  time
+    color: $pale
+    display: inline-block
+    vertical-align: top
+    font-style: italic
+    margin-right: 0.5em
+    padding-right: 0.5em
+    border-right: 1px solid $pale
+  span.indent
+    display: inline-block
+    float: left
+    height: 20px
+    padding: 0
+  span.actions
+    display: none
+    margin-left: 10px
+    margin-top: -3px
+    a
+      width: 16px
+      display: inline-block
+      cursor: pointer
+      svg.icon
+        width: 16px
+        height: 16px

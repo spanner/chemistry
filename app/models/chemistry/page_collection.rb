@@ -4,8 +4,6 @@ module Chemistry
     acts_as_list
     has_many :pages
 
-    before_validation :update_path
-
     validates :title, presence: true
 
     default_scope -> { order(:position) }
@@ -15,17 +13,21 @@ module Chemistry
     def self.for_selection
       order(:short_title).map{|coll| [coll.short_title, coll.id] }
     end
-  
+
     def self.facet_labels
       all.each_with_object({}) do |pc, h|
         h[pc.slug] = pc.short_title
       end
     end
-  
+
+    def page_tree
+      Page.tree_from(pages)
+    end
+
     def empty?
       pages.empty?
     end
-  
+
     def unpublished_pages
       pages.unpublished
     end
@@ -43,14 +45,6 @@ module Chemistry
         page: params[:page].presence || 1,
         show: params[:show].presence || 5
       })
-    end
-
-    def update_path
-      if slug_changed? && path == "/#{slug_was}"
-        self.path = "/#{slug}"
-      elsif new_record? && !path?
-        self.path = "/#{slug}"
-      end
     end
 
   end
