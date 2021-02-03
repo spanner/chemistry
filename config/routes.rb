@@ -13,7 +13,11 @@ Chemistry::Engine.routes.draw do
     resources :documents, only: [:index, :show, :create, :update]
   end
 
-  resources :pages
+  resources :pages do
+    member do
+      get :branch
+    end
+  end
 
   resources :page_collections do
     resources :pages, only: [:show]
@@ -44,7 +48,7 @@ Chemistry::Engine.routes.draw do
     get "/" => "pages#published", as: :home_page
 
     get '*path', to: 'pages#published', as: :published_page, constraints: lambda { |req|
-      req.path.exclude? 'rails/'
+      req.path.exclude?('rails/')
     }
 
   end

@@ -2,54 +2,13 @@ module Chemistry::Concerns::HasPage
   extend ActiveSupport::Concern
 
   class_methods do
-    # `cms_base_path` gives us the branch of the page tree from which these object-attached pages should hang.
-    # By default there is no value here, and all the object pages go in the base folder. For a simple list of items, that will be fine.
-    # For a a more complex site you will want the list of refrigerators in /refrigerators and the current list of cheeses
-    # in /cheeses/current.
-    #
-    # Specifying a cms path will create, where necessary, an 'anchor' page and above it a lineage of empty placeholder pages.
-    #
-    attr_accessor :cms_path_base, :cms_template_slug
+    cattr_accessor :cms_page_collection
 
     def has_one_page(opts={})
-      has_one :page, class_name: "Chemistry::Page", as: :owner
+      has_one :page, class_name: "Chemistry::Page"
       after_save :update_page
-      if opts[:base].present?
-        self.cms_path_base = opts[:base]
-      end
-      if opts[:template].present?
-        self.cms_template_slug = opts[:template]
-      end
-    end
-
-    def has_many_pages
-      #TODO linking class that we might want to work :through
-    end
-
-    # cms_base_path can be string, proc or method name (as symbol)
-    # so we only store it here, and will find or create pages at runtime.
-    #
-    def cms_path_base=(path)
-      @cms_path_base = path
-    end
-
-    def anchor_page_path(owner)
-      path = case @cms_path_base
-      when String
-        # we were given a path
-        @cms_path_base
-      when Proc
-        # we were given a proc to call
-        @cms_path_base.call(owner)
-      when Symbol
-        # we were given the name of a method to call on the owner object
-        Rails.logger.warn "calling #{@cms_path_base.inspect} on #{owner.inspect}"
-        owner.send @cms_path_base
-      end
-      path.sub(/^\//, '').sub(/\/$/, '')
     end
   end
-
 
   def page?
     !!page
@@ -57,26 +16,6 @@ module Chemistry::Concerns::HasPage
 
   def page_id
     page.id if page
-  end
-
-  ## Integration
-  # The page slug is usually derived from its title, but you can override this method to supply a different base value.
-  # The Chemistry page is provided in case you still want to include the title or some other page attribute.
-  #
-  def cms_slug_base(page=nil)
-    self.class.to_s
-  end
-
-  def cms_path_base
-    self.class.cms_path_base || ""
-  end
-
-  def page_properties_given
-    []
-  end
-
-  def page_properties_received
-    []
   end
 
   ## Interpolations

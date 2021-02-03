@@ -2,8 +2,8 @@ module Chemistry
   class PagesController < Chemistry::ApplicationController
     include Chemistry::Concerns::Searchable
 
-    skip_before_action :authenticate_user!, only: [:home, :published, :latest, :archive, :children, :similar, :listed], raise: false
-    load_resource class: Chemistry::Page, except: [:home, :published, :latest, :children, :controls, :archive]
+    skip_before_action :authenticate_user!, only: [:home, :published, :latest, :archive, :children, :similar, :listed, :controls], raise: false
+    load_and_authorize_resource class: Chemistry::Page, except: [:home, :published, :latest, :children, :controls, :archive]
     before_action :get_view, only: [:edit]
 
 
@@ -53,7 +53,7 @@ module Chemistry
     end
 
 
-    # Page-tree management views
+    # Page-tree management for admin users
     # All our basic page-crud happens within this view, then we jump to the editor for content creation.
     #
     def index
@@ -77,16 +77,16 @@ module Chemistry
       end
     end
 
-    def branch
-      render :partial => "branch", locals: {branch: Chemistry::Page.page_tree(@page)}
-    end
-
     def update
       if @page.update(page_params)
         render :partial => "branch", locals: {branch: Chemistry::Page.page_tree(@page)}
       else
         render action: "edit", layout: false
       end
+    end
+
+    def branch
+      render :partial => "branch", locals: {branch: Chemistry::Page.page_tree(@page)}
     end
 
     # Edit usually shows the SPA editor and the rest of the edit and save process goes through the API,
