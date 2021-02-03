@@ -22,8 +22,9 @@ module Chemistry
     belongs_to :image, class_name: 'Chemistry::Image', optional: true
     belongs_to :published_image, class_name: 'Chemistry::Image', optional: true
 
-    # before_validation :set_home_if_first
+    before_validation :set_home_if_first
     before_validation :derive_slug_and_path
+    before_validation :set_default_style
 
     validates :title, presence: true
     validate :has_path_and_slug
@@ -425,6 +426,10 @@ module Chemistry
       elsif page_collection && page_collection.empty?
         self.home = true
       end
+    end
+
+    def set_default_style
+      self.style ||= Chemistry.config.default_page_style
     end
 
     # Path is absolute and includes collection prefix so that we can match fast and route simply

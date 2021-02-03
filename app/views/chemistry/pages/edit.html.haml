@@ -1,9 +1,2 @@
-- if @view
-  = render "chemistry/pages/edit/#{@view}"
-
-- else
-  #chemistry.page_editor{data: {cms: {page: @page.id}}}
-    #waiter.waiting
-      %span.logo
-      %span.message
-        CMS Loading...
+- @view ||= 'form'
+= render "chemistry/pages/edit/#{@view}"

@@ -89,11 +89,15 @@ module Chemistry
       render :partial => "branch", locals: {branch: Chemistry::Page.page_tree(@page)}
     end
 
-    # Edit usually shows the SPA editor and the rest of the edit and save process goes through the API,
-    # but you can also supply a `view` parameter that will be whitelisted then used to render an edity form.
+    # `edit` shows page configuration forms based on a `view` parameter.
+    # `editor` shows the SPA editor and the rest of the edit and save process goes through the API,
     #
     def edit
       render layout: no_layout_if_pjax
+    end
+
+    def editor
+      render layout: chemistry_editing_layout
     end
 
     def destroy

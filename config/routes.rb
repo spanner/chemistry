@@ -15,6 +15,7 @@ Chemistry::Engine.routes.draw do
 
   resources :pages do
     member do
+      get :editor
       get :branch
     end
   end
