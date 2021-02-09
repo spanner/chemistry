@@ -5,7 +5,7 @@ module Chemistry::Concerns::HasPage
     cattr_accessor :cms_page_collection
 
     def has_one_page(opts={})
-      belongs_to :page, class_name: "Chemistry::Page"
+      belongs_to :page, class_name: "Chemistry::Page", opts
       after_save :update_page
     end
   end
