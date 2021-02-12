@@ -1,20 +1,20 @@
-- cancel_url = @page_collection.new_record? ? main_app.dashboard_url : chemistry.page_collection_home_path(@page_collection.slug)
+- cancel_url = @page_category.new_record? ? main_app.dashboard_url : chemistry.page_category_home_path(@page_category.slug)
 
-= form_for @page_collection, html: {class: 'standard page_collection'} do |f|
+= form_for @page_category, html: {class: 'standard page_category'} do |f|
   #basics
     %p
       = f.label :title, class: "required"
-      = f.text_field :title, class: "title full", placeholder: t("chemistry.placeholders.page_collection.title"), required: true
+      = f.text_field :title, class: "title full", placeholder: t("chemistry.placeholders.page_category.title"), required: true
 
     %p
       = f.label :short_title
-      = f.text_field :short_title, class: "short_title full", placeholder: t("chemistry.placeholders.page_collection.short_title")
+      = f.text_field :short_title, class: "short_title full", placeholder: t("chemistry.placeholders.page_category.short_title")
       %span.note
         This can be used for linking in tight spaces. It defaults to a possibly truncated form of the full title.
 
     %p
       = f.label :slug, class: "required"
-      = f.text_field :slug, class: "slug full", placeholder: t("chemistry.placeholders.page_collection.slug"), required: true
+      = f.text_field :slug, class: "slug full", placeholder: t("chemistry.placeholders.page_category.slug"), required: true
       %span.note
         Links to pages in this collection will always take the form /collection_slug/page_slug.
         A slug will be derived from the collection title if none is given.
@@ -22,7 +22,7 @@
 
     %p
       = f.label :introduction
-      = f.text_area :introduction, class: "introduction long", placeholder: t("chemistry.placeholders.page_collection.introduction")
+      = f.text_area :introduction, class: "introduction long", placeholder: t("chemistry.placeholders.page_category.introduction")
 
     %p
       = f.check_box :private

@@ -1,0 +1,28 @@
+- content_for :body_class do
+  = "features"
+
+- content_for :title do
+  = strip_tags(@page_category.short_title)
+
+#cms_illustration
+  .features_grid.infinite.irregular{data: {url: chemistry.page_category_features_url(@page_category.slug)}}
+    = render partial: "chemistry/pages/feature", collection: @pages, locals: {omit_collection: true}
+    .waiter
+      .spinner
+
+#cms_body
+  #cms_title
+    %h1.pagetitle
+      = @page_category.title
+
+  #standfirst
+    = sanitize(@page_category.introduction)
+
+    %p
+      %a{href: chemistry.page_category_archive_url(@page_category.slug)}
+        %svg.icon
+          %use{href: "#search_symbol"}
+        = @page_category.short_title
+        archive and search
+
+#buttons{data: {collection: @page_category.slug}}

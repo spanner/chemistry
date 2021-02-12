@@ -29,7 +29,7 @@ module Chemistry
     # Admin overview page
     #
     def dashboard
-      @page_collections = PageCollection.order(:title)
+      @page_collections = PageCollection.order(title: :asc)
       render layout: chemistry_admin_layout
     end
   
@@ -37,7 +37,7 @@ module Chemistry
     # nb. public home page is home#home
     #
     def index
-      @page_collections = @page_collections.made_public
+      @page_collections = Chemistry::PageCollection.order(title: :asc)
       render layout: chemistry_admin_layout
     end
 

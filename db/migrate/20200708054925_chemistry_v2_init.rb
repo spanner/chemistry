@@ -48,6 +48,7 @@ class ChemistryV2Init < ActiveRecord::Migration[6.0]
       t.text :introduction
       t.boolean :featured, default: true
       t.boolean :private, default: false
+      t.boolean :searchable, default: false
       t.timestamps
     end
     add_index :chemistry_page_collections, [:slug, :private]

@@ -1,0 +1,19 @@
+%h1
+  = t "chemistry.headings.page_collections"
+  = link_to chemistry.new_page_collection_url, class: "add addendum" do
+    %svg.icon
+      %use{href: "/spritemap.svg#sprite-plus_button"}
+
+%p.intro
+  = t "chemistry.introductions.page_collections"
+
+%ul.page_collections
+  %li.page_collection
+    = link_to chemistry.pages_url class: "show" do
+      %h3
+        = t "chemistry.uncollected_pages"
+      %p.note
+        = t "chemistry.pages_count", count: Chemistry::Page.uncollected.count
+
+  = render partial: "chemistry/page_collections/listed",  collection: @page_collections
+

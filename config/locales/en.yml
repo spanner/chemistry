@@ -1,49 +1,64 @@
 en:
-  archive_and_search: "Archive & search"
-  chemistry: "Chemistry"
-  published: "published"
-  date:
-    formats:
-      natural: "%d %B %Y"
-      natural_full: "%l:%M%P, %d %B %Y"
-  errors:
-    page_not_found: "Page not found"
-    page_not_found_text: "Sorry: the page that you requested could not be found. Either it has not been published or the link URL is not correct."
-  helpers:
-    label:
+  chemistry:
+    archive_and_search: "Archive & search"
+    chemistry: "Chemistry"
+    published: "published"
+    date:
+      formats:
+        natural: "%d %B %Y"
+        natural_full: "%l:%M%P, %d %B %Y"
+    errors:
+      page_not_found: "Page not found"
+      page_not_found_text: "Sorry: the page that you requested could not be found. Either it has not been published or the link URL is not correct."
+    gotno:
+      page_categories: "No page categories"
+      page_collections: "No page collections"
+      pages: "No pages"
+    headings:
+      page_collections: Page Collections
+      page_tree: Main Page Tree
+    helpers:
+      label:
+        page:
+          title: "Title"
+          page_category_id: "Filing category"
+          page_collection_id: "Page collection"
+          private: "Visible only if signed in"
+        page_collection:
+          title: "Collection title"
+          short_title: "Short form"
+          slug: "URL slug"
+          grant_type_code: "Links to grants of type"
+          cobrand: "Partnership block (if any)"
+          eventful: "Links to events"
+          private: "Requires login?"
+          introduction: "Introduction"
+          featured: "Featured on home page?"
+          eventful: "Pages link to events?"
+    introductions:
+      page_collections: "Each page collections is a separate page tree that can be presented differently, made private or embargoed."
+    pages_count:
+      zero: "No pages"
+      one: "One page"
+      other: "%{count} pages"
+    placeholders:
       page:
-        title: "Title"
-        page_category_id: "Filing category"
-        page_collection_id: "Page collection"
-        private: "Visible only if signed in"
+        title: "Page title"
+        summary: "Summary of page (to appear in lists in place of the usual excerpt)"
       page_collection:
-        title: "Collection title"
-        short_title: "Short form"
-        slug: "URL slug"
-        grant_type_code: "Links to grants of type"
-        cobrand: "Partnership block (if any)"
-        eventful: "Links to events"
-        private: "Requires login?"
-        introduction: "Introduction"
-        featured: "Featured on home page?"
-        eventful: "Pages link to events?"
-  placeholders:
-    page:
-      title: "Page title"
-      summary: "Summary of page (to appear in lists in place of the usual excerpt)"
-    page_collection:
-      introduction: "Please enter text or HTML for the home page of this collection."
-  sorts:
-    date: "By original date"
-    published_at: "By publication date"
-    title: "By title"
-  time:
-    formats:
-      natural: "%d %B %Y"
-      natural_full: "%l:%M%P, %d %B %Y"
-  welcome:
-    title: "You have Chemistry"
-    body: "Time to make something."
-    pages: "Page tree"
-    templates: "Templates"
-    page_collections: "Page collections:"
+        introduction: "Please enter text or HTML for the home page of this collection."
+    sorts:
+      date: "By original date"
+      published_at: "By publication date"
+      title: "By title"
+    time:
+      formats:
+        natural: "%d %B %Y"
+        natural_full: "%l:%M%P, %d %B %Y"
+    welcome:
+      title: "You have Chemistry"
+      body: "Time to make something."
+      pages: "Page tree"
+      templates: "Templates"
+      page_collections: "Page collections:"
+    uncollected_pages: "Main page tree"

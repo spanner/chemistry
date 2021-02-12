@@ -1,0 +1,5 @@
+- if @page_category
+  %header#cms-nav
+    %a.cms-button.edit{href: chemistry.edit_page_category_url(@page_category)}
+      %svg
+        %use{href: "#edit_button_symbol"}

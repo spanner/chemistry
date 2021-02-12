@@ -1,0 +1,6 @@
+- page_collection ||= @page_collection
+- pages ||= @pages || page_collection.latest_page_search_results({show: 5})
+
+%ul.matches{id: "page_collection_#{page_collection.id}_pages"}
+  = render partial: "chemistry/pages/search/listed", collection: pages
+

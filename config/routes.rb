@@ -31,6 +31,18 @@ Chemistry::Engine.routes.draw do
     end
   end
 
+  resources :page_categories do
+    resources :pages, only: [:show]
+    member do
+      get :filter
+      get :features
+    end
+    collection do
+      get :dashboard
+    end
+  end
+
+
   scope defaults: { format: 'html' }, constraints: { format: 'html' } do
     get "/parts/controls/:id" => "pages#controls", as: :page_controls
     get "/parts/collection_controls/:slug" => "page_collections#controls", as: :page_collection_controls
@@ -47,6 +59,7 @@ Chemistry::Engine.routes.draw do
     get "archive" => "pages#archive", as: 'archive'
 
     get "/" => "pages#published", as: :home_page
+    get "/search" => "pages#search", as: :search
 
     get '*path', to: 'pages#published', as: :published_page, constraints: lambda { |req|
       req.path.exclude?('rails/')

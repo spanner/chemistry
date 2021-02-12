@@ -5,10 +5,10 @@
 = form_for @page, :html => {:class => 'edit page', :remote => true} do |f|
   %p.name.onecol
     %span.col
-      = f.text_field :title, :class => 'name', placeholder: t("placeholders.page.title"), autofocus: true, tabindex: 1
+      = f.text_field :title, :class => 'name', placeholder: t("chemistry.placeholders.page.title"), autofocus: true, tabindex: 1
   %p.summary.onecol
     %span.col
-      = f.text_area :summary, :class => 'name', placeholder: t("placeholders.page.summary")
+      = f.text_area :summary, :class => 'name', placeholder: t("chemistry.placeholders.page.summary")
       %br
       = f.check_box :private, class: "fancy"
       = f.label :private

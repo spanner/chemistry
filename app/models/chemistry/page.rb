@@ -37,6 +37,7 @@ module Chemistry
     scope :nav, -> { where(nav: true) }
     scope :published, -> { where.not(published_at: nil) }
     scope :uncollected, -> { where(page_collection_id: nil) }
+    scope :uncategorised, -> { where(page_category_id: nil) }
     scope :latest, -> { order(created_at: :desc) }
     scope :with_parent, -> page { where(parent_id: page.id) }
     scope :with_path, -> path { where(path: path) }
@@ -134,6 +135,10 @@ module Chemistry
 
     def published?
       published_at?
+    end
+
+    def amended?
+      updated_at && (updated_at > created_at)
     end
 
     def publishing?

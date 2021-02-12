@@ -1,0 +1,14 @@
+- page_category ||= listed ||= @page_category
+- minimal ||= false
+- highlights ||= nil
+
+%li.page_category{id: "page_category_#{page_category.id}"}
+  %h3
+    = link_to chemistry.page_category_url(page_category), class: "show" do
+      = strip_tags(page_category.title)
+    - if can?(:edit, page_category)
+      = link_to chemistry.edit_page_category_url(page_category), class: "edit" do
+        %svg.icon
+          %use{href: "/spritemap.svg#sprite-edit_button"}
+  %p.note
+    = t "chemistry.pages_count", count: page_category.pages.count
