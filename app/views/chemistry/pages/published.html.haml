@@ -35,8 +35,12 @@
             %a.breadhead{href: chemistry.page_collection_home_url(pc.slug)}
               = pc.title
           - elsif pp = @page.parent
-            %a.breadhead{href: chemistry.published_page_url(pp.path)}
-              = pp.title
+            - if pp.home?
+              %a.breadhead{href: chemistry.home_page_url}
+                = pp.title
+            - else
+              %a.breadhead{href: chemistry.published_page_url(pp.path)}
+                = pp.title
 
           = sanitize(rendered_title, scrubber: Chemistry::InlineScrubber.new)
   
