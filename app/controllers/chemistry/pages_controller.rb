@@ -2,8 +2,8 @@ module Chemistry
   class PagesController < Chemistry::ApplicationController
     include Chemistry::Concerns::Searchable
 
-    skip_before_action :authenticate_user!, only: [:home, :published, :latest, :archive, :children, :similar, :listed, :controls], raise: false
-    load_and_authorize_resource class: Chemistry::Page, except: [:home, :published, :latest, :children, :controls, :archive]
+    skip_before_action :authenticate_user!, only: [:home, :published, :latest, :search, :children, :similar, :listed, :controls], raise: false
+    load_and_authorize_resource class: Chemistry::Page, except: [:home, :published, :latest, :children, :controls, :search]
     before_action :get_view, only: [:edit]
 
 
@@ -38,11 +38,11 @@ module Chemistry
       end
     end
 
-    def archive
-      @params = archive_params
-      @q = @params[:q]
+    def search
+      @params = search_params
+      @q = helpers.strip_tags(@params[:q])
       @pages = Chemistry::Page.search_and_aggregate(@params)
-      render layout: chemistry_layout
+      render layout: chemistry_search_layout
     end
 
 
@@ -206,7 +206,7 @@ module Chemistry
       end
     end
 
-    def archive_params
+    def search_params
       params.permit(:page_collection, :page_category, :month, :date_from, :date_to, :q, :sort, :order, :show, :page, terms: [])
     end
 

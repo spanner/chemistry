@@ -223,7 +223,8 @@ module Chemistry
         terms: terms_list,
         image_url: image_url,
         thumbnail_url: thumbnail_url,
-        collection_name: page_collection_name,
+        page_collection_name: page_collection_name,
+        page_category_name: page_category_name,
 
         # aggregation and selection
         parent_id: parent_id,
@@ -235,6 +236,7 @@ module Chemistry
         updated_at: updated_at,
         published: published?,
         published_at: published_at,
+        searchable: searchable?,
         collection_featured: page_collection_featured?,
         featured: featured?,
         featured_at: featured_at,
@@ -265,7 +267,7 @@ module Chemistry
 
       # filter
       #
-      criteria = { published: true }
+      criteria = { published: true, searchable: true }
       criteria[:page_collection] = params[:page_collection] if params[:page_collection].present?
       criteria[:page_category] = params[:page_category] if params[:page_category].present?
       criteria[:terms] = params[:terms] if params[:term].present?
@@ -364,7 +366,7 @@ module Chemistry
     end
 
     def page_collection_name
-      page_collection.short_title if page_collection
+      page_collection.title if page_collection
     end
 
     def page_collection_slug
@@ -375,6 +377,10 @@ module Chemistry
       page_collection.featured? if page_collection
     end
 
+    def page_category_name
+      page_category.title if page_category
+    end
+
     def page_category_slug
       page_category.slug if page_category
     end
@@ -383,6 +389,10 @@ module Chemistry
       if published_at.present?
         published_at.strftime("%y/%m")
       end
+    end
+
+    def searchable?
+      !page_collection || page_collection.searchable?
     end
 
 
@@ -440,7 +450,9 @@ module Chemistry
     # Path is absolute and includes collection prefix so that we can match fast and route simply
     #
     def derive_slug_and_path
-      if slug? && !persisted?
+      if home?
+        self.slug = ""
+      elsif slug? && !persisted?
         self.slug = add_suffix_if_taken(slug, path_base)
       elsif !slug? && !home?
         self.slug = add_suffix_if_taken(slug_base, path_base)

@@ -3,6 +3,7 @@ module Chemistry
     attr_accessor :public_layout,
                   :admin_layout,
                   :editing_layout,
+                  :search_layout,
                   :host,
                   :protocol,
                   :api_url,
@@ -16,7 +17,6 @@ module Chemistry
                   :site_host,
                   :site_image_url,
                   :site_twitter
-
 
     @user_class = "User"
     @user_key = "id"
