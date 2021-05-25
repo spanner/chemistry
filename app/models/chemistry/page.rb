@@ -275,8 +275,8 @@ module Chemistry
 
       if params[:date_from].present? or params[:date_to].present?
         criteria[:date] = {}
-        criteria[:date][:gt] = params[:date_from] if params[:date_from].present?
-        criteria[:date][:lte] = params[:date_to] if params[:date_to].present?
+        criteria[:date][:gt] = Date.parse(params[:date_from]).beginning_of_day if params[:date_from].present?
+        criteria[:date][:lte] = Date.parse(params[:date_to]).end_of_day if params[:date_to].present?
       elsif params[:month].present? and params[:year].present?
         criteria[:month] = [params[:year], params[:month]].join('/')
       end

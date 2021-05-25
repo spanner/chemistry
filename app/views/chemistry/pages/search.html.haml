@@ -48,9 +48,6 @@
         %svg.icon
           %use{"xlink:href" => "#search_symbol"}
 
-    .toggle
-      = link_to "▾ more options", '#', class: "select", data: {alt: "▴ fewer options"}
-
     .list_control
       .col
         = render "chemistry/pages/search/facet", facet: "page_category", heading: t("chemistry.faceter.page_categories")
