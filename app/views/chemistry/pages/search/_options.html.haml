@@ -1,7 +1,6 @@
 - collection ||= @pages
 - link_params = @params.to_h
 - link_params[:sort] = @sort if @sort && @sort != "_score"
-- base_url = @page_collection ? chemistry.archive_page_collection_url(@page_collection.slug) : chemistry.archive_url
 
 %h3
   Options
@@ -26,5 +25,5 @@
   - if @q.present?
     = link_to "relevance", chemistry.archive_url(link_params.merge(sort: "_score")), class: @sort == "_score" ? "here" : ""
   %br
-  %a{href: base_url}
-    Reset to default view
+  %a{href: chemistry.archive_url(link_params.except(:p, :pp, :sort, :page_category, :page_collection, :date_from, :date_to))}
+    Reset sort and filters

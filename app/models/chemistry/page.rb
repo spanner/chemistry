@@ -274,9 +274,9 @@ module Chemistry
       criteria[:terms] = params[:terms] if params[:term].present?
 
       if params[:date_from].present? or params[:date_to].present?
-        criteria[:published_at] = {}
-        criteria[:published_at][:$gt] = params[:date_from] if params[:date_from].present?
-        criteria[:published_at][:$lte] = params[:date_to] if params[:date_to].present?
+        criteria[:date] = {}
+        criteria[:date][:gt] = params[:date_from] if params[:date_from].present?
+        criteria[:date][:lte] = params[:date_to] if params[:date_to].present?
       elsif params[:month].present? and params[:year].present?
         criteria[:month] = [params[:year], params[:month]].join('/')
       end
