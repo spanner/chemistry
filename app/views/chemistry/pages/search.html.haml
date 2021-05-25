@@ -6,10 +6,13 @@
 
 #cms_illustration
   .search_results
-    #blurb
-      - if params[:month].present? && params[:year].present?
-        - date = Date.civil(params[:year].to_i, params[:month].to_i)
-        - month = l date, format: :month_and_year
+    #blurb.standfirst
+      %p
+        - if @q.present?
+          - if @page_collection
+            = t("chemistry.search_in_context_summary", count: @pages.total_count, query: @q, context: @page_collection.short_title).html_safe
+          - else
+            = t("chemistry.search_summary", count: @pages.total_count, query: @q).html_safe
 
     %ul.pages.archive
       - if @pages.any?
@@ -19,9 +22,9 @@
 
         - if @q
           - @pages.with_highlights.each do |page, highlights|
-            = render "chemistry/pages/search/result", page: page, highlights: highlights
+            = render "chemistry/pages/search/listed", page: page, highlights: highlights
         - else
-          = render partial: "chemistry/pages/search/result", collection: @pages
+          = render partial: "chemistry/pages/search/listed", collection: @pages
 
         .pagination.lower
           = paginate @pages, params: {format: nil}
@@ -30,9 +33,8 @@
   #cms_title
     %h1.pagetitle
       - if @page_collection
-        %a.breadhead{href: chemistry.page_collection_home_url(@page_collection.slug)}
-          ↖
-          = @page_collection.title
+        %a{href: chemistry.page_collection_home_url(@page_collection.slug)}
+          = @page_collection.short_title + ':'
       = t(:archive_and_search)
 
   %form#browser.faceter.standard{:action => chemistry.archive_url}
@@ -50,7 +52,12 @@
       = link_to "▾ more options", '#', class: "select", data: {alt: "▴ fewer options"}
 
     .list_control
-      = render "chemistry/pages/search/facet", facet: "page_collection", heading: t("faceter.page_collections")
-      = render "chemistry/pages/search/facet", facet: "page_category", heading: t("faceter.page_categories")
-      = render "chemistry/pages/search/facet", facet: "term", heading: t("faceter.term")
-      = render "chemistry/pages/search/options"
+      .col
+        = render "chemistry/pages/search/facet", facet: "page_category", heading: t("chemistry.faceter.page_categories")
+      .col
+        = render "chemistry/pages/search/options"
+      .full
+        = render "chemistry/pages/search/facet", facet: "page_collection", heading: t("chemistry.faceter.page_collections")
+      .full
+        = render "chemistry/pages/search/dates", heading: t("faceter.dates")
+

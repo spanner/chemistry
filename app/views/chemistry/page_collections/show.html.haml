@@ -19,10 +19,10 @@
     = sanitize(@page_collection.introduction)
 
     %p
-      %a{href: chemistry.page_collection_archive_url(@page_collection.slug)}
+      %a{href: chemistry.search_url(page_collection: @page_collection.slug)}
         %svg.icon
           %use{href: "#search_symbol"}
         = @page_collection.short_title
-        archive and search
+        = t(:archive_and_search)
 
 #buttons{data: {collection: @page_collection.slug}}

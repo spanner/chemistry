@@ -19,7 +19,7 @@
     = sanitize(@page_category.introduction)
 
     %p
-      %a{href: chemistry.page_category_archive_url(@page_category.slug)}
+      %a{href: chemistry.search_url(page_category @page_category.slug)}
         %svg.icon
           %use{href: "#search_symbol"}
         = @page_category.short_title

@@ -1,0 +1,22 @@
+- pages ||= @pages
+- facet ||= 'date_stats'
+- heading ||= facet
+- param ||= facet
+- aggs = pages.aggs
+- agg = aggs[facet]
+
+- if agg
+  - min_date = Date.parse(agg['min_as_string'])
+  - max_date = Date.parse(agg['max_as_string'])
+
+
+  %h3
+    = heading
+
+  %p.dates
+    %span.date_from
+      %input{type: "date", value: min_date}
+    %span.conjunction
+      to
+    %span.date_to
+      %input{type: "date", value: max_date}

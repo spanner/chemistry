@@ -40,37 +40,54 @@ body.archive
           div.toggle
             display: none;
           div.list_control
-            max-height: 60vh
             display: block
 
 ul.archive
   list-style: none
   padding: 0
+  line-height: 1.6;
+  margin-left: -1em;
   li.page
     margin: 2em 0
-    a
+    position: relative;
+    a.context
+      position: absolute
+      bottom: 0.5em
+      right: 0.5em
+      color: $pale
+      +hover
+    a.show
       color: $dark
-    span.image
+      display: block
+      padding: 1em
+      &:hover
+        background-color: $coolgrey00;
+        h3
+          color: $red
+    div.image
       display: inline-block
       vertical-align: top
-      width: 64px
-      height: 64px
-      margin-right: 10px
-      margin-top: 3px
+      width: 128px
+      height: 128px
+      margin-right: 1em
+      margin-top: 0.2em
       background:
         position: center center
         size: cover
         repeat: no-repeat
         color: $pale
-    span.detail
+    div.detail
       display: inline-block
       vertical-align: top
-      width: calc(100% - 80px)
-    span.title
+      width: calc(100% - 160px)
+    h3.title
       display: block
       font-weight: bold
-    time
-      display: block
+      font-size: 1rem
+      margin: 0 0 0.3em 0
+    p.excerpt, p.context
+      font-size: 1rem
+      margin: 0;
 
 form.faceter
   position: relative
@@ -119,50 +136,57 @@ form.faceter
       +hover
 
   .list_control
-    max-height: 0
     transition: max-height 0.5s ease-out
-    overflow: hidden
     +clearfix
     width: 100%
     z-index: 10
     padding-top: 1em
     background-color: white
-    &.up
-      max-height: 60vh
-    .cols
+    display: flex
+    flex-flow: row wrap
+    align-items: flex-start
+    justify-content: space-between
+    background-color: $menubg
+    padding: 10px
+
+    .full
+      display: inline-block
       width: 100%
-      display: flex
-      flex-flow: row wrap
-      align-items: flex-start
-      justify-content: flex-start
-      background-color: $menubg
-      padding: 10px
+      margin: 0 0 1em 0
+
     .col
-      float: left
-      margin-right: 2em
+      display: inline-block
       margin-bottom: 1em
-      max-width: calc(50% - 4em)
-      &:last-child
-        max-width: 100%
-      p.options
-        font-size: 0.95rem
-        margin: 0.25em 0
-        line-height: 1.7
-        a
-          color: $mid
-          cursor: pointer
-          +hover
-          margin: 0 0.15em
-          &.here
-            pointer-events: none
-            font-weight: bold
+      width: calc(49%)
+      float: left
+
+    p.options
+      font-size: 0.95rem
+      margin: 0.25em 0
+      line-height: 1.7
+      a
+        color: $mid
+        cursor: pointer
+        +hover
+        margin: 0 0.15em
+        &.here
+          pointer-events: none
+          font-weight: bold
+
     h3
       font-size: 0.95rem
       font-weight: bold
       margin: 1em 0 0 0
       padding: 0
 
+    p.dates
+      margin: 0.25em 0 0 0;
+      span.conjunction
+        margin: 0 0.5em
+        color: $dark
+
     ul.facet
+      position: relative;
       list-style: none
       font-size: 0.95rem
       margin: 0
@@ -188,3 +212,7 @@ form.faceter
             width: calc(100% - 32px)
           &.here
             font-weight: bold
+            &:before
+              content: "\2715"
+              width: 1em
+              margin-left: -1em

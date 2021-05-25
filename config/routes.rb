@@ -24,10 +24,10 @@ Chemistry::Engine.routes.draw do
   end
 
   resources :page_collections do
-    resources :pages, only: [:show]
+    resources :pages
     member do
-      get :filter
       get :features
+      get :filter
     end
     collection do
       get :dashboard
@@ -35,7 +35,7 @@ Chemistry::Engine.routes.draw do
   end
 
   resources :page_categories do
-    resources :pages, only: [:show]
+    resources :pages
     member do
       get :filter
       get :features
@@ -58,11 +58,10 @@ Chemistry::Engine.routes.draw do
     get "collections/:id/features" => "page_collections#features", as: 'page_collection_features'
     get "collections/:id/features/:p" => "page_collections#features", as: 'more_page_collection_features'
 
-    get "/archive/:page_collection" => "pages#archive", as: 'page_collection_archive'
-    get "archive" => "pages#archive", as: 'archive'
-
     get "/" => "pages#published", as: :home_page
     get "/search" => "pages#search", as: :search
+    get "/archive" => "pages#search", as: :archive
+    get "/archive/:page_collection" => "pages#search", as: :page_collection_archive
 
     get '*path', to: 'pages#published', as: :published_page, constraints: lambda { |req|
       req.path.exclude?('rails/')

@@ -1,0 +1,35 @@
+- pages ||= @pages
+- facet ||= 'month'
+- heading ||= facet
+- param ||= facet
+- aggs = pages.aggs
+- agg = aggs[facet]
+
+- if agg
+  - if buckets = agg['buckets']
+    - if buckets.length > 1
+      %h3
+        = heading
+
+      %ul.facet
+        - buckets.sort_by{|b| b['key']}.reverse.each do |bucket|
+          - key = bucket['key']
+          - if key.present?
+            - count = bucket['doc_count']
+            - y, month = key.split('/').map(&:to_i)
+            - year = y + 2000
+            - date = Date.civil(year, month)
+            - label = l(date, format: :month_and_year)
+
+            %li
+              - if @params[:month] == key
+                = link_to chemistry.archive_url(@params.to_h.except(key)), class: "here" do
+                  %span.name
+                    = label
+                    = "(#{count})"
+
+              - else
+                = link_to chemistry.archive_url(@params.to_h.merge(param => key)) do
+                  %span.name
+                    = label
+                    = "(#{count})"

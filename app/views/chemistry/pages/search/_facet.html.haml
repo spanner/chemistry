@@ -1,17 +1,21 @@
-- collection ||= @pages
+- pages ||= @pages
 - heading ||= facet
 - param ||= facet
-- aggs = collection.aggs
+- aggs = pages.aggs
 - agg = aggs[facet]
+- link_params = @params.to_h
 
 - if facet == 'page_collection'
   - preload = Chemistry::PageCollection.facet_labels
 - elsif facet == 'page_category'
   - preload = Chemistry::PageCategory.facet_labels
 
+- if @params[param].present?
+  = hidden_field_tag param, @params[param]
+
 - if agg
   - if buckets = agg['buckets']
-    - if buckets.length > 1
+    - if buckets.any?
       %h3
         = heading
       %ul.facet
@@ -26,15 +30,13 @@
 
             %li
               - if @params[param] == key
-                = link_to chemistry.archive_url(@params.except(key)), class: "here" do
-                  %span.icon
-                    x
+                = link_to chemistry.archive_url(link_params.except(param)), class: "here" do
                   %span.name
                     = label
                     = "(#{count})"
 
               - else
-                = link_to chemistry.archive_url(@params.merge(param => key)) do
+                = link_to chemistry.archive_url(link_params.merge(param => key)) do
                   %span.name
                     = label
                     = "(#{count})"

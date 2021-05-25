@@ -1,0 +1,19 @@
+- content_for :body_class do
+  = "archive"
+
+- content_for :title do
+  = t(:archive) + ':'
+  = strip_tags(@page_collection.short_title)
+
+#cms_archive
+  %h1.pagetitle
+    = t(:archive) + ':'
+    = @page_collection.title
+
+  #faceting.columns
+    .col
+      = render partial: "pages/search/facets"
+    .col
+      = render partial: "pages/search/options"
+
+  = render partial: "pages/search/list"

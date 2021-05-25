@@ -241,6 +241,7 @@ module Chemistry
         featured: featured?,
         featured_at: featured_at,
         date: featured_at.presence || published_at.presence || created_at,
+        year: year,
         month: month_and_year
       }
     end
@@ -305,13 +306,33 @@ module Chemistry
       #
       aggregations = {
         month: {},
+        year: {},
         page_category: {},
-        page_collection: {}
+        page_collection: {},
       }
-      
+
+      body_options = {
+        aggs: {
+          date_stats: { "stats": { "field": "date" } }
+        }
+      }
+
+      options = {
+        load: false,
+        fields: fields,
+        where: criteria,
+        order: order,
+        per_page: per_page,
+        page: page,
+        highlight: highlight,
+        aggs: aggregations,
+        body_options: body_options
+      }
+      Rails.logger.warn "🌸 search options: #{terms}, #{options.inspect}"
+
       # fetch
       #
-      Page.search terms, load: false, fields: fields, where: criteria, order: order, per_page: per_page, page: page, highlight: highlight, aggs: aggregations
+      Page.search terms, options
     end
 
     def similar_pages
@@ -366,7 +387,7 @@ module Chemistry
     end
 
     def page_collection_name
-      page_collection.title if page_collection
+      page_collection.short_title if page_collection
     end
 
     def page_collection_slug
@@ -383,6 +404,12 @@ module Chemistry
 
     def page_category_slug
       page_category.slug if page_category
+    end
+
+    def year
+      if published_at.present?
+        published_at.strftime("%y")
+      end
     end
 
     def month_and_year

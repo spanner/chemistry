@@ -1,5 +1,6 @@
 en:
   chemistry:
+    archive: "Archive"
     archive_and_search: "Archive & search"
     chemistry: "Chemistry"
     published: "published"
@@ -10,6 +11,10 @@ en:
     errors:
       page_not_found: "Page not found"
       page_not_found_text: "Sorry: the page that you requested could not be found. Either it has not been published or the link URL is not correct."
+    faceter:
+      page_categories: "Topics"
+      page_collections: "Collections"
+      dates: "Date range"
     gotno:
       page_categories: "No page categories"
       page_collections: "No page collections"
@@ -47,6 +52,14 @@ en:
         summary: "Summary of page (to appear in lists in place of the usual excerpt)"
       page_collection:
         introduction: "Please enter text or HTML for the home page of this collection."
+    search_in_context_summary:
+      zero: "Sorry: searching for <strong>%{query}</strong> in %{context} returns no pages."
+      one: "Searching for <strong>%{query}</strong> in %{context} returns one page:"
+      other: "Searching for <strong>%{query}</strong> in %{context} returns %{count} pages:"
+    search_summary:
+      zero: "Sorry: searching for <strong>%{query}</strong> returns no pages."
+      one: "Searching for <strong>%{query}</strong> returns one page:"
+      other: "Searching for <strong>%{query}</strong> returns %{count} pages:"
     sorts:
       date: "By original date"
       published_at: "By publication date"

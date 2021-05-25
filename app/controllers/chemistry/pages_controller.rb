@@ -41,6 +41,8 @@ module Chemistry
     def search
       @params = search_params
       @q = helpers.strip_tags(@params[:q])
+      @sort = params[:sort]
+      @page_collection = Chemistry::PageCollection.find_by(slug: @params[:page_collection]) if @params[:page_collection].present?
       @pages = Chemistry::Page.search_and_aggregate(@params)
       render layout: chemistry_search_layout
     end
@@ -207,7 +209,7 @@ module Chemistry
     end
 
     def search_params
-      params.permit(:page_collection, :page_category, :month, :date_from, :date_to, :q, :sort, :order, :show, :page, terms: [])
+      params.permit(:page_collection, :page_category, :month, :year, :date_from, :date_to, :q, :sort, :order, :show, :page, terms: [])
     end
 
 

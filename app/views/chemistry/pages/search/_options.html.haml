@@ -1,5 +1,5 @@
 - collection ||= @pages
-- link_params = {sq: @q, show: @per_page, page: 1, award: params[:award], country: params[:country]}
+- link_params = @params.to_h
 - link_params[:sort] = @sort if @sort && @sort != "_score"
 - base_url = @page_collection ? chemistry.archive_page_collection_url(@page_collection.slug) : chemistry.archive_url
 
@@ -21,10 +21,10 @@
     = link_to "all (#{collection.total_count})", chemistry.archive_url(link_params.merge(pp: "all")), class: @per_page == "all" ? "here" : ""
   %br
   Sort:
-  = link_to "name", chemistry.archive_url(link_params.merge(sort: "name")), class: @sort == "title" ? "here" : ""
+  = link_to "title", chemistry.archive_url(link_params.merge(sort: "title")), class: @sort == "title" ? "here" : ""
   = link_to "year", chemistry.archive_url(link_params.merge(sort: "year")), class: @sort == "year" ? "here" : ""
   - if @q.present?
-    = link_to "relevance", chemistry.archive_url(link_params.merge(sort: "score")), class: @sort == "_score" ? "here" : ""
+    = link_to "relevance", chemistry.archive_url(link_params.merge(sort: "_score")), class: @sort == "_score" ? "here" : ""
   %br
   %a{href: base_url}
     Reset to default view

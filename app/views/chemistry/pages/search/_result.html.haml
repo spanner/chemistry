@@ -1,6 +1,7 @@
 - result ||= nil
 - page ||= result
 - highlights ||= nil
+- omit_collection ||= false
 
 - if page
   - url = chemistry.published_page_url(page.path)
@@ -12,12 +13,12 @@
         - else
           = strip_tags(page.title)
 
-      - if page.published_at? || page.page_collection_name
+      - if page.published_at? || (!omit_collection && page.page_collection_name)
         %span.context
           - if page.published_at
             %time
               = l Date.parse(page.published_at), format: :natural
-          - if page.page_collection_name
+          - if !omit_collection && page.page_collection_name
             = t :in
             %strong
               = page.page_collection_name

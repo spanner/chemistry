@@ -2,6 +2,7 @@
 - page ||= listed || @page
 - minimal ||= false
 - highlights ||= nil
+- omit_collection ||= false
 
 %li.page{id: "page_#{page.id}"}
   - if can?(:edit, @page)
@@ -11,24 +12,28 @@
 
   = link_to chemistry.published_page_url(page.path), class: "show" do
     - if page.thumbnail_url
-      %span.image{style: "background-image: url(#{page.thumbnail_url});"}
+      .image{style: "background-image: url(#{page.thumbnail_url});"}
     - else
-      %span.no_image
+      .no_image
 
-    %span.detail
-      %span.title
+    .detail
+      %h3.title
         - if highlights && highlights[:title].present?
           = highlights[:title].html_safe
         - else
           = strip_tags(page.title)
 
-      - if page.published_at
-        %time
-          = l Date.parse(page.published_at), format: :natural
       - unless minimal
-        %span.excerpt
+        %p.excerpt
+          - if page.published_at
+            %time
+              = l Date.parse(page.published_at), format: :natural
+      
           - if highlights && highlights[:content].present?
             = highlights[:content].html_safe
           - else
             - excerpt = page.summary.presence || page.excerpt.presence || ""
             = shorten(strip_tags(excerpt).gsub('&nbsp;', ' '), 400)
+
+  - if !omit_collection && page.page_collection_name
+    = link_to page.page_collection_name, chemistry.page_collection_url(id: page.page_collection), class: "context"
