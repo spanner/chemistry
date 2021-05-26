@@ -73,7 +73,7 @@ module Chemistry
     def create
       @page = Chemistry::Page.new(page_params.merge(user_id: user_signed_in? && current_user.id))
       if @page.save
-        render :partial => "branch", locals: {branch: Chemistry::Page.page_tree(@page)}
+        redirect_to editor_page_url(@page)
       else
         render action: "new", layout: false
       end
