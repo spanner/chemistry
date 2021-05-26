@@ -6,7 +6,7 @@
 
 %li.page{id: "page_#{page.id}"}
   - if can?(:edit, @page)
-    = link_to chemistry.edit_page_url(page.id), class: "edit" do
+    = link_to chemistry.editor_page_url(page.id), class: "edit" do
       %svg
         %use{href: "#edit_button_symbol"}
 
