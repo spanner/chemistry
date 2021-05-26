@@ -23,7 +23,12 @@
         - else
           = strip_tags(page.title)
 
-      - unless minimal
+      - if minimal
+        - if page.published_at
+          %time
+            = l Date.parse(page.published_at), format: :natural
+
+      - else
         %p.excerpt
           - if page.published_at
             %time
@@ -35,5 +40,5 @@
             - excerpt = page.summary.presence || page.excerpt.presence || ""
             = shorten(strip_tags(excerpt).gsub('&nbsp;', ' '), 400)
 
-  - if !omit_collection && page.page_collection_name
+  - if !minimal && !omit_collection && page.page_collection_name
     = link_to page.page_collection_name, chemistry.page_collection_url(id: page.page_collection), class: "context"

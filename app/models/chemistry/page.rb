@@ -59,7 +59,6 @@ module Chemistry
       def tree_for_selection(page_collection=nil, except_page=nil)
         if page_collection
           pages = page_collection.pages
-          root = page_collection
         else
           pages = uncollected
           root = home_page
@@ -68,25 +67,39 @@ module Chemistry
           pages = pages.other_than(except_page)
         end
         index = pages.each_with_object({}) do |p, h|
-          h[p.parent_id] ||= []
-          h[p.parent_id].push(p)
+          key = p.parent_id.presence || '__root'
+          h[key] ||= []
+          h[key].push(p)
         end
         branch_for_selection(root, index)
       end
 
       def branch_for_selection(page, index, depth=0, seen={})
-        seen[page.id] = true
-        branch = [branch_page_option(page, depth)]
-        if children = index[page.id]
+        Rails.logger.warn("🌳 branch_for_selection: #{page}")
+        branch = []
+        if (page)
+          unless seen[page.id]
+            seen[page.id] = true
+            branch.push branch_page_option(page, depth)
+            children = index[page.id]
+            depth += 1
+          end
+        else
+          unless seen['__root']
+            seen['__root'] = true
+            children = index['__root']
+          end
+        end
+        if children && children.any?
           children.each do |child|
-            branch.concat branch_for_selection(child, index, depth+1, seen)
+            branch.concat branch_for_selection(child, index, depth, seen)
           end
         end
         branch
       end
 
       def branch_page_option(page, depth)
-        prefix = "&nbsp;" * depth * 8
+        prefix = "&nbsp;" * depth * 4
         label = (prefix + page.title).html_safe
         [label, page.id]
       end
