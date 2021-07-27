@@ -202,9 +202,19 @@ module Chemistry
 
     ## Interpolations
     # override to provide site-wide interpolations available on any page.
-    # They can be string like {{user_count}} or proc like {{login_form}}.
+    # They can be string-like: {{published_at}} returns a formatted datetime.
+    # or proc-like: {{login_form}} could render a template partial with this as `page` argument.
+    # Rendered partials should only refer to page properties since they are rendered before publication.
+    # Anything user-specific must be added post-cache by fetching a partial after browwser loads page.
     #
     def interpolations
+      {
+        published_at: I18n.l(published_at, format: :natural),
+        byline: byline.presence || ""
+      }.merge(custom_interpolations)
+    end
+
+    def custom_interpolations
       {}
     end
 
@@ -234,7 +244,7 @@ module Chemistry
     scope :search_import, -> { includes(:image, :page_collection, :page_category) }
 
     def search_data
-      {
+      fields = {
         # chiefly for UI retrieval
         slug: published_slug.presence || slug,
         path: published_path.presence || path,
@@ -271,6 +281,11 @@ module Chemistry
         year: year,
         month: month_and_year
       }
+      fields.merge(extra_search_data)
+    end
+
+    def extra_search_data
+      {}
     end
 
     # Search and aggregation
