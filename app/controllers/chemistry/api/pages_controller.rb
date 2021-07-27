@@ -102,6 +102,8 @@ module Chemistry::Api
         :nav_position,      # in this position
         :terms,
         :private,
+        :featured,          # this is usual
+        :featured_at,       # but this is also possible
         :parent_id,
         :page_collection_id,
         :page_category_id,

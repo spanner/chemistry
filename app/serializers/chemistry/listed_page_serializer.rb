@@ -11,6 +11,9 @@ class Chemistry::ListedPageSerializer
              :parent_id,
              :page_category_id,
              :page_collection_id,
-             :title
+             :title,
+             :style,
+             :excerpt,
+             :published_at
 
 end

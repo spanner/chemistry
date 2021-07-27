@@ -36,6 +36,7 @@ module Chemistry
     scope :home, -> { where(home: true).limit(1) }
     scope :nav, -> { where(nav: true) }
     scope :published, -> { where.not(published_at: nil) }
+    scope :featured, -> { where.not(featured_at: nil).order(featured_at: :desc) }
     scope :uncollected, -> { where(page_collection_id: nil) }
     scope :uncategorised, -> { where(page_category_id: nil) }
     scope :latest, -> { order(created_at: :desc) }
@@ -75,7 +76,6 @@ module Chemistry
       end
 
       def branch_for_selection(page, index, depth=0, seen={})
-        Rails.logger.warn("🌳 branch_for_selection: #{page}")
         branch = []
         if (page)
           unless seen[page.id]
@@ -158,8 +158,22 @@ module Chemistry
       !!publishing
     end
 
+    # Featuredness is held as date of featuring but usually passed around as a boolean `featured` property.
+    #
     def featured?
       featured_at?
+    end
+
+    def featured
+      featured_at?
+    end
+
+    def featured=(value)
+      if value == true || value == 'true' || value == 1
+        self.featured_at = Time.now
+      elsif value == false || value == 'false' || value == 0
+        self.featured_at = nil
+      end
     end
 
     def public?
@@ -168,7 +182,7 @@ module Chemistry
 
     def publish!
       transaction do
-        Chemistry::Page::PUBLISHED_ATTRIBUTES.each do |col|
+        PUBLISHED_ATTRIBUTES.each do |col|
           self.send("published_#{col}=".to_sym, self.send(col.to_sym))
         end
         self.published_at = Time.now + 2.seconds    # hack to ensure > updated_at

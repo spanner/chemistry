@@ -13,6 +13,7 @@ class Chemistry::TreePageSerializer
              :page_collection_id,
              :title,
              :style,
+             :excerpt,
              :created_at,
              :updated_at,
              :published_at

@@ -9,6 +9,7 @@ class Chemistry::PageSerializer
              :path,
              :slug,
              :style,
+             :featured,
              :parent_id,
              :page_category_id,
              :page_collection_id,
@@ -25,7 +26,8 @@ class Chemistry::PageSerializer
              :nav_position,
              :created_at,
              :updated_at,
-             :published_at
+             :published_at,
+             :featured_at
 
   attribute :url do |object|
     if object.home?

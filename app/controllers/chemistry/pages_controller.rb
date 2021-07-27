@@ -189,8 +189,6 @@ module Chemistry
 
     ## Permitted parameters
     #
-    # New-page link can make basic preparations
-    #
     def page_params
       if params[:page].present?
         params.require(:page).permit(
@@ -201,7 +199,11 @@ module Chemistry
           :page_category_id,
           :summary,
           :passworded,
-          :password
+          :password,
+          :featured,
+          :featured_at,
+          :apparently_published_at,
+          terms: []
         )
       else
         {}
