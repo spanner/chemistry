@@ -230,7 +230,7 @@ module Chemistry
     end
 
     def search_default_sort
-      "published_at"
+      "date"
     end
 
     # for the public archive page we facet using slug parameters for readability and consistency with urls

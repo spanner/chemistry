@@ -32,7 +32,7 @@ module Chemistry::Concerns::Searchable
       end
     end
 
-    @order ||= @sort == "date" || @sort == 'created_at' ? :desc : :asc
+    @order ||= @sort == "date" || @sort == 'created_at' || @sort == 'published_at' ? :desc : :asc
     order = [{@sort => {order: @order}}]
 
     criteria = search_criterion_params.each_with_object({}) do |p, h|
