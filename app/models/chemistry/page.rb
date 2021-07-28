@@ -481,7 +481,8 @@ module Chemistry
       if home?
         ""
       else
-        published_title.presence || title
+        base = published_title.presence || title.presence || "Untitled page"
+        base.parameterize
       end
     end
 
@@ -523,7 +524,7 @@ module Chemistry
         self.slug = ""
       elsif slug? && !persisted?
         self.slug = add_suffix_if_taken(slug, path_base)
-      elsif !slug? && !home?
+      elsif !slug?
         self.slug = add_suffix_if_taken(slug_base, path_base)
       end
       self.path = tidy_slashes([path_base, slug].map(&:presence).compact.join("/"))
