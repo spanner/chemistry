@@ -27,10 +27,10 @@ module Chemistry
     before_validation :set_default_style
 
     validates :title, presence: true
-    validate :has_path_and_slug
+    # validate :has_path_and_slug
 
     attr_accessor :publishing
-    validates :published_path, presence: true, uniqueness: true, if: :publishing?
+    validates :published_path, uniqueness: true, if: :publishing?
     validates :published_content, presence: true, if: :publishing?
 
     scope :home, -> { where(home: true).limit(1) }
@@ -548,7 +548,7 @@ module Chemistry
     end
 
     def has_unique_path
-      Chemistry::Page.other_than(self).find_by(path: path)
+      !Chemistry::Page.other_than(self).find_by(path: path)
     end
 
   end
