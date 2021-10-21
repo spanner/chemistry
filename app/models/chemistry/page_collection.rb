@@ -2,7 +2,7 @@ module Chemistry
   class PageCollection < ApplicationRecord
     include Concerns::Slugged
     acts_as_list
-    has_many :pages
+    has_many :pages, dependent: :destroy
 
     validates :title, presence: true
 
