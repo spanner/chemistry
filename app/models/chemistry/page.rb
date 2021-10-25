@@ -385,6 +385,9 @@ module Chemistry
       end
     end
 
+    def section_head?
+      parent && parent.home?
+    end
 
     # Indexing support
 

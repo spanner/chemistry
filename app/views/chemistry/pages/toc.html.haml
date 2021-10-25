@@ -1,2 +1,7 @@
-%ul.pages.toc
-  = render partial: "chemistry/pages/excerpt", collection: @pages
+%navigation.aside
+  %h4
+    See also
+  %ul.pages.toc
+    = @pages.each do |page|
+      %li
+        = link_to page.title, page.permalink

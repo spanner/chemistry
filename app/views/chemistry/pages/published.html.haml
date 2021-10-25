@@ -45,6 +45,11 @@
           = sanitize(rendered_title, scrubber: Chemistry::InlineScrubber.new)
   
     - if rendered_content.present?
+      - if @page.section_head?
+        .pages.aside{data: {page: @page.id, content: "children"}}
+      - elsif !@page.home?
+        .pages.aside{data: {page: @page.id, content: "siblings"}}
+
       #cms_content
         = sanitize(rendered_content, scrubber: Chemistry::ContentScrubber.new)
 

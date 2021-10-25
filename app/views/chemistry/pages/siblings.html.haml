@@ -1,0 +1,10 @@
+- if @page 
+  - siblings = @page.siblings.published
+  - if siblings.any?
+      %navigation.aside
+        %h4
+          See also
+        %ul.contents
+          = siblings.each do |page|
+            %li
+              = link_to page.title, page.permalink

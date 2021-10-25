@@ -52,6 +52,7 @@ Chemistry::Engine.routes.draw do
 
     get "toc/list/:page_ids" => "pages#listed", as: :listed_pages
     get "toc/children/:page_id" => "pages#children", as: :child_pages
+    get "toc/siblings/:page_id" => "pages#siblings", as: :sibling_pages
     get "toc/similar/:page_id" => "pages#similar", as: :similar_pages
     get "collections/:id" => "page_collections#show", as: :page_collection_home
 

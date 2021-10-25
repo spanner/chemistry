@@ -2,8 +2,8 @@ module Chemistry
   class PagesController < Chemistry::ApplicationController
     include Chemistry::Concerns::Searchable
 
-    skip_before_action :authenticate_user!, only: [:home, :published, :latest, :search, :children, :similar, :listed, :controls], raise: false
-    load_and_authorize_resource class: Chemistry::Page, except: [:home, :published, :latest, :children, :controls, :search]
+    skip_before_action :authenticate_user!, only: [:home, :published, :latest, :search, :children, :siblings, :similar, :listed, :controls], raise: false
+    load_and_authorize_resource class: Chemistry::Page, except: [:home, :published, :latest, :children, :siblings, :controls, :search]
     before_action :get_view, only: [:edit]
 
 
@@ -129,7 +129,23 @@ module Chemistry
     #
     def children
       if params[:page_id].present?
-        @pages = Chemistry::Page.search(where: {parent: params[:page_id]}, load: false);
+        @page = Chemistry::Page.find(params[:page_id])
+        @pages = Chemistry::Page.search(where: {parent_id: params[:page_id]}, load: false);
+      end
+      if @pages && @pages.any?
+        render template: "chemistry/pages/toc", layout: false
+      else
+        head :no_content
+      end
+    end
+
+    def siblings
+      if params[:page_id].present?
+        @page = Chemistry::Page.find(params[:page_id])
+        Rails.logger.warn("👨‍👨‍👧 siblings -> #{@page.parent_id}")  # TODO how do we do this again?
+        if parent_id = @page.parent_id
+          @pages = Chemistry::Page.search(where: {parent_id: parent_id}, load: false);
+        end
       end
       if @pages && @pages.any?
         render template: "chemistry/pages/toc", layout: false
