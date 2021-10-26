@@ -1,10 +1,10 @@
 %aside.navigation
   %h4
-    = link_to @parent.title, chemistry.published_page_url(@parent.path)
+    In this section
   %ul.pages.toc
     - @pages.each do |page|
       %li
         - if page == @page
-          = @page.title
+          = page.title
         - else
           = link_to page.title, chemistry.published_page_url(page.path)

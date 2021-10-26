@@ -46,9 +46,9 @@
   
     - if rendered_content.present?
       - if @page.section_head?
-        .pages.aside{data: {page: @page.id, content: "children"}}
+        .pages.aside{data: {page: @page.id, content: "children", place: "p2"}}
       - elsif !@page.home?
-        .pages.aside{data: {page: @page.id, content: "siblings"}}
+        .pages.aside{data: {page: @page.id, content: "siblings", place: "p2"}}
 
       #cms_content
         = sanitize(rendered_content, scrubber: Chemistry::ContentScrubber.new)

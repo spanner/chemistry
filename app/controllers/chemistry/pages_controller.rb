@@ -129,11 +129,11 @@ module Chemistry
     #
     def children
       if params[:page_id].present?
-        @page = Chemistry::Page.find(params[:page_id])
-        @pages = Chemistry::Page.search(where: {parent_id: params[:page_id]}, load: false);
+        @parent = Chemistry::Page.find(params[:page_id])
+        @pages = Chemistry::Page.search(where: {published: true, parent_id: params[:page_id]}, order: {title: :asc}, load: false);
       end
-      if @pages && @pages.any?
-        render template: "chemistry/pages/toc", layout: false
+      if @parent && @pages.any?
+        render layout: false
       else
         head :no_content
       end
@@ -144,11 +144,12 @@ module Chemistry
         @page = Chemistry::Page.find(params[:page_id])
         Rails.logger.warn("👨‍👨‍👧 siblings -> #{@page.parent_id}")  # TODO how do we do this again?
         if parent_id = @page.parent_id
-          @pages = Chemistry::Page.search(where: {parent_id: parent_id}, load: false);
+          @parent = Chemistry::Page.find(parent_id)
+          @pages = Chemistry::Page.search(where: {published: true, parent_id: parent_id}, order: {title: :asc}, load: false);
         end
       end
       if @pages && @pages.any?
-        render template: "chemistry/pages/toc", layout: false
+        render layout: false
       else
         head :no_content
       end
