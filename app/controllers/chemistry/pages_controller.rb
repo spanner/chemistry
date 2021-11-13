@@ -5,6 +5,7 @@ module Chemistry
     skip_before_action :authenticate_user!, only: [:home, :published, :latest, :search, :children, :siblings, :similar, :listed, :controls], raise: false
     load_and_authorize_resource class: Chemistry::Page, except: [:home, :published, :latest, :children, :siblings, :controls, :search]
     before_action :get_view, only: [:edit]
+    after_action :no_session, only: [:home, :published, :children, :siblings]
 
 
     ## Published pages for public users
@@ -276,4 +277,9 @@ module Chemistry
       end
     end
   end
+
+  def no_session
+    request.session_options[:skip] = true
+  end
+
 end
