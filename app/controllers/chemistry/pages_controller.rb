@@ -12,9 +12,11 @@ module Chemistry
     def home
       @page = Chemistry::Page.home.first
       if @page && @page.published?
-        if stale?(etag: @page, last_modified: @page.published_at)
-          render template: "chemistry/pages/published", layout: chemistry_layout
-        end
+        expires_in 10.minutes, public: true
+        render template: "chemistry/pages/published", layout: chemistry_layout
+        # if stale?(etag: @page, last_modified: @page.published_at)
+        #   render template: "chemistry/pages/published", layout: chemistry_layout
+        # end
       else
         render template: "chemistry/welcome", layout: "chemistry/application"
       end
