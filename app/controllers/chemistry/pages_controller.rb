@@ -30,7 +30,8 @@ module Chemistry
           else
             request_http_basic_authentication
           end
-        elsif @page && (@page.public? || user_signed_in?)
+        elsif @page
+          expires_in 10.minutes, public: true
           render layout: chemistry_layout
         end
       else
@@ -133,6 +134,7 @@ module Chemistry
         @pages = Chemistry::Page.search(where: {published: true, parent_id: params[:page_id]}, order: {title: :asc}, load: false);
       end
       if @parent && @pages.any?
+        expires_in 10.minutes, public: true
         render layout: false
       else
         head :no_content
@@ -149,6 +151,7 @@ module Chemistry
         end
       end
       if @pages && @pages.any?
+        expires_in 10.minutes, public: true
         render layout: false
       else
         head :no_content
@@ -161,6 +164,7 @@ module Chemistry
       @page = Chemistry::Page.find(params[:page_id])
       @pages = @page.similar_pages
       if @pages && @pages.any?
+        expires_in 10.minutes, public: true
         render template: "chemistry/pages/toc", layout: false
       else
         head :no_content
@@ -170,6 +174,7 @@ module Chemistry
     def listed
       if params[:page_ids].present?
         page_ids = params[:page_ids].split(',').map(&:to_i).compact.uniq
+        expires_in 10.minutes, public: true
         @pages = Chemistry::Page.search(where: {id: page_ids}, load: false);
       end
       if @pages && @pages.any?
