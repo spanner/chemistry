@@ -252,6 +252,7 @@ module Chemistry
         title: strip_tags(published_title.presence || title),
 
         # public archive / search
+        home: home?,
         masthead: strip_tags(published_masthead.presence || masthead),
         content: strip_tags(published_content.presence || content),
         byline: strip_tags(published_byline.presence || byline),

@@ -27,6 +27,7 @@ Chemistry requires Rails 5.1+ and uses Paperclip for asset-attachment, which you
 
 ...
 
+NB. atm you have to copy chemistry-sprite.svg into /public in your main_app
 
 
 ## Installation

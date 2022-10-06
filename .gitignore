@@ -13,3 +13,4 @@ spec/dummy/tmp/
 /test/dummy/tmp/*
 
 /.idea/
+yarn.lock

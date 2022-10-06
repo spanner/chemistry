@@ -4,7 +4,10 @@
 - omit_collection ||= false
 
 - if page
-  - url = chemistry.published_page_url(page.path)
+  - if page.path?
+    - url = chemistry.published_page_url(page.path)
+  - else
+    - url = chemistry.home_page_url
   %li.page{id: "page_#{page.id}"}
     = link_to url do
       %span.title

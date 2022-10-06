@@ -1,13 +1,13 @@
 {
   "name": "Chemistry",
-  "version": "2.0.0",
+  "version": "2.4.0",
   "description": "An easy way to add editable pages to your rails app. This integration script merely imports chemistry-client.",
   "main": "index.js",
   "repository": "https://github.com/spanner/chemistry.git",
   "author": "Will Ross <will@spanner.org>",
   "license": "MIT",
   "dependencies": {
-    "chemistry-client": "file:/var/www/croucher/cms_client"
+    "chemistry-client": "^2.4.0"
   },
   "devDependencies": {}
 }

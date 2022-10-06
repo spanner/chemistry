@@ -2,15 +2,18 @@
 - if branch
   - page = branch[:p]
   - children = branch[:c]
-  - showable = !!children && children.any?
+  - parental = !!children && children.any?
   - cssclass = "tree_page"
-  - cssclass << " showable" if showable
-  - cssclass << " open" if showable && branch_open
+  - cssclass << " open" if parental && branch_open
   %li{id: "page_#{page.id}", class: cssclass}
-    %a.shower
-      %svg.prefix
-        %use{href: "/spritemap.svg#sprite-next_bare"}
+    - if parental
+      %a.shower
+        %svg.prefix
+          %use{href: "/spritemap.svg#sprite-next_bare"}
     %a.page{href: chemistry.edit_page_url(page)}
+      - unless parental
+        %svg.prefix
+          %use{href: "/spritemap.svg#sprite-page"}
       = page.title
     %span.actions
       %a.edit{href: chemistry.edit_page_url(page, view: 'config')}
