@@ -189,13 +189,14 @@ module Chemistry
         self.publishing = true                      # engage validations
         if valid?
           self.save!
-          return true
         else
+          Rails.logger.warn("⚠️ Cannot publish: page invalid", self.errors.to_a);
           return false
         end
       end
+      return true
     rescue => e
-      Rails.logger.warn("⚠️ Publication fail", e.message);
+      Rails.logger.warn("⚠️ Publish failed", e.message);
       return false
     end
 
