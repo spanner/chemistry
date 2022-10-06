@@ -6,34 +6,30 @@
 - if page
   - if page.path?
     - url = chemistry.published_page_url(page.path)
-  - else
+  - elsif page.home?
     - url = chemistry.home_page_url
-  %li.page{id: "page_#{page.id}"}
-    = link_to url do
-      %span.title
-        - if highlights && highlights[:title].present?
-          = highlights[:title].html_safe
-        - else
-          = strip_tags(page.title)
+  - if url
+    %li.page{id: "page_#{page.id}"}
+      = link_to url do
+        %span.title
+          - if highlights && highlights[:title].present?
+            = highlights[:title].html_safe
+          - else
+            = strip_tags(page.title)
 
-      - if page.published_at? || (!omit_collection && page.page_collection_name)
-        %span.context
-          - if page.published_at
-            %time
-              = l Date.parse(page.published_at), format: :natural
-          - if !omit_collection && page.page_collection_name
-            = t :in
-            %strong
-              = page.page_collection_name
+        - if page.published_at? || (!omit_collection && page.page_collection_name)
+          %span.context
+            - if page.published_at
+              %time
+                = l Date.parse(page.published_at), format: :natural
+            - if !omit_collection && page.page_collection_name
+              = t :in
+              %strong
+                = page.page_collection_name
 
-      %span.excerpt
-        - if highlights && highlights[:content].present?
-          = highlights[:content].html_safe
-        - else
-          - excerpt = page.summary.presence || page.excerpt.presence || ""
-          = shorten(strip_tags(excerpt).gsub('&nbsp;', ' '), 400)
-
-- else
-  %li
-    [shrugs]
-    
+        %span.excerpt
+          - if highlights && highlights[:content].present?
+            = highlights[:content].html_safe
+          - else
+            - excerpt = page.summary.presence || page.excerpt.presence || ""
+            = shorten(strip_tags(excerpt).gsub('&nbsp;', ' '), 400)
