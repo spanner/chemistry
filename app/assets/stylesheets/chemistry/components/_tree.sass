@@ -1,5 +1,5 @@
 div.page_collections
-  margin-bottom: 2em;
+  margin-bottom: 2em
 
 div.page_tree
   h4
@@ -7,18 +7,18 @@ div.page_tree
     margin: 1em 0 0 0
     a.toggle
       +oneliner
-      color: $dark
+      color: var(--cms-color-dark)
       cursor: pointer
       svg.icon
-        transform: rotate(0deg);
-        transition: transform 0.4s ease-out;
+        transform: rotate(0deg)
+        transition: transform 0.4s ease-out
       &:hover
-        color: $hover
+        color: var(--cms-color-hover)
       &.open
         svg.icon
-          transform: rotate(90deg);
+          transform: rotate(90deg)
       &.waiting
-        color: $pale
+        color: var(--cms-color-pale)
         background:
           image: url('Images/spinner.svg')
           position: 2px 2px
@@ -28,7 +28,7 @@ div.page_tree
           visibility: hidden
   a.add
     +oneliner
-    color: $pale
+    color: var(--cms-color-pale)
     margin: 0.5rem 0 0.25em 0
     cursor: pointer
     svg
@@ -36,7 +36,7 @@ div.page_tree
       height: 18px
       margin: 0 2px
     &:hover
-      color: $green
+      color: var(--cms-color-green)
 
   div.toggled
     margin-left: 32px
@@ -50,8 +50,8 @@ ul.page_tree
   ul.page_tree
     display: none
   li.tree_page
-    border-top: 1px solid $pale
-    border-bottom: 1px solid $pale
+    border-top: 1px solid var(--cms-color-pale)
+    border-bottom: 1px solid var(--cms-color-pale)
     ul.page_tree
       display: block
 
@@ -61,26 +61,26 @@ li.tree_page
   transition: min-height 0.25s ease-out, margin-bottom 0.25s ease-out
   span.unsaved
     +oneliner
-    color: $blue
+    color: var(--cms-color-blue)
   a.page
     +oneliner
-    color: $mid
+    color: var(--cms-color-mid)
     cursor: pointer
     &:hover
-      color: $dark
+      color: var(--cms-color-dark)
     &.new
-      color: $green
+      color: var(--cms-color-green)
       +hover
     &.empty
       pointer-events: none
   time
-    color: $pale
+    color: var(--cms-color-pale)
     display: inline-block
     vertical-align: top
     font-style: italic
     margin-right: 0.5em
     padding-right: 0.5em
-    border-right: 1px solid $pale
+    border-right: 1px solid var(--cms-color-pale)
   span.indent
     display: inline-block
     float: left

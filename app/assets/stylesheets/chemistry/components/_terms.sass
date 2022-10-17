@@ -12,7 +12,7 @@ table.terms
   border-collapse: collapse
   th, td
     padding: 12px 0 12px 0
-    border-bottom: 1px dotted $pale
+    border-bottom: 1px dotted var(--cms-color-pale)
     vertical-align: top
   th
     text-align: left
@@ -31,7 +31,7 @@ table.terms
       height: 24px
       margin-top: 6px
       margin-right: 4px
-      color: $green
+      color: var(--cms-color-green)
       cursor: pointer
       svg
         width: 24px
@@ -43,7 +43,7 @@ table.terms
     ul
       font-size: 0.9rem
       list-style: square inside
-      color: $mid
+      color: var(--cms-color-mid)
 
 #cloud
   position: relative
@@ -52,32 +52,32 @@ table.terms
   svg
     text.term
       cursor: pointer
-      fill: $coolgrey8
+      fill: var(--cms-color-coolgrey8)
       transition: fill 0.25s ease-out
       &.guided
-        fill: $coolgrey11
+        fill: var(--cms-color-coolgrey11)
       &:hover
-        fill: $link
+        fill: var(--cms-color-link)
 
 ul.terms
   font-size: 0.9rem
   list-style: square inside
-  color: $mid
+  color: var(--cms-color-mid)
   padding: 0
 
 li.term
   display: inline-block
   transition: transform 0.25s ease-out, background 0.25s ease-out
-  background: linear-gradient(to top, $blue, lighten($blue, 5))
+  background-color: var(--cms-color-blue)
   border-radius: 20px
   padding: 6px
   margin: 0 4px 4px 0
   min-width: 22px
   &.add
-    background: linear-gradient(to top, $green, lighten($green, 5))
+    background-color: var(--cms-color-green)
     text-align: center
   &.working
-    background: linear-gradient(to top, $pale, lighten($pale, 5))
+    background-color: var(--cms-color-pale)
   a, span.term
     color: white
     overflow: hidden
@@ -87,9 +87,9 @@ li.term
     cursor: pointer
     white-space: nowrap
   &:hover
-    background: linear-gradient(to top, $link, lighten($link, 5))
+    background-color: var(--cms-color-link)
   span.collection
-    color: $pale
+    color: var(--cms-color-pale)
   &.dragged
     opacity: 0.2
   &.dragging
@@ -98,16 +98,16 @@ li.term
     z-index: 1000
     pointer-events: none
     transform: scale(1.25)
-    background: $translucent
-    box-shadow: 1px 0 10px $shadow
+    background: var(--cms-color-translucent)
+    box-shadow: 1px 0 10px var(--cms-color-shadow)
     pointer-events: none
     a, span.term
-      color: $mid
+      color: var(--cms-color-mid)
     a.delete
       display: none
   &.droppable
-    border-color: $highlight
-    box-shadow: inset 2px 0 8px $shadow
+    border-color: var(--cms-color-highlight)
+    box-shadow: inset 2px 0 8px var(--cms-color-shadow)
   &.splash
     animation: bulge 1s 1
     animation-timing-function: ease-out

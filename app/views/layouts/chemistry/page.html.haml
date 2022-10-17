@@ -1,0 +1,32 @@
+- page_data = {}
+- page_style = 'texty'
+- if @page
+  - page_data[:page] = @page.id
+  - page_style = @page.published_style.presence || Chemistry.config.default_page_style || 'heroic'
+
+!!!
+%html{:lang => 'en'}
+  %head
+    %title
+      - if content_for?(:pagetitle)
+        = yield :pagetitle
+        \|
+      = Chemistry.config.site_name
+
+    = stylesheet_link_tag "chemistry/public"
+
+    = content_for :css
+    = content_for :head
+
+    %meta{name: "viewport", content: "width=device-width, initial-scale=1"}
+
+  %body.cms
+    = render 'tlms/navigation'
+    #cms_page{class: "layout_#{page_style}", data: page_data}
+
+      = yield
+
+      = render 'tlms/footer'
+
+  = render 'layouts/analytics'
+  = javascript_pack_tag "chemistry/public"

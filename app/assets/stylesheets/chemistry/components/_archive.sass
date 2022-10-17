@@ -54,16 +54,16 @@ ul.archive
       position: absolute
       bottom: 0.5em
       right: 0.5em
-      color: $pale
+      color: var(--cms-color-pale)
       +hover
     a.show
-      color: $dark
+      color: var(--cms-color-dark)
       display: block
       padding: 1em
       &:hover
-        background-color: $coolgrey00;
+        background-color: var(--cms-color-coolgrey00);
         h3
-          color: $red
+          color: var(--cms-color-red)
     div.image
       display: inline-block
       vertical-align: top
@@ -75,7 +75,7 @@ ul.archive
         position: center center
         size: cover
         repeat: no-repeat
-        color: $pale
+        color: var(--cms-color-pale)
     div.detail
       display: inline-block
       vertical-align: top
@@ -100,7 +100,7 @@ form.faceter
     clear: left
     input[type="text"]
       padding: 10px;
-      border: 1px solid $verypale;
+      border: 1px solid var(--cms-color-verypale);
       font-size: 1.2em;
       color: #101820;
       box-sizing: border-box;
@@ -132,7 +132,7 @@ form.faceter
     right: 10px
     a
       white-space: nowrap
-      color: $pale
+      color: var(--cms-color-pale)
       +hover
 
   .list_control
@@ -146,7 +146,7 @@ form.faceter
     flex-flow: row wrap
     align-items: flex-start
     justify-content: space-between
-    background-color: $menubg
+    background-color: var(--cms-color-menubg)
     padding: 10px
 
     .full
@@ -165,7 +165,7 @@ form.faceter
       margin: 0.25em 0
       line-height: 1.7
       a
-        color: $mid
+        color: var(--cms-color-mid)
         cursor: pointer
         +hover
         margin: 0 0.15em
@@ -181,10 +181,10 @@ form.faceter
 
     p.dates
       margin: 0.25em 0 0 0;
-      color: $mid
+      color: var(--cms-color-mid)
       span.conjunction
         margin: 0 0.5em
-        color: $dark
+        color: var(--cms-color-dark)
       input[type="date"]
         border: none
         padding-left: 0
@@ -196,7 +196,7 @@ form.faceter
       margin: 0
       padding: 0
       & + ul.facet
-        border-top: 1px dotted $pale
+        border-top: 1px dotted var(--cms-color-pale)
         margin-top: 12px
         padding-top: 8px
       li
@@ -205,7 +205,7 @@ form.faceter
         margin: 0.25em 0
         +clearfix
         a
-          color: $mid
+          color: var(--cms-color-mid)
           +hover
           span.icon, svg.icon
             width: 16px

@@ -3,7 +3,7 @@
     a.breadhead
       display: block
       margin-bottom: 0.5em
-      color: $pale
+      color: var(--cms-color-pale)
       +hover
       font-size: 1rem
       font-weight: normal
@@ -17,20 +17,20 @@ ul.pages
     margin-bottom: 0.5em
     transition: min-height 0.25s ease-out, margin-bottom 0.25s ease-out
     a.page
-      color: $mid
+      color: var(--cms-color-mid)
       &:hover
-        color: $dark
+        color: var(--cms-color-dark)
       &.new
-        color: $green
+        color: var(--cms-color-green)
         +hover
       &.empty
         pointer-events: none
     time
-      color: $mid
+      color: var(--cms-color-mid)
       display: inline-block
       margin-right: 0.5em
       padding-right: 0.5em
-      border-right: 1px solid $pale
+      border-right: 1px solid var(--cms-color-pale)
     span.indent
       display: inline-block
       float: left
@@ -47,17 +47,17 @@ ul.pages
           width: 16px
           height: 16px
       a.delete
-        color: $red
+        color: var(--cms-color-red)
       a.add
-        color: $green
+        color: var(--cms-color-green)
       a.config
-        color: $orange
+        color: var(--cms-color-orange)
       a.save
-        color: $blue
+        color: var(--cms-color-blue)
       a.publish
-        color: $purple
+        color: var(--cms-color-purple)
       a.review
-        color: $mid
+        color: var(--cms-color-mid)
       a.unavailable
         display: none
     a.toggle
@@ -82,7 +82,7 @@ ul.pages
       line-height: 1.2
     span.path
       display: inline-block
-      color: $pale
+      color: var(--cms-color-pale)
       margin: -0.1rem 0 0.25rem 0
       font-size: 0.9rem
     span.description
@@ -93,19 +93,19 @@ ul.pages
         vertical-align: top
     &.outofdate
       a
-        color: $darkpurple
+        color: var(--cms-color-darkpurple)
         +hover
     &.unpublished
       a
-        color: $darkred
+        color: var(--cms-color-darkred)
         +hover
     &.unsaved
       a
-        color: $darkblue
+        color: var(--cms-color-darkblue)
         +hover
     &.empty
       a
-        color: $pale
+        color: var(--cms-color-pale)
         +hover
     &.concealed
       height: 0
@@ -124,19 +124,19 @@ div.embed.pages
   display: block
   position: relative
   margin: 2em 0
-  box-sizing: border-box;
+  box-sizing: border-box
   width: 100%
 
 h2.toc_title
   font-weight: lighter
   font-size: 1.5em
-  margin-bottom: 1em;
+  margin-bottom: 1em
 
 ul.toc
   li.page
     margin-bottom: 1.25em
   a
-    color: $dark
+    color: var(--cms-color-dark)
     +hover
     span.image
       display: inline-block
@@ -144,7 +144,7 @@ ul.toc
       height: 64px
       margin-right: 10px
       margin-top: 3px
-      background-color: $coolgrey00
+      background-color: var(--cms-color-coolgrey00)
       svg
         width: 100%
         height: 100%
@@ -164,14 +164,14 @@ ul.toc
       margin-bottom: 0.25em
     span.summary, time
       font-size: 0.9rem
-      color: $mid
+      color: var(--cms-color-mid)
 
 h2.page
   margin: 0
   padding: 0
   position: relative
   min-height: 64px
-  color: $pale
+  color: var(--cms-color-pale)
   svg.page
     display: inline-block
     float: left
@@ -187,7 +187,6 @@ h2.page
       font-size: 1.75rem
     span.description
       font-size: 0.9rem
-
 
 
 @media (max-width: 750px)
