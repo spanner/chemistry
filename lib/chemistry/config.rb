@@ -16,8 +16,10 @@ module Chemistry
                   :site_description,
                   :site_host,
                   :site_image_url,
-                  :site_twitter
+                  :site_twitter,
+                  :show_edit_buttons
 
+    # defaults
     @user_class = "User"
     @user_key = "id"
     @default_per_page = 10
@@ -25,5 +27,6 @@ module Chemistry
     @site_host = "https://example.com"
     @site_name = "Chemistry"
     @site_description = "Another splendid website built with Chemistry"
+    @show_edit_buttons = false
   end
 end

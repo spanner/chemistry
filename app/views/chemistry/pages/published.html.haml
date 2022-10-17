@@ -3,23 +3,25 @@
 - rendered_content = @page.render(:published_content)
 
 - content_for :head do
-  %meta{property: "og:type", content: "article"}
   %meta{property: "og:title", content: @page.render_and_strip_tags(:published_title)}
   %meta{property: "og:description", content: @page.render_and_strip_tags(:published_excerpt).presence || Chemistry.config.site_description}
   - if @page.home?
+    %meta{property: "og:type", content: "website"}
     %meta{property: "og:url", content: chemistry.home_page_url(host: Chemistry.config.site_host)}
   - else
+    %meta{property: "og:type", content: "article"}
     %meta{property: "og:url", content: chemistry.published_page_url(@page.path, host: Chemistry.config.site_host)}
   %meta{property: "og:image", content: @page.image_url.presence || Chemistry.config.site_image_url}
   %meta{property: "og:site_name", content: Chemistry.config.site_name}
-  %meta{name: "twitter:card", content: "summary"}
   - if Chemistry.config.site_twitter.present?
+    %meta{name: "twitter:card", content: "summary"}
     %meta{name: "twitter:site", content: Chemistry.config.site_twitter}
   - if @page.user && @page.user.respond_to?(:twitter) && @page.user.twitter.present?
+    %meta{name: "twitter:card", content: "summary"}
     %meta{name: "twitter:creator", content: @page.user.twitter}
 
 
-%main
+%main{class: @page.home? ? "home" : "page"}
   #cms_illustration
     - if rendered_masthead.present?
       = sanitize(rendered_masthead, scrubber: Chemistry::ContentScrubber.new)
@@ -53,4 +55,5 @@
       #cms_content
         = sanitize(rendered_content, scrubber: Chemistry::ContentScrubber.new)
 
-#buttons{data: {page: @page.id}}
+- if Chemistry.config.show_edit_buttons?
+  #buttons{data: {page: @page.id}}
