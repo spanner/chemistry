@@ -185,10 +185,11 @@ module Chemistry
         PUBLISHED_ATTRIBUTES.each do |col|
           self.send("published_#{col}=".to_sym, self.send(col.to_sym))
         end
-        self.published_at = Time.now + 2.seconds    # hack to ensure > updated_at
         self.publishing = true                      # engage validations
         if valid?
           self.save!
+          self.write_to_disk!
+          self.update_column :published_at, Time.now
         else
           Rails.logger.warn("⚠️ Cannot publish: page invalid", self.errors.to_a);
           return false
@@ -504,6 +505,41 @@ module Chemistry
 
     def tidy_slashes(string)
       string.sub(/\/$/, '').sub(/^\//, '').sub(/^\/{2,}/, '/');
+    end
+
+    def write_to_disk!(template=nil, layout=nil)
+      if Chemistry.config.write_to_disk?
+        file_path = prepare_local_path
+        html_content = rendered_for_public(template, layout)
+        File.open(file_path, 'w') do |f|
+          f.write html_content
+        end
+      end
+    end
+
+    def prepare_local_path
+      root = Rails.root.join('public') # TODO: configurable
+      dir = root.join(path_base)
+      FileUtils.mkdir_p(dir)
+      filename = slug.presence || 'index'
+      dir.join("#{filename}.html")
+    end
+
+    def rendered_for_public(template=nil, layout=nil)
+      @publishing = true
+      ApplicationController.render({
+          template: template || 'chemistry/pages/published',
+          layout: layout || Chemistry.config.public_layout,
+          formats: [:html],
+          assigns:     {
+            page: self,
+            publishing: true
+          }
+        })
+    end
+
+    def self.write_all_to_disk!
+      published.all.map(&:write_to_disk!)
     end
 
 

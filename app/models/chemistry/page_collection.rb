@@ -47,5 +47,9 @@ module Chemistry
       })
     end
 
+    def write_to_disk!
+      pages.published.all.map(&:write_to_disk!)
+    end
+
   end
 end
