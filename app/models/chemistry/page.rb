@@ -290,6 +290,10 @@ module Chemistry
       {}
     end
 
+    def should_index?
+      published?
+    end
+
     # Search and aggregation
     # Here we support the public archive and admin interfaces with faceting and date-filtering controls.
     # There is also a simpler filter-and-paginate search in the Pages API.

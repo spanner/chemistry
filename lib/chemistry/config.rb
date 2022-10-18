@@ -28,5 +28,10 @@ module Chemistry
     @site_name = "Chemistry"
     @site_description = "Another splendid website built with Chemistry"
     @show_edit_buttons = false
+
+    def show_edit_buttons?
+      !!@show_edit_buttons
+    end
+
   end
 end
