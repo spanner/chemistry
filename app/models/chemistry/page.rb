@@ -518,7 +518,7 @@ module Chemistry
     end
 
     def prepare_local_path
-      root = Rails.root.join('public') # TODO: configurable
+      root = Rails.root.join('public/pages') # TODO: configurable
       dir = root.join(path_base)
       FileUtils.mkdir_p(dir)
       filename = slug.presence || 'index'
@@ -528,7 +528,7 @@ module Chemistry
     def rendered_for_public(template=nil, layout=nil)
       @publishing = true
       ApplicationController.render({
-          template: template || 'chemistry/pages/published',
+          template: template || 'chemistry/__pages/published',
           layout: layout || Chemistry.config.public_layout,
           formats: [:html],
           assigns:     {
