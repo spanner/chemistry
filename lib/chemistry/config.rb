@@ -18,7 +18,8 @@ module Chemistry
                   :site_image_url,
                   :site_twitter,
                   :show_edit_buttons,
-                  :write_to_disk
+                  :write_to_disk,
+                  :publication_path_prefix
 
     # defaults
     @user_class = "User"
@@ -30,6 +31,7 @@ module Chemistry
     @site_description = "Another splendid website built with Chemistry"
     @show_edit_buttons = false
     @write_to_disk = true
+    @publication_path_prefix = nil
 
     def show_edit_buttons?
       !!@show_edit_buttons

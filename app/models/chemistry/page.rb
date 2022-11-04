@@ -191,13 +191,13 @@ module Chemistry
           self.write_to_disk!
           self.update_column :published_at, Time.now
         else
-          Rails.logger.warn("⚠️ Cannot publish: page invalid", self.errors.to_a);
+          Rails.logger.warn("⚠️ Cannot publish: page invalid: #{self.errors.to_a.inspect}");
           return false
         end
       end
       return true
     rescue => e
-      Rails.logger.warn("⚠️ Publish failed", e.message);
+      Rails.logger.warn("⚠️ Publish failed: #{e.message}");
       return false
     end
 
@@ -509,8 +509,8 @@ module Chemistry
 
     def write_to_disk!(template=nil, layout=nil)
       if Chemistry.config.write_to_disk?
-        file_path = prepare_local_path
         html_content = rendered_for_public(template, layout)
+        file_path = prepare_local_path
         File.open(file_path, 'w') do |f|
           f.write html_content
         end
@@ -518,7 +518,10 @@ module Chemistry
     end
 
     def prepare_local_path
-      root = Rails.root.join('public/pages') # TODO: configurable
+      root = Rails.root
+      if path_prefix = Chemistry.config.publication_path_prefix
+        root = root.join(path_prefix)
+      end
       dir = root.join(path_base)
       FileUtils.mkdir_p(dir)
       filename = slug.presence || 'index'
@@ -528,10 +531,10 @@ module Chemistry
     def rendered_for_public(template=nil, layout=nil)
       @publishing = true
       ApplicationController.render({
-          template: template || 'chemistry/__pages/published',
+          template: template || 'chemistry/pages/published',
           layout: layout || Chemistry.config.public_layout,
           formats: [:html],
-          assigns:     {
+          assigns: {
             page: self,
             publishing: true
           }
