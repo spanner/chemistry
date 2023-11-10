@@ -204,7 +204,7 @@ module Chemistry
     ## Error pages
 
     def page_not_found
-      if @page = Chemistry::Page.published_with_path("/404")
+      if @page = Chemistry::Page.published_with_path("404")
         render layout: chemistry_layout
       else
         render template: "chemistry/pages/not_found", layout: chemistry_layout
