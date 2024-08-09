@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails"
   s.add_dependency 'cancancan'
-  s.add_dependency 'paperclip', "~> 6.0"
+  s.add_dependency 'kt-paperclip', "~> 6.4"
   s.add_dependency "paperclip-av-transcoder"
   s.add_dependency 'aws-sdk-s3'
   s.add_dependency 'video_info'
