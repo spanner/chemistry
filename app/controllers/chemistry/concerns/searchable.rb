@@ -64,7 +64,7 @@ module Chemistry::Concerns::Searchable
     Rails.logger.warn "🕵️‍♂️  SEARCH OPTIONS: #{options.inspect}"
 
     klass = search_class
-    search_results = klass.search @q, options
+    search_results = klass.search(@q, options)
     instance_variable_set("@#{controller_name}", search_results)
 
     Rails.logger.warn "🕵️‍♂️  SEARCH RESULTS: #{search_results.count}"
