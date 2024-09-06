@@ -186,10 +186,10 @@ module Chemistry
           self.send("published_#{col}=".to_sym, self.send(col.to_sym))
         end
         self.publishing = true                      # engage validations
+        self.published_at = Time.now
         if valid?
           self.save!
           self.write_to_disk!
-          self.update_column :published_at, Time.now
         else
           Rails.logger.warn("⚠️ Cannot publish: page invalid: #{self.errors.to_a.inspect}");
           return false
@@ -198,6 +198,7 @@ module Chemistry
       return true
     rescue => e
       Rails.logger.warn("⚠️ Publish failed: #{e.message}");
+      debugger
       return false
     end
 
@@ -211,7 +212,7 @@ module Chemistry
     #
     def interpolations
       {
-        published_at: I18n.l(published_at, format: :natural),
+        published_at: I18n.l(published_at.presence || Time.now, format: :natural),
         byline: byline.presence || ""
       }.merge(custom_interpolations)
     end
