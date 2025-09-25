@@ -30,9 +30,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'searchkick'
   s.add_dependency 'mustache'
 
-  # UI
-  s.add_dependency "haml"
-  s.add_dependency 'haml_coffee_assets'
-
   s.add_development_dependency "sqlite3"
 end
