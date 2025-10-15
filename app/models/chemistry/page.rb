@@ -382,7 +382,7 @@ module Chemistry
 
       # fetch
       #
-      Page.search terms, options
+      Page.search terms, **options
     end
 
     def similar_pages
